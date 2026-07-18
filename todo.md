@@ -122,7 +122,7 @@
 - [x] skool_click: track /go/signup links (nav desktop, nav mobile, home banner) — affiliate link to create a Skool community
 - [x] community_click: track /go/:slug CTA clicks (header, mobile_bar, bottom_cta) — affiliate link to join a specific community; also track card click on homepage list
 - [x] search_used: track search input (debounced, min 3 chars) with query param — fires once per distinct query
-- [ ] blog_cta_click: add tracking on blog article CTA links when blog pages are built
+- [x] blog_cta_click: implemented on NewsArticle and ResourceArticle bottom CTA "Browse all communities" links (track("blog_cta_click", {source, slug})); ResourceArticle skool_click CTA already had data-fast-goal attribute
 - [x] Fix free trial: removed 7-day trial badge and CTA (no trial field in dataset); monthly paid → "Join for $X/mo"; getPriceType updated; dbCommunities free filter no longer includes monthly; hero stat label fixed to "free to join"
 - [x] Pre-filter homepage in English by default: language state initialized to 'english'; English chip pre-selected on load
 - [x] Mobile deep dive: CommunityCard (3px gap, 10px avatar, description visible line-clamp-1, price shown, score 10x10); Home (hero 24px heading, filter bar horizontally scrollable, sort self-end, pagination h-10 active:scale); CommunityDetail (sticky bar compact h-8, header mt-4 gap-3, logo 14x14, h1 text-xl, description line-clamp-2, stats text-xs, score 14x14 row layout on mobile, ChartCard empty state h-36 with message, founder px-4, bottom CTA py-8 gap-3)

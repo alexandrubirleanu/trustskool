@@ -1,6 +1,7 @@
 import SiteLayout from "@/components/SiteLayout";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
+import { useDatafast } from "@/hooks/useDatafast";
 import { ArrowLeft, Clock } from "lucide-react";
 import { useEffect } from "react";
 import { Link, useParams } from "wouter";
@@ -14,6 +15,7 @@ function readTime(wordCount: number | null | undefined): string {
 export default function ResourceArticle() {
   const params = useParams<{ slug: string }>();
   const slug = params.slug ?? "";
+  const { track } = useDatafast();
 
   // Try guide first, then pillar, then faq
   const { data: guidePage, isLoading: loadingGuide } = trpc.content.bySlug.useQuery(
@@ -123,6 +125,7 @@ export default function ResourceArticle() {
           </p>
           <Link
             href="/"
+            onClick={() => track("blog_cta_click", { source: "resource_article_bottom", slug })}
             className="inline-flex h-11 items-center rounded-[4px] bg-[#F8D481] px-8 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
             Browse all communities
           </Link>
