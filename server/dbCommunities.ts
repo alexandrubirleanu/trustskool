@@ -141,6 +141,17 @@ export async function getSimilarCommunities(slug: string, language: string, cate
   return rows;
 }
 
+// Canonical language order matching Skool's own language picker (All → English → German → …)
+const SKOOL_LANGUAGE_ORDER: string[] = [
+  "english", "german", "spanish", "french", "chinese", "italian", "dutch",
+  "vietnamese", "arabic", "hebrew", "danish", "romanian", "turkish", "polish",
+  "czech", "hungarian", "swedish", "portuguese", "bulgarian", "norwegian",
+  "finnish", "croatian", "latvian", "slovak", "serbian", "mongolian", "haitian",
+  "thai", "slovenian", "russian", "lithuanian", "amharic", "malay", "estonian",
+  "greek", "ukrainian", "swahili", "japanese", "filipino", "persian", "welsh",
+  "korean", "cantonese", "indonesian", "latin", "bengali", "catalan", "hindi",
+];
+
 export async function getFilterOptions() {
   const db = await getDb();
   if (!db) return { languages: [], categories: [] };
@@ -148,8 +159,7 @@ export async function getFilterOptions() {
     db
       .select({ value: communities.language, count: sql<number>`count(*)` })
       .from(communities)
-      .groupBy(communities.language)
-      .orderBy(desc(sql`count(*)`)),
+      .groupBy(communities.language),
     db
       .select({ value: communities.category, count: sql<number>`count(*)` })
       .from(communities)
@@ -157,8 +167,20 @@ export async function getFilterOptions() {
       .groupBy(communities.category)
       .orderBy(desc(sql`count(*)`)),
   ]);
+
+  // Sort languages by Skool's canonical order; unknown languages fall to the end sorted by count
+  const langMap = new Map(langs.map(l => [l.value, Number(l.count)]));
+  const ordered = SKOOL_LANGUAGE_ORDER
+    .filter(lang => langMap.has(lang))
+    .map(lang => ({ value: lang, count: langMap.get(lang)! }));
+  const knownSet = new Set(SKOOL_LANGUAGE_ORDER);
+  const unknown = langs
+    .filter(l => !knownSet.has(l.value))
+    .sort((a, b) => Number(b.count) - Number(a.count))
+    .map(l => ({ value: l.value, count: Number(l.count) }));
+
   return {
-    languages: langs.map(l => ({ value: l.value, count: Number(l.count) })),
+    languages: [...ordered, ...unknown],
     categories: cats
       .filter(c => c.value)
       .map(c => ({ value: c.value as string, count: Number(c.count) })),

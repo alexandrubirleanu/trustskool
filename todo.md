@@ -64,3 +64,6 @@
 - [x] Detail page: member count shown in header stats row; bottom CTA section personalizes copy per community
 - [x] Banner copy updated: "Ready to start your own community?" + "Start free on Skool" CTA
 - [x] Empty state: clear message + "Reset all filters" chip button
+
+## Language filter order
+- [x] Reorder language chips to match Skool's official language order (English first, then German, Spanish, French, … Hindi); all 47 languages present in the dataset shown in canonical order; unknown languages fall to end sorted by count

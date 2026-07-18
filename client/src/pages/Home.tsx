@@ -105,7 +105,8 @@ export default function Home() {
 
   const hasActiveFilters = Boolean(debounced || language || price !== "all");
 
-  const languages = (filters?.languages ?? []).slice(0, 8);
+  // All languages shown in Skool's canonical order (ordered server-side)
+  const languages = filters?.languages ?? [];
 
   // Format stat numbers
   const fmtK = (n: number) => n >= 1000 ? `${Math.round(n / 1000)}k+` : String(n);
