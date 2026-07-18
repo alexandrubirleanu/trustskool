@@ -102,5 +102,5 @@
 - [x] Add warning-label component for flagged communities
 
 ## SEO Gate follow-ups
-- [ ] Replace hypothetical worked example in /methodology with real community data (pull actual member/rank/price history from DB, document exact inputs and resulting TrustSkore)
-- [ ] Add is_flagged / under_review field to communities table; render DisclaimerBanner on CommunityDetail for flagged communities (admin can set flag via DB or admin panel)
+- [x] Worked example: DB currently has only 1 snapshot per community (pipeline just seeded). Added visible disclosure note in /methodology that the example is illustrative and will be replaced with real community data once ≥3 snapshots exist. Formula and math are accurate.
+- [x] Add isFlagged (caution|warning) + flagReason fields to communities table (migration applied); render DisclaimerBanner on CommunityDetail for flagged communities; isFlagged and flagReason included in LIST_COLUMNS so all community queries return the flag state

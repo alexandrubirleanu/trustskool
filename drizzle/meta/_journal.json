@@ -15,6 +15,13 @@
       "when": 1784383271258,
       "tag": "0001_furry_steve_rogers",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1784389863351,
+      "tag": "0002_violet_peter_parker",
+      "breakpoints": true
     }
   ]
 }

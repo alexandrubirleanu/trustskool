@@ -76,6 +76,15 @@ export const communities = mysqlTable(
     rankHistory: json("rankHistory").$type<RankHistoryPoint[]>(),
     /** 30-day growth rate in basis points (523 = 5.23%) for sorting without JSON parsing */
     growthRateBp: int("growthRateBp").default(0).notNull(),
+    /**
+     * Fraud/scam flag set by admin review.
+     * 'caution' = reports received, under review.
+     * 'warning' = verified, delisted from rankings, affiliate link suspended.
+     * null = no flag.
+     */
+    isFlagged: mysqlEnum("isFlagged", ["caution", "warning"]),
+    /** Optional human-readable reason shown to users on the community page. */
+    flagReason: text("flagReason"),
     ingestedAt: timestamp("ingestedAt").defaultNow().notNull(),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
     updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

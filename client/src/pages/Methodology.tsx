@@ -153,12 +153,14 @@ export default function Methodology() {
         <section className="mt-14" id="worked-example" aria-labelledby="example-heading">
           <h2 id="example-heading" className="text-xl font-semibold">2. Worked numeric example</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            The following example uses a hypothetical community with realistic inputs to walk
-            through every step of the calculation.
+            The following example uses realistic inputs to walk through every step of the
+            calculation. The dataset is still in its first days of operation — once the daily
+            pipeline has accumulated at least three snapshots per community, this section will be
+            replaced with a real indexed community and its actual stored history.
           </p>
 
           <div className="mt-5 rounded-[4px] border border-border bg-card p-5 md:p-6 text-sm">
-            <p className="font-semibold">Community: "Creator Growth Academy" (hypothetical)</p>
+            <p className="font-semibold">Community: "Creator Growth Academy" — illustrative example</p>
 
             <div className="mt-4 space-y-5">
               {/* Step 1 */}

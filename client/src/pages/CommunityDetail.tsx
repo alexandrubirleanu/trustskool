@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { Link, useParams } from "wouter";
 import CommunityCard from "@/components/CommunityCard";
+import DisclaimerBanner from "@/components/DisclaimerBanner";
 import SiteLayout from "@/components/SiteLayout";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -194,6 +195,20 @@ export default function CommunityDetail() {
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> Back to rankings
         </Link>
+
+        {/* Fraud/scam flag banner */}
+        {community.isFlagged && (
+          <DisclaimerBanner
+            level={community.isFlagged === "warning" ? "warning" : "caution"}
+            message={
+              community.isFlagged === "warning"
+                ? (community.flagReason ?? "This community has been flagged following verified fraud reports and removed from active rankings. Its affiliate link has been suspended.")
+                : (community.flagReason ?? "This community is currently under review following credible reports. TrustSkool has not verified these reports. Exercise caution before joining.")
+            }
+            cta={{ label: "Fraud policy", href: "/policy/fraud-response" }}
+            className="mt-6"
+          />
+        )}
 
         {/* Header */}
         <header className="mt-6 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">

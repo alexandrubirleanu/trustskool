@@ -39,6 +39,8 @@ const LIST_COLUMNS = {
   trustSkore: communities.trustSkore,
   scoreBreakdown: communities.scoreBreakdown,
   growthRateBp: communities.growthRateBp,
+  isFlagged: communities.isFlagged,
+  flagReason: communities.flagReason,
 };
 
 export async function listCommunities(params: ListCommunitiesParams) {
