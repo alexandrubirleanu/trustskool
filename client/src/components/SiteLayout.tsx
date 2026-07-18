@@ -9,21 +9,27 @@ import { Link, useLocation } from "wouter";
 function BrandMark({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
-      <img
-        src="/manus-storage/trustskool-logo-v3_f1d4b761.png"
-        alt="TrustSkool"
-        className="h-10 w-auto object-contain"
-        style={{ maxWidth: 44 }}
-      />
+      <div className="flex items-center gap-2">
+        <img
+          src="/manus-storage/trustskool-icon-only_a356506a.png"
+          alt=""
+          aria-hidden
+          className="h-9 w-auto object-contain"
+        />
+        <span className="text-xl font-bold tracking-tight text-foreground" style={{ fontFamily: 'var(--font-heading)' }}>TrustSkool</span>
+      </div>
     );
   }
   return (
-    <img
-      src="/manus-storage/trustskool-logo-v3_f1d4b761.png"
-      alt="TrustSkool"
-      className="h-11 w-auto object-contain"
-      style={{ maxWidth: 220 }}
-    />
+    <div className="flex items-center gap-2.5">
+      <img
+        src="/manus-storage/trustskool-icon-only_a356506a.png"
+        alt=""
+        aria-hidden
+        className="h-10 w-auto object-contain"
+      />
+      <span className="text-[22px] font-bold tracking-tight text-foreground" style={{ fontFamily: 'var(--font-heading)' }}>TrustSkool</span>
+    </div>
   );
 }
 
