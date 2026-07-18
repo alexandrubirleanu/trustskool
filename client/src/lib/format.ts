@@ -1,5 +1,27 @@
 /** Formatting helpers shared across TrustSkool pages */
 
+/**
+ * Classify a community's pricing model into one of four types.
+ *
+ * - "free"     → no price (100% free, no credit card ever)
+ * - "trial"    → monthly subscription — Skool always offers a 7-day free trial on monthly plans
+ * - "annual"   → yearly subscription
+ * - "one_time" → lifetime / one-time payment
+ * - "paid"     → paid but interval unknown (fallback)
+ */
+export type PriceType = "free" | "trial" | "annual" | "one_time" | "paid";
+
+export function getPriceType(
+  cents: number | null | undefined,
+  interval: string | null | undefined,
+): PriceType {
+  if (!cents || cents === 0) return "free";
+  if (interval === "month") return "trial";
+  if (interval === "year") return "annual";
+  if (interval === "one_time") return "one_time";
+  return "paid";
+}
+
 export function formatMembers(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M`;
   if (n >= 1_000) return `${(n / 1_000).toFixed(1).replace(/\.0$/, "")}k`;
@@ -9,7 +31,9 @@ export function formatMembers(n: number): string {
 export function formatPrice(cents: number | null, interval?: string | null): string {
   if (!cents) return "Free";
   const amount = cents % 100 === 0 ? (cents / 100).toString() : (cents / 100).toFixed(2);
-  return `$${amount}/${interval === "year" ? "yr" : "mo"}`;
+  if (interval === "year") return `$${amount}/yr`;
+  if (interval === "one_time") return `$${amount} one-time`;
+  return `$${amount}/mo`;
 }
 
 export function formatGrowth(bp: number): string {

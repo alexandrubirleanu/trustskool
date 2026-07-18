@@ -7,6 +7,7 @@ import {
   formatMembers,
   formatPrice,
   formatScore,
+  getPriceType,
   SCORE_TIER_CLASSES,
   scoreTier,
   capitalize,
@@ -59,12 +60,18 @@ export default function CommunityCard({
   const growth = community.growthRateBp;
   const GrowthIcon = growth >= 0 ? TrendingUp : TrendingDown;
   const { track } = useDatafast();
-  const isFree = !community.priceAmountCents || community.priceAmountCents === 0;
+  const priceType = getPriceType(community.priceAmountCents, community.priceInterval);
 
   return (
     <Link
       href={`/community/${community.slug}`}
-      onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: isFree ? "free" : "paid" })}
+      onClick={() =>
+        track("community_click", {
+          slug: community.slug,
+          community_name: community.displayName.slice(0, 100),
+          price_type: priceType,
+        })
+      }
       className="group flex items-center gap-4 border-b border-border bg-card px-4 py-4 transition-colors first:rounded-t-[4px] last:rounded-b-[4px] last:border-b-0 hover:bg-accent sm:px-5">
       <span className="w-7 shrink-0 text-center text-sm font-semibold text-muted-foreground tabular-nums">
         {rank}
@@ -74,7 +81,9 @@ export default function CommunityCard({
 
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="truncate text-[15px] font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
+          <h3
+            className="truncate text-[15px] font-semibold"
+            style={{ fontFamily: "var(--font-heading)" }}>
             {community.displayName}
           </h3>
           {community.growthRateBp > 0 && (
@@ -83,8 +92,11 @@ export default function CommunityCard({
               Trending
             </span>
           )}
-          {(!community.priceAmountCents || community.priceAmountCents === 0) && (
-            <span className="badge-free">Free</span>
+          {priceType === "free" && <span className="badge-free">Free</span>}
+          {priceType === "trial" && (
+            <span className="badge-trial" aria-label="7-day free trial available">
+              7-day trial
+            </span>
           )}
         </div>
         <p className="mt-0.5 hidden truncate text-sm text-muted-foreground sm:block">
@@ -101,7 +113,9 @@ export default function CommunityCard({
             {formatGrowth(growth)}
           </span>
           <span>{formatPrice(community.priceAmountCents, community.priceInterval)}</span>
-          {community.category && <span className="hidden sm:inline">{formatCategory(community.category)}</span>}
+          {community.category && (
+            <span className="hidden sm:inline">{formatCategory(community.category)}</span>
+          )}
           <span className="hidden md:inline">{capitalize(community.language)}</span>
         </div>
       </div>
@@ -112,7 +126,10 @@ export default function CommunityCard({
           title={`TrustSkore ${formatScore(community.trustSkore)}`}>
           {formatScore(community.trustSkore)}
         </span>
-        <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
+        <ChevronRight
+          className="h-4 w-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100"
+          aria-hidden
+        />
       </div>
     </Link>
   );

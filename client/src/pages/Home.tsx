@@ -241,7 +241,7 @@ export default function Home() {
             <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
               <StatPill value={fmtK(stats.totalCommunities)} label="communities indexed" />
               <span className="hidden h-4 w-px bg-border sm:block" aria-hidden />
-              <StatPill value={fmtK(stats.freeCommunities)} label="free to join" />
+              <StatPill value={fmtK(stats.freeCommunities)} label="free or trial" />
               {stats.trendingCommunities > 0 && (
                 <>
                   <span className="hidden h-4 w-px bg-border sm:block" aria-hidden />

@@ -21,6 +21,7 @@ import {
   formatMembers,
   formatPrice,
   formatScore,
+  getPriceType,
   SCORE_TIER_CLASSES,
   scoreTier,
 } from "@/lib/format";
@@ -115,7 +116,7 @@ export default function CommunityDetail() {
       track("community_view", {
         slug: community.slug,
         community_name: community.displayName.slice(0, 100),
-        price_type: (!community.priceAmountCents || community.priceAmountCents === 0) ? "free" : "paid",
+        price_type: getPriceType(community.priceAmountCents, community.priceInterval),
       });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -188,8 +189,21 @@ export default function CommunityDetail() {
   const growth = community.growthRateBp;
   const GrowthIcon = growth >= 0 ? TrendingUp : TrendingDown;
 
-  const isFree = !community.priceAmountCents || community.priceAmountCents === 0;
+  const priceType = getPriceType(community.priceAmountCents, community.priceInterval);
+  const isFree = priceType === "free";
+  const isTrial = priceType === "trial";
   const isTrending = community.growthRateBp > 0;
+
+  /** CTA label for Join buttons, context-aware per price type */
+  function ctaLabel(context: "short" | "long"): string {
+    const name = community!.displayName;
+    const price = Math.round((community!.priceAmountCents ?? 900) / 100);
+    if (priceType === "free") return context === "short" ? `Join ${name}` : `Join ${name} — Free`;
+    if (priceType === "trial") return context === "short" ? "Start 7-Day Free Trial" : "Start 7-Day Free Trial";
+    if (priceType === "annual") return `Join for $${price}/yr`;
+    if (priceType === "one_time") return `Join for $${price}`;
+    return `Join for $${price}/mo`;
+  }
 
   return (
     <SiteLayout>
@@ -204,9 +218,9 @@ export default function CommunityDetail() {
         <a
           href={`/go/${community.slug}`}
           rel="sponsored noopener noreferrer"
-          onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: isFree ? "free" : "paid", source: "mobile_bar" })}
+          onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: priceType, source: "mobile_bar" })}
           className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
-          {isFree ? `Join ${community.displayName}` : `Join for $${Math.round((community.priceAmountCents ?? 900) / 100)}/mo`} <ExternalLink className="h-3.5 w-3.5" />
+          {ctaLabel("short")} <ExternalLink className="h-3.5 w-3.5" />
         </a>
       </div>
 
@@ -260,8 +274,11 @@ export default function CommunityDetail() {
                     Trending
                   </span>
                 )}
-                {isFree && (
-                  <span className="badge-free">Free</span>
+                {isFree && <span className="badge-free">Free</span>}
+                {isTrial && (
+                  <span className="badge-trial" aria-label="7-day free trial">
+                    7-day trial
+                  </span>
                 )}
               </div>
               {community.description && (
@@ -298,9 +315,9 @@ export default function CommunityDetail() {
             <a
               href={`/go/${community.slug}`}
               rel="sponsored noopener noreferrer"
-              onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: isFree ? "free" : "paid", source: "header" })}
+              onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: priceType, source: "header" })}
             className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
-              {isFree ? `Join ${community.displayName}` : `Join for $${Math.round((community.priceAmountCents ?? 900) / 100)}/mo`} <ExternalLink className="h-4 w-4" />
+              {ctaLabel("short")} <ExternalLink className="h-4 w-4" />
             </a>
           </div>
         </header>
@@ -546,16 +563,18 @@ export default function CommunityDetail() {
         <div className="mt-12 flex flex-col items-center gap-4 rounded-[4px] border border-border bg-card px-6 py-10 text-center">
           <p className="max-w-md text-base leading-relaxed text-muted-foreground">
             Ready to join <strong className="font-semibold text-foreground">{community.displayName}</strong>?
-            {isFree
-              ? " It's free — no credit card required."
-              : " Check the latest pricing and join directly on Skool."}
+            {priceType === "free" && " It's free — no credit card required."}
+            {priceType === "trial" && " Start with a 7-day free trial, then pay monthly."}
+            {priceType === "annual" && " Annual membership — check the latest pricing on Skool."}
+            {priceType === "one_time" && " One-time payment for lifetime access."}
+            {priceType === "paid" && " Check the latest pricing and join directly on Skool."}
           </p>
           <a
             href={`/go/${community.slug}`}
             rel="sponsored noopener noreferrer"
-            onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: isFree ? "free" : "paid", source: "bottom_cta" })}
+            onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: priceType, source: "bottom_cta" })}
             className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-8 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
-            {isFree ? `Join ${community.displayName} — Free` : `Join for $${Math.round((community.priceAmountCents ?? 900) / 100)}/mo on Skool`} <ExternalLink className="h-4 w-4" />
+            {ctaLabel("long")} <ExternalLink className="h-4 w-4" />
           </a>
           <p className="text-xs text-muted-foreground">
             You'll be redirected to Skool. TrustSkool is not affiliated with Skool.

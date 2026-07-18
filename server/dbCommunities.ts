@@ -70,7 +70,14 @@ export async function listCommunities(params: ListCommunitiesParams) {
   if (language) conditions.push(eq(communities.language, language));
   if (category) conditions.push(eq(communities.category, category));
   if (price === "free") {
-    const freeCond = or(eq(communities.priceAmountCents, 0), sql`${communities.priceAmountCents} IS NULL`);
+    // "Free" includes:
+    //   1. Truly free communities (priceAmountCents = 0 or NULL)
+    //   2. Monthly paid communities — Skool always offers a 7-day free trial on monthly plans
+    const freeCond = or(
+      eq(communities.priceAmountCents, 0),
+      sql`${communities.priceAmountCents} IS NULL`,
+      sql`${communities.priceInterval} = 'month'`,
+    );
     if (freeCond) conditions.push(freeCond);
   }
   if (price === "paid") conditions.push(sql`${communities.priceAmountCents} > 0`);
@@ -366,8 +373,9 @@ export async function getPlatformStats() {
   if (!db) return { totalCommunities: 0, freeCommunities: 0, trendingCommunities: 0, totalClicks: 0 };
   const [totalRows, freeRows, trendingRows, clickRows] = await Promise.all([
     db.select({ count: sql<number>`count(*)` }).from(communities),
+    // Count truly free + monthly trial communities (both show "free to try")
     db.select({ count: sql<number>`count(*)` }).from(communities).where(
-      sql`${communities.priceAmountCents} = 0 OR ${communities.priceAmountCents} IS NULL`
+      sql`${communities.priceAmountCents} = 0 OR ${communities.priceAmountCents} IS NULL OR ${communities.priceInterval} = 'month'`
     ),
     db.select({ count: sql<number>`count(*)` }).from(communities).where(
       sql`${communities.growthRateBp} > 0`
