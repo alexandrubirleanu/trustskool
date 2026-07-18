@@ -252,3 +252,6 @@
 ## Admin OTP Bug Fix (2026-07-18)
 - [x] [ADMIN-BUG-1] Root cause: req.cookies was always undefined because no cookie-parser middleware is registered in server/_core/index.ts. Fixed: checkSession in routers.ts and hasValidOtpSession in trpc.ts now use parseCookieHeader(req.headers.cookie) directly (same pattern as sdk.ts authenticateRequest). Verified: checkSession returns authenticated:true when valid JWT cookie is sent.
 - [x] [ADMIN-BUG-2] Secondary issue: after first failed code attempt, user saw "code expired" on retry because the OTP was consumed on the first (successful server-side) verification, but the cookie was never readable. Fix above resolves both symptoms.
+
+## Dockerfile for OG image (2026-07-18)
+- [x] [DOCKER-1] Dockerfile added at project root: node:22-slim base + libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi8 (required by @napi-rs/canvas for OG image generation). Full pnpm build inside image, NODE_ENV=production, CMD node dist/index.js.
