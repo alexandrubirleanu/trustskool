@@ -33,11 +33,29 @@ LANGUAGES = [
     "korean", "cantonese", "indonesian", "latin", "bengali", "catalan", "hindi",
 ]
 
+# Category param is "c" (verified by clicking a category tab live and reading the resulting URL,
+# NOT "cat" as first guessed). Combining category + language surfaces largely disjoint result sets
+# beyond the ~1000-per-language cap on the plain trending query (verified: 0 overlap across 9
+# categories' first pages for English).
+CATEGORIES = {
+    "hobbies": "8a7678583d3246a1a1a0a4a994321146",
+    "music": "f08071afbd9746b6adb83522451cd280",
+    "money": "2830789533b448d8812e7d5d661d776c",
+    "spirituality": "ce77e1a8d5824d8497921368a9328dc0",
+    "tech": "b1dae7402dda47a0b7aa51334474a158",
+    "health": "e85018a1df484d5ea09c43c8b2764586",
+    "sports": "ca063c42092041d5a8f48dd1903a1f3b",
+    "selfimprovement": "5c00cc7aee1048588759b5504380917a",
+    "relationships": "fd915e5fee4a496db1c82c527a33ef09",
+}
+
 NEXT_DATA_RE = re.compile(r'__NEXT_DATA__" type="application/json">(.*?)</script>', re.S)
 
 
-def fetch_page(lang, page):
+def fetch_page(lang, page, category_id=None):
     url = f"https://www.skool.com/discovery?lang={lang}&srt=trending&p={page}"
+    if category_id:
+        url += f"&c={category_id}"
     for attempt in range(1, MAX_RETRIES + 1):
         req = Request(url, headers={"User-Agent": UA, "Accept-Language": "en"})
         try:
@@ -105,23 +123,25 @@ def normalize_group(entry, lang):
     }
 
 
-def fetch_all_groups(lang):
-    """Paginate a language's discovery listing to the natural end. Returns (records, reached_natural_end)."""
+def fetch_all_groups(lang, category_id=None, label=None):
+    """Paginate a language (+ optional category) discovery listing to the natural end.
+    Returns (records, reached_natural_end)."""
+    tag = label or lang
     seen_ids = set()
     records = []
     page = 1
     total_declared = None
     reached_natural_end = False
     while True:
-        pp = fetch_page(lang, page)
+        pp = fetch_page(lang, page, category_id=category_id)
         time.sleep(SLEEP_SECONDS)
         if pp in ("error", "blocked"):
-            print(f"[{lang}] stopping early at page {page} due to fetch error/block ({pp})")
+            print(f"[{tag}] stopping early at page {page} due to fetch error/block ({pp})")
             break
         groups = pp.get("groups") or []
         if total_declared is None:
             total_declared = pp.get("numGroups")
-            print(f"[{lang}] declared total: {total_declared}")
+            print(f"[{tag}] declared total: {total_declared}")
         if not groups:
             reached_natural_end = True
             break
@@ -130,16 +150,49 @@ def fetch_all_groups(lang):
             if gid and gid not in seen_ids:
                 seen_ids.add(gid)
                 records.append(normalize_group(entry, lang))
-        print(f"[{lang}] page {page}: +{len(groups)} groups (total collected: {len(records)}/{total_declared})")
+        print(f"[{tag}] page {page}: +{len(groups)} groups (total collected: {len(records)}/{total_declared})")
         if len(groups) < PAGE_SIZE:
             reached_natural_end = True
             break
         page += 1
         if page > 200:  # sanity guard against infinite loop
             reached_natural_end = True
-            print(f"[{lang}] hit safety page cap (200), stopping")
+            print(f"[{tag}] hit safety page cap (200), stopping")
             break
     return records, reached_natural_end
+
+
+def expand_language(lang):
+    """Break past the ~1000-per-language cap by also paginating through every category
+    filter combined with this language, then merging (union by id) with whatever is
+    already in <lang>.jsonl. Overwrites <lang>.jsonl with the expanded superset."""
+    out_path = os.path.join(DATA_DIR, f"{lang}.jsonl")
+    merged = {}
+    for rec in load_jsonl_helper(out_path):
+        merged[rec["id"]] = rec
+
+    plain_records, _ = fetch_all_groups(lang, label=f"{lang}/plain")
+    for r in plain_records:
+        merged[r["id"]] = r
+
+    for cat_name, cat_id in CATEGORIES.items():
+        cat_records, _ = fetch_all_groups(lang, category_id=cat_id, label=f"{lang}/{cat_name}")
+        for r in cat_records:
+            merged[r["id"]] = r
+
+    with open(out_path, "w", encoding="utf-8") as f:
+        for r in merged.values():
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    with open(os.path.join(DATA_DIR, f"{lang}.done"), "w") as f:
+        f.write(str(len(merged)))
+    print(f"[{lang}] EXPANDED: {len(merged)} total communities (plain + {len(CATEGORIES)} categories, deduped)")
+
+
+def load_jsonl_helper(path):
+    if not os.path.exists(path):
+        return []
+    with open(path, encoding="utf-8") as f:
+        return [json.loads(line) for line in f if line.strip()]
 
 
 def scrape_language(lang):
@@ -200,6 +253,16 @@ def classify_tiers():
 
 def main():
     args = sys.argv[1:]
+
+    if args and args[0] == "--expand":
+        targets = args[1:] or ["english"]
+        print(f"Expand mode (plain + all {len(CATEGORIES)} categories), languages: {targets}")
+        for lang in targets:
+            expand_language(lang)
+        # refresh the consumable dataset for the app after expanding
+        os.system(f"{sys.executable} {os.path.join(OUT_DIR, 'build_communities_dataset.py')}")
+        return
+
     refresh_mode = "--refresh" in args
     if refresh_mode:
         args = [a for a in args if a != "--refresh"]

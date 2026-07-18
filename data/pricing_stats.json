@@ -1,0 +1,23 @@
+{
+  "total_communities": 8154,
+  "free_count": 4868,
+  "free_pct": 59.7,
+  "paid_count": 3286,
+  "paid_pct": 40.3,
+  "monthly_priced_count_excluding_sentinel_placeholders": 2697,
+  "sentinel_placeholder_count_100k": 9,
+  "median_monthly_usd": 28.0,
+  "mean_monthly_usd": 43.78,
+  "min_monthly_usd": 1.0,
+  "max_monthly_usd_excluding_sentinel": 999.0,
+  "monthly_price_distribution": {
+    "under_10": 558,
+    "10_29": 944,
+    "30_49": 581,
+    "50_99": 465,
+    "100_plus": 149
+  },
+  "yearly_priced_count": 196,
+  "median_yearly_usd": 498.0,
+  "data_note": "A small number of listings (~9) show exactly $99,999 or $100,000/month, which is almost certainly a Skool placeholder/sentinel value for hidden or application-only pricing, not a real recurring charge. Excluded from stats above."
+}
