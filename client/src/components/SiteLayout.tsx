@@ -81,6 +81,16 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
           <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
             <Link
+              href="/resources"
+              className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
+              Resources
+            </Link>
+            <Link
+              href="/news"
+              className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
+              News
+            </Link>
+            <Link
               href="/methodology"
               className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
               Methodology
@@ -108,6 +118,16 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
           <div className="border-t border-border bg-background px-4 pb-4 pt-3 md:hidden">
             <NavSearch onNavigate={() => setMobileOpen(false)} />
             <div className="mt-3 flex flex-col gap-1">
+              <Link
+                href="/resources"
+                className="rounded-[4px] px-2 py-2 text-sm font-medium hover:bg-accent">
+                Resources
+              </Link>
+              <Link
+                href="/news"
+                className="rounded-[4px] px-2 py-2 text-sm font-medium hover:bg-accent">
+                News
+              </Link>
               <Link
                 href="/methodology"
                 className="rounded-[4px] px-2 py-2 text-sm font-medium hover:bg-accent">
@@ -141,6 +161,12 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             <nav className="flex flex-col gap-2 text-sm" aria-label="Footer">
               <Link href="/" className="text-foreground/80 hover:text-foreground">
                 Rankings
+              </Link>
+              <Link href="/resources" className="text-foreground/80 hover:text-foreground">
+                Resources
+              </Link>
+              <Link href="/news" className="text-foreground/80 hover:text-foreground">
+                News
               </Link>
               <Link href="/methodology" className="text-foreground/80 hover:text-foreground">
                 Methodology

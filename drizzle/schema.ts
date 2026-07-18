@@ -186,3 +186,50 @@ export const ownerProfiles = mysqlTable(
 
 export type OwnerProfile = typeof ownerProfiles.$inferSelect;
 export type InsertOwnerProfile = typeof ownerProfiles.$inferInsert;
+
+/**
+ * Content pages ingested from content/ markdown files.
+ * One row per file. Type discriminates routing and rendering.
+ * Upserted on each import run (slug is the stable key).
+ */
+export const contentPages = mysqlTable(
+  "contentPages",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /**
+     * URL-safe slug, unique within type.
+     * For founders: community slug (e.g. "abbewcrew").
+     * For categories: category slug (e.g. "money").
+     * For guides/pillar/faq/skool-news: file slug from frontmatter or filename.
+     */
+    slug: varchar("slug", { length: 255 }).notNull(),
+    type: mysqlEnum("type", [
+      "founder",
+      "category",
+      "guide",
+      "pillar",
+      "faq",
+      "skool-news",
+    ]).notNull(),
+    title: varchar("title", { length: 512 }).notNull(),
+    metaDescription: text("metaDescription"),
+    /** Rendered HTML body (markdown → html) */
+    bodyHtml: text("bodyHtml").notNull(),
+    /** Raw frontmatter fields as JSON (word_count, category, community_slug, etc.) */
+    frontmatter: json("frontmatter").$type<Record<string, unknown>>(),
+    /** Word count from frontmatter or computed */
+    wordCount: int("wordCount"),
+    /** For skool-news: publication date from frontmatter; others: import date */
+    publishedAt: timestamp("publishedAt"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  table => [
+    index("idx_contentPages_type").on(table.type),
+    index("idx_contentPages_slug_type").on(table.slug, table.type),
+    index("idx_contentPages_publishedAt").on(table.publishedAt),
+  ],
+);
+
+export type ContentPage = typeof contentPages.$inferSelect;
+export type InsertContentPage = typeof contentPages.$inferInsert;

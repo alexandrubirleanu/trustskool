@@ -18,6 +18,13 @@ import {
 } from "./dbCommunities";
 import { runIngestion } from "./ingestion";
 import { computeMrrEstimate, type MrrStatus } from "./mrrEstimate";
+import {
+  getCategoryPage,
+  getContentPage,
+  getFounderPage,
+  listContentPages,
+  listContentPagesByTypes,
+} from "./dbContent";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -139,6 +146,53 @@ export const appRouter = router({
         });
         return { success: true };
       }),
+  }),
+
+  content: router({
+    /** Get a single content page by slug + type */
+    bySlug: publicProcedure
+      .input(
+        z.object({
+          slug: z.string().min(1).max(255),
+          type: z.enum(["founder", "category", "guide", "pillar", "faq", "skool-news"]),
+        }),
+      )
+      .query(async ({ input }) => {
+        const page = await getContentPage(input.slug, input.type);
+        return page ?? null;
+      }),
+
+    /** Get founder bio for a community slug (folds into community detail page) */
+    founderByCommunitySlug: publicProcedure
+      .input(z.object({ slug: z.string().min(1).max(255) }))
+      .query(async ({ input }) => {
+        const page = await getFounderPage(input.slug);
+        return page ?? null;
+      }),
+
+    /** Get category framing copy */
+    categoryBySlug: publicProcedure
+      .input(z.object({ slug: z.string().min(1).max(128) }))
+      .query(async ({ input }) => {
+        const page = await getCategoryPage(input.slug);
+        return page ?? null;
+      }),
+
+    /** List all pages of a given type */
+    list: publicProcedure
+      .input(z.object({ type: z.enum(["founder", "category", "guide", "pillar", "faq", "skool-news"]) }))
+      .query(({ input }) => listContentPages(input.type)),
+
+    /** List guides + pillar together for the Resources hub */
+    resourcesList: publicProcedure.query(() =>
+      listContentPagesByTypes(["guide", "pillar"]),
+    ),
+
+    /** List FAQ pages */
+    faqList: publicProcedure.query(() => listContentPages("faq")),
+
+    /** List Skool News pages (newest first) */
+    newsList: publicProcedure.query(() => listContentPages("skool-news")),
   }),
 
   admin: router({

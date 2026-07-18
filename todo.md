@@ -124,3 +124,35 @@
 - [x] search_used: track search input (debounced, min 3 chars) with query param — fires once per distinct query
 - [ ] blog_cta_click: add tracking on blog article CTA links when blog pages are built (article_slug, cta_type params)
 - [x] Add datafast queue snippet to index.html head for reliable tracking
+
+## Content ingestion (content/ → routes)
+- [x] Read content-decision.md rule #12 for founder page routing logic
+- [x] Create DB tables: content_pages (slug, type, title, meta_description, body_html, frontmatter_json, published_at)
+- [x] Write import script: parse all content/*.md files, store in DB (60 files imported)
+- [x] Server: tRPC procedures for content pages (by slug, by type, list)
+- [x] Frontend: founder bio folded into /community/:slug as "About the Founder" section (rule #12)
+- [x] Frontend: /resources hub (guides + pillar articles, grid layout, type badges)
+- [x] Frontend: /resources/:slug article reader with JSON-LD Article schema
+- [x] Frontend: /news listing (skool-news, newest first)
+- [x] Frontend: /news/:slug article reader
+- [x] Nav: Resources + News links in desktop nav, mobile nav, footer
+- [x] SSR head meta for all content pages
+
+## Admin: afl_percent in admin panel
+- [x] afl_percent surfaced as sortable table in /admin/clicks (sort by commission % or by click count)
+
+## Click notification email revamp (Tier A / Tier B)
+- [x] At click time: lookup owner_profiles by slug → determine Tier A (paid + afl_percent > 0) vs Tier B
+- [x] Tier A: real-time email includes est. commission (price × afl_percent), subject shows commission amount
+- [x] Tier B: suppress real-time email for free/unknown-commission communities
+- [x] /api/scheduled/digest callback registered; buildDigestEmail + sendDailyDigest implemented
+- [x] getClicksForDigest(since, until) DB helper with community join
+- [x] All clicks still logged to DB regardless of tier (admin stays complete)
+- [ ] Register daily digest Heartbeat cron job at 09:00 UTC via admin panel or startup provisioning
+
+## Content routes follow-ups
+- [ ] Add SSR head meta (title, description, canonical, OG) for /resources, /resources/:slug, /news, /news/:slug in prefetch.ts
+- [ ] Add Article JSON-LD to /resources/:slug and /news/:slug article pages
+- [ ] Build /categories/:slug pages using content/categories framing copy
+- [ ] Build standalone /faq index + /faq/:slug with FAQPage JSON-LD
+- [ ] Register daily digest Heartbeat cron job at 09:00 UTC (one-time setup via admin or startup)

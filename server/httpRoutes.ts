@@ -1,7 +1,8 @@
 import type { Express, Request, Response } from "express";
 import { skoolCommunityUrl, SKOOL_SIGNUP_URL } from "../shared/appConfig";
-import { getCommunityBySlug, getClickCountForSlug, insertClick } from "./dbCommunities";
+import { getCommunityBySlug, getClickCountForSlug, insertClick, getOwnerProfileBySlug } from "./dbCommunities";
 import { sendClickNotification } from "./emailNotify";
+import { runDailyDigest } from "./digestJob";
 import { runIngestion } from "./ingestion";
 import { sdk } from "./_core/sdk";
 
@@ -63,7 +64,20 @@ async function handleGoRedirect(req: Request, res: Response) {
   // 2. Fetch running click count for this slug (includes the click just inserted)
   const clickCount = await getClickCountForSlug(rawSlug).catch(() => 0);
 
-  // 3. Send the notification email BEFORE redirecting (bounded so a slow
+  // 3. Fetch affiliate commission from owner profile (best-effort, non-blocking)
+  let aflPercent: number | null = null;
+  try {
+    const ownerProfile = await getOwnerProfileBySlug(rawSlug);
+    if (ownerProfile) {
+      const entry = (ownerProfile.ownedCommunities as Array<{ slug: string; afl_percent?: number | null }> | null)
+        ?.find(c => c.slug === rawSlug);
+      aflPercent = entry?.afl_percent ?? null;
+    }
+  } catch {
+    // non-fatal — proceed without commission data
+  }
+
+  // 4. Send the notification email BEFORE redirecting (bounded so a slow
   //    email provider cannot hold the visitor hostage)
   await sendNotificationWithTimeout({
     slug: rawSlug,
@@ -75,10 +89,26 @@ async function handleGoRedirect(req: Request, res: Response) {
     priceInterval: community?.priceInterval ?? null,
     language: community?.language ?? null,
     clickCount,
+    aflPercent,
   });
 
-  // 4. 302 redirect to Skool with the affiliate ref
+  // 5. 302 redirect to Skool with the affiliate ref
   return res.redirect(302, skoolCommunityUrl(rawSlug));
+}
+
+async function handleScheduledDigest(req: Request, res: Response) {
+  try {
+    const user = await sdk.authenticateRequest(req);
+    if (!user.isCron) {
+      return res.status(403).json({ error: "cron-only" });
+    }
+    const result = await runDailyDigest();
+    return res.json(result);
+  } catch (err) {
+    const error = err instanceof Error ? err.message : String(err);
+    console.error("[ScheduledDigest] Failed:", error);
+    return res.status(500).json({ error, timestamp: new Date().toISOString() });
+  }
 }
 
 async function handleScheduledIngest(req: Request, res: Response) {
@@ -115,5 +145,8 @@ export function registerHttpRoutes(app: Express) {
   });
   app.post("/api/scheduled/ingest", (req, res) => {
     void handleScheduledIngest(req, res);
+  });
+  app.post("/api/scheduled/digest", (req, res) => {
+    void handleScheduledDigest(req, res);
   });
 }

@@ -10,6 +10,10 @@ import CommunityDetail from "./pages/CommunityDetail";
 import Home from "./pages/Home";
 import FraudResponse from "./pages/FraudResponse";
 import Methodology from "./pages/Methodology";
+import ResourcesHub from "./pages/ResourcesHub";
+import ResourceArticle from "./pages/ResourceArticle";
+import SkoolNews from "./pages/SkoolNews";
+import NewsArticle from "./pages/NewsArticle";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -19,6 +23,10 @@ function Router() {
       <Route path={"/community/:slug"} component={CommunityDetail} />
       <Route path={"/methodology"} component={Methodology} />
       <Route path={"/policy/fraud-response"} component={FraudResponse} />
+      <Route path={"/resources"} component={ResourcesHub} />
+      <Route path={"/resources/:slug"} component={ResourceArticle} />
+      <Route path={"/news"} component={SkoolNews} />
+      <Route path={"/news/:slug"} component={NewsArticle} />
       <Route path={"/admin/clicks"} component={AdminClicks} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

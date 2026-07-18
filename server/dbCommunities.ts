@@ -338,6 +338,28 @@ export async function getLatestIngestionRun() {
   return rows[0];
 }
 
+/** Returns all clicks in a given UTC time window, grouped by slug, with community data joined. */
+export async function getClicksForDigest(since: Date, until: Date) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      slug: clicks.slug,
+      displayName: sql<string>`MAX(${clicks.displayName})`,
+      count: sql<number>`count(*)`,
+      lastClickAt: sql<string>`MAX(${clicks.createdAt})`,
+      totalMembers: sql<number | null>`MAX(${communities.totalMembers})`,
+      priceAmountCents: sql<number | null>`MAX(${communities.priceAmountCents})`,
+      priceInterval: sql<string | null>`MAX(${communities.priceInterval})`,
+      language: sql<string | null>`MAX(${communities.language})`,
+    })
+    .from(clicks)
+    .leftJoin(communities, eq(clicks.slug, communities.slug))
+    .where(sql`${clicks.createdAt} >= ${since.toISOString()} AND ${clicks.createdAt} < ${until.toISOString()}`)
+    .groupBy(clicks.slug)
+    .orderBy(desc(sql`count(*)`));
+}
+
 /** Returns platform-wide stats for the social proof bar. */
 export async function getPlatformStats() {
   const db = await getDb();

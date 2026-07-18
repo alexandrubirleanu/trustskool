@@ -92,6 +92,11 @@ export default function CommunityDetail() {
     { enabled: Boolean(slug) },
   );
 
+  const { data: founderPage } = trpc.content.founderByCommunitySlug.useQuery(
+    { slug },
+    { enabled: Boolean(slug) },
+  );
+
   const { data: similar } = trpc.communities.similar.useQuery(
     {
       slug,
@@ -511,6 +516,17 @@ export default function CommunityDetail() {
             </ChartCard>
           </div>
         </section>
+
+        {/* Founder bio — folded from content/founders/:slug.md */}
+        {founderPage && founderPage.bodyHtml && (
+          <section className="mt-12" aria-labelledby="founder-heading">
+            <h2 id="founder-heading" className="text-lg font-semibold">About the Founder</h2>
+            <div
+              className="prose prose-sm mt-4 max-w-none rounded-[4px] border border-border bg-card px-6 py-5 text-foreground [&_a]:text-foreground [&_a]:underline [&_a]:underline-offset-2 [&_h2]:text-base [&_h2]:font-semibold [&_h3]:text-sm [&_h3]:font-semibold [&_p]:text-sm [&_p]:leading-relaxed [&_p]:text-muted-foreground [&_ul]:text-sm [&_ul]:text-muted-foreground"
+              dangerouslySetInnerHTML={{ __html: founderPage.bodyHtml }}
+            />
+          </section>
+        )}
 
         {/* Similar communities */}
         {similar && similar.length > 0 && (
