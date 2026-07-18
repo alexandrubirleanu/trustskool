@@ -123,6 +123,8 @@
 - [x] community_click: track /go/:slug CTA clicks (header, mobile_bar, bottom_cta) — affiliate link to join a specific community; also track card click on homepage list
 - [x] search_used: track search input (debounced, min 3 chars) with query param — fires once per distinct query
 - [ ] blog_cta_click: add tracking on blog article CTA links when blog pages are built
+- [x] Remove duplicate hero search bar; keep only the header search
+- [x] Optimize above-the-fold: tighter hero padding (py-8/py-12), two-column desktop layout (headline left, stats right), mobile compact with stat pills inline, description shortened for mobile
 - [x] Bootstrap TrustSkore: isBootstrapScore() helper (>=2000 members, <3 snapshots); computeBreakdownWithBootstrap() returns growth_momentum=80/ranking_momentum=75 for bootstrap communities; ingestion.ts switched to computeBreakdownWithBootstrap; isBootstrap flag stored in scoreBreakdown JSON; CommunityDetail shows amber inline note when breakdown.isBootstrap=true; ScoreBreakdown type extended with optional isBootstrap field; 12 new tests (isBootstrapScore x7, computeBreakdownWithBootstrap x5); 59/59 tests passing
 - [x] Free trial differentiation: monthly paid communities show "Start 7-Day Free Trial" CTA + "7-day trial" badge (purple); 100% free show "Join Free" (green); annual show "Join for $X/yr"; one-time show "Join for $X"; getPriceType() helper in format.ts; all 3 CTA locations updated (mobile_bar, header, bottom_cta); price_type tracking updated to use priceType enum
 - [x] Add datafast queue snippet to index.html head for reliable tracking

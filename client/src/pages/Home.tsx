@@ -224,52 +224,29 @@ export default function Home() {
     <SiteLayout>
       {/* Hero */}
       <section className="border-b border-border bg-card">
-        <div className="container py-12 md:py-18">
-          <div className="max-w-2xl">
-            <h1 className="text-[30px] font-bold leading-tight tracking-tight md:text-[44px]">
-              Find Skool communities worth joining — before you pay.
-            </h1>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
-              Every community gets a <strong className="font-semibold text-foreground">TrustSkore</strong> built from
-              member growth, discovery-rank momentum and price stability. No paid placements, no
-              sponsored rankings.
-            </p>
-          </div>
-
-          {/* Social proof stat bar */}
-          {stats && (
-            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
-              <StatPill value={fmtK(stats.totalCommunities)} label="communities indexed" />
-              <span className="hidden h-4 w-px bg-border sm:block" aria-hidden />
-              <StatPill value={fmtK(stats.freeCommunities)} label="free or trial" />
-              {stats.trendingCommunities > 0 && (
-                <>
-                  <span className="hidden h-4 w-px bg-border sm:block" aria-hidden />
-                  <StatPill value={fmtK(stats.trendingCommunities)} label="growing this month" />
-                </>
-              )}
+        <div className="container py-8 md:py-12">
+          {/* Two-column layout on desktop: headline left, stats right */}
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-2xl">
+              <h1 className="text-[28px] font-bold leading-tight tracking-tight md:text-[42px]">
+                Find Skool communities worth joining — before you pay.
+              </h1>
+              <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+                Every community gets a <strong className="font-semibold text-foreground">TrustSkore</strong> built from
+                member growth, rank momentum and price stability.
+                {" "}<span className="hidden sm:inline">No paid placements, no sponsored rankings.</span>
+              </p>
             </div>
-          )}
 
-          {/* In-page search */}
-          <div className="relative mt-8 max-w-xl">
-            <Search className="pointer-events-none absolute left-4 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-muted-foreground" />
-            <input
-              type="search"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder="Search by name or topic…"
-              aria-label="Search communities"
-              className="h-12 w-full rounded-[4px] border border-input bg-background pl-11 pr-4 text-[15px] outline-none transition-colors focus:border-foreground"
-            />
-            {search && (
-              <button
-                type="button"
-                aria-label="Clear search"
-                onClick={() => { setSearch(""); navigate("/"); }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground">
-                <X className="h-4 w-4" />
-              </button>
+            {/* Social proof stat pills — right-aligned on desktop */}
+            {stats && (
+              <div className="flex shrink-0 flex-wrap items-center gap-x-5 gap-y-2 md:flex-col md:items-end md:gap-y-1.5">
+                <StatPill value={fmtK(stats.totalCommunities)} label="communities indexed" />
+                <StatPill value={fmtK(stats.freeCommunities)} label="free or trial" />
+                {stats.trendingCommunities > 0 && (
+                  <StatPill value={fmtK(stats.trendingCommunities)} label="growing this month" />
+                )}
+              </div>
             )}
           </div>
         </div>

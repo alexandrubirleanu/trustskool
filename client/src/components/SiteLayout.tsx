@@ -105,13 +105,22 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             </a>
           </nav>
 
-          <button
-            type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-[4px] border border-border md:hidden"
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMobileOpen(o => !o)}>
-            {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              type="button"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-[4px] border border-border"
+              aria-label="Search communities"
+              onClick={() => setMobileOpen(true)}>
+              <Search className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-[4px] border border-border"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMobileOpen(o => !o)}>
+              {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </button>
+          </div>
         </div>
 
         {mobileOpen && (
