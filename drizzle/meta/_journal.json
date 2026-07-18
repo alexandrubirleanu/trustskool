@@ -64,6 +64,13 @@
       "when": 1784398199167,
       "tag": "0008_bumpy_valeria_richards",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1784402179032,
+      "tag": "0009_swift_mantis",
+      "breakpoints": true
     }
   ]
 }

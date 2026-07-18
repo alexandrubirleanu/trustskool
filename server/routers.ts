@@ -1,4 +1,5 @@
 import { COOKIE_NAME } from "@shared/const";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
@@ -30,6 +31,15 @@ import {
   listContentPages,
   listContentPagesByTypes,
 } from "./dbContent";
+import {
+  ADMIN_EMAIL_ALLOWLIST,
+  ADMIN_OTP_COOKIE_NAME,
+  consumeOtp,
+  createOtp,
+  sendOtpEmail,
+} from "./adminOtp";
+import { SignJWT, jwtVerify } from "jose";
+import { ENV } from "./_core/env";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -225,6 +235,70 @@ export const appRouter = router({
         return { success: true, reportId };
       }),
     list: adminProcedure.query(() => listFraudReports(100)),
+  }),
+
+  adminOtp: router({
+    /** Request an OTP — only allowed emails can proceed */
+    requestOtp: publicProcedure
+      .input(z.object({ email: z.string().email() }))
+      .mutation(async ({ input, ctx }) => {
+        const email = input.email.toLowerCase().trim();
+        if (!ADMIN_EMAIL_ALLOWLIST.has(email)) {
+          // Return success to avoid leaking the allowlist
+          return { sent: false };
+        }
+        const code = await createOtp(email);
+        await sendOtpEmail(email, code);
+        return { sent: true };
+      }),
+
+    /** Verify OTP and set admin session cookie (30 min) */
+    verifyOtp: publicProcedure
+      .input(z.object({ email: z.string().email(), code: z.string().length(6) }))
+      .mutation(async ({ input, ctx }) => {
+        const email = input.email.toLowerCase().trim();
+        if (!ADMIN_EMAIL_ALLOWLIST.has(email)) {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Not authorised" });
+        }
+        const valid = await consumeOtp(email, input.code);
+        if (!valid) {
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid or expired code" });
+        }
+        // Sign a 30-minute admin session JWT
+        const secret = new TextEncoder().encode(ENV.cookieSecret);
+        const token = await new SignJWT({ email, role: "admin_otp" })
+          .setProtectedHeader({ alg: "HS256" })
+          .setExpirationTime("30m")
+          .sign(secret);
+        const cookieOpts = getSessionCookieOptions(ctx.req);
+        ctx.res.cookie(ADMIN_OTP_COOKIE_NAME, token, {
+          ...cookieOpts,
+          maxAge: 30 * 60 * 1000,
+        });
+        return { ok: true };
+      }),
+
+    /** Check if the current admin OTP session cookie is valid */
+    checkSession: publicProcedure.query(async ({ ctx }) => {
+      const token = ctx.req.cookies?.[ADMIN_OTP_COOKIE_NAME];
+      if (!token) return { authenticated: false };
+      try {
+        const secret = new TextEncoder().encode(ENV.cookieSecret);
+        const { payload } = await jwtVerify(token, secret, { algorithms: ["HS256"] });
+        const email = payload.email as string | undefined;
+        if (!email || !ADMIN_EMAIL_ALLOWLIST.has(email)) return { authenticated: false };
+        return { authenticated: true, email };
+      } catch {
+        return { authenticated: false };
+      }
+    }),
+
+    /** Logout: clear the admin OTP session cookie */
+    logout: publicProcedure.mutation(({ ctx }) => {
+      const cookieOpts = getSessionCookieOptions(ctx.req);
+      ctx.res.clearCookie(ADMIN_OTP_COOKIE_NAME, { ...cookieOpts, maxAge: -1 });
+      return { ok: true };
+    }),
   }),
 
   admin: router({

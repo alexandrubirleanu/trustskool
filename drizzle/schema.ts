@@ -296,3 +296,29 @@ export const fraudReports = mysqlTable(
 );
 export type FraudReport = typeof fraudReports.$inferSelect;
 export type InsertFraudReport = typeof fraudReports.$inferInsert;
+
+/**
+ * One-time passwords for admin panel access.
+ * Generated on request, valid for 10 minutes, single-use.
+ */
+export const adminOtps = mysqlTable(
+  "adminOtps",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /** Email that requested the OTP (must be in allowlist) */
+    email: varchar("email", { length: 320 }).notNull(),
+    /** SHA-256 hash of the 6-digit code */
+    codeHash: varchar("codeHash", { length: 64 }).notNull(),
+    /** When the OTP was consumed (null = still valid) */
+    usedAt: timestamp("usedAt"),
+    /** Expires 10 minutes after creation */
+    expiresAt: timestamp("expiresAt").notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  table => [
+    index("idx_adminOtps_email").on(table.email),
+    index("idx_adminOtps_expiresAt").on(table.expiresAt),
+  ],
+);
+export type AdminOtp = typeof adminOtps.$inferSelect;
+export type InsertAdminOtp = typeof adminOtps.$inferInsert;

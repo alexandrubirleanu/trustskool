@@ -234,3 +234,13 @@
 
 ## Mobile Filter Bar (2026-07-18)
 - [x] [MOBILE-1] Mobile filter bar redesigned: Row 1 = price chips + language (horizontally scrollable, shrink-0 on each chip) + Clear pinned right; Row 2 = community count left + Sort buttons right (shortLabel "Score/Members/Growth" on mobile, full label on sm+). No wrapping on 390px viewport.
+
+## Admin OTP Gate (2026-07-18)
+- [x] [ADMIN-1] adminOtps table created (id, email, codeHash, expiresAt, usedAt, createdAt) in drizzle/schema.ts; migration generated + applied
+- [x] [ADMIN-2] Backend: adminOtp.requestOtp procedure (publicProcedure) — validates email against allowlist, generates 6-digit OTP, stores SHA-256 hash in DB, sends branded OTP email via Resend
+- [x] [ADMIN-3] Backend: adminOtp.verifyOtp procedure — validates code hash, sets signed 30-min admin session JWT cookie (ADMIN_OTP_COOKIE_NAME), marks OTP as used
+- [x] [ADMIN-4] adminProcedure middleware updated to accept OTP session cookie as alternative to Manus OAuth admin role (hasValidOtpSession in trpc.ts)
+- [x] [ADMIN-5] Frontend: /admin page with OTP gate (email input → code input → full AdminDashboard with all existing admin features)
+- [x] [ADMIN-6] /admin/clicks now renders same Admin component as /admin (both routes in App.tsx)
+- [x] [ADMIN-7] Allowlist: only alexbirle97@gmail.com and alexbirle@hey.com can request OTP
+- [x] [ADMIN-8] adminOtp.checkSession + adminOtp.logout procedures added; Sign out button in AdminDashboard

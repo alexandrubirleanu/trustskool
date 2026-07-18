@@ -8,7 +8,8 @@ const SITE = BRAND_NAME;
 const ROUTE_TITLES: Record<string, string> = {
   "/": `${SITE}: Skool community leaderboard, ranked by TrustSkore`,
   "/methodology": `How the TrustSkore is calculated · ${SITE}`,
-  "/admin/clicks": `Click tracking · ${SITE}`,
+  "/admin": `Admin panel · ${SITE}`,
+  "/admin/clicks": `Admin panel · ${SITE}`,
 };
 
 /**

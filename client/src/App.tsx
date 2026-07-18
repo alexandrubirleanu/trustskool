@@ -5,7 +5,7 @@ import { Route, Switch } from "wouter";
 import { Head } from "@/components/Head";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import AdminClicks from "./pages/AdminClicks";
+import Admin from "./pages/Admin";
 import CommunityDetail from "./pages/CommunityDetail";
 import Home from "./pages/Home";
 import FraudResponse from "./pages/FraudResponse";
@@ -37,7 +37,8 @@ function Router() {
       <Route path={"/categories/:slug"} component={CategoryPage} />
       <Route path={"/founders/:slug"} component={FounderPage} />
       <Route path={"/reviews/:slug"} component={ReviewPage} />
-      <Route path={"/admin/clicks"} component={AdminClicks} />
+      <Route path={"/admin"} component={Admin} />
+      <Route path={"/admin/clicks"} component={Admin} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
