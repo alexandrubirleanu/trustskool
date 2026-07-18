@@ -12,7 +12,7 @@ type SortKey = "trustSkore" | "totalMembers" | "growthRateBp" | "category";
 type PriceKey = "all" | "free" | "paid";
 
 const SORT_OPTIONS: { key: SortKey; label: string; shortLabel: string }[] = [
-  { key: "trustSkore", label: "TrustSkore", shortLabel: "Score" },
+  { key: "trustSkore", label: "TrustSkore", shortLabel: "Skore" },
   { key: "totalMembers", label: "Members", shortLabel: "Members" },
   { key: "growthRateBp", label: "Growth", shortLabel: "Growth" },
 ];
