@@ -4,19 +4,23 @@
  * Classify a community's pricing model into one of four types.
  *
  * - "free"     → no price (100% free, no credit card ever)
- * - "trial"    → monthly subscription — Skool always offers a 7-day free trial on monthly plans
+ * - "monthly"  → monthly subscription (trial availability unknown — not in dataset)
  * - "annual"   → yearly subscription
  * - "one_time" → lifetime / one-time payment
  * - "paid"     → paid but interval unknown (fallback)
+ *
+ * NOTE: The Skool dataset does not expose a trial field. The 7-day free trial
+ * is an optional feature that community owners can enable or disable. We cannot
+ * reliably detect it, so we do NOT show a "7-day trial" badge or CTA.
  */
-export type PriceType = "free" | "trial" | "annual" | "one_time" | "paid";
+export type PriceType = "free" | "monthly" | "annual" | "one_time" | "paid";
 
 export function getPriceType(
   cents: number | null | undefined,
   interval: string | null | undefined,
 ): PriceType {
   if (!cents || cents === 0) return "free";
-  if (interval === "month") return "trial";
+  if (interval === "month") return "monthly";
   if (interval === "year") return "annual";
   if (interval === "one_time") return "one_time";
   return "paid";

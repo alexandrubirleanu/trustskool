@@ -63,11 +63,27 @@ function shortDate(value: string) {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
+function ChartCard({
+  title,
+  children,
+  empty,
+}: {
+  title: string;
+  children: React.ReactNode;
+  empty?: boolean;
+}) {
   return (
     <div className="rounded-[4px] border border-border bg-card p-4 sm:p-5">
       <h3 className="text-sm font-semibold">{title}</h3>
-      <div className="mt-3 h-56">{children}</div>
+      {empty ? (
+        <div className="mt-3 flex h-36 items-center justify-center sm:h-56">
+          <p className="text-center text-xs text-muted-foreground">
+            Tracking started recently —<br />chart will populate over the next few weeks.
+          </p>
+        </div>
+      ) : (
+        <div className="mt-3 h-36 sm:h-56">{children}</div>
+      )}
     </div>
   );
 }
@@ -191,7 +207,6 @@ export default function CommunityDetail() {
 
   const priceType = getPriceType(community.priceAmountCents, community.priceInterval);
   const isFree = priceType === "free";
-  const isTrial = priceType === "trial";
   const isTrending = community.growthRateBp > 0;
 
   /** CTA label for Join buttons, context-aware per price type */
@@ -199,7 +214,6 @@ export default function CommunityDetail() {
     const name = community!.displayName;
     const price = Math.round((community!.priceAmountCents ?? 900) / 100);
     if (priceType === "free") return context === "short" ? `Join ${name}` : `Join ${name} — Free`;
-    if (priceType === "trial") return context === "short" ? "Start 7-Day Free Trial" : "Start 7-Day Free Trial";
     if (priceType === "annual") return `Join for $${price}/yr`;
     if (priceType === "one_time") return `Join for $${price}`;
     return `Join for $${price}/mo`;
@@ -208,10 +222,10 @@ export default function CommunityDetail() {
   return (
     <SiteLayout>
       {/* Sticky mobile CTA bar */}
-      <div className="sticky top-16 z-30 flex items-center justify-between gap-3 border-b border-border bg-background/95 px-4 py-2.5 backdrop-blur-sm md:hidden">
+      <div className="sticky top-16 z-30 flex items-center justify-between gap-2 border-b border-border bg-background/95 px-3 py-2 backdrop-blur-sm md:hidden">
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold">{community.displayName}</p>
-          <p className="text-xs text-muted-foreground">
+          <p className="truncate text-[13px] font-semibold leading-tight">{community.displayName}</p>
+          <p className="text-[11px] text-muted-foreground">
             TrustSkore <span className="font-bold text-foreground">{formatScore(community.trustSkore)}</span>
           </p>
         </div>
@@ -219,12 +233,12 @@ export default function CommunityDetail() {
           href={`/go/${community.slug}`}
           rel="sponsored noopener noreferrer"
           onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: priceType, source: "mobile_bar" })}
-          className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
+          className="inline-flex h-8 shrink-0 items-center gap-1 rounded-[4px] bg-[#F8D481] px-3 text-xs font-bold text-[#202124] transition-transform active:scale-[0.97]">
           {ctaLabel("short")} <ExternalLink className="h-3.5 w-3.5" />
         </a>
       </div>
 
-      <div className="container py-8 md:py-10">
+      <div className="container py-5 md:py-10">
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground">
@@ -246,16 +260,16 @@ export default function CommunityDetail() {
         )}
 
         {/* Header */}
-        <header className="mt-6 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-          <div className="flex items-start gap-4">
+        <header className="mt-4 flex flex-col gap-4 md:mt-6 md:flex-row md:items-start md:justify-between">
+          <div className="flex items-start gap-3 md:gap-4">
             {community.logoUrl ? (
               <img
                 src={community.logoUrl}
                 alt=""
-                className="h-16 w-16 shrink-0 rounded-full border border-border object-cover"
+                className="h-14 w-14 shrink-0 rounded-full border border-border object-cover md:h-16 md:w-16"
               />
             ) : (
-              <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-border bg-secondary text-lg font-semibold">
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-border bg-secondary text-base font-semibold md:h-16 md:w-16 md:text-lg">
                 {community.displayName
                   .split(/\s+/)
                   .slice(0, 2)
@@ -265,7 +279,7 @@ export default function CommunityDetail() {
             )}
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+                <h1 className="text-xl font-bold tracking-tight sm:text-2xl md:text-3xl">
                   {community.displayName}
                 </h1>
                 {isTrending && (
@@ -275,18 +289,13 @@ export default function CommunityDetail() {
                   </span>
                 )}
                 {isFree && <span className="badge-free">Free</span>}
-                {isTrial && (
-                  <span className="badge-trial" aria-label="7-day free trial">
-                    7-day trial
-                  </span>
-                )}
               </div>
               {community.description && (
-                <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-[15px]">
+                <p className="mt-1 line-clamp-2 max-w-xl text-xs leading-relaxed text-muted-foreground sm:line-clamp-none sm:text-sm md:text-[15px]">
                   {community.description}
                 </p>
               )}
-              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+              <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted-foreground sm:text-sm">
                 <span className="inline-flex items-center gap-1.5">
                   <Users className="h-4 w-4" /> {formatMembers(community.totalMembers)} members
                 </span>
@@ -301,10 +310,10 @@ export default function CommunityDetail() {
             </div>
           </div>
 
-          <div className="flex shrink-0 flex-col items-start gap-3 md:items-end">
+          <div className="flex shrink-0 flex-row items-center gap-3 md:flex-col md:items-end">
             <div className="flex items-center gap-3">
               <span
-                className={`flex h-16 w-16 items-center justify-center rounded-[4px] text-xl font-bold tabular-nums ${SCORE_TIER_CLASSES[scoreTier(community.trustSkore)]}`}>
+                className={`flex h-14 w-14 items-center justify-center rounded-[4px] text-lg font-bold tabular-nums md:h-16 md:w-16 md:text-xl ${SCORE_TIER_CLASSES[scoreTier(community.trustSkore)]}`}>
                 {formatScore(community.trustSkore)}
               </span>
               <div>
@@ -430,7 +439,7 @@ export default function CommunityDetail() {
             Growth history
           </h2>
           <div className="mt-4 grid gap-4 lg:grid-cols-3">
-            <ChartCard title="Members">
+            <ChartCard title="Members" empty={memberData.length < 2}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={memberData} margin={{ top: 5, right: 8, bottom: 0, left: 0 }}>
                   <CartesianGrid stroke={CHART_GRID} strokeDasharray="0" vertical={false} />
@@ -467,7 +476,7 @@ export default function CommunityDetail() {
               </ResponsiveContainer>
             </ChartCard>
 
-            <ChartCard title="Price (USD)">
+            <ChartCard title="Price (USD)" empty={priceData.length < 2}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={priceData} margin={{ top: 5, right: 8, bottom: 0, left: 0 }}>
                   <CartesianGrid stroke={CHART_GRID} vertical={false} />
@@ -508,7 +517,7 @@ export default function CommunityDetail() {
               </ResponsiveContainer>
             </ChartCard>
 
-            <ChartCard title="Discovery rank (lower is better)">
+            <ChartCard title="Discovery rank (lower is better)" empty={rankData.length < 2}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={rankData} margin={{ top: 5, right: 8, bottom: 0, left: 0 }}>
                   <CartesianGrid stroke={CHART_GRID} vertical={false} />
@@ -553,7 +562,7 @@ export default function CommunityDetail() {
           <section className="mt-12" aria-labelledby="founder-heading">
             <h2 id="founder-heading" className="text-lg font-semibold">About the Founder</h2>
             <div
-              className="prose prose-sm mt-4 max-w-none rounded-[4px] border border-border bg-card px-6 py-5 text-foreground [&_a]:text-foreground [&_a]:underline [&_a]:underline-offset-2 [&_h2]:text-base [&_h2]:font-semibold [&_h3]:text-sm [&_h3]:font-semibold [&_p]:text-sm [&_p]:leading-relaxed [&_p]:text-muted-foreground [&_ul]:text-sm [&_ul]:text-muted-foreground"
+              className="prose prose-sm mt-4 max-w-none rounded-[4px] border border-border bg-card px-4 py-4 text-foreground sm:px-6 sm:py-5 [&_a]:text-foreground [&_a]:underline [&_a]:underline-offset-2 [&_h2]:text-base [&_h2]:font-semibold [&_h3]:text-sm [&_h3]:font-semibold [&_p]:text-sm [&_p]:leading-relaxed [&_p]:text-muted-foreground [&_ul]:text-sm [&_ul]:text-muted-foreground"
               dangerouslySetInnerHTML={{ __html: founderPage.bodyHtml }}
             />
           </section>
@@ -574,11 +583,11 @@ export default function CommunityDetail() {
         )}
 
         {/* Bottom conversion CTA */}
-        <div className="mt-12 flex flex-col items-center gap-4 rounded-[4px] border border-border bg-card px-6 py-10 text-center">
+        <div className="mt-10 flex flex-col items-center gap-3 rounded-[4px] border border-border bg-card px-4 py-8 text-center sm:mt-12 sm:gap-4 sm:px-6 sm:py-10">
           <p className="max-w-md text-base leading-relaxed text-muted-foreground">
             Ready to join <strong className="font-semibold text-foreground">{community.displayName}</strong>?
             {priceType === "free" && " It's free — no credit card required."}
-            {priceType === "trial" && " Start with a 7-day free trial, then pay monthly."}
+            {priceType === "monthly" && " Monthly subscription — check the latest pricing on Skool."}
             {priceType === "annual" && " Annual membership — check the latest pricing on Skool."}
             {priceType === "one_time" && " One-time payment for lifetime access."}
             {priceType === "paid" && " Check the latest pricing and join directly on Skool."}

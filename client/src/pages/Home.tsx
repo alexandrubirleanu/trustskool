@@ -130,7 +130,7 @@ export default function Home() {
 
   const [search, setSearch] = useState(urlQuery);
   const [debounced, setDebounced] = useState(urlQuery);
-  const [language, setLanguage] = useState<string | undefined>();
+  const [language, setLanguage] = useState<string | undefined>("english");
   const [price, setPrice] = useState<PriceKey>("all");
   const [sort, setSort] = useState<SortKey>("trustSkore");
   const [direction, setDirection] = useState<"asc" | "desc">("desc");
@@ -224,11 +224,11 @@ export default function Home() {
     <SiteLayout>
       {/* Hero */}
       <section className="border-b border-border bg-card">
-        <div className="container py-8 md:py-12">
+        <div className="container py-6 md:py-12">
           {/* Two-column layout on desktop: headline left, stats right */}
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
-              <h1 className="text-[28px] font-bold leading-tight tracking-tight md:text-[42px]">
+              <h1 className="text-[24px] font-bold leading-tight tracking-tight sm:text-[28px] md:text-[42px]">
                 Find Skool communities worth joining — before you pay.
               </h1>
               <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
@@ -242,7 +242,7 @@ export default function Home() {
             {stats && (
               <div className="flex shrink-0 flex-wrap items-center gap-x-5 gap-y-2 md:flex-col md:items-end md:gap-y-1.5">
                 <StatPill value={fmtK(stats.totalCommunities)} label="communities indexed" />
-                <StatPill value={fmtK(stats.freeCommunities)} label="free or trial" />
+                <StatPill value={fmtK(stats.freeCommunities)} label="free to join" />
                 {stats.trendingCommunities > 0 && (
                   <StatPill value={fmtK(stats.trendingCommunities)} label="growing this month" />
                 )}
@@ -252,12 +252,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container py-8">
+      <section className="container py-5 sm:py-8">
         {/* Single unified filter + sort row */}
-        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-3 sm:gap-y-2">
 
-          {/* Left: price chips + language dropdown */}
-          <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Filters">
+          {/* Left: price chips + language dropdown — scrollable on mobile */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="group" aria-label="Filters">
             <button
               type="button"
               className="chip"
@@ -306,7 +306,7 @@ export default function Home() {
           </div>
 
           {/* Right: count + sort buttons */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 self-end sm:self-auto">
             <p className="hidden text-xs text-muted-foreground sm:block" aria-live="polite" aria-atomic="true">
               {isLoading && !data
                 ? "Loading…"
@@ -388,7 +388,7 @@ export default function Home() {
               type="button"
               disabled={page <= 1}
               onClick={() => setPage(p => Math.max(1, p - 1))}
-              className="inline-flex h-9 items-center gap-1 rounded-[4px] border border-border bg-card px-3 text-sm font-medium disabled:opacity-40 transition-colors hover:border-foreground">
+              className="inline-flex h-10 items-center gap-1 rounded-[4px] border border-border bg-card px-4 text-sm font-medium disabled:opacity-40 transition-colors hover:border-foreground active:scale-[0.97]">
               <ChevronLeft className="h-4 w-4" /> Prev
             </button>
             <span className="px-2 text-sm text-muted-foreground tabular-nums">
@@ -398,7 +398,7 @@ export default function Home() {
               type="button"
               disabled={page >= totalPages}
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-              className="inline-flex h-9 items-center gap-1 rounded-[4px] border border-border bg-card px-3 text-sm font-medium disabled:opacity-40 transition-colors hover:border-foreground">
+              className="inline-flex h-10 items-center gap-1 rounded-[4px] border border-border bg-card px-4 text-sm font-medium disabled:opacity-40 transition-colors hover:border-foreground active:scale-[0.97]">
               Next <ChevronRight className="h-4 w-4" />
             </button>
           </nav>

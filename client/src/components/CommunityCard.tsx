@@ -34,7 +34,7 @@ function Avatar({ name, logoUrl }: { name: string; logoUrl: string | null }) {
         src={logoUrl}
         alt=""
         loading="lazy"
-        className="h-12 w-12 shrink-0 rounded-full border border-border object-cover"
+        className="h-10 w-10 shrink-0 rounded-full border border-border object-cover sm:h-12 sm:w-12"
       />
     );
   }
@@ -44,7 +44,7 @@ function Avatar({ name, logoUrl }: { name: string; logoUrl: string | null }) {
     .map(w => w[0]?.toUpperCase() ?? "")
     .join("");
   return (
-    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-secondary text-sm font-semibold text-foreground">
+    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-secondary text-xs font-semibold text-foreground sm:h-12 sm:w-12 sm:text-sm">
       {initials}
     </span>
   );
@@ -72,8 +72,8 @@ export default function CommunityCard({
           price_type: priceType,
         })
       }
-      className="group flex items-center gap-4 border-b border-border bg-card px-4 py-4 transition-colors first:rounded-t-[4px] last:rounded-b-[4px] last:border-b-0 hover:bg-accent sm:px-5">
-      <span className="w-7 shrink-0 text-center text-sm font-semibold text-muted-foreground tabular-nums">
+      className="group flex items-center gap-3 border-b border-border bg-card px-3 py-3 transition-colors first:rounded-t-[4px] last:rounded-b-[4px] last:border-b-0 hover:bg-accent sm:gap-4 sm:px-5 sm:py-4">
+      <span className="w-6 shrink-0 text-center text-xs font-semibold text-muted-foreground tabular-nums sm:w-7 sm:text-sm">
         {rank}
       </span>
 
@@ -93,26 +93,23 @@ export default function CommunityCard({
             </span>
           )}
           {priceType === "free" && <span className="badge-free">Free</span>}
-          {priceType === "trial" && (
-            <span className="badge-trial" aria-label="7-day free trial available">
-              7-day trial
-            </span>
-          )}
         </div>
-        <p className="mt-0.5 hidden truncate text-sm text-muted-foreground sm:block">
-          {community.description}
-        </p>
-        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted-foreground">
+        {community.description && (
+          <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground sm:text-sm">
+            {community.description}
+          </p>
+        )}
+        <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0 text-xs text-muted-foreground sm:mt-1 sm:gap-x-3">
           <span className="inline-flex items-center gap-1">
             <Users className="h-3 w-3" />
             {formatMembers(community.totalMembers)}
           </span>
+          <span>{formatPrice(community.priceAmountCents, community.priceInterval)}</span>
           <span
             className={`inline-flex items-center gap-1 ${growth >= 0 ? "text-[oklch(0.5_0.12_155)]" : "text-[oklch(0.55_0.18_25)]"}`}>
             <GrowthIcon className="h-3 w-3" />
             {formatGrowth(growth)}
           </span>
-          <span>{formatPrice(community.priceAmountCents, community.priceInterval)}</span>
           {community.category && (
             <span className="hidden sm:inline">{formatCategory(community.category)}</span>
           )}
@@ -122,7 +119,7 @@ export default function CommunityCard({
 
       <div className="flex shrink-0 items-center gap-1.5">
         <span
-          className={`flex h-11 w-11 flex-col items-center justify-center rounded-[4px] text-sm font-bold tabular-nums ${SCORE_TIER_CLASSES[scoreTier(community.trustSkore)]}`}
+          className={`flex h-10 w-10 flex-col items-center justify-center rounded-[4px] text-sm font-bold tabular-nums sm:h-11 sm:w-11 ${SCORE_TIER_CLASSES[scoreTier(community.trustSkore)]}`}
           title={`TrustSkore ${formatScore(community.trustSkore)}`}>
           {formatScore(community.trustSkore)}
         </span>
