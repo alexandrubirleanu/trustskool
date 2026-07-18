@@ -69,8 +69,11 @@ def fetch_page(lang, page, category_id=None):
                 continue
             print(f"  ! request error for {lang} p={page}: {e}", file=sys.stderr)
             return "error"
-        except URLError as e:
-            print(f"  ! request error for {lang} p={page}: {e}", file=sys.stderr)
+        except (URLError, OSError, TimeoutError) as e:
+            # broadened from URLError-only: a bare socket.timeout/OSError mid-read is NOT
+            # wrapped as URLError and was crashing the whole process unhandled (root cause
+            # of the French expansion run dying mid-way on 2026-07-18).
+            print(f"  ! network error for {lang} p={page}: {e}", file=sys.stderr)
             wait = 10 * attempt
             time.sleep(wait)
             continue
@@ -227,13 +230,14 @@ def refresh_language(lang, snapshot_date):
     records, reached_natural_end = fetch_all_groups(lang)
     if not reached_natural_end:
         print(f"[{lang}] refresh INCOMPLETE, discarding partial snapshot (will retry next scheduled run)")
-        return
+        return False
     history_path = os.path.join(HISTORY_DIR, f"{lang}.jsonl")
     with open(history_path, "a", encoding="utf-8") as f:
         for r in records:
             r["scraped_at"] = snapshot_date
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
     print(f"[{lang}] refresh DONE: {len(records)} communities appended to {history_path} (snapshot {snapshot_date})")
+    return True
 
 
 TIER_A_MIN_COMMUNITIES = 500
@@ -284,8 +288,12 @@ def main():
     if refresh_mode:
         snapshot_date = datetime.date.today().isoformat()
         print(f"Refresh mode, snapshot date {snapshot_date}, languages: {only}")
-        for lang in only:
-            refresh_language(lang, snapshot_date)
+        failures = sum(1 for lang in only if not refresh_language(lang, snapshot_date))
+        # A silent total failure (e.g. Skool blocking this IP) must show as a red X in GitHub
+        # Actions, not a green checkmark identical to a clean run — this was a confirmed gap.
+        if only and failures / len(only) > 0.3:
+            print(f"FATAL: {failures}/{len(only)} languages failed this run (>30%) — exiting non-zero so CI flags it", file=sys.stderr)
+            sys.exit(1)
         return  # refresh mode doesn't touch the backfill files or the combined snapshot
 
     for lang in only:

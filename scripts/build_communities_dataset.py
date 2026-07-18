@@ -33,12 +33,19 @@ def load_jsonl(path):
 def main():
     today = datetime.date.today().isoformat()
 
+    # Files in DATA_DIR that are NOT per-language community snapshots (owner-level schemas,
+    # combined caches, etc) — the glob below must never treat these as community records.
+    NON_COMMUNITY_FILES = {"_all_combined.jsonl", "owner_profiles.jsonl", "owner_badges.jsonl"}
+
     # 1. Base records: latest full snapshot per language (from the backfill/latest scrape)
     communities = {}
     for path in sorted(glob.glob(os.path.join(DATA_DIR, "*.jsonl"))):
-        if os.path.basename(path) == "_all_combined.jsonl":
+        if os.path.basename(path) in NON_COMMUNITY_FILES:
             continue
         for rec in load_jsonl(path):
+            if "id" not in rec or "slug" not in rec:
+                print(f"WARNING: skipping non-community record in {path} (keys={list(rec.keys())})")
+                continue
             communities[rec["id"]] = {
                 "id": rec["id"],
                 "slug": rec["slug"],
@@ -66,6 +73,9 @@ def main():
     # 2. Overlay accumulated history snapshots (from --refresh runs over time)
     for path in sorted(glob.glob(os.path.join(HISTORY_DIR, "*.jsonl"))):
         for rec in load_jsonl(path):
+            if "id" not in rec or "slug" not in rec:
+                print(f"WARNING: skipping non-community record in {path} (keys={list(rec.keys())})")
+                continue
             cid = rec["id"]
             if cid not in communities:
                 # a community that only shows up in history (e.g. new since backfill) - register it
@@ -96,7 +106,25 @@ def main():
             communities[cid]["price_amount_cents"] = rec.get("price_amount_cents")
             communities[cid]["description"] = rec.get("description")
 
-    # 3. Flatten date-keyed dicts into sorted arrays matching the app's schema
+    # 3. Overlay owner badge/affiliate data (owner_badges.jsonl, one row per community,
+    # keyed by slug — last write wins if a community was refreshed more than once).
+    owner_badges_path = os.path.join(DATA_DIR, "owner_badges.jsonl")
+    badges_by_slug = {}
+    for rec in load_jsonl(owner_badges_path):
+        badges_by_slug[rec["slug"]] = rec
+    matched = 0
+    for c in communities.values():
+        b = badges_by_slug.get(c["slug"])
+        if b:
+            matched += 1
+        c["owner_handle"] = b.get("owner_handle") if b else None
+        c["owner_name"] = b.get("owner_name") if b else None
+        c["afl_percent"] = b.get("afl_percent") if b else None
+        c["mrr_status"] = b.get("mrr_status") if b else None
+        c["active_30d_streak"] = bool(b.get("active_30d_streak")) if b else False
+    print(f"Owner badge/affiliate data matched for {matched}/{len(communities)} communities")
+
+    # 4. Flatten date-keyed dicts into sorted arrays matching the app's schema
     output = []
     for c in communities.values():
         c["member_history"] = [
