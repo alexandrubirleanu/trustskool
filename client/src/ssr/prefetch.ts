@@ -87,15 +87,43 @@ export async function prefetchForPath(
     seed(qc, getQueryKey(trpc.communities.stats, undefined, "query"), stats);
     const jsonLd = {
       "@context": "https://schema.org",
-      "@type": "ItemList",
-      name: "Skool community leaderboard ranked by TrustSkore",
-      numberOfItems: list.total,
-      itemListElement: list.items.slice(0, 10).map((c, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: c.displayName,
-        url: `/community/${c.slug}`,
-      })),
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://trustskool.com/#website",
+          name: SITE,
+          url: "https://trustskool.com",
+          description: DESC,
+          potentialAction: {
+            "@type": "SearchAction",
+            target: {
+              "@type": "EntryPoint",
+              urlTemplate: "https://trustskool.com/?q={search_term_string}",
+            },
+            "query-input": "required name=search_term_string",
+          },
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://trustskool.com/#organization",
+          name: SITE,
+          url: "https://trustskool.com",
+          logo: "https://trustskool.com/manus-storage/trustskool-og_10a2b5e1.png",
+          description: "Independent leaderboard of Skool communities ranked by TrustSkore, an algorithmic trust score.",
+          sameAs: [],
+        },
+        {
+          "@type": "ItemList",
+          name: "Skool community leaderboard ranked by TrustSkore",
+          numberOfItems: list.total,
+          itemListElement: list.items.slice(0, 10).map((c, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: c.displayName,
+            url: `https://trustskool.com/community/${c.slug}`,
+          })),
+        },
+      ],
     };
     return {
       title: `${SITE}: Skool community leaderboard, ranked by TrustSkore`,
@@ -127,20 +155,43 @@ export async function prefetchForPath(
     // See: https://developers.google.com/search/docs/appearance/structured-data/sd-policies
     const jsonLd = {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      name: community.displayName,
-      description: desc,
-      url: `/community/${community.slug}`,
-      ...(community.logoUrl ? { logo: community.logoUrl } : {}),
-      // TrustSkore exposed as a plain additionalProperty, not as a Review/Rating.
-      additionalProperty: {
-        "@type": "PropertyValue",
-        name: "TrustSkore",
-        description: "Algorithmic momentum score (0-100) based on member growth, discovery-rank trajectory, and price stability. Not a user review or editorial rating.",
-        value: community.trustSkore,
-        minValue: 0,
-        maxValue: 100,
-      },
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://trustskool.com" },
+            { "@type": "ListItem", position: 2, name: community.displayName ?? community.slug, item: `https://trustskool.com/community/${community.slug}` },
+          ],
+        },
+        {
+          "@type": "Organization",
+          name: community.displayName,
+          description: desc,
+          url: `https://trustskool.com/community/${community.slug}`,
+          ...(community.logoUrl ? { logo: community.logoUrl } : {}),
+          // TrustSkore exposed as a plain additionalProperty, not as a Review/Rating.
+          additionalProperty: [
+            {
+              "@type": "PropertyValue",
+              name: "TrustSkore",
+              description: "Algorithmic momentum score (0-100) based on member growth, discovery-rank trajectory, and price stability. Not a user review or editorial rating.",
+              value: community.trustSkore,
+              minValue: 0,
+              maxValue: 100,
+            },
+            {
+              "@type": "PropertyValue",
+              name: "memberCount",
+              value: community.totalMembers,
+            },
+            ...(community.priceAmountCents != null ? [{
+              "@type": "PropertyValue",
+              name: "price",
+              value: `${(community.priceAmountCents / 100).toFixed(2)} ${community.priceCurrency ?? "USD"} / ${community.priceInterval ?? "one_time"}`,
+            }] : []),
+          ],
+        },
+      ],
     };
     return {
       title: community.displayName?.trim()

@@ -193,3 +193,11 @@
 - [ ] Build FraudReportForm component with fields: community URL/name, your email, description, evidence (optional); honeypot + rate-limit guard
 - [ ] Add form section to FraudResponse.tsx page below the existing policy content
 - [ ] Email to owner: branded HTML with all report fields, reply-to set to reporter's email
+
+## AI/LLM Optimization
+- [x] [AI-1] Enhanced llms.txt with rich structured sections (About, Coverage, Scoring, Data, Freshness, Usage, top 50 communities)
+- [x] [AI-2] Added /llms-full.txt endpoint (top 200 communities, machine-readable, served from seoRoutes.ts)
+- [x] [AI-3] JSON-LD improvements: homepage @graph (WebSite+SearchAction, Organization, ItemList); community detail @graph (BreadcrumbList + Organization with additionalProperty array for TrustSkore, memberCount, price)
+- [x] [AI-4] robots.txt updated with explicit AI crawler rules: GPTBot, ClaudeBot, PerplexityBot, anthropic-ai, cohere-ai, Meta-ExternalAgent (all allowed, no restrictions)
+- [x] [AI-5] Added <link rel="llms-txt" href="/llms.txt"> to client/index.html <head> for AI crawler discovery
+- [x] [AI-6] getTopCommunitiesForLlms(limit) DB helper added to dbCommunities.ts with isNull(isFlagged) filter

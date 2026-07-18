@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, like, ne, or, sql, type SQL } from "drizzle-orm";
+import { and, asc, desc, eq, isNull, like, ne, or, sql, type SQL } from "drizzle-orm";
 import {
   clicks,
   communities,
@@ -435,4 +435,25 @@ export async function getAdminOpportunityView() {
     .groupBy(communities.id)
     .orderBy(desc(sql`count(${clicks.id})`));
   return rows;
+}
+
+export async function getTopCommunitiesForLlms(limit = 200) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      slug: communities.slug,
+      displayName: communities.displayName,
+      totalMembers: communities.totalMembers,
+      trustSkore: communities.trustSkore,
+      priceAmountCents: communities.priceAmountCents,
+      priceInterval: communities.priceInterval,
+      language: communities.language,
+      category: communities.category,
+      description: communities.description,
+    })
+    .from(communities)
+    .where(isNull(communities.isFlagged))
+    .orderBy(desc(communities.totalMembers))
+    .limit(limit);
 }
