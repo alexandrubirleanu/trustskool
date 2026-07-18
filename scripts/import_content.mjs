@@ -53,10 +53,28 @@ function slugFromFile(filePath) {
   return path.basename(filePath, ".md");
 }
 
-/** Render markdown to HTML */
+/**
+ * Post-process HTML: add target="_blank" rel="noopener noreferrer" to all
+ * external links (http/https that don't point to trustskool.com).
+ */
+function addExternalLinkTargets(html) {
+  // marked v16 generates <a href="..."> (no leading space before href)
+  return html.replace(
+    /<a([^>]*?)href="(https?:\/\/(?!(?:www\.)?trustskool\.com)[^"]+)"([^>]*)>/gi,
+    (match, before, href, after) => {
+      // Don't double-add target if already present
+      if (match.includes('target=')) return match;
+      // Ensure there's always a space between <a and href
+      const sep = before || " ";
+      return `<a${sep}href="${href}"${after} target="_blank" rel="noopener noreferrer">`;
+    }
+  );
+}
+
+/** Render markdown to HTML with external links opening in new tab */
 function renderHtml(markdown) {
-  // Remove the frontmatter-derived h1 if it appears as first line
-  return marked.parse(markdown);
+  const raw = marked.parse(markdown);
+  return addExternalLinkTargets(raw);
 }
 
 /**
