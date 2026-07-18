@@ -14,6 +14,9 @@ import ResourcesHub from "./pages/ResourcesHub";
 import ResourceArticle from "./pages/ResourceArticle";
 import SkoolNews from "./pages/SkoolNews";
 import NewsArticle from "./pages/NewsArticle";
+import FaqHub from "./pages/FaqHub";
+import FaqArticle from "./pages/FaqArticle";
+import CategoryPage from "./pages/CategoryPage";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -27,6 +30,9 @@ function Router() {
       <Route path={"/resources/:slug"} component={ResourceArticle} />
       <Route path={"/news"} component={SkoolNews} />
       <Route path={"/news/:slug"} component={NewsArticle} />
+      <Route path={"/faq"} component={FaqHub} />
+      <Route path={"/faq/:slug"} component={FaqArticle} />
+      <Route path={"/categories/:slug"} component={CategoryPage} />
       <Route path={"/admin/clicks"} component={AdminClicks} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

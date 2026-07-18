@@ -33,11 +33,14 @@ export type CommunitiesListInput = {
 };
 
 // Deliberate allowlist: only these procedures are reachable from SSR prefetch.
+export type ContentPageType = "founder" | "category" | "guide" | "pillar" | "faq" | "skool-news";
+
 export type SsrPrefetch = {
   communitiesList: (input: CommunitiesListInput) => Promise<RO["communities"]["list"]>;
   communityBySlug: (slug: string) => Promise<RO["communities"]["bySlug"]>;
   communitiesFilters: () => Promise<RO["communities"]["filters"]>;
   communitiesStats: () => Promise<RO["communities"]["stats"]>;
+  contentBySlug: (slug: string, type: ContentPageType) => Promise<RO["content"]["bySlug"]>;
 };
 
 const SITE = BRAND_NAME;
@@ -169,6 +172,146 @@ export async function prefetchForPath(
         "How TrustSkool handles credible fraud and scam reports: delisting criteria, commission suspension rule, warning labels, and how to submit a report.",
       ogType: "website",
       canonicalPath: "/policy/fraud-response",
+    };
+  }
+
+  if (clean === "/resources") {
+    return {
+      title: `Resources — Skool community guides, pricing data & strategy · ${SITE}`,
+      description:
+        "In-depth guides and reference articles on Skool communities — pricing benchmarks, niche analysis, growth strategy, and how to evaluate a community before joining.",
+      ogType: "website",
+      canonicalPath: "/resources",
+    };
+  }
+
+  const resourceMatch = clean.match(/^\/resources\/([^/]+)$/);
+  if (resourceMatch) {
+    const slug = resourceMatch[1];
+    // Try guide first, then pillar, then faq (mirrors ResourceArticle.tsx)
+    let page = await p.contentBySlug(slug, "guide");
+    if (!page) page = await p.contentBySlug(slug, "pillar");
+    if (!page) page = await p.contentBySlug(slug, "faq");
+    if (!page) return { title: SITE, description: DESC, notFound: true };
+    const title = `${page.title} · ${SITE}`;
+    const desc = page.metaDescription ?? DESC;
+    const published = page.publishedAt ? new Date(page.publishedAt).toISOString() : undefined;
+    return {
+      title,
+      description: desc,
+      ogType: "article",
+      canonicalPath: `/resources/${slug}`,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: page.title,
+        description: desc,
+        url: `https://trustskool.com/resources/${slug}`,
+        ...(published ? { datePublished: published } : {}),
+        publisher: {
+          "@type": "Organization",
+          name: SITE,
+          url: "https://trustskool.com",
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://trustskool.com/resources/${slug}`,
+        },
+      },
+    };
+  }
+
+  if (clean === "/news") {
+    return {
+      title: `Skool News — latest updates from the Skool ecosystem · ${SITE}`,
+      description:
+        "Latest news, platform updates, and community highlights from the Skool ecosystem, curated by TrustSkool.",
+      ogType: "website",
+      canonicalPath: "/news",
+    };
+  }
+
+  const newsMatch = clean.match(/^\/news\/([^/]+)$/);
+  if (newsMatch) {
+    const slug = newsMatch[1];
+    const page = await p.contentBySlug(slug, "skool-news");
+    if (!page) return { title: SITE, description: DESC, notFound: true };
+    const title = `${page.title} · ${SITE} News`;
+    const desc = page.metaDescription ?? DESC;
+    const published = page.publishedAt ? new Date(page.publishedAt).toISOString() : undefined;
+    return {
+      title,
+      description: desc,
+      ogType: "article",
+      canonicalPath: `/news/${slug}`,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        headline: page.title,
+        description: desc,
+        url: `https://trustskool.com/news/${slug}`,
+        ...(published ? { datePublished: published } : {}),
+        publisher: {
+          "@type": "Organization",
+          name: SITE,
+          url: "https://trustskool.com",
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://trustskool.com/news/${slug}`,
+        },
+      },
+    };
+  }
+
+  if (clean === "/faq") {
+    return {
+      title: `FAQ — Skool community questions answered · ${SITE}`,
+      description:
+        "Frequently asked questions about Skool communities: pricing, joining, leaving, refunds, and how TrustSkore works.",
+      ogType: "website",
+      canonicalPath: "/faq",
+    };
+  }
+
+  const faqMatch = clean.match(/^\/faq\/([^/]+)$/);
+  if (faqMatch) {
+    const slug = faqMatch[1];
+    const page = await p.contentBySlug(slug, "faq");
+    if (!page) return { title: SITE, description: DESC, notFound: true };
+    const title = `${page.title} · ${SITE} FAQ`;
+    const desc = page.metaDescription ?? DESC;
+    return {
+      title,
+      description: desc,
+      ogType: "article",
+      canonicalPath: `/faq/${slug}`,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        name: page.title,
+        description: desc,
+        url: `https://trustskool.com/faq/${slug}`,
+        // mainEntity populated client-side from rendered H2/H3 headings;
+        // server-side we emit the page-level FAQPage type for crawler discovery.
+        publisher: {
+          "@type": "Organization",
+          name: SITE,
+          url: "https://trustskool.com",
+        },
+      },
+    };
+  }
+
+  const categoryMatch = clean.match(/^\/categories\/([^/]+)$/);
+  if (categoryMatch) {
+    const slug = categoryMatch[1];
+    const label = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    return {
+      title: `${label} Skool communities — ranked by TrustSkore · ${SITE}`,
+      description: `Browse the best ${label} communities on Skool, ranked by member growth, discovery momentum, and price stability.`,
+      ogType: "website",
+      canonicalPath: `/categories/${slug}`,
     };
   }
 

@@ -79,6 +79,23 @@ export default function AdminClicks() {
   }, [ownerProfiles, aflSort, stats]);
 
   const utils = trpc.useUtils();
+
+  const provisionDigest = trpc.admin.provisionDigestJob.useMutation({
+    onSuccess: result => {
+      if (result.created) {
+        toast.success(`Daily digest cron activated (next run: ${result.nextExecutionAt ?? "09:00 UTC"})`);
+      } else {
+        toast.info("Daily digest cron is already active.");
+      }
+    },
+    onError: err => toast.error(`Digest activation failed: ${err.message}`),
+  });
+
+  const { data: scheduledJobs } = trpc.admin.listScheduledJobs.useQuery(undefined, {
+    enabled: isAdmin,
+  });
+  const digestActive = scheduledJobs?.jobs?.some((j: { name: string }) => j.name === "daily-digest") ?? false;
+
   const runIngestion = trpc.admin.runIngestion.useMutation({
     onSuccess: result => {
       if (result.ok) {
@@ -143,18 +160,34 @@ export default function AdminClicks() {
                 ` · last data refresh ${formatTs(lastIngestion.createdAt)}`}
             </p>
           </div>
-          <Button
-            variant="outline"
-            className="bg-card"
-            disabled={runIngestion.isPending}
-            onClick={() => runIngestion.mutate()}>
-            {runIngestion.isPending ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <RefreshCw className="h-4 w-4" />
-            )}
-            Run ingestion now
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              className="bg-card"
+              disabled={digestActive || provisionDigest.isPending}
+              onClick={() => provisionDigest.mutate()}>
+              {provisionDigest.isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : digestActive ? (
+                <span className="inline-block h-2 w-2 rounded-full bg-green-500" />
+              ) : (
+                <span className="inline-block h-2 w-2 rounded-full bg-amber-400" />
+              )}
+              {digestActive ? "Digest active (09:00 UTC)" : "Activate daily digest"}
+            </Button>
+            <Button
+              variant="outline"
+              className="bg-card"
+              disabled={runIngestion.isPending}
+              onClick={() => runIngestion.mutate()}>
+              {runIngestion.isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <RefreshCw className="h-4 w-4" />
+              )}
+              Run ingestion now
+            </Button>
+          </div>
         </div>
 
         {/* Per-community counts */}

@@ -148,11 +148,12 @@
 - [x] /api/scheduled/digest callback registered; buildDigestEmail + sendDailyDigest implemented
 - [x] getClicksForDigest(since, until) DB helper with community join
 - [x] All clicks still logged to DB regardless of tier (admin stays complete)
-- [ ] Register daily digest Heartbeat cron job at 09:00 UTC via admin panel or startup provisioning
+- [x] Register daily digest Heartbeat cron job at 09:00 UTC via admin panel or startup provisioning (taskUid EQbQmy9kAjAE339Rke3aYw, next run 2026-07-19T09:00:00Z)
 
 ## Content routes follow-ups
-- [ ] Add SSR head meta (title, description, canonical, OG) for /resources, /resources/:slug, /news, /news/:slug in prefetch.ts
-- [ ] Add Article JSON-LD to /resources/:slug and /news/:slug article pages
-- [ ] Build /categories/:slug pages using content/categories framing copy
-- [ ] Build standalone /faq index + /faq/:slug with FAQPage JSON-LD
-- [ ] Register daily digest Heartbeat cron job at 09:00 UTC (one-time setup via admin or startup)
+- [x] Add SSR head meta (title, description, canonical, OG) for /resources, /resources/:slug, /news, /news/:slug, /faq, /faq/:slug, /categories/:slug in prefetch.ts
+- [x] Add Article JSON-LD to /resources/:slug and NewsArticle JSON-LD to /news/:slug
+- [x] Build /categories/:slug pages using content/categories framing copy + community list filtered by category
+- [x] Build standalone /faq index + /faq/:slug article reader
+- [x] provisionDigestJob + listScheduledJobs admin tRPC procedures added (idempotent, calls /api/scheduled/digest at 09:00 UTC daily)
+- [x] Activate digest cron: "Activate daily digest" button added to /admin/clicks panel (amber dot = inactive, green dot = active; idempotent, one-time setup)

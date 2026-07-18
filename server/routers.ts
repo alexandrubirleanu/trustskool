@@ -18,6 +18,7 @@ import {
 } from "./dbCommunities";
 import { runIngestion } from "./ingestion";
 import { computeMrrEstimate, type MrrStatus } from "./mrrEstimate";
+import { createHeartbeatJob, listHeartbeatJobs } from "./_core/heartbeat";
 import {
   getCategoryPage,
   getContentPage,
@@ -204,6 +205,30 @@ export const appRouter = router({
     runIngestion: adminProcedure
       .input(z.object({ datasetUrl: z.string().url().optional() }).optional())
       .mutation(({ input }) => runIngestion(input?.datasetUrl)),
+    /** Provision the daily digest cron job (idempotent: checks if already exists first) */
+    provisionDigestJob: adminProcedure.mutation(async ({ ctx }) => {
+      const session = ctx.req.cookies?.session ?? "";
+      // Check existing jobs to avoid duplicates
+      const existing = await listHeartbeatJobs(session);
+      const alreadyExists = existing.jobs.some((j: { name: string }) => j.name === "daily-digest");
+      if (alreadyExists) return { created: false, message: "Daily digest job already provisioned" };
+      const result = await createHeartbeatJob(
+        {
+          name: "daily-digest",
+          cron: "0 0 9 * * *", // 09:00 UTC daily
+          path: "/api/scheduled/digest",
+          method: "POST",
+          description: "Daily email digest of Tier B affiliate clicks (free/unknown-commission communities)",
+        },
+        session,
+      );
+      return { created: true, taskUid: result.taskUid, nextExecutionAt: result.nextExecutionAt };
+    }),
+    /** List all scheduled heartbeat jobs */
+    listScheduledJobs: adminProcedure.query(async ({ ctx }) => {
+      const session = ctx.req.cookies?.session ?? "";
+      return listHeartbeatJobs(session);
+    }),
   }),
 });
 
