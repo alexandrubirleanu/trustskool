@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { InsertCommunity } from "../drizzle/schema";
 import { serverConfig } from "./config";
 import { logIngestionRun, upsertCommunity } from "./dbCommunities";
-import { computeBreakdown, computeGrowthRatePct, computeTrustSkore } from "./trustskore";
+import { computeBreakdown, computeGrowthRatePct, computeTrustSkoreWithFloor } from "./trustskore";
 
 /**
  * Data ingestion from the external GitHub Actions pipeline.
@@ -12,7 +12,7 @@ import { computeBreakdown, computeGrowthRatePct, computeTrustSkore } from "./tru
 
 const historyPoint = z.object({ date: z.string() }).passthrough();
 
-const communityRecordSchema = z.object({
+export const communityRecordSchema = z.object({
   id: z.string().min(1),
   slug: z.string().min(1),
   url: z.string().url(),
@@ -62,7 +62,10 @@ export function toCommunityRow(record: PipelineCommunityRecord): InsertCommunity
   const breakdown =
     record.score_breakdown ??
     computeBreakdown({ memberHistory, priceHistory, rankHistory });
-  const trustSkore = record.trust_score ?? computeTrustSkore(breakdown);
+  // Use floor-adjusted score when pipeline doesn't provide one (insufficient history)
+  const trustSkore =
+    record.trust_score ??
+    computeTrustSkoreWithFloor(breakdown, record.total_members, memberHistory, rankHistory);
   const growthRateBp = Math.round(computeGrowthRatePct(memberHistory) * 100);
 
   return {

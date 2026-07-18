@@ -4,6 +4,7 @@ import { getCommunityBySlug, getClickCountForSlug, insertClick, getOwnerProfileB
 import { sendClickNotification } from "./emailNotify";
 import { runDailyDigest } from "./digestJob";
 import { runIngestion } from "./ingestion";
+import { runTieredIngestion, runSlaMonitor } from "./tieredIngestion";
 import { sdk } from "./_core/sdk";
 
 /**
@@ -139,12 +140,76 @@ async function handleScheduledIngest(req: Request, res: Response) {
   }
 }
 
+/** Tiered ingestion: hot tier (top 500 communities, runs every 24-48h) */
+async function handleScheduledIngestHot(req: Request, res: Response) {
+  try {
+    const user = await sdk.authenticateRequest(req);
+    if (!user.isCron) return res.status(403).json({ error: "cron-only" });
+    const result = await runTieredIngestion("hot");
+    return res.json({ tier: "hot", ...result });
+  } catch (err) {
+    console.error("[ScheduledIngest/hot] Failed:", err);
+    return res.status(500).json({ error: String(err), timestamp: new Date().toISOString() });
+  }
+}
+
+/** Tiered ingestion: warm tier (rank 501-3000, runs every 7-14d) */
+async function handleScheduledIngestWarm(req: Request, res: Response) {
+  try {
+    const user = await sdk.authenticateRequest(req);
+    if (!user.isCron) return res.status(403).json({ error: "cron-only" });
+    const result = await runTieredIngestion("warm");
+    return res.json({ tier: "warm", ...result });
+  } catch (err) {
+    console.error("[ScheduledIngest/warm] Failed:", err);
+    return res.status(500).json({ error: String(err), timestamp: new Date().toISOString() });
+  }
+}
+
+/** Tiered ingestion: cold tier (rank 3001+, runs every 30-45d) */
+async function handleScheduledIngestCold(req: Request, res: Response) {
+  try {
+    const user = await sdk.authenticateRequest(req);
+    if (!user.isCron) return res.status(403).json({ error: "cron-only" });
+    const result = await runTieredIngestion("cold");
+    return res.json({ tier: "cold", ...result });
+  } catch (err) {
+    console.error("[ScheduledIngest/cold] Failed:", err);
+    return res.status(500).json({ error: String(err), timestamp: new Date().toISOString() });
+  }
+}
+
+/** SLA monitor: check for overdue communities and send alert email if needed */
+async function handleScheduledSlaMonitor(req: Request, res: Response) {
+  try {
+    const user = await sdk.authenticateRequest(req);
+    if (!user.isCron) return res.status(403).json({ error: "cron-only" });
+    const result = await runSlaMonitor();
+    return res.json({ ...result, timestamp: new Date().toISOString() });
+  } catch (err) {
+    console.error("[ScheduledSlaMonitor] Failed:", err);
+    return res.status(500).json({ error: String(err), timestamp: new Date().toISOString() });
+  }
+}
+
 export function registerHttpRoutes(app: Express) {
   app.get("/go/:slug", (req, res) => {
     void handleGoRedirect(req, res);
   });
   app.post("/api/scheduled/ingest", (req, res) => {
     void handleScheduledIngest(req, res);
+  });
+  app.post("/api/scheduled/ingest/hot", (req, res) => {
+    void handleScheduledIngestHot(req, res);
+  });
+  app.post("/api/scheduled/ingest/warm", (req, res) => {
+    void handleScheduledIngestWarm(req, res);
+  });
+  app.post("/api/scheduled/ingest/cold", (req, res) => {
+    void handleScheduledIngestCold(req, res);
+  });
+  app.post("/api/scheduled/sla-monitor", (req, res) => {
+    void handleScheduledSlaMonitor(req, res);
   });
   app.post("/api/scheduled/digest", (req, res) => {
     void handleScheduledDigest(req, res);

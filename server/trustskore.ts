@@ -113,3 +113,56 @@ export function computeTrustSkore(breakdown: ScoreBreakdown): number {
     breakdown.price_stability * SCORE_WEIGHTS.price_stability;
   return clamp(round2(score));
 }
+
+/**
+ * Minimum TrustSkore floor based on member count.
+ * Applied when history is too short (<2 data points) to compute real momentum.
+ * Prevents popular communities from showing a misleading 60.0 flat score.
+ *
+ * Tiers (member count → floor):
+ *   10k+  → 82   (established large community)
+ *   5k+   → 78
+ *   2k+   → 72
+ *   1k+   → 67
+ *   500+  → 62
+ *   <500  → 50   (no floor — too small to assume trust)
+ */
+export function memberCountFloor(totalMembers: number): number {
+  if (totalMembers >= 10_000) return 82;
+  if (totalMembers >= 5_000)  return 78;
+  if (totalMembers >= 2_000)  return 72;
+  if (totalMembers >= 1_000)  return 67;
+  if (totalMembers >= 500)    return 62;
+  return 50;
+}
+
+/**
+ * Returns true when history arrays are too short to produce meaningful momentum.
+ * "Too short" = fewer than 2 data points in the most important arrays.
+ */
+export function hasInsufficientHistory(
+  memberHistory: { date: string }[] | null | undefined,
+  rankHistory: { date: string }[] | null | undefined,
+): boolean {
+  const mLen = memberHistory?.length ?? 0;
+  const rLen = rankHistory?.length ?? 0;
+  return mLen < 2 && rLen < 2;
+}
+
+/**
+ * Compute TrustSkore with member-count floor applied when history is too short.
+ * Once the pipeline accumulates ≥2 data points, the real score takes over.
+ */
+export function computeTrustSkoreWithFloor(
+  breakdown: ScoreBreakdown,
+  totalMembers: number,
+  memberHistory: { date: string }[] | null | undefined,
+  rankHistory: { date: string }[] | null | undefined,
+): number {
+  const raw = computeTrustSkore(breakdown);
+  if (hasInsufficientHistory(memberHistory, rankHistory)) {
+    const floor = memberCountFloor(totalMembers);
+    return Math.max(raw, floor);
+  }
+  return raw;
+}

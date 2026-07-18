@@ -122,7 +122,7 @@
 - [x] skool_click: track /go/signup links (nav desktop, nav mobile, home banner) — affiliate link to create a Skool community
 - [x] community_click: track /go/:slug CTA clicks (header, mobile_bar, bottom_cta) — affiliate link to join a specific community; also track card click on homepage list
 - [x] search_used: track search input (debounced, min 3 chars) with query param — fires once per distinct query
-- [ ] blog_cta_click: add tracking on blog article CTA links when blog pages are built (article_slug, cta_type params)
+- [ ] blog_cta_click: add tracking on blog article CTA links when blog pages are built (article_slug, cta_type params) — useDatafast hook ready, blocked on blog build
 - [x] Add datafast queue snippet to index.html head for reliable tracking
 
 ## Content ingestion (content/ → routes)
@@ -157,3 +157,13 @@
 - [x] Build standalone /faq index + /faq/:slug article reader
 - [x] provisionDigestJob + listScheduledJobs admin tRPC procedures added (idempotent, calls /api/scheduled/digest at 09:00 UTC daily)
 - [x] Activate digest cron: "Activate daily digest" button added to /admin/clicks panel (amber dot = inactive, green dot = active; idempotent, one-time setup)
+
+## TrustSkore floor fix + tiered update pipeline
+- [x] Fix TrustSkore: member-count floor added (computeTrustSkoreWithFloor) — 10k+→82, 5k-9999→78, 2k-4999→72, 1k-1999→67, 500-999→62, <500→50; floor only applied when history is insufficient (≤1 data point)
+- [x] Build tiered scheduler: hot (top 500), warm (501-3000), cold (3001+); recomputeAllTiers() runs after each hot-tier ingestion
+- [x] Discovery: new communities in pipeline dataset auto-upserted by existing ingestion path (upsert-on-conflict)
+- [x] SLA monitor: checkSlaBreach() queries lastScrapedAt per tier; runSlaMonitor() sends alert email if any tier has overdue communities
+- [x] Alert email: buildSlaAlertEmail() with tier breakdown, hours overdue, SLA targets table
+- [x] Tiered heartbeat jobs registered: ingest-hot (daily 02:00 UTC, taskUid 4B5w4urybpTaXHixXAJvCj), ingest-warm (Mon 03:00 UTC, taskUid PfaLpTspczNWKBBJnvVoMP), ingest-cold (1st/month 04:00 UTC, taskUid U8Ee5iSCwQzu8oUXFGq3pz), sla-monitor (daily 08:00 UTC, taskUid GZBMieBvUUFWCuwpt5zyKn)
+- [x] 20 new vitest tests for floor logic, hasInsufficientHistory, computeTrustSkoreWithFloor, tier thresholds, SLA windows — all 47 tests passing
+- [x] runTieredIngestion refactored: fetches full dataset once, slices by rank window (hot: 0-500, warm: 500-3000, cold: 3000+), upserts only tier slice, marks lastScrapedAt only for processed communities; TS errors fixed (export communityRecordSchema, export sendSlaAlertEmail)

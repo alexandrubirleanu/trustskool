@@ -267,3 +267,54 @@ export async function sendDailyDigest(rows: DigestRow[], windowLabel: string): P
   const email = buildDigestEmail(rows, windowLabel);
   return sendEmail(email);
 }
+
+export interface SlaBreachRow {
+  tier: string;
+  slug: string;
+  displayName: string;
+  totalMembers: number;
+  lastScrapedAt: Date | null;
+  hoursOverdue: number;
+}
+
+export function buildSlaAlertEmail(breaches: SlaBreachRow[]): { subject: string; html: string; text: string } {
+  const hotBreaches = breaches.filter(b => b.tier === "hot");
+  const warmBreaches = breaches.filter(b => b.tier === "warm");
+  const coldBreaches = breaches.filter(b => b.tier === "cold");
+
+  const subject = `⚠️ TrustSkool SLA breach: ${breaches.length} communities overdue (${hotBreaches.length} hot)`;
+
+  const tierSection = (label: string, rows: SlaBreachRow[]) => {
+    if (rows.length === 0) return "";
+    const items = rows
+      .slice(0, 20)
+      .map(r => `  • ${r.displayName} (${r.totalMembers.toLocaleString()} members) — ${r.hoursOverdue}h overdue`)
+      .join("\n");
+    return `\n${label} tier (${rows.length}):\n${items}\n`;
+  };
+
+  const body = [
+    `TrustSkool pipeline SLA breach detected at ${new Date().toUTCString()}.`,
+    "",
+    `Total overdue: ${breaches.length} communities`,
+    tierSection("🔴 HOT", hotBreaches),
+    tierSection("🟡 WARM", warmBreaches),
+    tierSection("🔵 COLD", coldBreaches),
+    "",
+    "Action required: check the GitHub Actions pipeline and re-run the affected tier jobs.",
+    "",
+    "SLA targets:",
+    "  hot  → refresh every 24-48h (alert after 72h)",
+    "  warm → refresh every 7-14d  (alert after 21d)",
+    "  cold → refresh every 30-45d (alert after 60d)",
+  ].join("\n");
+
+  const html = `<pre style="font-family:monospace;font-size:13px">${body.replace(/&/g,"&amp;").replace(/</g,"&lt;")}</pre>`;
+  return { subject, html, text: body };
+}
+
+export async function sendSlaAlertEmail(breaches: SlaBreachRow[]): Promise<boolean> {
+  if (breaches.length === 0) return false;
+  const email = buildSlaAlertEmail(breaches);
+  return sendEmail(email);
+}

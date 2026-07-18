@@ -86,6 +86,14 @@ export const communities = mysqlTable(
     /** Optional human-readable reason shown to users on the community page. */
     flagReason: text("flagReason"),
     ingestedAt: timestamp("ingestedAt").defaultNow().notNull(),
+    /**
+     * Tiered update schedule: hot = top 500 by members (refresh every 24-48h),
+     * warm = 500-3000 (every 7-14d), cold = rest (every 30-45d).
+     * Recomputed on each ingestion run based on current totalMembers rank.
+     */
+    updateTier: mysqlEnum("updateTier", ["hot", "warm", "cold"]).default("cold").notNull(),
+    /** Timestamp of the last successful data refresh from the pipeline. */
+    lastScrapedAt: timestamp("lastScrapedAt"),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
     updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   },
