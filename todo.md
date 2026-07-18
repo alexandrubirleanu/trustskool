@@ -244,3 +244,7 @@
 - [x] [ADMIN-6] /admin/clicks now renders same Admin component as /admin (both routes in App.tsx)
 - [x] [ADMIN-7] Allowlist: only alexbirle97@gmail.com and alexbirle@hey.com can request OTP
 - [x] [ADMIN-8] adminOtp.checkSession + adminOtp.logout procedures added; Sign out button in AdminDashboard
+
+## Community Detail Mobile UX (2026-07-18)
+- [x] [DETAIL-1] Sticky CTA bar moved to bottom (fixed bottom-0); slides in with translate-y transition only when main CTA block is scrolled off-screen (IntersectionObserver on mainCtaRef)
+- [x] [DETAIL-2] TrustSkore badge + Join button centered on mobile (flex-col items-center); button full-width on mobile (w-full), auto on desktop (md:w-auto)

@@ -1,5 +1,5 @@
 import { ArrowLeft, ExternalLink, TrendingDown, TrendingUp, Users, Zap } from "lucide-react";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -125,6 +125,21 @@ export default function CommunityDetail() {
 
   const { track } = useDatafast();
 
+  // Ref on the main CTA block; sticky bar appears only when this is off-screen
+  const mainCtaRef = useRef<HTMLDivElement>(null);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
+  useEffect(() => {
+    const el = mainCtaRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [community?.slug]);
+
   useEffect(() => {
     if (community) {
       document.title = `${community.displayName} · TrustSkore ${formatScore(community.trustSkore)} | TrustSkool`;
@@ -221,8 +236,11 @@ export default function CommunityDetail() {
 
   return (
     <SiteLayout>
-      {/* Sticky mobile CTA bar */}
-      <div className="sticky top-16 z-30 flex items-center justify-between gap-2 border-b border-border bg-background/95 px-3 py-2 backdrop-blur-sm md:hidden">
+      {/* Sticky bottom CTA bar — visible on mobile only when main CTA is scrolled off-screen */}
+      <div
+        className={`fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between gap-2 border-t border-border bg-background/95 px-3 py-2 backdrop-blur-sm transition-transform duration-200 md:hidden ${
+          showStickyBar ? "translate-y-0" : "translate-y-full"
+        }`}>
         <div className="min-w-0">
           <p className="truncate text-[13px] font-semibold leading-tight">{community.displayName}</p>
           <p className="text-[11px] text-muted-foreground">
@@ -311,7 +329,8 @@ export default function CommunityDetail() {
             </div>
           </div>
 
-          <div className="flex shrink-0 flex-row items-center gap-3 md:flex-col md:items-end">
+          {/* Main CTA block — observed by IntersectionObserver to show/hide sticky bar */}
+          <div ref={mainCtaRef} className="flex shrink-0 flex-col items-center gap-3 md:flex-col md:items-end">
             <div className="flex items-center gap-3">
               <span
                 className={`flex h-14 w-14 items-center justify-center rounded-[4px] text-lg font-bold tabular-nums md:h-16 md:w-16 md:text-xl ${SCORE_TIER_CLASSES[scoreTier(community.trustSkore)]}`}>
@@ -330,7 +349,7 @@ export default function CommunityDetail() {
               href={`/go/${community.slug}`}
               target="_blank" rel="sponsored noopener noreferrer"
               onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: priceType, source: "header" })}
-            className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97] md:w-auto">
               {ctaLabel("short")} <ExternalLink className="h-4 w-4" />
             </a>
           </div>
