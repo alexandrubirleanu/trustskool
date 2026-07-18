@@ -22,6 +22,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { trpc } from "@/lib/trpc";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 /**
  * /admin — owner-only panel protected by email OTP.
@@ -286,40 +291,65 @@ function AdminDashboard({ email, onLogout }: { email: string; onLogout: () => vo
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button
-              variant="outline"
-              className="bg-card"
-              disabled={digestActive || provisionDigest.isPending}
-              onClick={() => provisionDigest.mutate()}>
-              {provisionDigest.isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : digestActive ? (
-                <span className="inline-block h-2 w-2 rounded-full bg-green-500" />
-              ) : (
-                <span className="inline-block h-2 w-2 rounded-full bg-amber-400" />
-              )}
-              {digestActive ? "Digest active (09:00 UTC)" : "Activate daily digest"}
-            </Button>
-            <Button
-              variant="outline"
-              className="bg-card"
-              disabled={runIngestion.isPending}
-              onClick={() => runIngestion.mutate()}>
-              {runIngestion.isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <RefreshCw className="h-4 w-4" />
-              )}
-              Run ingestion now
-            </Button>
-            <Button
-              variant="outline"
-              className="bg-card"
-              disabled={logoutMutation.isPending}
-              onClick={() => logoutMutation.mutate()}>
-              <LogOut className="h-4 w-4" />
-              Sign out
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="bg-card"
+                  disabled={digestActive || provisionDigest.isPending}
+                  onClick={() => provisionDigest.mutate()}>
+                  {provisionDigest.isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : digestActive ? (
+                    <span className="inline-block h-2 w-2 rounded-full bg-green-500" />
+                  ) : (
+                    <span className="inline-block h-2 w-2 rounded-full bg-amber-400" />
+                  )}
+                  {digestActive ? "Digest active (09:00 UTC)" : "Activate daily digest"}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-[240px] text-center">
+                {digestActive
+                  ? "A daily summary email is sent at 09:00 UTC with all Tier-B clicks (free communities or unknown commission) from the past 24 hours."
+                  : "Register the daily digest cron job. It sends a summary email at 09:00 UTC for Tier-B clicks. One-time setup — safe to click again if already active."}
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="bg-card"
+                  disabled={runIngestion.isPending}
+                  onClick={() => runIngestion.mutate()}>
+                  {runIngestion.isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <RefreshCw className="h-4 w-4" />
+                  )}
+                  Run ingestion now
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-[260px] text-center">
+                Fetches the latest communities.json from the GitHub dataset and upserts all communities into the database. Run this to update from the old 8k dataset to the current 22k+ dataset. Takes 30-60 seconds.
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="bg-card"
+                  disabled={logoutMutation.isPending}
+                  onClick={() => logoutMutation.mutate()}>
+                  <LogOut className="h-4 w-4" />
+                  Sign out
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                End your admin session. The OTP cookie will be cleared and you will need to re-authenticate.
+              </TooltipContent>
+            </Tooltip>
           </div>
         </div>
 
@@ -475,15 +505,24 @@ function AdminDashboard({ email, onLogout }: { email: string; onLogout: () => vo
                         {row.aflPercent != null ? `${row.aflPercent}%` : "·"}
                       </TableCell>
                       <TableCell className="text-right">
-                        <button
-                          onClick={() => toggleOwnerJoined.mutate({ slug: row.slug, joined: !row.ownerJoined })}
-                          className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground">
-                          {row.ownerJoined ? (
-                            <CheckCircle2 className="h-4 w-4 text-green-500" />
-                          ) : (
-                            <Circle className="h-4 w-4" />
-                          )}
-                        </button>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button
+                              onClick={() => toggleOwnerJoined.mutate({ slug: row.slug, joined: !row.ownerJoined })}
+                              className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground">
+                              {row.ownerJoined ? (
+                                <CheckCircle2 className="h-4 w-4 text-green-500" />
+                              ) : (
+                                <Circle className="h-4 w-4" />
+                              )}
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent side="left">
+                            {row.ownerJoined
+                              ? "You have activated the affiliate link for this community. Click to unmark."
+                              : "Click to mark as joined — you have activated the affiliate link for this community."}
+                          </TooltipContent>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   ))}

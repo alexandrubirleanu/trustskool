@@ -258,3 +258,7 @@
 
 ## FiltersBar Redesign v2 (2026-07-18)
 - [x] [FILTERS-1] Replaced two-row filter bar with single-row FiltersBar component: "Filters" dropdown button (SlidersHorizontal icon + active count badge) opens panel with Price section (All/Free/Paid) + Language section; Sort buttons (Score/Members/Growth short labels on mobile, full on sm+) take remaining space; Clear button (X icon) when filters active; community count below the row. No overflow on 390px viewport.
+
+## Admin UX Improvements (2026-07-18)
+- [x] [ADMIN-UX-1] Added Tooltip components to all three action buttons in /admin header: "Activate daily digest" (explains Tier-B cron, 09:00 UTC, one-time setup), "Run ingestion now" (explains GitHub dataset fetch, 8k→22k+ update, ~30-60s), "Sign out" (explains cookie clearing + re-auth needed)
+- [x] [ADMIN-UX-2] Added Tooltip to "Joined" toggle in Opportunity view table: explains affiliate link activation status, shows different text for joined vs unjoined state
