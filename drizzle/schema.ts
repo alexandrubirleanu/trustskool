@@ -1,5 +1,6 @@
 import {
   bigint,
+  boolean,
   double,
   index,
   int,
@@ -100,6 +101,27 @@ export const communities = mysqlTable(
     updateTier: mysqlEnum("updateTier", ["hot", "warm", "cold"]).default("cold").notNull(),
     /** Timestamp of the last successful data refresh from the pipeline. */
     lastScrapedAt: timestamp("lastScrapedAt"),
+    /**
+     * Affiliate commission percentage for this community (from owner_badges pipeline data).
+     * null = not available yet.
+     */
+    aflPercent: double("aflPercent"),
+    /**
+     * Owner MRR badge from Skool (none | clover | liftoff | rocket | crown | diamond | red_diamond | goat | goated).
+     * Pulled from owner_badges pipeline data.
+     */
+    mrrStatus: varchar("mrrStatus", { length: 32 }),
+    /** Owner display name from pipeline data. */
+    ownerName: varchar("ownerName", { length: 255 }),
+    /** Owner 30-day active streak from pipeline data. */
+    active30dStreak: int("active30dStreak"),
+    /**
+     * Whether the site owner has personally joined this community to activate affiliate revenue.
+     * Set manually via admin mutation.
+     */
+    ownerJoined: boolean("ownerJoined").default(false).notNull(),
+    /** Timestamp when ownerJoined was set to true. */
+    ownerJoinedAt: timestamp("ownerJoinedAt"),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
     updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   },
@@ -219,6 +241,7 @@ export const contentPages = mysqlTable(
     slug: varchar("slug", { length: 255 }).notNull(),
     type: mysqlEnum("type", [
       "founder",
+      "review",
       "category",
       "guide",
       "pillar",

@@ -123,6 +123,12 @@
 - [x] community_click: track /go/:slug CTA clicks (header, mobile_bar, bottom_cta) — affiliate link to join a specific community; also track card click on homepage list
 - [x] search_used: track search input (debounced, min 3 chars) with query param — fires once per distinct query
 - [ ] blog_cta_click: add tracking on blog article CTA links when blog pages are built
+- [x] [AUDIT-3] ownerJoined (boolean) + ownerJoinedAt (timestamp) columns in communities table; admin mutation toggleOwnerJoined; checkbox/filter in AdminClicks
+- [x] [AUDIT-2] Pull afl_percent + mrrStatus + ownerName + active30d_streak into communities table columns from ingestion dataset; update ingestion.ts to map these fields; MRR UI gets real data
+- [x] [AUDIT-1] Add 'review' to contentPages.type enum; add /founders/:slug and /reviews/:slug routes in App.tsx; build FounderPage and ReviewPage components; SSR meta tags; sitemap entries after routes are live
+- [x] [AUDIT-4] Admin decision-support view in /admin/clicks: click count + TrustSkore + afl_percent + ownerJoined per community, sortable; toggleOwnerJoined mutation with optimistic invalidate
+- [x] [AUDIT-5] Tiered click-notification emails: shouldSendTierA() updated with notYetJoined gate; ownerJoined passed from httpRoutes.ts to ClickNotification; already-joined communities downgraded to digest
+- [x] [AUDIT-6] Sitemap index: /sitemap.xml as sitemapindex; /sitemap-communities-N.xml (10k chunks, static pages in chunk 1); /sitemap-content.xml (founder/review/category/guide/pillar/faq/skool-news); robots.txt Sitemap: points to index; llms.txt updated
 - [x] Remove duplicate hero search bar; keep only the header search
 - [x] Optimize above-the-fold: tighter hero padding (py-8/py-12), two-column desktop layout (headline left, stats right), mobile compact with stat pills inline, description shortened for mobile
 - [x] Bootstrap TrustSkore: isBootstrapScore() helper (>=2000 members, <3 snapshots); computeBreakdownWithBootstrap() returns growth_momentum=80/ranking_momentum=75 for bootstrap communities; ingestion.ts switched to computeBreakdownWithBootstrap; isBootstrap flag stored in scoreBreakdown JSON; CommunityDetail shows amber inline note when breakdown.isBootstrap=true; ScoreBreakdown type extended with optional isBootstrap field; 12 new tests (isBootstrapScore x7, computeBreakdownWithBootstrap x5); 59/59 tests passing

@@ -17,6 +17,8 @@ import NewsArticle from "./pages/NewsArticle";
 import FaqHub from "./pages/FaqHub";
 import FaqArticle from "./pages/FaqArticle";
 import CategoryPage from "./pages/CategoryPage";
+import FounderPage from "./pages/FounderPage";
+import ReviewPage from "./pages/ReviewPage";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -33,6 +35,8 @@ function Router() {
       <Route path={"/faq"} component={FaqHub} />
       <Route path={"/faq/:slug"} component={FaqArticle} />
       <Route path={"/categories/:slug"} component={CategoryPage} />
+      <Route path={"/founders/:slug"} component={FounderPage} />
+      <Route path={"/reviews/:slug"} component={ReviewPage} />
       <Route path={"/admin/clicks"} component={AdminClicks} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

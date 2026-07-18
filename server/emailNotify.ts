@@ -28,6 +28,11 @@ export interface ClickNotification {
   clickCount?: number;
   /** Affiliate commission percentage (0-100). Present when owner profile is known. */
   aflPercent?: number | null;
+  /**
+   * Whether the site owner has already joined this community.
+   * When true, the affiliate revenue stream is already active — downgrade to digest.
+   */
+  ownerJoined?: boolean | null;
 }
 
 export interface DigestRow {
@@ -148,7 +153,10 @@ export function shouldSendTierA(click: ClickNotification): boolean {
   if (click.slug === "signup") return true; // always notify on signup clicks
   const isPaid = click.priceAmountCents != null && click.priceAmountCents > 0;
   const hasCommission = click.aflPercent != null && click.aflPercent > 0;
-  return isPaid && hasCommission;
+  // If the owner has already joined, the revenue stream is active — no need for
+  // a per-click alert. Downgrade to the daily digest instead.
+  const notYetJoined = !click.ownerJoined;
+  return isPaid && hasCommission && notYetJoined;
 }
 
 // ─── Tier B: daily digest email ──────────────────────────────────────────────

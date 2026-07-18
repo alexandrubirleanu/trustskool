@@ -33,7 +33,7 @@ export type CommunitiesListInput = {
 };
 
 // Deliberate allowlist: only these procedures are reachable from SSR prefetch.
-export type ContentPageType = "founder" | "category" | "guide" | "pillar" | "faq" | "skool-news";
+export type ContentPageType = "founder" | "review" | "category" | "guide" | "pillar" | "faq" | "skool-news";
 
 export type SsrPrefetch = {
   communitiesList: (input: CommunitiesListInput) => Promise<RO["communities"]["list"]>;
@@ -298,6 +298,68 @@ export async function prefetchForPath(
           "@type": "Organization",
           name: SITE,
           url: "https://trustskool.com",
+        },
+      },
+    };
+  }
+
+  const founderMatch = clean.match(/^\/founders\/([^/]+)$/);
+  if (founderMatch) {
+    const slug = founderMatch[1];
+    const page = await p.contentBySlug(slug, "founder");
+    if (!page) return { title: SITE, description: DESC, notFound: true };
+    const title = `${page.title} · ${SITE}`;
+    const desc = page.metaDescription ?? DESC;
+    const published = page.publishedAt ? new Date(page.publishedAt).toISOString() : undefined;
+    return {
+      title,
+      description: desc,
+      ogType: "article",
+      canonicalPath: `/founders/${slug}`,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        headline: page.title,
+        description: desc,
+        url: `https://trustskool.com/founders/${slug}`,
+        ...(published ? { datePublished: published } : {}),
+        publisher: {
+          "@type": "Organization",
+          name: SITE,
+          url: "https://trustskool.com",
+        },
+      },
+    };
+  }
+
+  const reviewMatch = clean.match(/^\/reviews\/([^/]+)$/);
+  if (reviewMatch) {
+    const slug = reviewMatch[1];
+    const page = await p.contentBySlug(slug, "review");
+    if (!page) return { title: SITE, description: DESC, notFound: true };
+    const title = `${page.title} · ${SITE}`;
+    const desc = page.metaDescription ?? DESC;
+    const published = page.publishedAt ? new Date(page.publishedAt).toISOString() : undefined;
+    return {
+      title,
+      description: desc,
+      ogType: "article",
+      canonicalPath: `/reviews/${slug}`,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: page.title,
+        description: desc,
+        url: `https://trustskool.com/reviews/${slug}`,
+        ...(published ? { datePublished: published } : {}),
+        publisher: {
+          "@type": "Organization",
+          name: SITE,
+          url: "https://trustskool.com",
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://trustskool.com/reviews/${slug}`,
         },
       },
     };

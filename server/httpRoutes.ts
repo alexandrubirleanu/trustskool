@@ -79,7 +79,9 @@ async function handleGoRedirect(req: Request, res: Response) {
   }
 
   // 4. Send the notification email BEFORE redirecting (bounded so a slow
-  //    email provider cannot hold the visitor hostage)
+  //    email provider cannot hold the visitor hostage).
+  // ownerJoined: when true, the affiliate revenue stream is already active —
+  // shouldSendTierA() will downgrade to digest instead of a per-click alert.
   await sendNotificationWithTimeout({
     slug: rawSlug,
     displayName,
@@ -91,6 +93,7 @@ async function handleGoRedirect(req: Request, res: Response) {
     language: community?.language ?? null,
     clickCount,
     aflPercent,
+    ownerJoined: community?.ownerJoined ?? null,
   });
 
   // 5. 302 redirect to Skool with the affiliate ref

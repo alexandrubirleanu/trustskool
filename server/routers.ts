@@ -4,6 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { adminProcedure, publicProcedure, router } from "./_core/trpc";
 import {
+  getAdminOpportunityView,
   getClickStats,
   getCommunityBySlug,
   getFilterOptions,
@@ -14,6 +15,7 @@ import {
   listClicks,
   listCommunities,
   listOwnerProfiles,
+  toggleOwnerJoined,
   upsertOwnerProfile,
 } from "./dbCommunities";
 import { runIngestion } from "./ingestion";
@@ -155,7 +157,7 @@ export const appRouter = router({
       .input(
         z.object({
           slug: z.string().min(1).max(255),
-          type: z.enum(["founder", "category", "guide", "pillar", "faq", "skool-news"]),
+          type: z.enum(["founder", "review", "category", "guide", "pillar", "faq", "skool-news"]),
         }),
       )
       .query(async ({ input }) => {
@@ -181,7 +183,7 @@ export const appRouter = router({
 
     /** List all pages of a given type */
     list: publicProcedure
-      .input(z.object({ type: z.enum(["founder", "category", "guide", "pillar", "faq", "skool-news"]) }))
+      .input(z.object({ type: z.enum(["founder", "review", "category", "guide", "pillar", "faq", "skool-news"]) }))
       .query(({ input }) => listContentPages(input.type)),
 
     /** List guides + pillar together for the Resources hub */
@@ -201,6 +203,12 @@ export const appRouter = router({
     clicks: adminProcedure
       .input(z.object({ limit: z.number().int().min(1).max(2000).default(500) }).optional())
       .query(({ input }) => listClicks(input?.limit ?? 500)),
+    /** Decision-support view: click count + TrustSkore + afl_percent + ownerJoined per community */
+    opportunityView: adminProcedure.query(() => getAdminOpportunityView()),
+    /** Toggle ownerJoined for a community */
+    toggleOwnerJoined: adminProcedure
+      .input(z.object({ slug: z.string().min(1), joined: z.boolean() }))
+      .mutation(({ input }) => toggleOwnerJoined(input.slug, input.joined)),
     lastIngestion: adminProcedure.query(async () => (await getLatestIngestionRun()) ?? null),
     runIngestion: adminProcedure
       .input(z.object({ datasetUrl: z.string().url().optional() }).optional())

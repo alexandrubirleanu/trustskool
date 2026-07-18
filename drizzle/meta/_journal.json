@@ -50,6 +50,13 @@
       "when": 1784392855512,
       "tag": "0006_bright_nightmare",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1784394615769,
+      "tag": "0007_gifted_the_professor",
+      "breakpoints": true
     }
   ]
 }

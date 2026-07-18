@@ -1,4 +1,4 @@
-import { Loader2, MousePointerClick, RefreshCw, ShieldAlert } from "lucide-react";
+import { CheckCircle2, Circle, Loader2, MousePointerClick, RefreshCw, ShieldAlert, TrendingUp } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -89,6 +89,30 @@ export default function AdminClicks() {
       }
     },
     onError: err => toast.error(`Digest activation failed: ${err.message}`),
+  });
+
+  const { data: opportunityView, isLoading: oppLoading } = trpc.admin.opportunityView.useQuery(undefined, {
+    enabled: isAdmin,
+  });
+
+  const [oppSort, setOppSort] = useState<"clicks" | "afl" | "trustSkore">("clicks");
+  const [showJoined, setShowJoined] = useState(false);
+
+  const sortedOpp = useMemo(() => {
+    if (!opportunityView) return [];
+    let rows = showJoined ? opportunityView : opportunityView.filter((r: typeof opportunityView[0]) => !r.ownerJoined);
+    if (oppSort === "clicks") rows = [...rows].sort((a, b) => Number(b.clickCount) - Number(a.clickCount));
+    else if (oppSort === "afl") rows = [...rows].sort((a, b) => (b.aflPercent ?? 0) - (a.aflPercent ?? 0));
+    else rows = [...rows].sort((a, b) => (b.trustSkore ?? 0) - (a.trustSkore ?? 0));
+    return rows;
+  }, [opportunityView, oppSort, showJoined]);
+
+  const toggleOwnerJoined = trpc.admin.toggleOwnerJoined.useMutation({
+    onSuccess: (_data, vars) => {
+      toast.success(vars.joined ? `Marked as joined: ${vars.slug}` : `Unmarked: ${vars.slug}`);
+      utils.admin.opportunityView.invalidate();
+    },
+    onError: err => toast.error(`Failed: ${err.message}`),
   });
 
   const { data: scheduledJobs } = trpc.admin.listScheduledJobs.useQuery(undefined, {
@@ -289,6 +313,110 @@ export default function AdminClicks() {
             </nav>
           )}
         </section>
+        {/* Opportunity view — decision-support table */}
+        <section className="mt-10" aria-labelledby="opp-heading">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 id="opp-heading" className="flex items-center gap-2 text-lg font-semibold">
+                <TrendingUp className="h-5 w-5 text-amber-500" />
+                Opportunity view
+              </h2>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                Communities with affiliate commission — sorted by revenue potential. Toggle "Joined" once you've activated the affiliate link.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 text-xs">
+              <span className="text-muted-foreground">Sort</span>
+              {(["clicks", "afl", "trustSkore"] as const).map(s => (
+                <button
+                  key={s}
+                  onClick={() => setOppSort(s)}
+                  className={`rounded px-2 py-1 font-medium transition-colors ${
+                    oppSort === s ? "bg-foreground text-background" : "bg-secondary text-muted-foreground hover:text-foreground"
+                  }`}>
+                  {s === "clicks" ? "Clicks" : s === "afl" ? "Afl %" : "TrustSkore"}
+                </button>
+              ))}
+              <button
+                onClick={() => setShowJoined(v => !v)}
+                className={`rounded px-2 py-1 font-medium transition-colors ${
+                  showJoined ? "bg-foreground text-background" : "bg-secondary text-muted-foreground hover:text-foreground"
+                }`}>
+                {showJoined ? "Hide joined" : "Show joined"}
+              </button>
+            </div>
+          </div>
+
+          {oppLoading ? (
+            <div className="mt-4 flex justify-center py-10">
+              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+            </div>
+          ) : sortedOpp.length > 0 ? (
+            <div className="mt-4 overflow-x-auto rounded-[4px] border border-border bg-card">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Community</TableHead>
+                    <TableHead className="text-right">Clicks</TableHead>
+                    <TableHead className="text-right">TrustSkore</TableHead>
+                    <TableHead className="text-right">Afl %</TableHead>
+                    <TableHead className="text-right">MRR badge</TableHead>
+                    <TableHead className="text-center">Joined</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {sortedOpp.map((row: (typeof sortedOpp)[0]) => (
+                    <TableRow key={row.slug} className={row.ownerJoined ? "opacity-50" : ""}>
+                      <TableCell>
+                        <div className="font-medium">{row.displayName}</div>
+                        <div className="text-xs text-muted-foreground">/{row.slug}</div>
+                        {row.ownerName && (
+                          <div className="text-xs text-muted-foreground">@{row.ownerName}</div>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right tabular-nums">
+                        {Number(row.clickCount)}
+                      </TableCell>
+                      <TableCell className="text-right tabular-nums font-semibold">
+                        {row.trustSkore != null ? row.trustSkore.toFixed(1) : "—"}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {row.aflPercent != null ? (
+                          <span className="font-bold text-amber-500">{row.aflPercent}%</span>
+                        ) : (
+                          <span className="text-muted-foreground italic">—</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <span className="text-xs text-muted-foreground">
+                          {row.mrrStatus ?? "—"}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <button
+                          title={row.ownerJoined ? "Mark as not joined" : "Mark as joined"}
+                          disabled={toggleOwnerJoined.isPending}
+                          onClick={() => toggleOwnerJoined.mutate({ slug: row.slug, joined: !row.ownerJoined })}
+                          className="inline-flex items-center justify-center transition-opacity hover:opacity-70 disabled:opacity-40">
+                          {row.ownerJoined ? (
+                            <CheckCircle2 className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <Circle className="h-5 w-5 text-muted-foreground" />
+                          )}
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          ) : (
+            <p className="mt-4 rounded-[4px] border border-border bg-card px-5 py-8 text-center text-sm text-muted-foreground">
+              No affiliate opportunities found. Run ingestion to populate owner badge data.
+            </p>
+          )}
+        </section>
+
         {/* Affiliate commission — internal only */}
         <section className="mt-10" aria-labelledby="afl-heading">
           <div className="flex flex-wrap items-center justify-between gap-3">

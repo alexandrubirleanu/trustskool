@@ -280,6 +280,11 @@ export async function upsertCommunity(record: InsertCommunity) {
         priceHistory: record.priceHistory ?? null,
         rankHistory: record.rankHistory ?? null,
         growthRateBp: record.growthRateBp ?? 0,
+        // Owner badge fields — only update if the pipeline provides them (null = not yet scraped)
+        ...(record.aflPercent !== undefined && { aflPercent: record.aflPercent }),
+        ...(record.mrrStatus !== undefined && { mrrStatus: record.mrrStatus }),
+        ...(record.ownerName !== undefined && { ownerName: record.ownerName }),
+        ...(record.active30dStreak !== undefined && { active30dStreak: record.active30dStreak }),
         ingestedAt: new Date(),
       },
     });
@@ -388,4 +393,47 @@ export async function getPlatformStats() {
     trendingCommunities: Number(trendingRows[0]?.count ?? 0),
     totalClicks: Number(clickRows[0]?.count ?? 0),
   };
+}
+
+/** Toggle ownerJoined for a community. Returns the new state. */
+export async function toggleOwnerJoined(slug: string, joined: boolean): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db
+    .update(communities)
+    .set({
+      ownerJoined: joined,
+      ownerJoinedAt: joined ? new Date() : null,
+    })
+    .where(eq(communities.slug, slug));
+}
+
+/**
+ * Admin decision-support view: communities with click count, TrustSkore,
+ * afl_percent and ownerJoined status. Used to prioritise which community
+ * to join next to activate affiliate revenue.
+ */
+export async function getAdminOpportunityView() {
+  const db = await getDb();
+  if (!db) return [];
+  const rows = await db
+    .select({
+      slug: communities.slug,
+      displayName: communities.displayName,
+      trustSkore: communities.trustSkore,
+      totalMembers: communities.totalMembers,
+      aflPercent: communities.aflPercent,
+      mrrStatus: communities.mrrStatus,
+      ownerName: communities.ownerName,
+      ownerJoined: communities.ownerJoined,
+      ownerJoinedAt: communities.ownerJoinedAt,
+      priceAmountCents: communities.priceAmountCents,
+      priceInterval: communities.priceInterval,
+      clickCount: sql<number>`count(${clicks.id})`,
+    })
+    .from(communities)
+    .leftJoin(clicks, eq(clicks.slug, communities.slug))
+    .groupBy(communities.id)
+    .orderBy(desc(sql`count(${clicks.id})`));
+  return rows;
 }

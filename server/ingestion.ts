@@ -45,6 +45,14 @@ export const communityRecordSchema = z.object({
     .array(historyPoint.extend({ discovery_rank: z.number().int().positive() }))
     .optional()
     .default([]),
+  /** Owner affiliate commission % for this community (from owner_badges pipeline data) */
+  afl_percent: z.number().min(0).max(100).nullable().optional(),
+  /** Owner MRR badge from Skool */
+  mrr_status: z.string().nullable().optional(),
+  /** Owner display name */
+  owner_name: z.string().nullable().optional(),
+  /** Owner 30-day active streak */
+  active_30d_streak: z.number().int().nonnegative().nullable().optional(),
 });
 
 export type PipelineCommunityRecord = z.infer<typeof communityRecordSchema>;
@@ -100,6 +108,10 @@ export function toCommunityRow(record: PipelineCommunityRecord): InsertCommunity
     priceHistory,
     rankHistory,
     growthRateBp,
+    aflPercent: record.afl_percent ?? null,
+    mrrStatus: record.mrr_status ?? null,
+    ownerName: record.owner_name ?? null,
+    active30dStreak: record.active_30d_streak ?? null,
   };
 }
 
