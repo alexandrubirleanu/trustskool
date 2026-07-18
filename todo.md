@@ -200,6 +200,9 @@
 - [ ] Manually trigger a full ingestion run (admin panel) after confirming deploy is current with main, then verify: community count reaches ~22,502, aivideobootcamp-class communities (2,000+ members) show TrustSkore ~72-82 (not flat 60.0), and CommunityDetail shows the "isBootstrap" transparency note.
 - [ ] Separately reproduced live: clicking "Clear" in the homepage filter bar does not visibly reset the Language dropdown (stays on "English") or the community count (stays at 1000), even though the current Home.tsx clearAllFilters calls setLanguage(undefined) and should reset it. Given the DB/count staleness above, this may be masked by stale data, but re-test after a fresh deploy + ingestion since it did not change at all on click (not even a loading state), which also smells like a stale client bundle. Needs MANUS to re-test on a fresh deploy and, if it still reproduces, debug client-side (React state/hydration), since the current code reads as correct.
 
+## Real community counter
+- [x] Hero stat pills now show exact locale-formatted numbers (e.g. 22,502) instead of rounded k+ abbreviations; fmtK updated to n.toLocaleString()
+
 ## AI/LLM Optimization
 - [x] [AI-1] Enhanced llms.txt with rich structured sections (About, Coverage, Scoring, Data, Freshness, Usage, top 50 communities)
 - [x] [AI-2] Added /llms-full.txt endpoint (top 200 communities, machine-readable, served from seoRoutes.ts)

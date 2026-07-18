@@ -217,8 +217,8 @@ export default function Home() {
   // All languages shown in Skool's canonical order (ordered server-side)
   const languages = filters?.languages ?? [];
 
-  // Format stat numbers
-  const fmtK = (n: number) => n >= 1000 ? `${Math.round(n / 1000)}k+` : String(n);
+  // Format stat numbers: exact number with locale formatting (e.g. 22,502)
+  const fmtK = (n: number) => n.toLocaleString();
 
   return (
     <SiteLayout>
