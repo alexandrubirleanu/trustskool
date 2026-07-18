@@ -81,6 +81,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             </Link>
             <a
               href="/go/signup"
+              rel="sponsored noopener noreferrer"
               className="inline-flex h-9 items-center rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
               Start on Skool for $9
             </a>
@@ -106,6 +107,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
               </Link>
               <a
                 href="/go/signup"
+                rel="sponsored noopener noreferrer"
                 className="mt-1 inline-flex h-10 items-center justify-center rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124]">
                 Start on Skool for $9
               </a>
@@ -132,6 +134,9 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
               </Link>
               <Link href="/methodology" className="text-foreground/80 hover:text-foreground">
                 Methodology
+              </Link>
+              <Link href="/policy/fraud-response" className="text-foreground/80 hover:text-foreground">
+                Fraud Policy
               </Link>
               <a href="/llms.txt" className="text-foreground/80 hover:text-foreground">
                 llms.txt

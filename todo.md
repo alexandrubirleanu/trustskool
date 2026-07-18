@@ -81,3 +81,26 @@
 ## Filter bar UX fixes
 - [x] Replace expanded language chip row with compact Language dropdown (searchable, single-select, shows selected language name)
 - [x] Fix sort direction: always default to descending when switching sort column
+
+## SEO Gate 1: AggregateRating schema + rel=sponsored
+- [x] Remove AggregateRating/Review JSON-LD from community detail page SSR (prefetch.ts)
+- [x] Add rel="sponsored noopener noreferrer" to all /go/<slug> and /go/signup affiliate links sitewide
+
+## SEO Gate 2: Methodology Hub v2
+- [x] Expand /methodology with exact TrustSkore weights from trustskore.ts
+- [x] Add fully worked numeric example (real community inputs → final score)
+- [x] Add "What TrustSkore is NOT" section
+- [x] Add anti-gaming / anomaly-detection section
+- [x] Add data sources & provenance section
+- [x] Add versioned changelog section
+- [x] Add limitations section
+- [x] Add commission/placement-firewall statement
+
+## SEO Gate 3: Scam/fraud policy + disclaimer system
+- [x] Create /policy/fraud-response page with delisting criteria, commission-refusal rule
+- [x] Build reusable DisclaimerBanner component (parameterized by risk level)
+- [x] Add warning-label component for flagged communities
+
+## SEO Gate follow-ups
+- [ ] Replace hypothetical worked example in /methodology with real community data (pull actual member/rank/price history from DB, document exact inputs and resulting TrustSkore)
+- [ ] Add is_flagged / under_review field to communities table; render DisclaimerBanner on CommunityDetail for flagged communities (admin can set flag via DB or admin panel)

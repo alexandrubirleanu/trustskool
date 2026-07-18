@@ -182,7 +182,7 @@ export default function CommunityDetail() {
         </div>
         <a
           href={`/go/${community.slug}`}
-          rel="nofollow sponsored"
+          rel="sponsored noopener noreferrer"
           className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
           {isFree ? "Join Free" : "Start on Skool for $9"} <ExternalLink className="h-3.5 w-3.5" />
         </a>
@@ -261,7 +261,7 @@ export default function CommunityDetail() {
             </div>
             <a
               href={`/go/${community.slug}`}
-              rel="nofollow sponsored"
+              rel="sponsored noopener noreferrer"
               className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
               {isFree ? "Join Free" : "Start on Skool for $9"} <ExternalLink className="h-4 w-4" />
             </a>
@@ -459,7 +459,7 @@ export default function CommunityDetail() {
           </p>
           <a
             href={`/go/${community.slug}`}
-            rel="nofollow sponsored"
+            rel="sponsored noopener noreferrer"
             className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-8 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
             {isFree ? `Join ${community.displayName} — Free` : `Start on Skool for $9/mo`} <ExternalLink className="h-4 w-4" />
           </a>

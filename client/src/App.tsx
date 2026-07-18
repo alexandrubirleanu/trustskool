@@ -8,6 +8,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import AdminClicks from "./pages/AdminClicks";
 import CommunityDetail from "./pages/CommunityDetail";
 import Home from "./pages/Home";
+import FraudResponse from "./pages/FraudResponse";
 import Methodology from "./pages/Methodology";
 
 function Router() {
@@ -17,6 +18,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/community/:slug"} component={CommunityDetail} />
       <Route path={"/methodology"} component={Methodology} />
+      <Route path={"/policy/fraud-response"} component={FraudResponse} />
       <Route path={"/admin/clicks"} component={AdminClicks} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

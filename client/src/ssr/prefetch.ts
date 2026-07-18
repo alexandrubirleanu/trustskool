@@ -118,6 +118,10 @@ export async function prefetchForPath(
     const desc = community.description?.trim()
       ? community.description
       : `${community.displayName} on Skool: ${members} members, TrustSkore ${(community.trustSkore / 10).toFixed(1)}/10. Growth, pricing and trust breakdown on ${SITE}.`;
+    // NOTE: AggregateRating/Review markup intentionally omitted.
+    // TrustSkore is an algorithmic composite score (not user reviews) and
+    // does not qualify for Google's Review/AggregateRating rich results.
+    // See: https://developers.google.com/search/docs/appearance/structured-data/sd-policies
     const jsonLd = {
       "@context": "https://schema.org",
       "@type": "Organization",
@@ -125,12 +129,14 @@ export async function prefetchForPath(
       description: desc,
       url: `/community/${community.slug}`,
       ...(community.logoUrl ? { logo: community.logoUrl } : {}),
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: (community.trustSkore / 10).toFixed(1),
-        bestRating: "10",
-        worstRating: "0",
-        ratingCount: Math.max(1, community.totalMembers),
+      // TrustSkore exposed as a plain additionalProperty, not as a Review/Rating.
+      additionalProperty: {
+        "@type": "PropertyValue",
+        name: "TrustSkore",
+        description: "Algorithmic momentum score (0-100) based on member growth, discovery-rank trajectory, and price stability. Not a user review or editorial rating.",
+        value: community.trustSkore,
+        minValue: 0,
+        maxValue: 100,
       },
     };
     return {
@@ -153,6 +159,16 @@ export async function prefetchForPath(
         "The TrustSkore blends member growth momentum, Skool ranking trajectory, and price stability into a single 0-10 trust score. Here is exactly how each component is weighted.",
       ogType: "website",
       canonicalPath: "/methodology",
+    };
+  }
+
+  if (clean === "/policy/fraud-response") {
+    return {
+      title: `Fraud & Scam Response Policy · ${SITE}`,
+      description:
+        "How TrustSkool handles credible fraud and scam reports: delisting criteria, commission suspension rule, warning labels, and how to submit a report.",
+      ogType: "website",
+      canonicalPath: "/policy/fraud-response",
     };
   }
 
