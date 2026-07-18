@@ -14,6 +14,9 @@ export const serverConfig = {
   get datasetUrl(): string {
     return process.env.DATASET_URL || DEFAULT_DATASET_URL;
   },
+  get fraudReportEmail(): string | undefined {
+    return process.env.FRAUD_REPORT_EMAIL;
+  },
   get emailFrom(): string {
     // Primary: noreply@trustskool.com (DNS records added; pending Resend verification).
     // Fallback: EMAIL_FROM_FALLBACK env var (set to a verified domain address) used

@@ -1,15 +1,156 @@
-import { AlertTriangle, Ban, Flag, Mail, RefreshCw, ShieldAlert, ShieldCheck } from "lucide-react";
+import { AlertTriangle, Ban, CheckCircle2, Flag, Loader2, Mail, RefreshCw, ShieldAlert, ShieldCheck } from "lucide-react";
+import { useState } from "react";
 import { Link } from "wouter";
 import DisclaimerBanner from "@/components/DisclaimerBanner";
 import SiteLayout from "@/components/SiteLayout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { trpc } from "@/lib/trpc";
 
 /**
  * Fraud & Scam Response Policy page.
  * URL: /policy/fraud-response
- *
- * General-purpose policy. Does NOT include trading/finance-specific disclaimers
- * (pending a separate risk decision from the site owner).
  */
+
+function ReportForm() {
+  const [communityRef, setCommunityRef] = useState("");
+  const [reporterEmail, setReporterEmail] = useState("");
+  const [description, setDescription] = useState("");
+  const [evidence, setEvidence] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [reportId, setReportId] = useState<number | null>(null);
+
+  const submit = trpc.fraudReport.submit.useMutation({
+    onSuccess: (data) => {
+      setSubmitted(true);
+      setReportId(data.reportId);
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    submit.mutate({
+      communityRef: communityRef.trim(),
+      reporterEmail: reporterEmail.trim(),
+      description: description.trim(),
+      evidence: evidence.trim() || undefined,
+    });
+  };
+
+  if (submitted) {
+    return (
+      <div className="mt-6 rounded-[4px] border border-green-200 bg-green-50 p-6 dark:border-green-900 dark:bg-green-950/30">
+        <div className="flex items-start gap-3">
+          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-green-600 dark:text-green-400" />
+          <div>
+            <p className="font-semibold text-green-900 dark:text-green-300">
+              Report received{reportId ? ` (#${reportId})` : ""}
+            </p>
+            <p className="mt-1 text-sm text-green-800 dark:text-green-400">
+              We aim to acknowledge reports within 5 business days. The affiliate link for the
+              reported community has been noted for review. Thank you for helping keep the
+              directory trustworthy.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+      <div className="space-y-1.5">
+        <Label htmlFor="communityRef">Community name or URL</Label>
+        <Input
+          id="communityRef"
+          placeholder="e.g. The Skool Games or skool.com/the-skool-games"
+          value={communityRef}
+          onChange={e => setCommunityRef(e.target.value)}
+          required
+          minLength={2}
+          maxLength={512}
+          disabled={submit.isPending}
+        />
+      </div>
+
+      <div className="space-y-1.5">
+        <Label htmlFor="reporterEmail">Your email address</Label>
+        <Input
+          id="reporterEmail"
+          type="email"
+          placeholder="you@example.com"
+          value={reporterEmail}
+          onChange={e => setReporterEmail(e.target.value)}
+          required
+          disabled={submit.isPending}
+        />
+        <p className="text-xs text-muted-foreground">Kept confidential. Used only to follow up on your report.</p>
+      </div>
+
+      <div className="space-y-1.5">
+        <Label htmlFor="description">Description of the alleged fraud or harm</Label>
+        <Textarea
+          id="description"
+          placeholder="Describe what happened, when it occurred, and how many people were affected if known."
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+          required
+          minLength={20}
+          maxLength={5000}
+          rows={5}
+          disabled={submit.isPending}
+          className="resize-y"
+        />
+        <p className="text-right text-xs text-muted-foreground">{description.length}/5000</p>
+      </div>
+
+      <div className="space-y-1.5">
+        <Label htmlFor="evidence">
+          Supporting evidence{" "}
+          <span className="font-normal text-muted-foreground">(optional)</span>
+        </Label>
+        <Textarea
+          id="evidence"
+          placeholder="Links to screenshots, receipts, correspondence, or other sources."
+          value={evidence}
+          onChange={e => setEvidence(e.target.value)}
+          maxLength={2000}
+          rows={3}
+          disabled={submit.isPending}
+          className="resize-y"
+        />
+      </div>
+
+      {submit.error && (
+        <p className="text-sm text-destructive">
+          {submit.error.message.includes("too_small")
+            ? "Please provide a more detailed description (at least 20 characters)."
+            : "Something went wrong. Please try again or email reports@trustskool.com directly."}
+        </p>
+      )}
+
+      <Button
+        type="submit"
+        disabled={submit.isPending}
+        className="h-11 px-6 font-semibold"
+      >
+        {submit.isPending ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Submitting...
+          </>
+        ) : (
+          <>
+            <Flag className="mr-2 h-4 w-4" />
+            Submit report
+          </>
+        )}
+      </Button>
+    </form>
+  );
+}
 
 export default function FraudResponse() {
   return (
@@ -20,7 +161,7 @@ export default function FraudResponse() {
           Policy · v1.0 · July 2025
         </p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-[40px] md:leading-tight">
-          Fraud & Scam Response Policy
+          Fraud &amp; Scam Response Policy
         </h1>
         <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
           TrustSkool is an independent directory. We do not vet communities before indexing them,
@@ -132,30 +273,22 @@ export default function FraudResponse() {
           </div>
         </section>
 
-        {/* Section 5: How to report */}
+        {/* Section 5: Submit a report — inline form */}
         <section className="mt-12" id="report" aria-labelledby="report-heading">
           <h2 id="report-heading" className="flex items-center gap-2 text-xl font-semibold">
-            <Flag className="h-5 w-5" /> How to submit a report
+            <Flag className="h-5 w-5" /> Submit a report
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            To report a community, send an email to{" "}
+            Use the form below to report a community. All fields are treated as confidential.
+            Alternatively, email{" "}
             <a
               href="mailto:reports@trustskool.com"
               className="font-medium text-foreground underline underline-offset-2">
               reports@trustskool.com
             </a>{" "}
-            with the following information:
+            directly.
           </p>
-          <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-            <li className="flex gap-2"><span className="mt-0.5 shrink-0 font-semibold text-foreground">1.</span> The community name and its URL on Skool.com</li>
-            <li className="flex gap-2"><span className="mt-0.5 shrink-0 font-semibold text-foreground">2.</span> A description of the alleged fraud or harm</li>
-            <li className="flex gap-2"><span className="mt-0.5 shrink-0 font-semibold text-foreground">3.</span> Any supporting evidence (screenshots, receipts, correspondence)</li>
-            <li className="flex gap-2"><span className="mt-0.5 shrink-0 font-semibold text-foreground">4.</span> Your contact email (kept confidential, used only to follow up)</li>
-          </ul>
-          <p className="mt-4 text-sm text-muted-foreground">
-            We aim to acknowledge reports within 5 business days and complete initial review within
-            15 business days. Complex cases may take longer.
-          </p>
+          <ReportForm />
         </section>
 
         {/* Section 6: Review process */}
@@ -212,7 +345,7 @@ export default function FraudResponse() {
           <a
             href="mailto:reports@trustskool.com"
             className="inline-flex h-11 items-center gap-2 rounded-[4px] border border-border bg-card px-6 text-sm font-semibold text-foreground transition-colors hover:border-foreground">
-            <Mail className="h-4 w-4" /> Report a community
+            <Mail className="h-4 w-4" /> Email us directly
           </a>
         </div>
       </div>

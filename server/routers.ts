@@ -19,6 +19,8 @@ import {
   upsertOwnerProfile,
 } from "./dbCommunities";
 import { runIngestion } from "./ingestion";
+import { insertFraudReport, listFraudReports } from "./dbFraudReports";
+import { sendFraudReportEmail } from "./emailNotify";
 import { computeMrrEstimate, type MrrStatus } from "./mrrEstimate";
 import { createHeartbeatJob, listHeartbeatJobs } from "./_core/heartbeat";
 import {
@@ -196,6 +198,33 @@ export const appRouter = router({
 
     /** List Skool News pages (newest first) */
     newsList: publicProcedure.query(() => listContentPages("skool-news")),
+  }),
+
+  /** Public fraud/scam report submission */
+  fraudReport: router({
+    submit: publicProcedure
+      .input(
+        z.object({
+          communityRef: z.string().min(2).max(512),
+          reporterEmail: z.string().email(),
+          description: z.string().min(20).max(5000),
+          evidence: z.string().max(2000).optional(),
+        }),
+      )
+      .mutation(async ({ input }) => {
+        await insertFraudReport(input);
+        const rows = await listFraudReports(1);
+        const reportId = rows[0]?.id ?? 0;
+        sendFraudReportEmail({
+          communityRef: input.communityRef,
+          reporterEmail: input.reporterEmail,
+          description: input.description,
+          evidence: input.evidence ?? null,
+          reportId,
+        }).catch(err => console.error("[FraudReport] Email send failed:", err));
+        return { success: true, reportId };
+      }),
+    list: adminProcedure.query(() => listFraudReports(100)),
   }),
 
   admin: router({

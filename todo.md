@@ -186,3 +186,10 @@
 - [ ] Fix footer text wrap: prevent single-word orphans in footer columns (use whitespace-nowrap or min-w on key phrases)
 - [ ] Fix bottom CTA copy on community detail: remove em-dash from "Monthly subscription — check the latest pricing"
 - [ ] Add logo to OG image meta tag and ensure favicon uses the star+mortarboard icon consistently across all pages
+
+## Fraud Report Form
+- [ ] Add submitFraudReport tRPC mutation (publicProcedure): validates input (communitySlug/URL, reporterEmail, description, evidence), inserts into fraud_reports table, sends email to owner's personal email via Resend
+- [ ] Create fraud_reports table in schema (id, communitySlugOrUrl, reporterEmail, description, evidence, createdAt, status)
+- [ ] Build FraudReportForm component with fields: community URL/name, your email, description, evidence (optional); honeypot + rate-limit guard
+- [ ] Add form section to FraudResponse.tsx page below the existing policy content
+- [ ] Email to owner: branded HTML with all report fields, reply-to set to reporter's email

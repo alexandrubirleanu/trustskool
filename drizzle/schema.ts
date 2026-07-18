@@ -270,3 +270,29 @@ export const contentPages = mysqlTable(
 
 export type ContentPage = typeof contentPages.$inferSelect;
 export type InsertContentPage = typeof contentPages.$inferInsert;
+
+/**
+ * Fraud and scam reports submitted via the /policy/fraud-response form.
+ */
+export const fraudReports = mysqlTable(
+  "fraudReports",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /** Community name, URL, or slug as typed by the reporter */
+    communityRef: varchar("communityRef", { length: 512 }).notNull(),
+    reporterEmail: varchar("reporterEmail", { length: 320 }).notNull(),
+    description: text("description").notNull(),
+    /** Optional: screenshots, links, other evidence */
+    evidence: text("evidence"),
+    status: mysqlEnum("status", ["pending", "reviewing", "resolved", "dismissed"])
+      .default("pending")
+      .notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  table => [
+    index("idx_fraudReports_status").on(table.status),
+    index("idx_fraudReports_createdAt").on(table.createdAt),
+  ],
+);
+export type FraudReport = typeof fraudReports.$inferSelect;
+export type InsertFraudReport = typeof fraudReports.$inferInsert;

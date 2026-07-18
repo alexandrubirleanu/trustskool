@@ -326,3 +326,83 @@ export async function sendSlaAlertEmail(breaches: SlaBreachRow[]): Promise<boole
   const email = buildSlaAlertEmail(breaches);
   return sendEmail(email);
 }
+
+// ---------------------------------------------------------------------------
+// Fraud report notification (sent to owner's personal email)
+// ---------------------------------------------------------------------------
+
+export interface FraudReportEmailData {
+  communityRef: string;
+  reporterEmail: string;
+  description: string;
+  evidence?: string | null;
+  reportId: number;
+}
+
+function buildFraudReportEmail(data: FraudReportEmailData): { subject: string; html: string; text: string } {
+  const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const subject = `[TrustSkool] Fraud report #${data.reportId}: ${data.communityRef.slice(0, 60)}`;
+  const evidenceRow = data.evidence
+    ? `<tr><td style="padding:10px 12px;background:#f5f5f5;font-weight:600;vertical-align:top">Evidence</td><td style="padding:10px 12px;white-space:pre-wrap">${esc(data.evidence)}</td></tr>`
+    : "";
+  const html = `
+<div style="font-family:system-ui,sans-serif;max-width:600px;margin:0 auto;padding:24px">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px">
+    <img src="https://trustskool.com/manus-storage/trustskool-icon-only_a356506a.png" alt="TrustSkool" width="32" height="32" style="border-radius:4px" />
+    <span style="font-size:18px;font-weight:700;color:#111">TrustSkool</span>
+  </div>
+  <h2 style="font-size:20px;font-weight:700;margin:0 0 4px">New fraud report received</h2>
+  <p style="font-size:13px;color:#666;margin:0 0 24px">Report #${data.reportId}</p>
+  <table style="width:100%;border-collapse:collapse;font-size:14px">
+    <tr><td style="padding:10px 12px;background:#f5f5f5;font-weight:600;width:140px;vertical-align:top">Community</td><td style="padding:10px 12px;border-bottom:1px solid #eee">${esc(data.communityRef)}</td></tr>
+    <tr><td style="padding:10px 12px;background:#f5f5f5;font-weight:600;vertical-align:top">Reporter</td><td style="padding:10px 12px;border-bottom:1px solid #eee"><a href="mailto:${esc(data.reporterEmail)}" style="color:#b8860b">${esc(data.reporterEmail)}</a></td></tr>
+    <tr><td style="padding:10px 12px;background:#f5f5f5;font-weight:600;vertical-align:top">Description</td><td style="padding:10px 12px;border-bottom:1px solid #eee;white-space:pre-wrap">${esc(data.description)}</td></tr>
+    ${evidenceRow}
+  </table>
+  <p style="margin-top:24px;font-size:13px;color:#888">Reply directly to this email to contact the reporter. <a href="https://trustskool.com/admin/clicks" style="color:#b8860b">Open admin panel</a>.</p>
+</div>`.trim();
+  const text = [
+    `[TrustSkool] Fraud report #${data.reportId}: ${data.communityRef}`,
+    ``,
+    `Community : ${data.communityRef}`,
+    `Reporter  : ${data.reporterEmail}`,
+    ``,
+    `Description:`,
+    data.description,
+    data.evidence ? `\nEvidence:\n${data.evidence}` : "",
+  ].join("\n");
+  return { subject, html, text };
+}
+
+export async function sendFraudReportEmail(data: FraudReportEmailData): Promise<boolean> {
+  const to = serverConfig.fraudReportEmail;
+  const apiKey = serverConfig.resendApiKey;
+  if (!to || !apiKey) {
+    console.warn("[EmailNotify] FRAUD_REPORT_EMAIL or RESEND_API_KEY missing, skipping fraud report email");
+    return false;
+  }
+  const email = buildFraudReportEmail(data);
+  try {
+    const res = await fetch(RESEND_ENDPOINT, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: serverConfig.emailFrom,
+        to: [to],
+        reply_to: data.reporterEmail,
+        subject: email.subject,
+        html: email.html,
+        text: email.text,
+      }),
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.error(`[EmailNotify] Fraud report email failed: ${res.status} ${body}`);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("[EmailNotify] Fraud report email error:", err);
+    return false;
+  }
+}
