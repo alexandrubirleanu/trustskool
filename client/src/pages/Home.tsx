@@ -6,6 +6,7 @@ import SiteLayout from "@/components/SiteLayout";
 import { Skeleton } from "@/components/ui/skeleton";
 import { capitalize, formatCategory } from "@/lib/format";
 import { trpc } from "@/lib/trpc";
+import { useDatafast } from "@/hooks/useDatafast";
 
 type SortKey = "trustSkore" | "totalMembers" | "growthRateBp" | "category";
 type PriceKey = "all" | "free" | "paid";
@@ -200,6 +201,18 @@ export default function Home() {
   };
 
   const hasActiveFilters = Boolean(debounced || language || price !== "all");
+
+  const { track } = useDatafast();
+
+  // Track search_used goal (debounced, min 3 chars, fires once per distinct query)
+  const lastTrackedQuery = useRef("");
+  useEffect(() => {
+    if (debounced.length >= 3 && debounced !== lastTrackedQuery.current) {
+      lastTrackedQuery.current = debounced;
+      track("search_used", { query: debounced.slice(0, 50) });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debounced]);
 
   // All languages shown in Skool's canonical order (ordered server-side)
   const languages = filters?.languages ?? [];
@@ -429,6 +442,8 @@ export default function Home() {
             <a
               href="/go/signup"
               rel="sponsored noopener noreferrer"
+              data-fast-goal="skool_click"
+              data-fast-goal-source="home_banner"
               className="inline-flex h-11 shrink-0 items-center rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
               Create your Community
             </a>

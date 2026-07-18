@@ -116,3 +116,11 @@
 - [x] Add afl_percent section to AdminClicks page (sortable by commission % or clicks, internal only)
 - [x] Write owner_profiles.jsonl import script (scripts/import_owner_profiles.mjs) — 31 profiles imported
 - [x] Write vitest for MRR estimate logic (10 tests, all passing)
+
+## Datafa.st Custom Goals
+- [x] Create useDatafast hook (window?.datafast wrapper)
+- [x] skool_click: track /go/signup links (nav desktop, nav mobile, home banner) — affiliate link to create a Skool community
+- [x] community_click: track /go/:slug CTA clicks (header, mobile_bar, bottom_cta) — affiliate link to join a specific community; also track card click on homepage list
+- [x] search_used: track search input (debounced, min 3 chars) with query param — fires once per distinct query
+- [ ] blog_cta_click: add tracking on blog article CTA links when blog pages are built (article_slug, cta_type params)
+- [x] Add datafast queue snippet to index.html head for reliable tracking

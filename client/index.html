@@ -9,6 +9,13 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <!--app-head-->
+    <!-- Datafa.st queue: ensures goals fired before the main script loads are captured -->
+    <script id="datafast-queue">
+      window.datafast = window.datafast || function() {
+        window.datafast.q = window.datafast.q || [];
+        window.datafast.q.push(arguments);
+      };
+    </script>
     <script
       defer
       data-website-id="dfid_UH9ObO70D14iHkJ4UkHq1"

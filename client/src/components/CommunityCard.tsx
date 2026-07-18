@@ -1,5 +1,6 @@
 import { ChevronRight, TrendingDown, TrendingUp, Users, Zap } from "lucide-react";
 import { Link } from "wouter";
+import { useDatafast } from "@/hooks/useDatafast";
 import {
   formatCategory,
   formatGrowth,
@@ -57,10 +58,13 @@ export default function CommunityCard({
 }) {
   const growth = community.growthRateBp;
   const GrowthIcon = growth >= 0 ? TrendingUp : TrendingDown;
+  const { track } = useDatafast();
+  const isFree = !community.priceAmountCents || community.priceAmountCents === 0;
 
   return (
     <Link
       href={`/community/${community.slug}`}
+      onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: isFree ? "free" : "paid" })}
       className="group flex items-center gap-4 border-b border-border bg-card px-4 py-4 transition-colors first:rounded-t-[4px] last:rounded-b-[4px] last:border-b-0 hover:bg-accent sm:px-5">
       <span className="w-7 shrink-0 text-center text-sm font-semibold text-muted-foreground tabular-nums">
         {rank}

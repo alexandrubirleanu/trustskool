@@ -1,7 +1,6 @@
 import { Menu, Search, X } from "lucide-react";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
-
 /**
  * Public site layout: top-nav with TrustSkool branding, search bar and
  * Methodology link, plus the compliance footer. Used by every public page.
@@ -83,6 +82,8 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             <a
               href="/go/signup"
               rel="sponsored noopener noreferrer"
+              data-fast-goal="skool_click"
+              data-fast-goal-source="nav_desktop"
               className="inline-flex h-9 items-center rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
               Start on Skool for $9
             </a>
@@ -109,6 +110,8 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
               <a
                 href="/go/signup"
                 rel="sponsored noopener noreferrer"
+                data-fast-goal="skool_click"
+                data-fast-goal-source="nav_mobile"
                 className="mt-1 inline-flex h-10 items-center justify-center rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124]">
                 Start on Skool for $9
               </a>

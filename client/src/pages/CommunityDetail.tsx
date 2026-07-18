@@ -25,6 +25,7 @@ import {
   scoreTier,
 } from "@/lib/format";
 import { trpc } from "@/lib/trpc";
+import { useDatafast } from "@/hooks/useDatafast";
 
 const CHART_INK = "oklch(0.2436 0.0048 247.9)";
 const CHART_GRID = "oklch(0.9161 0.0015 84.57)";
@@ -100,11 +101,20 @@ export default function CommunityDetail() {
     { enabled: Boolean(community) },
   );
 
+  const { track } = useDatafast();
+
   useEffect(() => {
     if (community) {
       document.title = `${community.displayName} — TrustSkore ${formatScore(community.trustSkore)} | TrustSkool`;
+      // Track community page view
+      track("community_view", {
+        slug: community.slug,
+        community_name: community.displayName.slice(0, 100),
+        price_type: (!community.priceAmountCents || community.priceAmountCents === 0) ? "free" : "paid",
+      });
     }
-  }, [community]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [community?.slug]);
 
   const memberData = useMemo(
     () =>
@@ -189,6 +199,7 @@ export default function CommunityDetail() {
         <a
           href={`/go/${community.slug}`}
           rel="sponsored noopener noreferrer"
+          onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: isFree ? "free" : "paid", source: "mobile_bar" })}
           className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
           {isFree ? `Join ${community.displayName}` : `Join for $${Math.round((community.priceAmountCents ?? 900) / 100)}/mo`} <ExternalLink className="h-3.5 w-3.5" />
         </a>
@@ -282,7 +293,8 @@ export default function CommunityDetail() {
             <a
               href={`/go/${community.slug}`}
               rel="sponsored noopener noreferrer"
-              className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
+              onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: isFree ? "free" : "paid", source: "header" })}
+            className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
               {isFree ? `Join ${community.displayName}` : `Join for $${Math.round((community.priceAmountCents ?? 900) / 100)}/mo`} <ExternalLink className="h-4 w-4" />
             </a>
           </div>
@@ -525,6 +537,7 @@ export default function CommunityDetail() {
           <a
             href={`/go/${community.slug}`}
             rel="sponsored noopener noreferrer"
+            onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: isFree ? "free" : "paid", source: "bottom_cta" })}
             className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-8 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
             {isFree ? `Join ${community.displayName} — Free` : `Join for $${Math.round((community.priceAmountCents ?? 900) / 100)}/mo on Skool`} <ExternalLink className="h-4 w-4" />
           </a>
