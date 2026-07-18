@@ -3,6 +3,7 @@ import express from "express";
 import { createServer } from "http";
 import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
+import { createExpressAICrawlerMiddleware } from "@datafast/ai-crawl";
 import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
@@ -36,6 +37,14 @@ async function startServer() {
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
+  // DataFast bot traffic tracking — must be before all other routes so crawlers
+  // requesting robots.txt, llms.txt, sitemap.xml, and page HTML are all captured.
+  app.use(
+    createExpressAICrawlerMiddleware({
+      websiteId: "dfid_UH9ObO70D14iHkJ4UkHq1",
+      publicOrigin: "https://trustskool.com",
+    })
+  );
   registerStorageProxy(app);
   registerOAuthRoutes(app);
   // TrustSkool: /go/* click-tracking redirects + /api/scheduled/* cron callbacks
