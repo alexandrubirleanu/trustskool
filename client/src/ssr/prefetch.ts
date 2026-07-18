@@ -71,9 +71,11 @@ export async function prefetchForPath(
     const q = new URLSearchParams(rawSearch).get("q") ?? "";
     // Mirror Home.tsx listInput exactly (types AND defaulted keys): search from
     // ?q=, everything else initial state.
+    // IMPORTANT: language must match Home.tsx useState initial value ("english")
+    // so the SSR-seeded cache key matches the first client query key.
     const input: CommunitiesListInput = {
       search: q || undefined,
-      language: undefined,
+      language: "english",
       category: undefined,
       price: "all",
       sort: "trustSkore",
@@ -193,14 +195,19 @@ export async function prefetchForPath(
         },
       ],
     };
+    // Use branded OG image endpoint for rich social previews.
+    // Falls back to community logoUrl if the slug is missing.
+    const ogImageUrl = community.slug
+      ? `/api/og/community/${encodeURIComponent(community.slug)}`
+      : (community.logoUrl ?? undefined);
     return {
       title: community.displayName?.trim()
-        ? `${community.displayName} · TrustSkore ${(community.trustSkore / 10).toFixed(1)} | ${SITE}`
+        ? `${community.displayName} \u00b7 TrustSkore ${(community.trustSkore / 10).toFixed(1)} | ${SITE}`
         : SITE,
       description: desc,
       ogType: "article",
-      ogImage: community.logoUrl ?? undefined,
-      ogImageAlt: community.displayName ?? undefined,
+      ogImage: ogImageUrl,
+      ogImageAlt: community.displayName ? `${community.displayName} TrustSkore card` : undefined,
       canonicalPath: `/community/${community.slug}`,
       jsonLd,
     };

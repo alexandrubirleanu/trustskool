@@ -226,3 +226,8 @@
 - [x] [SEO-6] Add meta name="theme-color" content="#F8F7F5" to index.html
 - [x] [SEO-7] Improve LCP: added fetchPriority="high" to community detail hero logo image
 - [x] [SEO-8] Community detail title format improved: uses | separator for better CTR ("Name · TrustSkore X | TrustSkool")
+
+## Filter Fix + OG Image + Sitemap (2026-07-18)
+- [x] [FILTER-1] Fix SSR/client language mismatch: prefetch.ts seeds cache with language:undefined but Home.tsx initializes language:"english" — causes double-fetch and filter instability on mount. Fixed: prefetch.ts now uses language:"english" to match client initial state
+- [x] [OG-1] Custom OG image per community: /api/og/community/:slug endpoint (server/ogImage.ts) generates 1200x630 PNG with community logo, name, category chip, description, TrustSkore/Members/Price badges, trustskool.com branding. prefetch.ts ogImage now points to this endpoint for all community detail pages.
+- [x] [SITEMAP-1] Sitemap verified live: /sitemap.xml (sitemapindex with 1 community chunk + content sitemap), /sitemap-communities-1.xml (8,154 community URLs + 5 static pages), /sitemap-content.xml. All correct.

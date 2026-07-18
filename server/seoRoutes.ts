@@ -2,6 +2,7 @@ import type { Express, Request, Response } from "express";
 import { BRAND_NAME, SCORE_NAME } from "../shared/appConfig";
 import { getAllSlugsForSitemap, getTopCommunitiesForLlms } from "./dbCommunities";
 import { listContentPagesByTypes } from "./dbContent";
+import { handleOgImage } from "./ogImage";
 
 /**
  * SEO plumbing served straight from Express (before the SSR catch-all):
@@ -404,6 +405,10 @@ async function handleLlmsFullTxt(_req: Request, res: Response) {
 }
 
 export function registerSeoRoutes(app: Express) {
+  // OG image generator for community detail pages
+  app.get("/api/og/community/:slug", (req, res) => {
+    void handleOgImage(req, res);
+  });
   app.get("/sitemap.xml", (req, res) => {
     void handleSitemapIndex(req, res);
   });
