@@ -263,8 +263,8 @@ export default function Home() {
       </section>
 
       <section className="container py-8">
-        {/* Filter bar */}
-        <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Quick filters">
+        {/* Filter bar — centered chips row */}
+        <div className="flex flex-wrap items-center justify-center gap-2" role="group" aria-label="Quick filters">
           {/* Price chips */}
           <button
             type="button"
@@ -316,9 +316,9 @@ export default function Home() {
           )}
         </div>
 
-        {/* Sort + count header */}
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-muted-foreground" aria-live="polite" aria-atomic="true">
+        {/* Sort + count — single compact row */}
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
+          <p className="text-xs text-muted-foreground" aria-live="polite" aria-atomic="true">
             {isLoading && !data
               ? "Loading…"
               : data
