@@ -77,3 +77,7 @@
 - [x] Install new logo (gold star + mortarboard, black wordmark) in nav replacing ShieldCheck icon
 - [x] Create favicon from logo icon
 - [x] Update OG image with new logo
+
+## Filter bar UX fixes
+- [x] Replace expanded language chip row with compact Language dropdown (searchable, single-select, shows selected language name)
+- [x] Fix sort direction: always default to descending when switching sort column

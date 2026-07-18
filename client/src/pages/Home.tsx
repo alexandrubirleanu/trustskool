@@ -1,5 +1,5 @@
-import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { ArrowDown, ArrowUp, ChevronDown, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useSearch } from "wouter";
 import CommunityCard from "@/components/CommunityCard";
 import SiteLayout from "@/components/SiteLayout";
@@ -24,6 +24,101 @@ function StatPill({ value, label }: { value: string; label: string }) {
       <span className="text-base font-bold tabular-nums text-foreground">{value}</span>
       <span className="text-sm text-muted-foreground">{label}</span>
     </span>
+  );
+}
+
+/** Compact searchable language dropdown */
+function LanguageDropdown({
+  languages,
+  value,
+  onChange,
+}: {
+  languages: { value: string; count?: number }[];
+  value: string | undefined;
+  onChange: (v: string | undefined) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Close on outside click
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+        setSearch("");
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  const filtered = useMemo(() => {
+    const q = search.toLowerCase();
+    return q ? languages.filter(l => l.value.toLowerCase().includes(q)) : languages;
+  }, [languages, search]);
+
+  const label = value ? capitalize(value) : "Language";
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => { setOpen(o => !o); setSearch(""); }}
+        className={`chip inline-flex items-center gap-1.5 ${value ? "data-[active=true]" : ""}`}
+        data-active={Boolean(value)}>
+        {label}
+        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-1 w-52 rounded-[4px] border border-border bg-background shadow-md">
+          {/* Search */}
+          <div className="border-b border-border p-2">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+              <input
+                autoFocus
+                type="search"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Search…"
+                className="h-8 w-full rounded-[4px] border border-input bg-card pl-8 pr-3 text-sm outline-none focus:border-foreground"
+              />
+            </div>
+          </div>
+
+          {/* Options list */}
+          <div className="max-h-60 overflow-y-auto py-1">
+            {/* All option */}
+            {!search && (
+              <button
+                type="button"
+                onClick={() => { onChange(undefined); setOpen(false); setSearch(""); }}
+                className={`flex w-full items-center justify-between px-3 py-2 text-sm transition-colors hover:bg-accent ${!value ? "font-semibold" : ""}`}>
+                All languages
+              </button>
+            )}
+            {filtered.map(lang => (
+              <button
+                key={lang.value}
+                type="button"
+                onClick={() => { onChange(lang.value); setOpen(false); setSearch(""); }}
+                className={`flex w-full items-center justify-between px-3 py-2 text-sm transition-colors hover:bg-accent ${value === lang.value ? "bg-[#F8D481]/20 font-semibold" : ""}`}>
+                <span>{capitalize(lang.value)}</span>
+                {lang.count && (
+                  <span className="ml-2 text-xs text-muted-foreground tabular-nums">{lang.count >= 1000 ? `${Math.round(lang.count / 1000)}k+` : lang.count}</span>
+                )}
+              </button>
+            ))}
+            {filtered.length === 0 && (
+              <p className="px-3 py-3 text-sm text-muted-foreground">No languages found.</p>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -77,12 +172,13 @@ export default function Home() {
 
   const totalPages = data ? Math.max(1, Math.ceil(data.total / PAGE_SIZE)) : 1;
 
+  // Always sort descending when switching column; toggle direction only when same column
   const toggleSort = (key: SortKey) => {
     if (sort === key) {
       setDirection(d => (d === "desc" ? "asc" : "desc"));
     } else {
       setSort(key);
-      setDirection("desc");
+      setDirection("desc"); // always reset to desc on column change
     }
     setPage(1);
   };
@@ -168,65 +264,56 @@ export default function Home() {
 
       <section className="container py-8">
         {/* Filter bar */}
-        <div className="flex flex-col gap-3">
-          {/* Price + Language row */}
-          <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Quick filters">
-            {/* Price chips */}
-            <button
-              type="button"
-              className="chip"
-              data-active={price === "all"}
-              onClick={() => setFilter(() => setPrice("all"))}>
-              All prices
-            </button>
-            <button
-              type="button"
-              className="chip"
-              data-active={price === "free"}
-              onClick={() => setFilter(() => setPrice("free"))}>
-              Free
-              {stats && price !== "free" && (
-                <span className="chip-count">{fmtK(stats.freeCommunities)}</span>
-              )}
-            </button>
-            <button
-              type="button"
-              className="chip"
-              data-active={price === "paid"}
-              onClick={() => setFilter(() => setPrice("paid"))}>
-              Paid
-            </button>
-
-            {languages.length > 0 && (
-              <span className="mx-1 hidden h-5 w-px bg-border sm:block" aria-hidden />
+        <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Quick filters">
+          {/* Price chips */}
+          <button
+            type="button"
+            className="chip"
+            data-active={price === "all"}
+            onClick={() => setFilter(() => setPrice("all"))}>
+            All prices
+          </button>
+          <button
+            type="button"
+            className="chip"
+            data-active={price === "free"}
+            onClick={() => setFilter(() => setPrice("free"))}>
+            Free
+            {stats && price !== "free" && (
+              <span className="chip-count">{fmtK(stats.freeCommunities)}</span>
             )}
+          </button>
+          <button
+            type="button"
+            className="chip"
+            data-active={price === "paid"}
+            onClick={() => setFilter(() => setPrice("paid"))}>
+            Paid
+          </button>
 
-            {languages.map(lang => (
-              <button
-                key={lang.value}
-                type="button"
-                className="chip"
-                data-active={language === lang.value}
-                onClick={() =>
-                  setFilter(() => setLanguage(l => (l === lang.value ? undefined : lang.value)))
-                }>
-                {capitalize(lang.value)}
-                {lang.count && language !== lang.value && (
-                  <span className="chip-count">{fmtK(lang.count)}</span>
-                )}
-              </button>
-            ))}
+          {/* Divider */}
+          {languages.length > 0 && (
+            <span className="mx-1 hidden h-5 w-px bg-border sm:block" aria-hidden />
+          )}
 
-            {/* Clear all */}
-            {hasActiveFilters && (
-              <button
-                type="button"
-                onClick={clearAllFilters}
-                className="ml-1 inline-flex items-center gap-1 text-xs text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground">
-                <X className="h-3 w-3" /> Clear
-              </button>
-            )}
-          </div>
+          {/* Compact language dropdown */}
+          {languages.length > 0 && (
+            <LanguageDropdown
+              languages={languages}
+              value={language}
+              onChange={v => setFilter(() => setLanguage(v))}
+            />
+          )}
+
+          {/* Clear all */}
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={clearAllFilters}
+              className="ml-1 inline-flex items-center gap-1 text-xs text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground">
+              <X className="h-3 w-3" /> Clear
+            </button>
+          )}
         </div>
 
         {/* Sort + count header */}
