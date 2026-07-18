@@ -2,15 +2,22 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
+import { Head } from "@/components/Head";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import AdminClicks from "./pages/AdminClicks";
+import CommunityDetail from "./pages/CommunityDetail";
 import Home from "./pages/Home";
+import Methodology from "./pages/Methodology";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/community/:slug"} component={CommunityDetail} />
+      <Route path={"/methodology"} component={Methodology} />
+      <Route path={"/admin/clicks"} component={AdminClicks} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -31,6 +38,7 @@ function App() {
         // switchable
       >
         <TooltipProvider>
+          <Head />
           <Toaster />
           <Router />
         </TooltipProvider>

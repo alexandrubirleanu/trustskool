@@ -1,4 +1,15 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import {
+  bigint,
+  double,
+  index,
+  int,
+  json,
+  mysqlEnum,
+  mysqlTable,
+  text,
+  timestamp,
+  varchar,
+} from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -25,4 +36,93 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/** History point shapes stored in JSON columns */
+export type MemberHistoryPoint = { date: string; total_members: number };
+export type PriceHistoryPoint = { date: string; price_amount_cents: number | null };
+export type RankHistoryPoint = { date: string; discovery_rank: number };
+
+export type ScoreBreakdown = {
+  growth_momentum: number;
+  ranking_momentum: number;
+  price_stability: number;
+};
+
+/**
+ * Skool communities ingested from the external GitHub Actions pipeline.
+ * One row per community, upserted on each ingestion run.
+ */
+export const communities = mysqlTable(
+  "communities",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /** Stable external id from the pipeline dataset */
+    externalId: varchar("externalId", { length: 128 }).notNull().unique(),
+    slug: varchar("slug", { length: 191 }).notNull().unique(),
+    url: varchar("url", { length: 512 }).notNull(),
+    displayName: varchar("displayName", { length: 255 }).notNull(),
+    description: text("description"),
+    totalMembers: int("totalMembers").default(0).notNull(),
+    priceAmountCents: int("priceAmountCents"),
+    priceCurrency: varchar("priceCurrency", { length: 8 }),
+    priceInterval: varchar("priceInterval", { length: 16 }),
+    logoUrl: varchar("logoUrl", { length: 1024 }),
+    language: varchar("language", { length: 64 }).default("english").notNull(),
+    category: varchar("category", { length: 128 }),
+    /** TrustSkore 0-100 */
+    trustSkore: double("trustSkore").default(0).notNull(),
+    scoreBreakdown: json("scoreBreakdown").$type<ScoreBreakdown>(),
+    memberHistory: json("memberHistory").$type<MemberHistoryPoint[]>(),
+    priceHistory: json("priceHistory").$type<PriceHistoryPoint[]>(),
+    rankHistory: json("rankHistory").$type<RankHistoryPoint[]>(),
+    /** 30-day growth rate in basis points (523 = 5.23%) for sorting without JSON parsing */
+    growthRateBp: int("growthRateBp").default(0).notNull(),
+    ingestedAt: timestamp("ingestedAt").defaultNow().notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  table => [
+    index("idx_communities_trustSkore").on(table.trustSkore),
+    index("idx_communities_language").on(table.language),
+    index("idx_communities_category").on(table.category),
+    index("idx_communities_totalMembers").on(table.totalMembers),
+  ],
+);
+
+export type Community = typeof communities.$inferSelect;
+export type InsertCommunity = typeof communities.$inferInsert;
+
+/**
+ * Outbound click log. One row per hit on /go/<slug> or /go/signup.
+ */
+export const clicks = mysqlTable(
+  "clicks",
+  {
+    id: bigint("id", { mode: "number" }).autoincrement().primaryKey(),
+    /** Community slug, or "signup" for the platform-level CTA */
+    slug: varchar("slug", { length: 191 }).notNull(),
+    displayName: varchar("displayName", { length: 255 }).notNull(),
+    referrer: varchar("referrer", { length: 1024 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  table => [
+    index("idx_clicks_slug").on(table.slug),
+    index("idx_clicks_createdAt").on(table.createdAt),
+  ],
+);
+
+export type Click = typeof clicks.$inferSelect;
+export type InsertClick = typeof clicks.$inferInsert;
+
+/**
+ * Ingestion runs log for observability of the daily cron.
+ */
+export const ingestionRuns = mysqlTable("ingestionRuns", {
+  id: int("id").autoincrement().primaryKey(),
+  source: varchar("source", { length: 512 }).notNull(),
+  status: mysqlEnum("status", ["success", "error"]).notNull(),
+  communitiesUpserted: int("communitiesUpserted").default(0).notNull(),
+  message: text("message"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type IngestionRun = typeof ingestionRuns.$inferSelect;

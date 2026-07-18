@@ -43,39 +43,43 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
+  /* TrustSkool palette: warm off-white bg, near-black ink, flat borders */
+  --radius: 0.25rem; /* 4px buttons/inputs */
+  --background: oklch(0.9761 0.0029 84.57); /* #F8F7F5 */
+  --foreground: oklch(0.2436 0.0048 247.9); /* #202124 */
+  --card: oklch(1 0 0); /* white cards on warm bg */
+  --card-foreground: oklch(0.2436 0.0048 247.9);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
+  --popover-foreground: oklch(0.2436 0.0048 247.9);
+  --primary: oklch(0.2436 0.0048 247.9); /* near-black primary */
+  --primary-foreground: oklch(0.9851 0 0);
+  --secondary: oklch(0.9551 0.0029 84.57);
+  --secondary-foreground: oklch(0.2436 0.0048 247.9);
+  --muted: oklch(0.9451 0.0029 84.57);
+  --muted-foreground: oklch(0.6538 0 0); /* #909090 */
+  --accent: oklch(0.9351 0.0029 84.57);
+  --accent-foreground: oklch(0.2436 0.0048 247.9);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
+  --border: oklch(0.9161 0.0015 84.57); /* #E4E4E4 */
+  --input: oklch(0.9161 0.0015 84.57);
+  --ring: oklch(0.2436 0.0048 247.9);
+  --chart-1: oklch(0.2436 0.0048 247.9); /* ink */
+  --chart-2: oklch(0.55 0.12 155); /* trust green */
+  --chart-3: oklch(0.6538 0 0); /* gray */
+  --chart-4: oklch(0.65 0.15 60); /* amber */
+  --chart-5: oklch(0.55 0.18 25); /* red */
+  --sidebar: oklch(0.9761 0.0029 84.57);
+  --sidebar-foreground: oklch(0.2436 0.0048 247.9);
+  --sidebar-primary: oklch(0.2436 0.0048 247.9);
+  --sidebar-primary-foreground: oklch(0.9851 0 0);
+  --sidebar-accent: oklch(0.9351 0.0029 84.57);
+  --sidebar-accent-foreground: oklch(0.2436 0.0048 247.9);
+  --sidebar-border: oklch(0.9161 0.0015 84.57);
+  --sidebar-ring: oklch(0.2436 0.0048 247.9);
+
+  --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
 .dark {
@@ -113,12 +117,26 @@
   --sidebar-ring: oklch(0.488 0.243 264.376);
 }
 
+@theme inline {
+  --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -158,6 +176,31 @@
   .flex {
     min-height: 0;
     min-width: 0;
+  }
+
+  /* Pill filter chips: 25px radius, active = dark bg + white text */
+  .chip {
+    border-radius: 25px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--foreground);
+    padding: 0.375rem 0.875rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    transition:
+      background-color 160ms cubic-bezier(0.23, 1, 0.32, 1),
+      color 160ms cubic-bezier(0.23, 1, 0.32, 1),
+      border-color 160ms cubic-bezier(0.23, 1, 0.32, 1);
+    white-space: nowrap;
+  }
+  .chip:hover {
+    border-color: var(--foreground);
+  }
+  .chip[data-active="true"] {
+    background: var(--foreground);
+    border-color: var(--foreground);
+    color: #fff;
   }
 
   @media (min-width: 640px) {

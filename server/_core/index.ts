@@ -6,6 +6,8 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
+import { registerHttpRoutes } from "../httpRoutes";
+import { registerSeoRoutes } from "../seoRoutes";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 
@@ -36,6 +38,10 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   registerStorageProxy(app);
   registerOAuthRoutes(app);
+  // TrustSkool: /go/* click-tracking redirects + /api/scheduled/* cron callbacks
+  registerHttpRoutes(app);
+  // TrustSkool: sitemap.xml, robots.txt, llms.txt (before the SSR catch-all)
+  registerSeoRoutes(app);
   // tRPC API
   app.use(
     "/api/trpc",
