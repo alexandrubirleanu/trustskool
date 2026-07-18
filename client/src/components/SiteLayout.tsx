@@ -11,18 +11,19 @@ function BrandMark({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
       <img
-        src="/manus-storage/trustskool-logo-final_69923726.png"
+        src="/manus-storage/trustskool-logo-v3_f1d4b761.png"
         alt="TrustSkool"
-        className="h-8 w-8 object-contain"
+        className="h-10 w-auto object-contain"
+        style={{ maxWidth: 44 }}
       />
     );
   }
   return (
     <img
-      src="/manus-storage/trustskool-logo-final_69923726.png"
+      src="/manus-storage/trustskool-logo-v3_f1d4b761.png"
       alt="TrustSkool"
-      className="h-9 w-auto object-contain"
-      style={{ maxWidth: 160 }}
+      className="h-11 w-auto object-contain"
+      style={{ maxWidth: 220 }}
     />
   );
 }
