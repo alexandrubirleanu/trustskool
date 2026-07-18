@@ -51,8 +51,12 @@ export const communityRecordSchema = z.object({
   mrr_status: z.string().nullable().optional(),
   /** Owner display name */
   owner_name: z.string().nullable().optional(),
-  /** Owner 30-day active streak */
-  active_30d_streak: z.number().int().nonnegative().nullable().optional(),
+  /** Owner 30-day active streak — pipeline sends boolean (true=1, false=0) or integer */
+  active_30d_streak: z
+    .union([z.number().int().nonnegative(), z.boolean()])
+    .nullable()
+    .optional()
+    .transform(v => (typeof v === "boolean" ? (v ? 1 : 0) : v)),
 });
 
 export type PipelineCommunityRecord = z.infer<typeof communityRecordSchema>;

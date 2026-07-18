@@ -267,3 +267,7 @@
 - [x] [SEO-HP-1] Rewrite homepage title from 61 chars to 50 chars: "TrustSkool: Skool Communities Ranked by TrustSkore" (was "TrustSkool: Skool community leaderboard, ranked by TrustSkore")
 - [x] [SEO-HP-2] Rewrite homepage description from 188 chars to 151 chars: "TrustSkool ranks 22,000+ Skool communities by TrustSkore, built from member growth, rank momentum, and price stability. Find communities worth joining."
 - [x] [SEO-HP-3] Add meta keywords tag (6 keywords): "Skool communities, TrustSkore, Skool leaderboard, Skool community reviews, free Skool communities, Skool ranking". Added keywords field to HeadMeta type and buildHeadTags() in vite.ts.
+
+## Ingestion Fix + Full Dataset Load (2026-07-18)
+- [x] [INGEST-FIX-1] Fixed active_30d_streak schema in ingestion.ts: pipeline sends boolean (True/False) but schema expected integer. Added z.union([z.number(), z.boolean()]) with transform (true→1, false→0). All 22,502 records now parse and upsert correctly.
+- [x] [INGEST-RUN-1] Ran full ingestion: 22,502 communities upserted, 0 skipped, 0 errors. DB updated from 8,154 to 22,502 communities. Top TrustSkore is now 82.25 (vs flat 60.0 before).
