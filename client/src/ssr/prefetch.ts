@@ -8,6 +8,7 @@ import { trpc } from "@/lib/trpc";
 export type HeadMeta = {
   title: string;
   description: string;
+  keywords?: string;
   ogType?: "website" | "article";
   ogImage?: string;
   ogImageAlt?: string;
@@ -45,7 +46,9 @@ export type SsrPrefetch = {
 
 const SITE = BRAND_NAME;
 const DESC =
-  "TrustSkool ranks Skool communities by TrustSkore, an independent trust score built from member growth, ranking momentum, and price stability. Find communities worth joining before you pay.";
+  "TrustSkool ranks 22,000+ Skool communities by TrustSkore, built from member growth, rank momentum, and price stability. Find communities worth joining.";
+const HOME_KEYWORDS =
+  "Skool communities, TrustSkore, Skool leaderboard, Skool community reviews, free Skool communities, Skool ranking";
 
 function seed(qc: QueryClient, key: readonly unknown[], data: unknown) {
   qc.setQueryData(key, data);
@@ -128,8 +131,9 @@ export async function prefetchForPath(
       ],
     };
     return {
-      title: `${SITE}: Skool community leaderboard, ranked by TrustSkore`,
+      title: "TrustSkool: Skool Communities Ranked by TrustSkore",
       description: DESC,
+      keywords: HOME_KEYWORDS,
       ogType: "website",
       canonicalPath: "/",
       ogImage: "/manus-storage/trustskool-og_10a2b5e1.png",

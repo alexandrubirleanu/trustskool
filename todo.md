@@ -262,3 +262,8 @@
 ## Admin UX Improvements (2026-07-18)
 - [x] [ADMIN-UX-1] Added Tooltip components to all three action buttons in /admin header: "Activate daily digest" (explains Tier-B cron, 09:00 UTC, one-time setup), "Run ingestion now" (explains GitHub dataset fetch, 8k→22k+ update, ~30-60s), "Sign out" (explains cookie clearing + re-auth needed)
 - [x] [ADMIN-UX-2] Added Tooltip to "Joined" toggle in Opportunity view table: explains affiliate link activation status, shows different text for joined vs unjoined state
+
+## Homepage SEO Fixes (2026-07-18)
+- [x] [SEO-HP-1] Rewrite homepage title from 61 chars to 50 chars: "TrustSkool: Skool Communities Ranked by TrustSkore" (was "TrustSkool: Skool community leaderboard, ranked by TrustSkore")
+- [x] [SEO-HP-2] Rewrite homepage description from 188 chars to 151 chars: "TrustSkool ranks 22,000+ Skool communities by TrustSkore, built from member growth, rank momentum, and price stability. Find communities worth joining."
+- [x] [SEO-HP-3] Add meta keywords tag (6 keywords): "Skool communities, TrustSkore, Skool leaderboard, Skool community reviews, free Skool communities, Skool ranking". Added keywords field to HeadMeta type and buildHeadTags() in vite.ts.

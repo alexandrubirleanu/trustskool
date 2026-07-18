@@ -77,6 +77,9 @@ export function buildHeadTags(head: HeadMeta, siteName = SITE_NAME): string {
     tags.push(`<meta property="og:url" content="${url}" />`);
     tags.push(`<link rel="canonical" href="${url}" />`);
   }
+  if (head.keywords) {
+    tags.push(`<meta name="keywords" content="${escapeHtml(head.keywords)}" />`);
+  }
   if (head.notFound || head.noindex) {
     tags.push(`<meta name="robots" content="noindex, follow" />`);
   }
