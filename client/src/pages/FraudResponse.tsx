@@ -181,7 +181,7 @@ export default function FraudResponse() {
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             This policy applies to any Skool community listed in the TrustSkool index. It governs
             how TrustSkool responds to reports of fraud, scams, deceptive marketing, or other
-            credible harm — not to content quality disputes, refund disagreements between members
+            credible harm, not to content quality disputes, refund disagreements between members
             and creators, or low TrustSkore complaints.
           </p>
         </section>
@@ -199,7 +199,7 @@ export default function FraudResponse() {
             {[
               {
                 title: "Credible fraud or scam reports",
-                body: "Multiple independent, verifiable reports of fraudulent activity — such as taking payment without delivering promised access, impersonating another creator, or running a Ponzi-style referral scheme — constitute grounds for immediate flagging and review for delisting.",
+                body: "Multiple independent, verifiable reports of fraudulent activity, such as taking payment without delivering promised access, impersonating another creator, or running a Ponzi-style referral scheme, constitute grounds for immediate flagging and review for delisting.",
               },
               {
                 title: "Sustained community shutdown",
@@ -228,8 +228,8 @@ export default function FraudResponse() {
             <AlertTriangle className="h-5 w-5 text-amber-500" /> Warning label
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Communities under active review — where reports have been received but not yet verified
-            — will display a visible caution banner on their TrustSkool page. Example:
+            Communities under active review, where reports have been received but not yet verified,
+            will display a visible caution banner on their TrustSkool page. Example:
           </p>
           <div className="mt-4">
             <DisclaimerBanner
@@ -258,8 +258,8 @@ export default function FraudResponse() {
           </h2>
           <div className="mt-5 rounded-[4px] border border-border bg-card p-5 text-sm leading-relaxed text-muted-foreground">
             <p>
-              When a community is flagged under this policy — whether at the caution or warning
-              level — TrustSkool immediately suspends the affiliate link for that community.
+              When a community is flagged under this policy, whether at the caution or warning
+              level, TrustSkool immediately suspends the affiliate link for that community.
             </p>
             <p className="mt-3">
               This means TrustSkool stops earning any commission from that community while it is
@@ -322,10 +322,10 @@ export default function FraudResponse() {
           <div className="mt-5 rounded-[4px] border border-border bg-card p-5 text-sm leading-relaxed text-muted-foreground space-y-3">
             <p>TrustSkool is a directory, not a regulator or dispute resolution service. This policy does not cover:</p>
             <ul className="space-y-2">
-              <li><strong className="text-foreground">Refund disputes</strong> between members and community creators — contact Skool.com support or your payment provider.</li>
-              <li><strong className="text-foreground">Content quality complaints</strong> — whether a course is "worth it" is subjective and outside our scope.</li>
-              <li><strong className="text-foreground">Low TrustSkore complaints</strong> — the score is algorithmic; see the methodology page for how to interpret it.</li>
-              <li><strong className="text-foreground">Legal advice</strong> — if you believe you have been defrauded, consult a legal professional or your local consumer protection authority.</li>
+              <li><strong className="text-foreground">Refund disputes</strong> between members and community creators: contact Skool.com support or your payment provider.</li>
+              <li><strong className="text-foreground">Content quality complaints</strong>: whether a course is "worth it" is subjective and outside our scope.</li>
+              <li><strong className="text-foreground">Low TrustSkore complaints</strong>: the score is algorithmic; see the methodology page for how to interpret it.</li>
+              <li><strong className="text-foreground">Legal advice</strong>: if you believe you have been defrauded, consult a legal professional or your local consumer protection authority.</li>
             </ul>
           </div>
         </section>

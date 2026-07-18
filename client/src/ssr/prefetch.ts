@@ -177,9 +177,9 @@ export async function prefetchForPath(
 
   if (clean === "/resources") {
     return {
-      title: `Resources — Skool community guides, pricing data & strategy · ${SITE}`,
+      title: `Resources: Skool community guides, pricing data & strategy · ${SITE}`,
       description:
-        "In-depth guides and reference articles on Skool communities — pricing benchmarks, niche analysis, growth strategy, and how to evaluate a community before joining.",
+        "In-depth guides and reference articles on Skool communities: pricing benchmarks, niche analysis, growth strategy, and how to evaluate a community before joining.",
       ogType: "website",
       canonicalPath: "/resources",
     };
@@ -223,7 +223,7 @@ export async function prefetchForPath(
 
   if (clean === "/news") {
     return {
-      title: `Skool News — latest updates from the Skool ecosystem · ${SITE}`,
+      title: `Skool News: latest updates from the Skool ecosystem · ${SITE}`,
       description:
         "Latest news, platform updates, and community highlights from the Skool ecosystem, curated by TrustSkool.",
       ogType: "website",
@@ -266,7 +266,7 @@ export async function prefetchForPath(
 
   if (clean === "/faq") {
     return {
-      title: `FAQ — Skool community questions answered · ${SITE}`,
+      title: `FAQ: Skool community questions answered · ${SITE}`,
       description:
         "Frequently asked questions about Skool communities: pricing, joining, leaving, refunds, and how TrustSkore works.",
       ogType: "website",
@@ -370,7 +370,7 @@ export async function prefetchForPath(
     const slug = categoryMatch[1];
     const label = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
     return {
-      title: `${label} Skool communities — ranked by TrustSkore · ${SITE}`,
+      title: `${label} Skool communities, ranked by TrustSkore · ${SITE}`,
       description: `Browse the best ${label} communities on Skool, ranked by member growth, discovery momentum, and price stability.`,
       ogType: "website",
       canonicalPath: `/categories/${slug}`,

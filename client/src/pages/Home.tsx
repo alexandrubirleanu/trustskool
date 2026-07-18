@@ -228,8 +228,8 @@ export default function Home() {
           {/* Two-column layout on desktop: headline left, stats right */}
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
-              <h1 className="text-[24px] font-bold leading-tight tracking-tight sm:text-[28px] md:text-[42px]">
-                Find Skool communities worth joining — before you pay.
+              <h1 className="text-[24px] font-bold leading-tight tracking-tight text-balance sm:text-[28px] md:text-[42px]">
+                Find Skool communities worth joining, before you pay.
               </h1>
               <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
                 Every community gets a <strong className="font-semibold text-foreground">TrustSkore</strong> built from

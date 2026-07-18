@@ -322,7 +322,7 @@ export default function AdminClicks() {
                 Opportunity view
               </h2>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                Communities with affiliate commission — sorted by revenue potential. Toggle "Joined" once you've activated the affiliate link.
+                Communities with affiliate commission, sorted by revenue potential. Toggle "Joined" once you've activated the affiliate link.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2 text-xs">
@@ -378,18 +378,18 @@ export default function AdminClicks() {
                         {Number(row.clickCount)}
                       </TableCell>
                       <TableCell className="text-right tabular-nums font-semibold">
-                        {row.trustSkore != null ? row.trustSkore.toFixed(1) : "—"}
+                        {row.trustSkore != null ? row.trustSkore.toFixed(1) : "·"}
                       </TableCell>
                       <TableCell className="text-right">
                         {row.aflPercent != null ? (
                           <span className="font-bold text-amber-500">{row.aflPercent}%</span>
                         ) : (
-                          <span className="text-muted-foreground italic">—</span>
+                          <span className="text-muted-foreground italic">·</span>
                         )}
                       </TableCell>
                       <TableCell className="text-right">
                         <span className="text-xs text-muted-foreground">
-                          {row.mrrStatus ?? "—"}
+                          {row.mrrStatus ?? "·"}
                         </span>
                       </TableCell>
                       <TableCell className="text-center">
@@ -423,7 +423,7 @@ export default function AdminClicks() {
             <div>
               <h2 id="afl-heading" className="text-lg font-semibold">Affiliate commission rates</h2>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                Internal signal only — owner-set affiliate % from scraped profiles. Not shown publicly.
+                Internal signal only: owner-set affiliate % from scraped profiles. Not shown publicly.
               </p>
             </div>
             <div className="flex items-center gap-2 text-xs">

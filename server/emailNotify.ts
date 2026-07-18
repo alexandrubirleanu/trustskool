@@ -68,7 +68,7 @@ function formatPrice(cents: number | null | undefined, interval: string | null |
 }
 
 function formatLanguage(lang: string | null | undefined): string {
-  if (!lang) return "—";
+  if (!lang) return "·";
   return lang.charAt(0).toUpperCase() + lang.slice(1);
 }
 
@@ -90,10 +90,10 @@ export function buildClickEmail(click: ClickNotification) {
   const name = escapeHtml(click.displayName);
   const referrer = click.referrer ? escapeHtml(click.referrer) : "(direct / unknown)";
   const ts = click.timestamp.toISOString();
-  const members = click.totalMembers != null ? click.totalMembers.toLocaleString("en-US") : "—";
+  const members = click.totalMembers != null ? click.totalMembers.toLocaleString("en-US") : "·";
   const price = formatPrice(click.priceAmountCents, click.priceInterval);
   const language = formatLanguage(click.language);
-  const clickCount = click.clickCount != null ? String(click.clickCount) : "—";
+  const clickCount = click.clickCount != null ? String(click.clickCount) : "·";
   const commission = estimateCommission(click.priceAmountCents, click.aflPercent);
 
   const commissionRow = commission
@@ -101,10 +101,10 @@ export function buildClickEmail(click: ClickNotification) {
     : "";
 
   return {
-    subject: `[TrustSkool] Click — ${click.displayName}${commission ? ` (+${commission})` : ""}`,
+    subject: `[TrustSkool] Click: ${click.displayName}${commission ? ` (+${commission})` : ""}`,
     html: `
       <div style="font-family:Roboto,Arial,sans-serif;color:#202124;max-width:560px;padding:24px">
-        <p style="margin:0 0 4px;font-size:12px;color:#909090;text-transform:uppercase;letter-spacing:.08em">TrustSkool — Click Notification</p>
+        <p style="margin:0 0 4px;font-size:12px;color:#909090;text-transform:uppercase;letter-spacing:.08em">TrustSkool: Click Notification</p>
         <h2 style="margin:0 0 20px;font-size:20px;font-weight:700">Outbound click tracked</h2>
         <table style="border-collapse:collapse;width:100%;font-size:14px">
           <tr ${trBorder}><td ${tdLabel}>Community</td><td ${tdValue}><strong>${name}</strong></td></tr>
@@ -169,7 +169,7 @@ export function buildDigestEmail(rows: DigestRow[], windowLabel: string) {
     .map(r => {
       const name = escapeHtml(r.displayName);
       const price = formatPrice(r.priceAmountCents, r.priceInterval);
-      const members = r.totalMembers != null ? r.totalMembers.toLocaleString("en-US") : "—";
+      const members = r.totalMembers != null ? r.totalMembers.toLocaleString("en-US") : "·";
       const skoolUrl = r.slug === "signup" ? SKOOL_SIGNUP_URL : skoolCommunityUrl(r.slug);
       return `
         <tr style="border-bottom:1px solid #E4E4E4">
@@ -182,14 +182,14 @@ export function buildDigestEmail(rows: DigestRow[], windowLabel: string) {
     .join("");
 
   const moreNote = rows.length > 30
-    ? `<p style="margin:8px 0 0;font-size:12px;color:#909090">+ ${rows.length - 30} more communities — view full log at <a href="https://trustskool.com/admin/clicks" style="color:#909090">admin/clicks</a>.</p>`
+    ? `<p style="margin:8px 0 0;font-size:12px;color:#909090">+ ${rows.length - 30} more communities. View full log at <a href="https://trustskool.com/admin/clicks" style="color:#909090">admin/clicks</a>.</p>`
     : "";
 
   return {
-    subject: `[TrustSkool] Daily digest — ${totalClicks} click${totalClicks !== 1 ? "s" : ""} (${windowLabel})`,
+    subject: `[TrustSkool] Daily digest: ${totalClicks} click${totalClicks !== 1 ? "s" : ""} (${windowLabel})`,
     html: `
       <div style="font-family:Roboto,Arial,sans-serif;color:#202124;max-width:600px;padding:24px">
-        <p style="margin:0 0 4px;font-size:12px;color:#909090;text-transform:uppercase;letter-spacing:.08em">TrustSkool — Daily Digest</p>
+        <p style="margin:0 0 4px;font-size:12px;color:#909090;text-transform:uppercase;letter-spacing:.08em">TrustSkool: Daily Digest</p>
         <h2 style="margin:0 0 4px;font-size:20px;font-weight:700">${totalClicks} outbound click${totalClicks !== 1 ? "s" : ""}</h2>
         <p style="margin:0 0 20px;font-size:13px;color:#909090">${windowLabel}</p>
         ${rows.length === 0
@@ -217,7 +217,7 @@ export function buildDigestEmail(rows: DigestRow[], windowLabel: string) {
       </div>
     `.trim(),
     text: [
-      `[TrustSkool] Daily digest — ${totalClicks} clicks (${windowLabel})`,
+      `[TrustSkool] Daily digest: ${totalClicks} clicks (${windowLabel})`,
       "",
       ...rows.slice(0, 30).map(r => `${r.displayName.padEnd(40)} ${String(r.count).padStart(4)} clicks  ${formatPrice(r.priceAmountCents, r.priceInterval)}`),
       rows.length > 30 ? `... and ${rows.length - 30} more` : "",
@@ -296,7 +296,7 @@ export function buildSlaAlertEmail(breaches: SlaBreachRow[]): { subject: string;
     if (rows.length === 0) return "";
     const items = rows
       .slice(0, 20)
-      .map(r => `  • ${r.displayName} (${r.totalMembers.toLocaleString()} members) — ${r.hoursOverdue}h overdue`)
+      .map(r => `  • ${r.displayName} (${r.totalMembers.toLocaleString()} members): ${r.hoursOverdue}h overdue`)
       .join("\n");
     return `\n${label} tier (${rows.length}):\n${items}\n`;
   };

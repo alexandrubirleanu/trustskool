@@ -120,7 +120,7 @@ export function computeMrrEstimate(
         high: highDollars,
         label,
         reinforced: true,
-        note: "Based on creator's public Skool revenue badge. Free community — no per-member pricing signal available.",
+        note: "Based on creator's public Skool revenue badge. Free community: no per-member pricing signal available.",
         ownerCommunityCount: communityCount,
       };
     }
@@ -144,7 +144,7 @@ export function computeMrrEstimate(
         label,
         reinforced: true,
         note:
-          "This creator's badge suggests higher revenue than member count and price alone would indicate — possibly from a pricing tier or offer not reflected in the public listing.",
+          "This creator's badge suggests higher revenue than member count and price alone would indicate, possibly from a pricing tier or offer not reflected in the public listing.",
         ownerCommunityCount: communityCount,
       };
     }

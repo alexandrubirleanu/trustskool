@@ -103,7 +103,7 @@ export default function FaqArticle() {
 
         <div className="mt-12 flex flex-col items-center gap-4 rounded-[4px] border border-border bg-card px-6 py-10 text-center">
           <p className="max-w-md text-base leading-relaxed text-muted-foreground">
-            Find the right Skool community for you — ranked by real growth data.
+            Find the right Skool community for you, ranked by real growth data.
           </p>
           <Link
             href="/"

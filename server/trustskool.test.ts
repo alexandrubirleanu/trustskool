@@ -153,7 +153,7 @@ describe("Click tracking config", () => {
       language: "english",
       clickCount: 7,
     });
-    expect(email.subject).toBe("[TrustSkool] Click — My <Community>");
+    expect(email.subject).toBe("[TrustSkool] Click: My <Community>");
     expect(email.html).toContain("My &lt;Community&gt;");
     expect(email.html).toContain("my-community");
     expect(email.html).toContain("2026-07-18T10:00:00.000Z");
