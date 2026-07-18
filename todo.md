@@ -71,3 +71,9 @@
 ## DataFast Analytics
 - [x] Added DataFast browser tracking script to client/index.html (defer, data-website-id="dfid_UH9ObO70D14iHkJ4UkHq1", data-domain="trustskool.com") — confirmed in page source
 - [x] Installed @datafast/ai-crawl 1.0.9 and added createExpressAICrawlerMiddleware before all routes in server/_core/index.ts (publicOrigin: "https://trustskool.com") — tracks robots.txt, llms.txt, sitemap.xml, all page requests from known bots
+
+## CTA copy update + Logo
+- [x] Update CTA copy: nav "Start on Skool for $9", homepage banner "Launch your Business on Skool", detail page header CTA context-aware (free: "Join Free", paid: "Start on Skool for $9/mo"), sticky mobile bar concise, bottom detail CTA stronger
+- [x] Install new logo (gold star + mortarboard, black wordmark) in nav replacing ShieldCheck icon
+- [x] Create favicon from logo icon
+- [x] Update OG image with new logo

@@ -99,6 +99,8 @@ export async function prefetchForPath(
       description: DESC,
       ogType: "website",
       canonicalPath: "/",
+      ogImage: "/manus-storage/trustskool-og_10a2b5e1.png",
+      ogImageAlt: "TrustSkool — Skool community leaderboard",
       jsonLd,
     };
   }

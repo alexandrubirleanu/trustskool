@@ -1,4 +1,4 @@
-import { Menu, Search, ShieldCheck, X } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -8,17 +8,22 @@ import { Link, useLocation } from "wouter";
  */
 
 function BrandMark({ compact = false }: { compact?: boolean }) {
+  if (compact) {
+    return (
+      <img
+        src="/manus-storage/trustskool-logo-final_69923726.png"
+        alt="TrustSkool"
+        className="h-8 w-8 object-contain"
+      />
+    );
+  }
   return (
-    <span className="inline-flex items-center gap-2">
-      <span className="flex h-8 w-8 items-center justify-center rounded-[4px] bg-foreground text-background">
-        <ShieldCheck className="h-4.5 w-4.5" strokeWidth={2.2} />
-      </span>
-      {!compact && (
-        <span className="font-heading text-lg font-700 tracking-tight" style={{ fontFamily: "var(--font-heading)", fontWeight: 700 }}>
-          TrustSkool
-        </span>
-      )}
-    </span>
+    <img
+      src="/manus-storage/trustskool-logo-final_69923726.png"
+      alt="TrustSkool"
+      className="h-9 w-auto object-contain"
+      style={{ maxWidth: 160 }}
+    />
   );
 }
 
@@ -77,7 +82,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             <a
               href="/go/signup"
               className="inline-flex h-9 items-center rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
-              Start on Skool
+              Start on Skool for $9
             </a>
           </nav>
 
@@ -102,7 +107,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
               <a
                 href="/go/signup"
                 className="mt-1 inline-flex h-10 items-center justify-center rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124]">
-                Start on Skool
+                Start on Skool for $9
               </a>
             </div>
           </div>

@@ -332,17 +332,17 @@ export default function Home() {
           <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
             <div className="max-w-xl">
               <h2 className="text-xl font-semibold text-background md:text-2xl">
-                Ready to start your own community?
+                Launch your Business on Skool
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-background/70 md:text-base">
-                Skool gives you community, courses and events under one roof — free to start. Build
-                the growth record that earns a TrustSkore.
+                Community, courses and events under one roof. Starts at $9/month — build the growth
+                record that earns a TrustSkore.
               </p>
             </div>
             <a
               href="/go/signup"
               className="inline-flex h-11 shrink-0 items-center rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
-              Start free on Skool
+              Create your Community
             </a>
           </div>
         </aside>
