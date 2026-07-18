@@ -3,8 +3,10 @@ import {
   clicks,
   communities,
   ingestionRuns,
+  ownerProfiles,
   type InsertClick,
   type InsertCommunity,
+  type InsertOwnerProfile,
 } from "../drizzle/schema";
 import { getDb } from "./db";
 
@@ -187,6 +189,54 @@ export async function getFilterOptions() {
       .filter(c => c.value)
       .map(c => ({ value: c.value as string, count: Number(c.count) })),
   };
+}
+
+/* ---------------- Owner Profiles ---------------- */
+
+/**
+ * Look up the owner profile for a community by its slug.
+ * Returns null if no profile has been scraped for this community's owner yet.
+ */
+export async function getOwnerProfileBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return null;
+  // ownerProfiles.ownedCommunities is a JSON array; we search by slug using JSON_CONTAINS
+  const rows = await db
+    .select()
+    .from(ownerProfiles)
+    .where(sql`JSON_CONTAINS(${ownerProfiles.ownedCommunities}, JSON_OBJECT('slug', ${slug}))`)
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+/**
+ * Upsert an owner profile (insert or update by handle).
+ */
+export async function upsertOwnerProfile(record: InsertOwnerProfile) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db
+    .insert(ownerProfiles)
+    .values(record)
+    .onDuplicateKeyUpdate({
+      set: {
+        firstName: record.firstName ?? null,
+        lastName: record.lastName ?? null,
+        mrrStatus: record.mrrStatus ?? null,
+        activityStatus: record.activityStatus ?? null,
+        ownedCommunities: record.ownedCommunities ?? null,
+        scrapedAt: record.scrapedAt ?? new Date(),
+      },
+    });
+}
+
+/**
+ * Return all owner profiles (for admin view).
+ */
+export async function listOwnerProfiles() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(ownerProfiles).orderBy(desc(ownerProfiles.scrapedAt));
 }
 
 export async function getAllSlugsForSitemap() {

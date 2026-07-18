@@ -1,5 +1,5 @@
 import { Loader2, MousePointerClick, RefreshCw, ShieldAlert } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/_core/hooks/useAuth";
 import SiteLayout from "@/components/SiteLayout";
@@ -49,6 +49,34 @@ export default function AdminClicks() {
   const { data: lastIngestion } = trpc.admin.lastIngestion.useQuery(undefined, {
     enabled: isAdmin,
   });
+
+  // Owner profiles with afl_percent — internal-only affiliate signal
+  const { data: ownerProfiles } = trpc.ownerProfiles.list.useQuery(undefined, {
+    enabled: isAdmin,
+  });
+
+  // Flatten to per-community afl_percent rows, sorted by afl_percent desc
+  const [aflSort, setAflSort] = useState<"afl" | "clicks">("afl");
+  const aflRows = useMemo(() => {
+    if (!ownerProfiles) return [];
+    const rows: { slug: string; displayName: string; aflPercent: number | null; handle: string }[] = [];
+    for (const profile of ownerProfiles) {
+      for (const c of profile.ownedCommunities ?? []) {
+        if (c.afl_percent != null && c.afl_percent > 0) {
+          rows.push({
+            slug: c.slug,
+            displayName: c.display_name,
+            aflPercent: c.afl_percent,
+            handle: profile.handle,
+          });
+        }
+      }
+    }
+    if (aflSort === "afl") return rows.sort((a, b) => (b.aflPercent ?? 0) - (a.aflPercent ?? 0));
+    // sort by click count
+    const clickMap = new Map(stats?.map(s => [s.slug, Number(s.count)]) ?? []);
+    return rows.sort((a, b) => (clickMap.get(b.slug) ?? 0) - (clickMap.get(a.slug) ?? 0));
+  }, [ownerProfiles, aflSort, stats]);
 
   const utils = trpc.useUtils();
   const runIngestion = trpc.admin.runIngestion.useMutation({
@@ -226,6 +254,74 @@ export default function AdminClicks() {
                 Next
               </Button>
             </nav>
+          )}
+        </section>
+        {/* Affiliate commission — internal only */}
+        <section className="mt-10" aria-labelledby="afl-heading">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 id="afl-heading" className="text-lg font-semibold">Affiliate commission rates</h2>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                Internal signal only — owner-set affiliate % from scraped profiles. Not shown publicly.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 text-xs">
+              <span className="text-muted-foreground">Sort by</span>
+              <button
+                onClick={() => setAflSort("afl")}
+                className={`rounded px-2 py-1 font-medium transition-colors ${
+                  aflSort === "afl" ? "bg-foreground text-background" : "bg-secondary text-muted-foreground hover:text-foreground"
+                }`}>
+                Commission %
+              </button>
+              <button
+                onClick={() => setAflSort("clicks")}
+                className={`rounded px-2 py-1 font-medium transition-colors ${
+                  aflSort === "clicks" ? "bg-foreground text-background" : "bg-secondary text-muted-foreground hover:text-foreground"
+                }`}>
+                Clicks
+              </button>
+            </div>
+          </div>
+          {aflRows.length > 0 ? (
+            <div className="mt-4 overflow-x-auto rounded-[4px] border border-border bg-card">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Community</TableHead>
+                    <TableHead>Owner handle</TableHead>
+                    <TableHead className="text-right">Afl %</TableHead>
+                    <TableHead className="text-right">Clicks</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {aflRows.map(row => {
+                    const clickCount = stats?.find(s => s.slug === row.slug);
+                    return (
+                      <TableRow key={row.slug}>
+                        <TableCell>
+                          <div className="font-medium">{row.displayName}</div>
+                          <div className="text-xs text-muted-foreground">/{row.slug}</div>
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">@{row.handle}</TableCell>
+                        <TableCell className="text-right">
+                          <span className="inline-flex items-center justify-end gap-1 font-bold tabular-nums">
+                            {row.aflPercent}%
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-right tabular-nums text-muted-foreground">
+                          {clickCount ? Number(clickCount.count) : <span className="italic">0</span>}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </div>
+          ) : (
+            <p className="mt-4 rounded-[4px] border border-border bg-card px-5 py-8 text-center text-sm text-muted-foreground">
+              No affiliate commission data yet. Import owner profiles to populate this table.
+            </p>
           )}
         </section>
       </div>

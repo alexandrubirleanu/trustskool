@@ -1,0 +1,1 @@
+ALTER TABLE `ownerProfiles` MODIFY COLUMN `mrrStatus` enum('none','clover','liftoff','rocket','crown','diamond','red_diamond','goat','goated');

@@ -1,4 +1,4 @@
-import { AlertTriangle, BarChart3, BookOpen, Clock, Database, LineChart, Lock, RefreshCw, Scale, ShieldCheck } from "lucide-react";
+import { AlertTriangle, BarChart3, BookOpen, Clock, Database, LineChart, Lock, RefreshCw, Scale, ShieldCheck, TrendingUp } from "lucide-react";
 import { Link } from "wouter";
 import SiteLayout from "@/components/SiteLayout";
 
@@ -44,6 +44,7 @@ export default function Methodology() {
               ["#limitations", "6. Limitations"],
               ["#commission-firewall", "7. Commission firewall"],
               ["#changelog", "8. Changelog"],
+              ["#mrr", "9. Estimated Revenue figures"],
             ].map(([href, label]) => (
               <li key={href}>
                 <a href={href} className="hover:text-foreground transition-colors">{label}</a>
@@ -450,6 +451,94 @@ export default function Methodology() {
             growth record is weak. New communities with little history tend to start in the middle
             of the range until they build a track record.
           </p>
+        </section>
+
+        {/* ── 9. Estimated Revenue ─────────────────────────────────────── */}
+        <section className="mt-14" id="mrr" aria-labelledby="mrr-heading">
+          <h2 id="mrr-heading" className="flex items-center gap-2 text-xl font-semibold">
+            <TrendingUp className="h-5 w-5" /> 9. Estimated Revenue figures
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            Some community pages show an <strong className="text-foreground">Estimated Revenue</strong> range.
+            This figure is not a verified income claim — it is a model-based estimate derived from two
+            independent signals: a <em>naive ceiling</em> and, when available, the creator's{" "}
+            <em>public Skool revenue badge</em>.
+          </p>
+
+          <div className="mt-6 space-y-5">
+            {/* Signal 1 */}
+            <div className="rounded-[4px] border border-border bg-card p-5 text-sm">
+              <p className="font-semibold">Signal 1 — Naive ceiling (always available for paid communities)</p>
+              <p className="mt-2 text-muted-foreground">
+                <code className="rounded bg-secondary px-1 py-0.5 text-xs">naive_ceiling = total_members × monthly_price</code>
+              </p>
+              <p className="mt-2 text-muted-foreground">
+                This is the theoretical maximum if every current member pays the full monthly price with
+                zero churn. In practice, actual MRR is lower due to annual plans, trials, churn, and
+                refunds. We display it as an upper bound only.
+              </p>
+            </div>
+
+            {/* Signal 2 */}
+            <div className="rounded-[4px] border border-border bg-card p-5 text-sm">
+              <p className="font-semibold">Signal 2 — Skool public revenue badge (when available)</p>
+              <p className="mt-2 text-muted-foreground">
+                Skool displays a public badge on creator profiles when their total monthly revenue across
+                all communities crosses a tier threshold. These tiers are publicly visible on Skool.com
+                and are not set by TrustSkool.
+              </p>
+              <div className="mt-4 overflow-hidden rounded-[4px] border border-border">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b border-border bg-secondary/60 text-left">
+                      <th className="px-3 py-2 font-semibold">Badge</th>
+                      <th className="px-3 py-2 font-semibold">Tier range (MRR)</th>
+                      <th className="px-3 py-2 font-semibold">Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-card divide-y divide-border">
+                    {[
+                      ["Clover", "$3k – $10k / month", ""],
+                      ["Liftoff / Rocket", "$10k – $30k / month", "Liftoff is an alias for the Rocket tier"],
+                      ["Crown", "$30k – $100k / month", ""],
+                      ["Diamond", "$100k – $300k / month", ""],
+                      ["Red Diamond", "$300k – $1M / month", ""],
+                      ["Goated / Goat", "$1M+ / month", "Open-ended upper bound"],
+                    ].map(([badge, range, note]) => (
+                      <tr key={badge}>
+                        <td className="px-3 py-2 font-medium">{badge}</td>
+                        <td className="px-3 py-2 text-muted-foreground tabular-nums">{range}</td>
+                        <td className="px-3 py-2 text-muted-foreground">{note}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Combination logic */}
+            <div className="rounded-[4px] border border-border bg-card p-5 text-sm">
+              <p className="font-semibold">How the two signals are combined</p>
+              <ul className="mt-3 space-y-2 text-muted-foreground">
+                <li><strong className="text-foreground">No badge + paid community:</strong> Display naive ceiling as "Up to $X/month" with no reinforcement label.</li>
+                <li><strong className="text-foreground">Badge + single community:</strong> Intersect the tier range with the naive ceiling. If the naive ceiling is inside the tier, the intersection narrows the range. If the naive ceiling is below the tier's lower bound, the full tier range is shown with a note that the badge suggests higher revenue than the ceiling implies.</li>
+                <li><strong className="text-foreground">Badge + multiple communities:</strong> The badge covers the creator's total across all their communities. We allocate the tier range proportionally by member count across the communities we have indexed. This is an approximation — the actual split depends on price and churn per community.</li>
+                <li><strong className="text-foreground">Free community + no badge:</strong> No estimate is shown.</li>
+              </ul>
+            </div>
+
+            {/* Caveats */}
+            <div className="rounded-[4px] border border-border bg-secondary/40 p-5 text-sm">
+              <p className="font-semibold">Important caveats</p>
+              <ul className="mt-3 space-y-1.5 text-muted-foreground">
+                <li>Revenue estimates are not verified by Skool or the community creator.</li>
+                <li>Skool badges reflect total creator MRR, not individual community MRR.</li>
+                <li>Naive ceilings assume 100% conversion and zero churn — actual MRR is always lower.</li>
+                <li>The estimate is updated whenever the community's member count or price changes in our index.</li>
+                <li>TrustSkool does not earn more commission from communities with higher revenue estimates.</li>
+              </ul>
+            </div>
+          </div>
         </section>
 
         {/* CTA row */}

@@ -86,6 +86,11 @@ export default function CommunityDetail() {
     { enabled: Boolean(slug) },
   );
 
+  const { data: mrrEstimate } = trpc.communities.mrrEstimate.useQuery(
+    { slug },
+    { enabled: Boolean(slug) },
+  );
+
   const { data: similar } = trpc.communities.similar.useQuery(
     {
       slug,
@@ -282,6 +287,51 @@ export default function CommunityDetail() {
             </a>
           </div>
         </header>
+
+        {/* MRR Estimate */}
+        {mrrEstimate && (
+          <section className="mt-8" aria-labelledby="mrr-heading">
+            <div className="flex items-center gap-2">
+              <h2 id="mrr-heading" className="text-lg font-semibold">Estimated Revenue</h2>
+              <a
+                href="/methodology#mrr"
+                title="How is this estimated?"
+                className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-border text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+                aria-label="Revenue estimate methodology">
+                ?
+              </a>
+            </div>
+            <div className="mt-3 rounded-[4px] border border-border bg-card p-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="text-2xl font-bold tabular-nums tracking-tight">
+                    {mrrEstimate.label}
+                  </p>
+                  {mrrEstimate.reinforced ? (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Reinforced by creator's public Skool revenue badge
+                      {mrrEstimate.ownerCommunityCount > 1 && (
+                        <> &mdash; estimated share across {mrrEstimate.ownerCommunityCount} communities this creator owns</>
+                      )}
+                    </p>
+                  ) : (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Ceiling estimate from member count × price. No public creator revenue badge available yet.
+                    </p>
+                  )}
+                </div>
+                <span className="shrink-0 rounded-[4px] border border-border px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                  ESTIMATE
+                </span>
+              </div>
+              {mrrEstimate.note && (
+                <p className="mt-3 border-t border-border pt-3 text-xs leading-relaxed text-muted-foreground">
+                  {mrrEstimate.note}
+                </p>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* Score breakdown */}
         <section className="mt-10" aria-labelledby="breakdown-heading">

@@ -135,3 +135,54 @@ export const ingestionRuns = mysqlTable("ingestionRuns", {
 });
 
 export type IngestionRun = typeof ingestionRuns.$inferSelect;
+
+/** Shape of each entry in ownerProfiles.ownedCommunities JSON column */
+export type OwnedCommunityEntry = {
+  slug: string;
+  display_name: string;
+  total_members: number;
+  afl_percent: number | null;
+};
+
+/**
+ * Skool creator owner profiles scraped from skool.com/@handle.
+ * One row per unique owner handle. Populated incrementally by the scrape pipeline.
+ * mrrStatus reflects the creator's TOTAL revenue across ALL their communities.
+ */
+export const ownerProfiles = mysqlTable(
+  "ownerProfiles",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    handle: varchar("handle", { length: 128 }).notNull().unique(),
+    firstName: varchar("firstName", { length: 128 }),
+    lastName: varchar("lastName", { length: 128 }),
+    /**
+     * Skool public MRR badge:
+     * none | clover ($3k+) | rocket ($10k+) | crown ($30k+) |
+     * diamond ($100k+) | red_diamond ($300k+) | goated ($1M+)
+     */
+    mrrStatus: mysqlEnum("mrrStatus", [
+      "none",
+      "clover",
+      "liftoff",
+      "rocket",
+      "crown",
+      "diamond",
+      "red_diamond",
+      "goat",
+      "goated",
+    ]),
+    activityStatus: varchar("activityStatus", { length: 64 }),
+    /** Array of communities this owner operates, with their afl_percent */
+    ownedCommunities: json("ownedCommunities").$type<OwnedCommunityEntry[]>(),
+    scrapedAt: timestamp("scrapedAt").defaultNow().notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  table => [
+    index("idx_ownerProfiles_handle").on(table.handle),
+  ],
+);
+
+export type OwnerProfile = typeof ownerProfiles.$inferSelect;
+export type InsertOwnerProfile = typeof ownerProfiles.$inferInsert;

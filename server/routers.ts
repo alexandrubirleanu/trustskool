@@ -8,12 +8,16 @@ import {
   getCommunityBySlug,
   getFilterOptions,
   getLatestIngestionRun,
+  getOwnerProfileBySlug,
   getPlatformStats,
   getSimilarCommunities,
   listClicks,
   listCommunities,
+  listOwnerProfiles,
+  upsertOwnerProfile,
 } from "./dbCommunities";
 import { runIngestion } from "./ingestion";
+import { computeMrrEstimate, type MrrStatus } from "./mrrEstimate";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -65,6 +69,76 @@ export const appRouter = router({
 
     filters: publicProcedure.query(() => getFilterOptions()),
     stats: publicProcedure.query(() => getPlatformStats()),
+
+    mrrEstimate: publicProcedure
+      .input(z.object({ slug: z.string().min(1).max(191) }))
+      .query(async ({ input }) => {
+        const community = await getCommunityBySlug(input.slug);
+        if (!community) return null;
+
+        const ownerProfile = await getOwnerProfileBySlug(input.slug);
+        if (!ownerProfile) {
+          // No owner profile yet — show naive ceiling only for paid communities
+          return computeMrrEstimate(
+            input.slug,
+            community.priceAmountCents ?? null,
+            community.totalMembers,
+            null,
+            null,
+          );
+        }
+
+        return computeMrrEstimate(
+          input.slug,
+          community.priceAmountCents ?? null,
+          community.totalMembers,
+          ownerProfile.mrrStatus as MrrStatus | null,
+          ownerProfile.ownedCommunities ?? null,
+        );
+      }),
+  }),
+
+  ownerProfiles: router({
+    /** Admin-only: list all scraped owner profiles */
+    list: adminProcedure.query(() => listOwnerProfiles()),
+    /** Admin-only: upsert a single owner profile (used by import script / pipeline) */
+    upsert: adminProcedure
+      .input(
+        z.object({
+          handle: z.string().min(1).max(128),
+          firstName: z.string().max(128).nullable().optional(),
+          lastName: z.string().max(128).nullable().optional(),
+          mrrStatus: z
+            .enum(["none", "clover", "liftoff", "rocket", "crown", "diamond", "red_diamond", "goat", "goated"])
+            .nullable()
+            .optional(),
+          activityStatus: z.string().max(64).nullable().optional(),
+          ownedCommunities: z
+            .array(
+              z.object({
+                slug: z.string(),
+                display_name: z.string(),
+                total_members: z.number(),
+                afl_percent: z.number().nullable(),
+              }),
+            )
+            .nullable()
+            .optional(),
+          scrapedAt: z.date().optional(),
+        }),
+      )
+      .mutation(async ({ input }) => {
+        await upsertOwnerProfile({
+          handle: input.handle,
+          firstName: input.firstName ?? null,
+          lastName: input.lastName ?? null,
+          mrrStatus: (input.mrrStatus as any) ?? null,
+          activityStatus: input.activityStatus ?? null,
+          ownedCommunities: input.ownedCommunities ?? null,
+          scrapedAt: input.scrapedAt ?? new Date(),
+        });
+        return { success: true };
+      }),
   }),
 
   admin: router({

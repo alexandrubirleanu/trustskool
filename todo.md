@@ -104,3 +104,15 @@
 ## SEO Gate follow-ups
 - [x] Worked example: DB currently has only 1 snapshot per community (pipeline just seeded). Added visible disclosure note in /methodology that the example is illustrative and will be replaced with real community data once ≥3 snapshots exist. Formula and math are accurate.
 - [x] Add isFlagged (caution|warning) + flagReason fields to communities table (migration applied); render DisclaimerBanner on CommunityDetail for flagged communities; isFlagged and flagReason included in LIST_COLUMNS so all community queries return the flag state
+
+## MRR Revenue Estimate Feature
+- [x] Add owner_profiles table to drizzle schema (handle, mrrStatus, activityStatus, ownedCommunitiesJson, updatedAt)
+- [x] Generate and apply migration SQL
+- [x] Add getOwnerProfileBySlug + upsertOwnerProfile + listOwnerProfiles in server/dbCommunities.ts
+- [x] Implement MRR estimate logic: tier bounds, naive ceiling, intersection, multi-community allocation (server/mrrEstimate.ts)
+- [x] Add communities.mrrEstimate tRPC procedure + ownerProfiles.list/upsert admin procedures
+- [x] Add MRR estimate badge to CommunityDetail page (info icon → /methodology#mrr)
+- [x] Graceful degradation when no owner profile match (naive ceiling for paid, null for free)
+- [x] Add afl_percent section to AdminClicks page (sortable by commission % or clicks, internal only)
+- [x] Write owner_profiles.jsonl import script (scripts/import_owner_profiles.mjs) — 31 profiles imported
+- [x] Write vitest for MRR estimate logic (10 tests, all passing)

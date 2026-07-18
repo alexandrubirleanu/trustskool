@@ -22,6 +22,20 @@
       "when": 1784389863351,
       "tag": "0002_violet_peter_parker",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1784390234656,
+      "tag": "0003_mature_doctor_octopus",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1784390702792,
+      "tag": "0004_wide_nextwave",
+      "breakpoints": true
     }
   ]
 }
