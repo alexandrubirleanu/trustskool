@@ -76,7 +76,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             </Link>
             <a
               href="/go/signup"
-              className="inline-flex h-9 items-center rounded-[4px] border border-foreground bg-foreground px-4 text-sm font-medium text-background transition-transform active:scale-[0.97]">
+              className="inline-flex h-9 items-center rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
               Start on Skool
             </a>
           </nav>
@@ -101,7 +101,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
               </Link>
               <a
                 href="/go/signup"
-                className="mt-1 inline-flex h-10 items-center justify-center rounded-[4px] bg-foreground px-4 text-sm font-medium text-background">
+                className="mt-1 inline-flex h-10 items-center justify-center rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124]">
                 Start on Skool
               </a>
             </div>

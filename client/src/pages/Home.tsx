@@ -274,7 +274,7 @@ export default function Home() {
             </div>
             <a
               href="/go/signup"
-              className="inline-flex h-11 shrink-0 items-center rounded-[4px] border border-background bg-background px-6 text-sm font-semibold text-foreground transition-transform active:scale-[0.97]">
+              className="inline-flex h-11 shrink-0 items-center rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
               Create your Skool community
             </a>
           </div>

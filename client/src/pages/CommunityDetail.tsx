@@ -232,7 +232,7 @@ export default function CommunityDetail() {
             <a
               href={`/go/${community.slug}`}
               rel="nofollow sponsored"
-              className="inline-flex h-11 items-center gap-2 rounded-[4px] border border-foreground bg-foreground px-6 text-sm font-semibold text-background transition-transform active:scale-[0.97]">
+              className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
               Join on Skool <ExternalLink className="h-4 w-4" />
             </a>
           </div>
