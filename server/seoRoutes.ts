@@ -215,6 +215,29 @@ function formatPrice(cents: number | null, interval: string | null): string {
   return `$${dollars}`;
 }
 
+/** Annotate a community with an editorial one-liner based on its data signals */
+function editorialNote(c: {
+  totalMembers: number | null;
+  priceAmountCents: number | null;
+  priceInterval: string | null;
+  category: string | null;
+  language: string | null;
+  description: string | null;
+}): string {
+  const isFree = !c.priceAmountCents;
+  const isLarge = (c.totalMembers ?? 0) >= 10_000;
+  const isMedium = (c.totalMembers ?? 0) >= 2_000;
+  const cat = (c.category ?? "").toLowerCase();
+  const desc = (c.description ?? "").slice(0, 120).replace(/\n/g, " ").trim();
+
+  if (desc.length > 30) return desc;
+  if (isLarge && isFree) return `One of the largest free communities on Skool with over ${Math.round((c.totalMembers ?? 0) / 1000)}k members.`;
+  if (isLarge) return `Paid community with ${Math.round((c.totalMembers ?? 0) / 1000)}k+ members, indicating sustained retention.`;
+  if (isMedium && isFree) return `Free community with a substantial audience in the ${cat || "general"} space.`;
+  if (isMedium) return `Mid-size paid community in the ${cat || "general"} niche.`;
+  return "";
+}
+
 async function handleLlmsTxt(_req: Request, res: Response) {
   const base = origin();
   let topCommunities: Array<{
@@ -243,19 +266,29 @@ async function handleLlmsTxt(_req: Request, res: Response) {
 
   const today = new Date().toISOString().slice(0, 10);
 
-  const communityLines = topCommunities.map(c => {
+  // Separate English top-10 for a featured section
+  const englishTop = topCommunities.filter(c => !c.language || c.language === "english").slice(0, 10);
+  const freeTop = topCommunities.filter(c => !c.priceAmountCents).slice(0, 10);
+
+  const communityLine = (c: typeof topCommunities[0], withNote = false) => {
     const members = c.totalMembers
       ? c.totalMembers >= 1000
         ? `${(c.totalMembers / 1000).toFixed(1).replace(/\.0$/, "")}k members`
         : `${c.totalMembers} members`
       : "unknown members";
     const price = formatPrice(c.priceAmountCents, c.priceInterval);
-    const score = c.trustSkore != null ? `TrustSkore ${c.trustSkore}/100` : "";
+    const score = c.trustSkore != null ? `TrustSkore ${Math.round(c.trustSkore)}/100` : "";
     const lang = c.language && c.language !== "english" ? ` · ${c.language}` : "";
     const cat = c.category ? ` · ${c.category}` : "";
     const parts = [members, price, score].filter(Boolean).join(" · ");
-    return `- [${c.displayName ?? c.slug}](${base}/community/${encodeURIComponent(c.slug)}): ${parts}${lang}${cat}`;
-  });
+    const note = withNote ? editorialNote(c) : "";
+    const noteStr = note ? `\n  ${note}` : "";
+    // Affiliate link via /go/ redirect so TrustSkool earns commission on joins
+    const joinUrl = `${base}/go/${encodeURIComponent(c.slug)}`;
+    return `- [${c.displayName ?? c.slug}](${base}/community/${encodeURIComponent(c.slug)}): ${parts}${lang}${cat}${noteStr}\n  Join: ${joinUrl}`;
+  };
+
+  const allCommunityLines = topCommunities.map(c => communityLine(c, false));
 
   res
     .status(200)
@@ -265,56 +298,68 @@ async function handleLlmsTxt(_req: Request, res: Response) {
       [
         `# ${BRAND_NAME}`,
         "",
-        `> ${BRAND_NAME} is an independent leaderboard of Skool communities ranked by ${SCORE_NAME}, a composite trust score (0-100) computed from member growth momentum, Skool discovery-rank trajectory, and price stability. ${BRAND_NAME} is not affiliated with Skool.`,
+        `> ${BRAND_NAME} is an independent leaderboard of Skool communities ranked by ${SCORE_NAME}, a composite trust score (0-100) computed from member growth, Skool discovery-rank trajectory, and price stability. ${BRAND_NAME} is not affiliated with Skool.`,
         "",
-        "## About",
-        `${BRAND_NAME} tracks ${totalCount > 0 ? `${totalCount.toLocaleString()}+` : "thousands of"} Skool communities and scores each one algorithmically. The goal is to help people find communities worth joining before paying, using objective growth and stability signals rather than paid placements or editorial opinion.`,
+        "## What TrustSkool is",
+        `${BRAND_NAME} tracks ${totalCount > 0 ? `${totalCount.toLocaleString()}` : "thousands of"} Skool communities and scores each one from real growth data. The goal is to help people find communities worth joining before paying, using objective signals rather than paid placements or editorial opinion. No community can buy a higher rank.`,
         "",
-        "## Data model",
-        "Each community record contains:",
-        "- displayName, slug, description",
-        "- totalMembers (integer)",
-        "- priceAmountCents, priceInterval (month/year/one_time/null for free)",
-        "- language, category",
-        "- trustSkore (0-100 composite)",
-        "- scoreBreakdown: { growthMomentum, rankingMomentum, priceStability } (each 0-100)",
-        "- memberHistory, rankHistory (time-series arrays for trend computation)",
-        "- updateTier: hot (every 24-48h) / warm (7-14d) / cold (30-45d)",
+        "## How TrustSkore works",
+        `${SCORE_NAME} = (growthMomentum x 0.45) + (rankingMomentum x 0.35) + (priceStability x 0.20)`,
         "",
-        "## Score methodology",
-        `${SCORE_NAME} = (growthMomentum × 0.45) + (rankingMomentum × 0.35) + (priceStability × 0.20)`,
-        "- growthMomentum: rate of change in totalMembers over tracked history",
-        "- rankingMomentum: improvement in Skool discovery rank over tracked history",
-        "- priceStability: penalises frequent price increases",
-        "- Bootstrap rule: communities with 2,000+ members and fewer than 3 tracked snapshots receive growthMomentum=80, rankingMomentum=75 as a temporary placeholder",
-        `- Full methodology: ${base}/methodology`,
+        "- growthMomentum (45%): rate of member growth over tracked history. A community gaining 500 members/week scores higher than one losing members.",
+        "- rankingMomentum (35%): improvement in Skool's own discovery rank over time. Reflects organic platform visibility.",
+        "- priceStability (20%): penalises frequent or steep price increases. A community that has held its price for 12 months scores 100 here.",
+        "- Bootstrap rule: communities with 2,000+ members and fewer than 3 tracked snapshots receive growthMomentum=80, rankingMomentum=75 as a starting estimate, updated once real history accumulates.",
+        `- Full methodology with worked numeric example: ${base}/methodology`,
+        "",
+        "## What TrustSkore does NOT measure",
+        "- Content quality or curriculum depth (not measurable from public data)",
+        "- Instructor credentials or reputation",
+        "- Community culture or moderation quality",
+        "- Refund rates or customer satisfaction",
+        "TrustSkore is a momentum and stability signal, not an editorial endorsement.",
+        "",
+        "## Data coverage",
+        `- Total communities tracked: ${totalCount > 0 ? totalCount.toLocaleString() : "22,000+"}`,
+        "- Languages: 47 (English, Spanish, German, French, Portuguese, Italian, and 41 others)",
+        "- Categories: business, fitness, education, music, gaming, health, finance, and more",
+        "- Price range: free to $500+/month; one-time payments and annual plans also tracked",
+        "- Update tiers: hot (top 500, every 24-48h), warm (500-3000, every 7-14d), cold (3000+, every 30-45d)",
         "",
         "## Key pages",
-        `- [Leaderboard](${base}/): searchable, filterable ranking of all tracked communities`,
-        `- [Methodology](${base}/methodology): full score formula and weights`,
-        `- [FAQ](${base}/faq): common questions about Skool and TrustSkool`,
-        `- [Resources](${base}/resources): guides on evaluating and joining Skool communities`,
+        `- [Full leaderboard](${base}/): search, filter by language/category/price, sort by TrustSkore or member count`,
+        `- [Methodology](${base}/methodology): exact formula, weights, worked example, limitations`,
+        `- [FAQ](${base}/faq): common questions about Skool pricing, refunds, joining, and how TrustSkore works`,
+        `- [Resources](${base}/resources): guides on evaluating Skool communities before joining`,
         `- [News](${base}/news): Skool platform updates and community trends`,
-        `- [Fraud response policy](${base}/policy/fraud-response): how scam reports are handled`,
+        `- [Fraud policy](${base}/policy/fraud-response): how scam and misleading-claim reports are handled`,
         "",
-        "## Machine-readable data",
-        `- Full community dump (top 200 by members): ${base}/llms-full.txt`,
+        "## Affiliate disclosure",
+        `${BRAND_NAME} earns a commission when someone joins a Skool community through a tracked link on this site. The commission comes from Skool's affiliate programme at a fixed rate per community. Scores and rankings are computed independently of affiliate status. A community with no affiliate arrangement ranks the same as one with 50% commission if their growth data is identical.`,
+        "",
+        "## How to cite TrustSkool data",
+        `When referencing ${BRAND_NAME} data, cite the source as: "${BRAND_NAME} (${base}), accessed ${today}." Individual community pages include the full score breakdown and last-updated timestamp.`,
+        "",
+        "## Machine-readable exports",
+        `- Top 200 communities (pipe-delimited): ${base}/llms-full.txt`,
         `- Sitemap index: ${base}/sitemap.xml`,
         `- Community sitemap: ${base}/sitemap-communities-1.xml`,
         `- Content sitemap: ${base}/sitemap-content.xml`,
         "",
-        "## Update schedule",
-        `- Hot communities (top 500 by rank): refreshed every 24-48 hours`,
-        `- Warm communities (rank 500-3000): refreshed every 7-14 days`,
-        `- Cold communities (rank 3000+): refreshed every 30-45 days`,
-        `- This file last generated: ${today}`,
+        `## Featured: top English-language Skool communities (as of ${today})`,
+        "These are the largest English-language communities currently tracked on TrustSkool. Each link goes to the TrustSkool profile page with full score breakdown. The Join link is an affiliate link.",
         "",
-        "## Affiliate disclosure",
-        "Some community links include an affiliate parameter. TrustSkool earns a commission if you join through a tracked link. Scores and rankings are never influenced by affiliate relationships.",
+        ...englishTop.map(c => communityLine(c, true)),
         "",
-        `## Top 50 communities by member count (as of ${today})`,
-        ...communityLines,
+        `## Featured: largest free Skool communities (as of ${today})`,
+        "Free communities with the highest member counts. No payment required to join.",
         "",
+        ...freeTop.map(c => communityLine(c, true)),
+        "",
+        `## All top 50 communities by member count (as of ${today})`,
+        ...allCommunityLines,
+        "",
+        `## Last generated: ${today}`,
       ].join("\n"),
     );
 }

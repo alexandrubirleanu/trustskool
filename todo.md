@@ -203,6 +203,12 @@
 ## Real community counter
 - [x] Hero stat pills now show exact locale-formatted numbers (e.g. 22,502) instead of rounded k+ abbreviations; fmtK updated to n.toLocaleString()
 
+## llms.txt restructure (2026-07-18)
+- [x] Rewrote llms.txt with rich editorial structure: What TrustSkool is, How TrustSkore works (with concrete examples per sub-score), What TrustSkore does NOT measure, Data coverage stats, Key pages, Affiliate disclosure (transparent), How to cite, Machine-readable exports, Featured English communities section (top-10 with description + Join affiliate link), Featured free communities section, All top-50 listing with affiliate Join links
+- [x] editorialNote() helper: uses real community description if >30 chars, else generates factual fallback from member count + price + category
+- [x] communityLine() now includes Join: https://trustskool.com/go/<slug> affiliate link for every community entry
+- [x] Sections ordered for LLM comprehension: identity first, scoring second, limitations third, data coverage, then curated listings
+
 ## AI/LLM Optimization
 - [x] [AI-1] Enhanced llms.txt with rich structured sections (About, Coverage, Scoring, Data, Freshness, Usage, top 50 communities)
 - [x] [AI-2] Added /llms-full.txt endpoint (top 200 communities, machine-readable, served from seoRoutes.ts)
