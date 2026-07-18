@@ -45,6 +45,12 @@ export type ScoreBreakdown = {
   growth_momentum: number;
   ranking_momentum: number;
   price_stability: number;
+  /**
+   * True when sub-scores were bootstrapped from member count rather than
+   * computed from real tracked history (< 3 snapshots, >= 2,000 members).
+   * Cleared automatically once enough real data accumulates.
+   */
+  isBootstrap?: boolean;
 };
 
 /**

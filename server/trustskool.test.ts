@@ -117,14 +117,19 @@ describe("Ingestion mapping", () => {
     expect(row.growthRateBp).toBe(5000); // +50% = 5000 bp
   });
 
-  it("keeps pipeline-provided trust_score as source of truth", () => {
+  it("uses pipeline-provided score_breakdown for non-bootstrap communities, recomputes trustSkore for consistency", () => {
+    // This record has 1500 members (below 2000 bootstrap threshold) and 2 snapshots.
+    // It is NOT in bootstrap mode, so the pipeline breakdown is preserved.
+    // trustSkore is always recomputed from the breakdown for internal consistency
+    // (so the displayed score always matches the displayed sub-scores).
+    // 90*0.45 + 85*0.35 + 88*0.20 = 40.5 + 29.75 + 17.6 = 87.85
     const row = toCommunityRow({
       ...record,
-      trust_score: 87.5,
+      trust_score: 87.5, // ignored: always recomputed from breakdown
       score_breakdown: { growth_momentum: 90, ranking_momentum: 85, price_stability: 88 },
     });
-    expect(row.trustSkore).toBe(87.5);
-    expect(row.scoreBreakdown?.growth_momentum).toBe(90);
+    expect(row.trustSkore).toBe(87.85); // recomputed from breakdown
+    expect(row.scoreBreakdown?.growth_momentum).toBe(90); // pipeline breakdown preserved
   });
 });
 

@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { InsertCommunity } from "../drizzle/schema";
 import { serverConfig } from "./config";
 import { logIngestionRun, upsertCommunity } from "./dbCommunities";
-import { computeBreakdown, computeGrowthRatePct, computeTrustSkoreWithFloor } from "./trustskore";
+import { computeBreakdownWithBootstrap, computeGrowthRatePct, computeTrustSkoreWithFloor } from "./trustskore";
 
 /**
  * Data ingestion from the external GitHub Actions pipeline.
@@ -59,13 +59,26 @@ export function toCommunityRow(record: PipelineCommunityRecord): InsertCommunity
   const priceHistory = record.price_history ?? [];
   const rankHistory = record.rank_history ?? [];
 
-  const breakdown =
-    record.score_breakdown ??
-    computeBreakdown({ memberHistory, priceHistory, rankHistory });
-  // Use floor-adjusted score when pipeline doesn't provide one (insufficient history)
-  const trustSkore =
-    record.trust_score ??
-    computeTrustSkoreWithFloor(breakdown, record.total_members, memberHistory, rankHistory);
+  // Always compute the bootstrap-aware breakdown so the isBootstrap flag is set
+  // correctly. If the pipeline provides a score_breakdown but the community
+  // qualifies for bootstrap (>= 2,000 members, < 3 snapshots), we override the
+  // pipeline's neutral 50/50 sub-scores with the bootstrap values — the pipeline
+  // doesn't know about our bootstrap rule and would otherwise produce a
+  // misleading mediocre score for a large established community.
+  const computedBreakdown = computeBreakdownWithBootstrap({
+    memberHistory,
+    priceHistory,
+    rankHistory,
+    totalMembers: record.total_members,
+  });
+  // Use the computed (bootstrap-aware) breakdown unless the pipeline already
+  // has a non-bootstrap score AND the community has graduated (>= 3 snapshots).
+  const breakdown = computedBreakdown.isBootstrap
+    ? computedBreakdown                   // bootstrap: always use our values
+    : (record.score_breakdown ?? computedBreakdown); // graduated: prefer pipeline
+  // Recompute the composite score from the final breakdown so it's always
+  // internally consistent (breakdown sub-scores always add up to the displayed score).
+  const trustSkore = computeTrustSkoreWithFloor(breakdown, record.total_members, memberHistory, rankHistory);
   const growthRateBp = Math.round(computeGrowthRatePct(memberHistory) * 100);
 
   return {

@@ -309,7 +309,11 @@ export default function CommunityDetail() {
               </span>
               <div>
                 <p className="text-sm font-semibold">TrustSkore</p>
-                <p className="text-xs text-muted-foreground">out of 100</p>
+                {breakdown?.isBootstrap ? (
+                  <p className="text-xs text-amber-600 dark:text-amber-400">estimated · early data</p>
+                ) : (
+                  <p className="text-xs text-muted-foreground">out of 100</p>
+                )}
               </div>
             </div>
             <a
@@ -401,6 +405,16 @@ export default function CommunityDetail() {
               );
             })}
           </div>
+          {breakdown?.isBootstrap && (
+            <p className="mt-3 flex items-start gap-1.5 rounded-[4px] border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-300">
+              <svg className="mt-0.5 h-3.5 w-3.5 shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+                <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm.75 4.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11a.875.875 0 1 0 0-1.75A.875.875 0 0 0 8 11Z"/>
+              </svg>
+              <span>
+                <strong className="font-semibold">Initial score estimated from community size</strong> — refines with real growth data as tracking accumulates.
+              </span>
+            </p>
+          )}
           <p className="mt-3 text-xs text-muted-foreground">
             How is this computed?{" "}
             <Link href="/methodology" className="underline underline-offset-2 hover:text-foreground">

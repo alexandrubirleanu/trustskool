@@ -17,10 +17,25 @@ import { SCORE_WEIGHTS } from "../shared/appConfig";
  * When the pipeline already provides trust_score / score_breakdown, ingestion
  * keeps the pipeline values as source of truth and this engine acts as a
  * fallback for records missing them (and for the daily recalculation pass).
+ *
+ * Bootstrap rule (temporary, first ~2-4 weeks of tracking):
+ * If a community has >=2,000 members AND fewer than 3 history snapshots, we
+ * bootstrap growth_momentum=80 and ranking_momentum=75 instead of the neutral
+ * 50/50 defaults. This prevents a large, established community from showing a
+ * misleading mediocre score just because our own tracking is young.
+ * Once >=3 real snapshots exist, the bootstrap is dropped entirely.
  */
 
 const clamp = (v: number, min = 0, max = 100) => Math.min(max, Math.max(min, v));
 const round2 = (v: number) => Math.round(v * 100) / 100;
+
+/** Minimum member count to qualify for bootstrap treatment */
+export const BOOTSTRAP_MIN_MEMBERS = 2_000;
+/** Minimum snapshot count to graduate out of bootstrap mode */
+export const BOOTSTRAP_SNAPSHOT_THRESHOLD = 3;
+/** Bootstrap sub-scores for popular communities with insufficient history */
+export const BOOTSTRAP_GROWTH_MOMENTUM = 80;
+export const BOOTSTRAP_RANKING_MOMENTUM = 75;
 
 function sortByDate<T extends { date: string }>(points: T[]): T[] {
   return [...points].sort((a, b) => a.date.localeCompare(b.date));
@@ -91,6 +106,60 @@ export function computePriceStability(history: PriceHistoryPoint[] | null | unde
   if (changes === 0) return 100;
   const penalty = changes * 15 + increases * 10;
   return clamp(round2(100 - penalty));
+}
+
+/**
+ * Returns true when a community qualifies for bootstrap mode:
+ * - Has >= BOOTSTRAP_MIN_MEMBERS members (established/popular community)
+ * - Has fewer than BOOTSTRAP_SNAPSHOT_THRESHOLD history snapshots (our tracking is young)
+ *
+ * Once a community accumulates enough real snapshots, this returns false and
+ * the real computed values from the existing engine take over permanently.
+ */
+export function isBootstrapScore(
+  totalMembers: number,
+  memberHistory: { date: string }[] | null | undefined,
+  rankHistory: { date: string }[] | null | undefined,
+): boolean {
+  if (totalMembers < BOOTSTRAP_MIN_MEMBERS) return false;
+  const mLen = memberHistory?.length ?? 0;
+  const rLen = rankHistory?.length ?? 0;
+  // Use the maximum of the two arrays as the snapshot count
+  const snapshotCount = Math.max(mLen, rLen);
+  return snapshotCount < BOOTSTRAP_SNAPSHOT_THRESHOLD;
+}
+
+/**
+ * Compute breakdown with bootstrap applied for popular communities with
+ * insufficient history. Bootstrap sets growth_momentum=80, ranking_momentum=75
+ * and lets price_stability use its existing logic (already defaults to 100 for
+ * <2 history points, which is correct).
+ *
+ * The breakdown is returned with an `isBootstrap` flag so the UI can show a
+ * transparency note to visitors.
+ */
+export function computeBreakdownWithBootstrap(input: {
+  memberHistory?: MemberHistoryPoint[] | null;
+  rankHistory?: RankHistoryPoint[] | null;
+  priceHistory?: PriceHistoryPoint[] | null;
+  totalMembers: number;
+}): ScoreBreakdown {
+  const bootstrap = isBootstrapScore(
+    input.totalMembers,
+    input.memberHistory,
+    input.rankHistory,
+  );
+
+  return {
+    growth_momentum: bootstrap
+      ? BOOTSTRAP_GROWTH_MOMENTUM
+      : computeGrowthMomentum(input.memberHistory),
+    ranking_momentum: bootstrap
+      ? BOOTSTRAP_RANKING_MOMENTUM
+      : computeRankingMomentum(input.rankHistory),
+    price_stability: computePriceStability(input.priceHistory),
+    isBootstrap: bootstrap,
+  };
 }
 
 export function computeBreakdown(input: {

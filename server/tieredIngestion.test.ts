@@ -3,6 +3,13 @@ import {
   memberCountFloor,
   hasInsufficientHistory,
   computeTrustSkoreWithFloor,
+  computeTrustSkore,
+  isBootstrapScore,
+  computeBreakdownWithBootstrap,
+  BOOTSTRAP_MIN_MEMBERS,
+  BOOTSTRAP_SNAPSHOT_THRESHOLD,
+  BOOTSTRAP_GROWTH_MOMENTUM,
+  BOOTSTRAP_RANKING_MOMENTUM,
 } from "./trustskore";
 import { TIER_THRESHOLDS, SLA_WINDOWS_MS } from "./tieredIngestion";
 
@@ -93,6 +100,122 @@ describe("computeTrustSkoreWithFloor", () => {
   it("applies floor for small community with insufficient history", () => {
     const score = computeTrustSkoreWithFloor(neutralBreakdown, 300, [], []);
     expect(score).toBe(60); // raw 60 >= floor 50, so raw wins (Math.max)
+  });
+});
+
+// ─── isBootstrapScore ───────────────────────────────────────────────────────
+
+describe("isBootstrapScore", () => {
+  it("returns true for large community with 0 snapshots", () => {
+    expect(isBootstrapScore(BOOTSTRAP_MIN_MEMBERS, [], [])).toBe(true);
+    expect(isBootstrapScore(25_000, [], [])).toBe(true);
+  });
+
+  it("returns true for large community with 1 snapshot", () => {
+    const onePoint = [{ date: "2025-01-01" }];
+    expect(isBootstrapScore(5_000, onePoint, onePoint)).toBe(true);
+  });
+
+  it("returns true for large community with 2 snapshots (below threshold)", () => {
+    const twoPoints = [{ date: "2025-01-01" }, { date: "2025-01-02" }];
+    expect(isBootstrapScore(5_000, twoPoints, twoPoints)).toBe(true);
+  });
+
+  it("returns false for large community with 3+ snapshots (graduated)", () => {
+    const threePoints = [
+      { date: "2025-01-01" },
+      { date: "2025-01-02" },
+      { date: "2025-01-03" },
+    ];
+    expect(isBootstrapScore(5_000, threePoints, threePoints)).toBe(false);
+  });
+
+  it("returns false for small community regardless of snapshot count", () => {
+    expect(isBootstrapScore(BOOTSTRAP_MIN_MEMBERS - 1, [], [])).toBe(false);
+    expect(isBootstrapScore(500, [], [])).toBe(false);
+    expect(isBootstrapScore(0, [], [])).toBe(false);
+  });
+
+  it("uses max of member/rank history lengths as snapshot count", () => {
+    // 3 rank points but 0 member points → max=3 → graduated
+    const threePoints = [
+      { date: "2025-01-01" },
+      { date: "2025-01-02" },
+      { date: "2025-01-03" },
+    ];
+    expect(isBootstrapScore(5_000, [], threePoints)).toBe(false);
+  });
+
+  it("handles null/undefined gracefully", () => {
+    expect(isBootstrapScore(5_000, null, undefined)).toBe(true);
+  });
+});
+
+// ─── computeBreakdownWithBootstrap ──────────────────────────────────────────
+
+describe("computeBreakdownWithBootstrap", () => {
+  it("sets bootstrap sub-scores for large community with <3 snapshots", () => {
+    const bd = computeBreakdownWithBootstrap({
+      memberHistory: [],
+      rankHistory: [],
+      priceHistory: [],
+      totalMembers: 5_000,
+    });
+    expect(bd.growth_momentum).toBe(BOOTSTRAP_GROWTH_MOMENTUM);
+    expect(bd.ranking_momentum).toBe(BOOTSTRAP_RANKING_MOMENTUM);
+    expect(bd.isBootstrap).toBe(true);
+  });
+
+  it("price_stability defaults to 100 (no history) even in bootstrap mode", () => {
+    const bd = computeBreakdownWithBootstrap({
+      memberHistory: [],
+      rankHistory: [],
+      priceHistory: [],
+      totalMembers: 5_000,
+    });
+    expect(bd.price_stability).toBe(100);
+  });
+
+  it("uses real sub-scores once community has 3+ snapshots", () => {
+    const threePoints = [
+      { date: "2025-01-01", total_members: 5000 },
+      { date: "2025-01-08", total_members: 5100 },
+      { date: "2025-01-15", total_members: 5200 },
+    ];
+    const bd = computeBreakdownWithBootstrap({
+      memberHistory: threePoints,
+      rankHistory: [],
+      priceHistory: [],
+      totalMembers: 5_200,
+    });
+    expect(bd.isBootstrap).toBeFalsy();
+    // Real growth momentum should differ from bootstrap value
+    expect(bd.growth_momentum).not.toBe(BOOTSTRAP_GROWTH_MOMENTUM);
+  });
+
+  it("does NOT bootstrap small community with insufficient history", () => {
+    const bd = computeBreakdownWithBootstrap({
+      memberHistory: [],
+      rankHistory: [],
+      priceHistory: [],
+      totalMembers: 500,
+    });
+    expect(bd.isBootstrap).toBeFalsy();
+    expect(bd.growth_momentum).toBe(50); // neutral default
+    expect(bd.ranking_momentum).toBe(50); // neutral default
+  });
+
+  it("bootstrap composite TrustSkore is around 80 (not hardcoded)", () => {
+    const bd = computeBreakdownWithBootstrap({
+      memberHistory: [],
+      rankHistory: [],
+      priceHistory: [],
+      totalMembers: 5_000,
+    });
+    // 80*0.45 + 75*0.35 + 100*0.20 = 36 + 26.25 + 20 = 82.25
+    const score = computeTrustSkore(bd);
+    expect(score).toBeGreaterThanOrEqual(80);
+    expect(score).toBeLessThanOrEqual(90);
   });
 });
 
