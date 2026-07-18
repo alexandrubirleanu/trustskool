@@ -279,15 +279,6 @@ function FiltersBar({
           </button>
         )}
       </div>
-
-      {/* Community count */}
-      <p className="text-xs text-muted-foreground" aria-live="polite" aria-atomic="true">
-        {isLoading && total === undefined
-          ? "Loading…"
-          : total !== undefined
-            ? `${total.toLocaleString("en-US")} communities`
-            : ""}
-      </p>
     </div>
   );
 }
