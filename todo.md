@@ -216,3 +216,13 @@
 - [x] [AI-4] robots.txt updated with explicit AI crawler rules: GPTBot, ClaudeBot, PerplexityBot, anthropic-ai, cohere-ai, Meta-ExternalAgent (all allowed, no restrictions)
 - [x] [AI-5] Added <link rel="llms-txt" href="/llms.txt"> to client/index.html <head> for AI crawler discovery
 - [x] [AI-6] getTopCommunitiesForLlms(limit) DB helper added to dbCommunities.ts with isNull(isFlagged) filter
+
+## SEO Optimization (2026-07-18 - Manus score 56 -> 90+)
+- [x] [SEO-1] Fix all img alt tags: logo, community thumbnails in leaderboard, community detail hero image
+- [x] [SEO-2] Removed duplicate llms-txt link from index.html head (was in both index.html and vite.ts SSR head builder; kept only in SSR builder)
+- [x] [SEO-3] Add manifest.json (web app manifest) with name, icons, theme_color, start_url
+- [x] [SEO-4] Fix Google Fonts: added font-display=swap to Google Fonts URL, preload critical Roboto woff2
+- [x] [SEO-5] Add twitter:site content="@trustskool" meta tag to SSR head builder
+- [x] [SEO-6] Add meta name="theme-color" content="#F8F7F5" to index.html
+- [x] [SEO-7] Improve LCP: added fetchPriority="high" to community detail hero logo image
+- [x] [SEO-8] Community detail title format improved: uses | separator for better CTR ("Name · TrustSkore X | TrustSkool")

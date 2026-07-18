@@ -265,7 +265,8 @@ export default function CommunityDetail() {
             {community.logoUrl ? (
               <img
                 src={community.logoUrl}
-                alt=""
+                alt={`${community.displayName} logo`}
+                fetchPriority="high"
                 className="h-14 w-14 shrink-0 rounded-full border border-border object-cover md:h-16 md:w-16"
               />
             ) : (

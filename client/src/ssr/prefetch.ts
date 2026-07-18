@@ -195,7 +195,7 @@ export async function prefetchForPath(
     };
     return {
       title: community.displayName?.trim()
-        ? `${community.displayName} · TrustSkore ${(community.trustSkore / 10).toFixed(1)}/10 · ${SITE}`
+        ? `${community.displayName} · TrustSkore ${(community.trustSkore / 10).toFixed(1)} | ${SITE}`
         : SITE,
       description: desc,
       ogType: "article",

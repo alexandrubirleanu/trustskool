@@ -32,7 +32,7 @@ function Avatar({ name, logoUrl }: { name: string; logoUrl: string | null }) {
     return (
       <img
         src={logoUrl}
-        alt=""
+        alt={`${name} community logo`}
         loading="lazy"
         className="h-10 w-10 shrink-0 rounded-full border border-border object-cover sm:h-12 sm:w-12"
       />

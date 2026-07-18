@@ -63,6 +63,7 @@ export function buildHeadTags(head: HeadMeta, siteName = SITE_NAME): string {
     `<meta name="twitter:card" content="${img ? "summary_large_image" : "summary"}" />`,
     `<meta name="twitter:title" content="${title}" />`,
     `<meta name="twitter:description" content="${desc}" />`,
+    `<meta name="twitter:site" content="@trustskool" />`,
     `<link rel="llms-txt" href="/llms.txt" />`,
   ];
   if (siteName) tags.push(`<meta property="og:site_name" content="${escapeHtml(siteName)}" />`);

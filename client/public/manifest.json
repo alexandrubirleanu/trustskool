@@ -1,0 +1,22 @@
+{
+  "name": "TrustSkool",
+  "short_name": "TrustSkool",
+  "description": "Skool community leaderboard ranked by TrustSkore. Find communities worth joining before you pay.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F8F7F5",
+  "theme_color": "#F8F7F5",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
