@@ -231,3 +231,6 @@
 - [x] [FILTER-1] Fix SSR/client language mismatch: prefetch.ts seeds cache with language:undefined but Home.tsx initializes language:"english" — causes double-fetch and filter instability on mount. Fixed: prefetch.ts now uses language:"english" to match client initial state
 - [x] [OG-1] Custom OG image per community: /api/og/community/:slug endpoint (server/ogImage.ts) generates 1200x630 PNG with community logo, name, category chip, description, TrustSkore/Members/Price badges, trustskool.com branding. prefetch.ts ogImage now points to this endpoint for all community detail pages.
 - [x] [SITEMAP-1] Sitemap verified live: /sitemap.xml (sitemapindex with 1 community chunk + content sitemap), /sitemap-communities-1.xml (8,154 community URLs + 5 static pages), /sitemap-content.xml. All correct.
+
+## Mobile Filter Bar (2026-07-18)
+- [x] [MOBILE-1] Mobile filter bar redesigned: Row 1 = price chips + language (horizontally scrollable, shrink-0 on each chip) + Clear pinned right; Row 2 = community count left + Sort buttons right (shortLabel "Score/Members/Growth" on mobile, full label on sm+). No wrapping on 390px viewport.

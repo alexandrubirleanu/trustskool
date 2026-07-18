@@ -11,10 +11,10 @@ import { useDatafast } from "@/hooks/useDatafast";
 type SortKey = "trustSkore" | "totalMembers" | "growthRateBp" | "category";
 type PriceKey = "all" | "free" | "paid";
 
-const SORT_OPTIONS: { key: SortKey; label: string }[] = [
-  { key: "trustSkore", label: "TrustSkore" },
-  { key: "totalMembers", label: "Members" },
-  { key: "growthRateBp", label: "Growth" },
+const SORT_OPTIONS: { key: SortKey; label: string; shortLabel: string }[] = [
+  { key: "trustSkore", label: "TrustSkore", shortLabel: "Score" },
+  { key: "totalMembers", label: "Members", shortLabel: "Members" },
+  { key: "growthRateBp", label: "Growth", shortLabel: "Growth" },
 ];
 
 const PAGE_SIZE = 24;
@@ -253,68 +253,76 @@ export default function Home() {
       </section>
 
       <section className="container py-5 sm:py-8">
-        {/* Single unified filter + sort row */}
-        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-3 sm:gap-y-2">
+        {/* Filter + sort bar — two rows on mobile, single row on desktop */}
+        <div className="flex flex-col gap-2">
 
-          {/* Left: price chips + language dropdown — scrollable on mobile */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="group" aria-label="Filters">
-            <button
-              type="button"
-              className="chip"
-              data-active={price === "all"}
-              onClick={() => setFilter(() => setPrice("all"))}>
-              All prices
-            </button>
-            <button
-              type="button"
-              className="chip"
-              data-active={price === "free"}
-              onClick={() => setFilter(() => setPrice("free"))}>
-              Free
-              {stats && price !== "free" && (
-                <span className="chip-count">{fmtK(stats.freeCommunities)}</span>
+          {/* Row 1: price chips + language + clear — horizontally scrollable on mobile */}
+          <div className="flex items-center justify-between gap-2">
+            <div
+              className="flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              role="group"
+              aria-label="Filters">
+              <button
+                type="button"
+                className="chip shrink-0"
+                data-active={price === "all"}
+                onClick={() => setFilter(() => setPrice("all"))}>
+                All prices
+              </button>
+              <button
+                type="button"
+                className="chip shrink-0"
+                data-active={price === "free"}
+                onClick={() => setFilter(() => setPrice("free"))}>
+                Free
+                {stats && price !== "free" && (
+                  <span className="chip-count">{fmtK(stats.freeCommunities)}</span>
+                )}
+              </button>
+              <button
+                type="button"
+                className="chip shrink-0"
+                data-active={price === "paid"}
+                onClick={() => setFilter(() => setPrice("paid"))}>
+                Paid
+              </button>
+
+              {languages.length > 0 && (
+                <span className="mx-0.5 h-4 w-px shrink-0 bg-border" aria-hidden />
               )}
-            </button>
-            <button
-              type="button"
-              className="chip"
-              data-active={price === "paid"}
-              onClick={() => setFilter(() => setPrice("paid"))}>
-              Paid
-            </button>
 
-            {languages.length > 0 && (
-              <span className="mx-0.5 hidden h-4 w-px bg-border sm:block" aria-hidden />
-            )}
+              {languages.length > 0 && (
+                <div className="shrink-0">
+                  <LanguageDropdown
+                    languages={languages}
+                    value={language}
+                    onChange={v => setFilter(() => setLanguage(v))}
+                  />
+                </div>
+              )}
+            </div>
 
-            {languages.length > 0 && (
-              <LanguageDropdown
-                languages={languages}
-                value={language}
-                onChange={v => setFilter(() => setLanguage(v))}
-              />
-            )}
-
+            {/* Clear — always visible when active, never wraps */}
             {hasActiveFilters && (
               <button
                 type="button"
                 onClick={clearAllFilters}
-                className="ml-0.5 inline-flex items-center gap-1 text-xs text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground">
+                className="ml-1 shrink-0 inline-flex items-center gap-1 text-xs text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground">
                 <X className="h-3 w-3" /> Clear
               </button>
             )}
           </div>
 
-          {/* Right: count + sort buttons */}
-          <div className="flex items-center gap-2 self-end sm:self-auto">
-            <p className="hidden text-xs text-muted-foreground sm:block" aria-live="polite" aria-atomic="true">
+          {/* Row 2: community count (left) + sort buttons (right) */}
+          <div className="flex items-center justify-between gap-2">
+            <p className="shrink-0 text-xs text-muted-foreground" aria-live="polite" aria-atomic="true">
               {isLoading && !data
                 ? "Loading…"
                 : data
                   ? `${data.total.toLocaleString()} communities`
                   : ""}
             </p>
-            <div className="flex items-center gap-1" role="group" aria-label="Sort by">
+            <div className="flex shrink-0 items-center gap-1" role="group" aria-label="Sort by">
               <span className="mr-0.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 Sort
               </span>
@@ -324,12 +332,14 @@ export default function Home() {
                   type="button"
                   onClick={() => toggleSort(opt.key)}
                   aria-pressed={sort === opt.key}
-                  className={`inline-flex h-8 items-center gap-1 rounded-[4px] border px-2.5 text-xs font-medium transition-colors ${
+                  className={`inline-flex h-8 items-center gap-1 rounded-[4px] border px-2 text-xs font-medium transition-colors sm:px-2.5 ${
                     sort === opt.key
                       ? "border-foreground bg-foreground text-background"
                       : "border-border bg-card text-foreground hover:border-foreground"
                   }`}>
-                  {opt.label}
+                  {/* Use short label on mobile to prevent overflow */}
+                  <span className="sm:hidden">{opt.shortLabel}</span>
+                  <span className="hidden sm:inline">{opt.label}</span>
                   {sort === opt.key &&
                     (direction === "desc" ? (
                       <ArrowDown className="h-3 w-3" />
