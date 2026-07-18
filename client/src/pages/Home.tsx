@@ -131,7 +131,7 @@ type FiltersBarProps = {
   sort: SortKey;
   direction: "asc" | "desc";
   languages: { value: string; count?: number }[];
-  stats: { freeCommunities: number; totalCommunities: number; trendingCommunities: number } | undefined;
+  stats: { freeCommunities: number; paidCommunities?: number; totalCommunities: number; trendingCommunities: number } | undefined;
   hasActiveFilters: boolean;
   isLoading: boolean;
   total: number | undefined;
@@ -205,6 +205,12 @@ function FiltersBar({
                       <span>{p === "all" ? "All prices" : p === "free" ? "Free" : "Paid"}</span>
                       {p === "free" && stats && (
                         <span className="text-xs text-muted-foreground tabular-nums">{fmtK(stats.freeCommunities)}</span>
+                      )}
+                      {p === "paid" && stats?.paidCommunities != null && (
+                        <span className="text-xs text-muted-foreground tabular-nums">{fmtK(stats.paidCommunities)}</span>
+                      )}
+                      {p === "all" && stats && (
+                        <span className="text-xs text-muted-foreground tabular-nums">{fmtK(stats.totalCommunities)}</span>
                       )}
                     </button>
                   ))}
@@ -293,7 +299,28 @@ export default function Home() {
 
   const [search, setSearch] = useState(urlQuery);
   const [debounced, setDebounced] = useState(urlQuery);
-  const [language, setLanguage] = useState<string | undefined>("english");
+  // Detect browser language on first render and map to a Skool language slug.
+  // Falls back to "english" if the detected language is not in the dataset.
+  // We use a lazy initialiser so this runs once, client-side only.
+  const [language, setLanguage] = useState<string | undefined>(() => {
+    if (typeof window === "undefined") return "english";
+    const browserLang = (navigator.language || "").split("-")[0].toLowerCase();
+    const langMap: Record<string, string> = {
+      en: "english", de: "german", es: "spanish", fr: "french",
+      zh: "chinese", it: "italian", nl: "dutch", vi: "vietnamese",
+      ar: "arabic", he: "hebrew", da: "danish", ro: "romanian",
+      tr: "turkish", pl: "polish", cs: "czech", hu: "hungarian",
+      sv: "swedish", pt: "portuguese", bg: "bulgarian", no: "norwegian",
+      fi: "finnish", hr: "croatian", lv: "latvian", sk: "slovak",
+      sr: "serbian", mn: "mongolian", th: "thai", sl: "slovenian",
+      ru: "russian", lt: "lithuanian", am: "amharic", ms: "malay",
+      et: "estonian", el: "greek", uk: "ukrainian", sw: "swahili",
+      ja: "japanese", fil: "filipino", fa: "persian", cy: "welsh",
+      ko: "korean", id: "indonesian", la: "latin", bn: "bengali",
+      ca: "catalan", hi: "hindi",
+    };
+    return langMap[browserLang] ?? "english";
+  });
   const [price, setPrice] = useState<PriceKey>("all");
   const [sort, setSort] = useState<SortKey>("trustSkore");
   const [direction, setDirection] = useState<"asc" | "desc">("desc");

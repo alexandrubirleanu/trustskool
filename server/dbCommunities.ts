@@ -374,12 +374,16 @@ export async function getClicksForDigest(since: Date, until: Date) {
 /** Returns platform-wide stats for the social proof bar. */
 export async function getPlatformStats() {
   const db = await getDb();
-  if (!db) return { totalCommunities: 0, freeCommunities: 0, trendingCommunities: 0, totalClicks: 0 };
-  const [totalRows, freeRows, trendingRows, clickRows] = await Promise.all([
+  if (!db) return { totalCommunities: 0, freeCommunities: 0, paidCommunities: 0, trendingCommunities: 0, totalClicks: 0 };
+  const [totalRows, freeRows, paidRows, trendingRows, clickRows] = await Promise.all([
     db.select({ count: sql<number>`count(*)` }).from(communities),
     // Count truly free communities only
     db.select({ count: sql<number>`count(*)` }).from(communities).where(
       sql`${communities.priceAmountCents} = 0 OR ${communities.priceAmountCents} IS NULL`
+    ),
+    // Count paid communities
+    db.select({ count: sql<number>`count(*)` }).from(communities).where(
+      sql`${communities.priceAmountCents} > 0`
     ),
     db.select({ count: sql<number>`count(*)` }).from(communities).where(
       sql`${communities.growthRateBp} > 0`
@@ -389,6 +393,7 @@ export async function getPlatformStats() {
   return {
     totalCommunities: Number(totalRows[0]?.count ?? 0),
     freeCommunities: Number(freeRows[0]?.count ?? 0),
+    paidCommunities: Number(paidRows[0]?.count ?? 0),
     trendingCommunities: Number(trendingRows[0]?.count ?? 0),
     totalClicks: Number(clickRows[0]?.count ?? 0),
   };
