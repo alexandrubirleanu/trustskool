@@ -19,7 +19,7 @@ export default function FaqHub() {
         <div className="mb-10 max-w-2xl">
           <h1 className="text-3xl font-bold tracking-tight md:text-4xl">FAQ</h1>
           <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-            Frequently asked questions about Skool communities — pricing, joining, leaving, refunds,
+            Frequently asked questions about Skool communities: pricing, joining, leaving, refunds,
             and how TrustSkore works.
           </p>
         </div>

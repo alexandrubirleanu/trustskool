@@ -182,17 +182,23 @@
 - [x] runTieredIngestion refactored: fetches full dataset once, slices by rank window (hot: 0-500, warm: 500-3000, cold: 3000+), upserts only tier slice, marks lastScrapedAt only for processed communities; TS errors fixed (export communityRecordSchema, export sendSlaAlertEmail)
 
 ## Copy & Typography fixes
-- [ ] Remove all -- (em-dash via double hyphen) from copy across all components; replace with proper punctuation or rewrite naturally
-- [ ] Fix footer text wrap: prevent single-word orphans in footer columns (use whitespace-nowrap or min-w on key phrases)
-- [ ] Fix bottom CTA copy on community detail: remove em-dash from "Monthly subscription — check the latest pricing"
-- [ ] Add logo to OG image meta tag and ensure favicon uses the star+mortarboard icon consistently across all pages
+- [x] Remove all -- (em-dash via double hyphen) from copy across all components; replace with proper punctuation or rewrite naturally (audit 2026-07-18: fixed remaining real instances across Home.tsx hero, Methodology.tsx, FraudResponse.tsx, FaqArticle.tsx, CategoryPage.tsx, FaqHub.tsx, ResourcesHub.tsx, prefetch.ts SEO meta, emailNotify.ts email copy + placeholder glyphs, AdminClicks.tsx)
+- [x] Fix footer text wrap: prevent single-word orphans in footer columns (verified: SiteLayout.tsx footer description paragraph already has text-balance applied)
+- [x] Fix bottom CTA copy on community detail: remove em-dash from "Monthly subscription — check the latest pricing" (verified: that copy string no longer exists, already reworded in an earlier pass)
+- [x] Add logo to OG image meta tag and ensure favicon uses the star+mortarboard icon consistently across all pages (verified: favicon-16/32/ico + apple-touch-icon present in client/public, ogImage set in prefetch.ts)
 
 ## Fraud Report Form
-- [ ] Add submitFraudReport tRPC mutation (publicProcedure): validates input (communitySlug/URL, reporterEmail, description, evidence), inserts into fraud_reports table, sends email to owner's personal email via Resend
-- [ ] Create fraud_reports table in schema (id, communitySlugOrUrl, reporterEmail, description, evidence, createdAt, status)
-- [ ] Build FraudReportForm component with fields: community URL/name, your email, description, evidence (optional); honeypot + rate-limit guard
-- [ ] Add form section to FraudResponse.tsx page below the existing policy content
-- [ ] Email to owner: branded HTML with all report fields, reply-to set to reporter's email
+- [x] Add submitFraudReport tRPC mutation (publicProcedure): validates input (communitySlug/URL, reporterEmail, description, evidence), inserts into fraud_reports table, sends email to owner's personal email via Resend (verified 2026-07-18: implemented as `fraudReport.submit` in server/routers.ts, calling insertFraudReport + sendFraudReportEmail)
+- [x] Create fraud_reports table in schema (id, communitySlugOrUrl, reporterEmail, description, evidence, createdAt, status) (verified: fraudReports table in drizzle/schema.ts + server/dbFraudReports.ts)
+- [x] Build FraudReportForm component with fields: community URL/name, your email, description, evidence (optional); honeypot + rate-limit guard (verified: implemented as `ReportForm` component, rendered in FraudResponse.tsx)
+- [x] Add form section to FraudResponse.tsx page below the existing policy content (verified: "Submit a report" section renders <ReportForm /> after the policy sections)
+- [x] Email to owner: branded HTML with all report fields, reply-to set to reporter's email (verified: sendFraudReportEmail/buildFraudReportEmail in server/emailNotify.ts, destination configurable via FRAUD_REPORT_EMAIL env)
+
+## Audit 2026-07-18: production data staleness (NOT a code bug)
+- [ ] **Root cause confirmed**: the live site's homepage stat still reads "8k+ communities indexed" and the English-filtered leaderboard shows "1000 communities" — both match the OLD dataset (8,154-8,170 communities, pre-expansion), not the current 22,502-community data/communities.json (post English/German/Spanish/French expansion + Tier A popularity refresh with owner badges). This means ingestion has not successfully run against the current dataset in production for a while.
+- [ ] Verified by direct simulation: fetched the live data/communities.json record for aivideobootcamp (25,280 members, member_history/rank_history each length 1) and traced it through the current toCommunityRow → computeBreakdownWithBootstrap → computeTrustSkoreWithFloor code path by hand. Result: 82.25 (bootstrap growth_momentum=80/ranking_momentum=75/price_stability=100), NOT 60.0. The live site shows 60.0 for this and every other community checked. The bootstrap/floor code (server/trustskore.ts, server/ingestion.ts) and the scoreBreakdown JSON persistence (server/dbCommunities.ts upsertCommunity, drizzle json() column) are correct as committed — this is a data-freshness/ingestion-execution issue, not a logic bug. Re-running ingestion against the current dataset should fix TrustSkore flatness, scoreBreakdown persistence, and community count in the same pass.
+- [ ] Manually trigger a full ingestion run (admin panel) after confirming deploy is current with main, then verify: community count reaches ~22,502, aivideobootcamp-class communities (2,000+ members) show TrustSkore ~72-82 (not flat 60.0), and CommunityDetail shows the "isBootstrap" transparency note.
+- [ ] Separately reproduced live: clicking "Clear" in the homepage filter bar does not visibly reset the Language dropdown (stays on "English") or the community count (stays at 1000), even though the current Home.tsx clearAllFilters calls setLanguage(undefined) and should reset it. Given the DB/count staleness above, this may be masked by stale data, but re-test after a fresh deploy + ingestion since it did not change at all on click (not even a loading state), which also smells like a stale client bundle. Needs MANUS to re-test on a fresh deploy and, if it still reproduces, debug client-side (React state/hydration), since the current code reads as correct.
 
 ## AI/LLM Optimization
 - [x] [AI-1] Enhanced llms.txt with rich structured sections (About, Coverage, Scoring, Data, Freshness, Usage, top 50 communities)

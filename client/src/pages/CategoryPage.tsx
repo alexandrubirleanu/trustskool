@@ -56,7 +56,7 @@ export default function CategoryPage() {
             </p>
           ) : (
             <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-              Browse the best {label} communities on Skool, ranked by TrustSkore — an independent
+              Browse the best {label} communities on Skool, ranked by TrustSkore: an independent
               score built from member growth, discovery-rank momentum, and price stability.
             </p>
           )}
