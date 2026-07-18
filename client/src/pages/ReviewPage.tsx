@@ -86,7 +86,7 @@ export default function ReviewPage() {
                 <span>{community.totalMembers.toLocaleString()} members</span>
               )}
             </div>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight leading-tight md:text-4xl">
+            <h1 className="mt-3 text-xl font-bold tracking-tight leading-tight sm:text-2xl md:text-4xl">
               {page.title}
             </h1>
             {page.metaDescription && (

@@ -15,7 +15,7 @@ export default function SkoolNews() {
             <Newspaper className="h-5 w-5" />
             <span className="text-sm font-medium uppercase tracking-widest">Skool News</span>
           </div>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">
+          <h1 className="mt-2 text-xl font-bold tracking-tight sm:text-2xl md:text-4xl">
             What's happening on Skool
           </h1>
           <p className="mt-3 text-base leading-relaxed text-muted-foreground">

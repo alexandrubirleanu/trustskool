@@ -47,7 +47,7 @@ export default function CategoryPage() {
             className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
             ← All communities
           </Link>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl">
+          <h1 className="mt-4 text-xl font-bold tracking-tight sm:text-2xl md:text-4xl">
             {label} communities on Skool
           </h1>
           {framingPage?.metaDescription ? (

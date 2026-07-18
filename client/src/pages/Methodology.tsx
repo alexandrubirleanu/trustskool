@@ -20,7 +20,7 @@ export default function Methodology() {
         <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
           Methodology · v1.1 · July 2025
         </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-[40px] md:leading-tight">
+        <h1 className="mt-2 text-xl font-bold tracking-tight sm:text-2xl md:text-[40px] md:leading-tight">
           How the TrustSkore is calculated
         </h1>
         <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">

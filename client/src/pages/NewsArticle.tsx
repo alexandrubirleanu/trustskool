@@ -75,7 +75,7 @@ export default function NewsArticle() {
                 </time>
               )}
             </div>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight leading-tight md:text-4xl">
+            <h1 className="mt-3 text-xl font-bold tracking-tight leading-tight sm:text-2xl md:text-4xl">
               {page.title}
             </h1>
             {page.metaDescription && (
@@ -86,7 +86,7 @@ export default function NewsArticle() {
           </header>
 
           <div
-            className="prose prose-neutral mt-8 max-w-none text-foreground [&_a]:text-foreground [&_a]:underline [&_a]:underline-offset-2 [&_blockquote]:border-l-2 [&_blockquote]:border-border [&_blockquote]:pl-4 [&_blockquote]:text-muted-foreground [&_code]:rounded [&_code]:bg-secondary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-sm [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-semibold [&_h3]:mt-6 [&_h3]:text-base [&_h3]:font-semibold [&_li]:text-muted-foreground [&_p]:text-muted-foreground [&_p]:leading-relaxed"
+            className="prose prose-neutral mt-8 max-w-none text-foreground [&_a]:text-foreground [&_a]:underline [&_a]:underline-offset-2 [&_blockquote]:border-l-2 [&_blockquote]:border-border [&_blockquote]:pl-4 [&_blockquote]:text-muted-foreground [&_code]:rounded [&_code]:bg-secondary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-sm [&_h1]:text-xl [&_h1]:font-bold [&_h1]:tracking-tight sm:[&_h1]:text-2xl md:[&_h1]:text-3xl [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-semibold [&_h3]:mt-6 [&_h3]:text-base [&_h3]:font-semibold [&_li]:text-muted-foreground [&_p]:text-muted-foreground [&_p]:leading-relaxed"
             dangerouslySetInnerHTML={{ __html: page.bodyHtml }}
           />
         </article>

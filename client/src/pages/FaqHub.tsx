@@ -17,7 +17,7 @@ export default function FaqHub() {
     <SiteLayout>
       <div className="container py-10 md:py-14">
         <div className="mb-10 max-w-2xl">
-          <h1 className="text-3xl font-bold tracking-tight md:text-4xl">FAQ</h1>
+          <h1 className="text-xl font-bold tracking-tight sm:text-2xl md:text-4xl">FAQ</h1>
           <p className="mt-3 text-base leading-relaxed text-muted-foreground">
             Frequently asked questions about Skool communities: pricing, joining, leaving, refunds,
             and how TrustSkore works.

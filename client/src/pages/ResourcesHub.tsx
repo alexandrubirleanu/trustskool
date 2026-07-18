@@ -22,7 +22,7 @@ export default function ResourcesHub() {
     <SiteLayout>
       <div className="container py-10 md:py-14">
         <header className="max-w-2xl">
-          <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Resources</h1>
+          <h1 className="text-xl font-bold tracking-tight sm:text-2xl md:text-4xl">Resources</h1>
           <p className="mt-3 text-base leading-relaxed text-muted-foreground">
             In-depth guides and reference articles on Skool communities: pricing, niches, growth
             strategy, and how to evaluate a community before joining.
