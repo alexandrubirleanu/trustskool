@@ -412,8 +412,7 @@ export default function Home() {
                 Launch your Business on Skool
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-background/70 md:text-base">
-                Community, courses and events under one roof. Starts at $9/month — build the growth
-                record that earns a TrustSkore.
+                Community, courses and events under one roof. Starts at $9/month. Build the growth record that earns a TrustSkore.
               </p>
             </div>
             <a

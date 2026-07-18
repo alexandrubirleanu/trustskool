@@ -162,9 +162,8 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
           <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
             <div className="max-w-md">
               <BrandMark />
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                TrustSkool ranks Skool communities by real growth data, not paid reviews. Every
-                TrustSkore is computed from publicly observable metrics on a fixed methodology.
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground text-balance">
+                TrustSkool ranks Skool communities by real growth data. No paid reviews. Every TrustSkore uses publicly observable metrics on a fixed methodology.
               </p>
             </div>
             <nav className="flex flex-col gap-2 text-sm" aria-label="Footer">
@@ -190,14 +189,10 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
           </div>
           <div className="mt-8 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground">
             <p>
-              Affiliate disclosure: some links on this site are affiliate links. If you join a
-              community or create a Skool account through them, TrustSkool may earn a commission at
-              no extra cost to you. This never affects rankings, which are computed only from
-              growth data.
+              Affiliate disclosure: some links on this site are affiliate links. If you join a community or create a Skool account through them, TrustSkool may earn a commission at no extra cost to you. This never affects rankings, which are computed only from growth data.
             </p>
             <p className="mt-2">
-              TrustSkool is an independent project and is not affiliated with, endorsed by, or
-              sponsored by Skool.com. © {new Date().getFullYear()} TrustSkool.
+              TrustSkool is an independent project and is not affiliated with, endorsed by, or sponsored by Skool.com. © {new Date().getFullYear()} TrustSkool.
             </p>
           </div>
         </div>

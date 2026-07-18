@@ -6,8 +6,8 @@ const SITE = BRAND_NAME;
 
 // Static public routes only; dynamic detail pages use useDocumentTitle.
 const ROUTE_TITLES: Record<string, string> = {
-  "/": `${SITE} — Skool community leaderboard, ranked by TrustSkore`,
-  "/methodology": `Methodology — how the TrustSkore is calculated · ${SITE}`,
+  "/": `${SITE}: Skool community leaderboard, ranked by TrustSkore`,
+  "/methodology": `How the TrustSkore is calculated · ${SITE}`,
   "/admin/clicks": `Click tracking · ${SITE}`,
 };
 

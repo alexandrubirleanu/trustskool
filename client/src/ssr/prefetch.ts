@@ -98,12 +98,12 @@ export async function prefetchForPath(
       })),
     };
     return {
-      title: `${SITE} — Skool community leaderboard, ranked by TrustSkore`,
+      title: `${SITE}: Skool community leaderboard, ranked by TrustSkore`,
       description: DESC,
       ogType: "website",
       canonicalPath: "/",
       ogImage: "/manus-storage/trustskool-og_10a2b5e1.png",
-      ogImageAlt: "TrustSkool — Skool community leaderboard",
+      ogImageAlt: "TrustSkool: Skool community leaderboard",
       jsonLd,
     };
   }
@@ -144,7 +144,7 @@ export async function prefetchForPath(
     };
     return {
       title: community.displayName?.trim()
-        ? `${community.displayName} — TrustSkore ${(community.trustSkore / 10).toFixed(1)}/10 · ${SITE}`
+        ? `${community.displayName} · TrustSkore ${(community.trustSkore / 10).toFixed(1)}/10 · ${SITE}`
         : SITE,
       description: desc,
       ogType: "article",
@@ -157,7 +157,7 @@ export async function prefetchForPath(
 
   if (clean === "/methodology") {
     return {
-      title: `Methodology — how the TrustSkore is calculated · ${SITE}`,
+      title: `How the TrustSkore is calculated · ${SITE}`,
       description:
         "The TrustSkore blends member growth momentum, Skool ranking trajectory, and price stability into a single 0-10 trust score. Here is exactly how each component is weighted.",
       ogType: "website",

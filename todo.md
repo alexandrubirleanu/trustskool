@@ -180,3 +180,9 @@
 - [x] Tiered heartbeat jobs registered: ingest-hot (daily 02:00 UTC, taskUid 4B5w4urybpTaXHixXAJvCj), ingest-warm (Mon 03:00 UTC, taskUid PfaLpTspczNWKBBJnvVoMP), ingest-cold (1st/month 04:00 UTC, taskUid U8Ee5iSCwQzu8oUXFGq3pz), sla-monitor (daily 08:00 UTC, taskUid GZBMieBvUUFWCuwpt5zyKn)
 - [x] 20 new vitest tests for floor logic, hasInsufficientHistory, computeTrustSkoreWithFloor, tier thresholds, SLA windows — all 47 tests passing
 - [x] runTieredIngestion refactored: fetches full dataset once, slices by rank window (hot: 0-500, warm: 500-3000, cold: 3000+), upserts only tier slice, marks lastScrapedAt only for processed communities; TS errors fixed (export communityRecordSchema, export sendSlaAlertEmail)
+
+## Copy & Typography fixes
+- [ ] Remove all -- (em-dash via double hyphen) from copy across all components; replace with proper punctuation or rewrite naturally
+- [ ] Fix footer text wrap: prevent single-word orphans in footer columns (use whitespace-nowrap or min-w on key phrases)
+- [ ] Fix bottom CTA copy on community detail: remove em-dash from "Monthly subscription — check the latest pricing"
+- [ ] Add logo to OG image meta tag and ensure favicon uses the star+mortarboard icon consistently across all pages

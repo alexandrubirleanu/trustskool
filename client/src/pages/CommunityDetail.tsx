@@ -78,7 +78,7 @@ function ChartCard({
       {empty ? (
         <div className="mt-3 flex h-36 items-center justify-center sm:h-56">
           <p className="text-center text-xs text-muted-foreground">
-            Tracking started recently —<br />chart will populate over the next few weeks.
+            Tracking started recently. Chart will populate over the next few weeks.
           </p>
         </div>
       ) : (
@@ -127,7 +127,7 @@ export default function CommunityDetail() {
 
   useEffect(() => {
     if (community) {
-      document.title = `${community.displayName} — TrustSkore ${formatScore(community.trustSkore)} | TrustSkool`;
+      document.title = `${community.displayName} · TrustSkore ${formatScore(community.trustSkore)} | TrustSkool`;
       // Track community page view
       track("community_view", {
         slug: community.slug,
@@ -213,7 +213,7 @@ export default function CommunityDetail() {
   function ctaLabel(context: "short" | "long"): string {
     const name = community!.displayName;
     const price = Math.round((community!.priceAmountCents ?? 900) / 100);
-    if (priceType === "free") return context === "short" ? `Join ${name}` : `Join ${name} — Free`;
+    if (priceType === "free") return context === "short" ? `Join ${name}` : `Join ${name} (Free)`;
     if (priceType === "annual") return `Join for $${price}/yr`;
     if (priceType === "one_time") return `Join for $${price}`;
     return `Join for $${price}/mo`;
@@ -420,7 +420,7 @@ export default function CommunityDetail() {
                 <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm.75 4.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11a.875.875 0 1 0 0-1.75A.875.875 0 0 0 8 11Z"/>
               </svg>
               <span>
-                <strong className="font-semibold">Initial score estimated from community size</strong> — refines with real growth data as tracking accumulates.
+                <strong className="font-semibold">Initial score estimated from community size.</strong> Refines with real growth data as tracking accumulates.
               </span>
             </p>
           )}
@@ -586,9 +586,9 @@ export default function CommunityDetail() {
         <div className="mt-10 flex flex-col items-center gap-3 rounded-[4px] border border-border bg-card px-4 py-8 text-center sm:mt-12 sm:gap-4 sm:px-6 sm:py-10">
           <p className="max-w-md text-base leading-relaxed text-muted-foreground">
             Ready to join <strong className="font-semibold text-foreground">{community.displayName}</strong>?
-            {priceType === "free" && " It's free — no credit card required."}
-            {priceType === "monthly" && " Monthly subscription — check the latest pricing on Skool."}
-            {priceType === "annual" && " Annual membership — check the latest pricing on Skool."}
+            {priceType === "free" && " No credit card required."}
+            {priceType === "monthly" && " Check the latest pricing on Skool."}
+            {priceType === "annual" && " Check the latest pricing on Skool."}
             {priceType === "one_time" && " One-time payment for lifetime access."}
             {priceType === "paid" && " Check the latest pricing and join directly on Skool."}
           </p>
