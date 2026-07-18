@@ -276,92 +276,92 @@ export default function Home() {
       </section>
 
       <section className="container py-8">
-        {/* Filter bar — centered chips row */}
-        <div className="flex flex-wrap items-center justify-center gap-2" role="group" aria-label="Quick filters">
-          {/* Price chips */}
-          <button
-            type="button"
-            className="chip"
-            data-active={price === "all"}
-            onClick={() => setFilter(() => setPrice("all"))}>
-            All prices
-          </button>
-          <button
-            type="button"
-            className="chip"
-            data-active={price === "free"}
-            onClick={() => setFilter(() => setPrice("free"))}>
-            Free
-            {stats && price !== "free" && (
-              <span className="chip-count">{fmtK(stats.freeCommunities)}</span>
-            )}
-          </button>
-          <button
-            type="button"
-            className="chip"
-            data-active={price === "paid"}
-            onClick={() => setFilter(() => setPrice("paid"))}>
-            Paid
-          </button>
+        {/* Single unified filter + sort row */}
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
 
-          {/* Divider */}
-          {languages.length > 0 && (
-            <span className="mx-1 hidden h-5 w-px bg-border sm:block" aria-hidden />
-          )}
-
-          {/* Compact language dropdown */}
-          {languages.length > 0 && (
-            <LanguageDropdown
-              languages={languages}
-              value={language}
-              onChange={v => setFilter(() => setLanguage(v))}
-            />
-          )}
-
-          {/* Clear all */}
-          {hasActiveFilters && (
+          {/* Left: price chips + language dropdown */}
+          <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Filters">
             <button
               type="button"
-              onClick={clearAllFilters}
-              className="ml-1 inline-flex items-center gap-1 text-xs text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground">
-              <X className="h-3 w-3" /> Clear
+              className="chip"
+              data-active={price === "all"}
+              onClick={() => setFilter(() => setPrice("all"))}>
+              All prices
             </button>
-          )}
-        </div>
+            <button
+              type="button"
+              className="chip"
+              data-active={price === "free"}
+              onClick={() => setFilter(() => setPrice("free"))}>
+              Free
+              {stats && price !== "free" && (
+                <span className="chip-count">{fmtK(stats.freeCommunities)}</span>
+              )}
+            </button>
+            <button
+              type="button"
+              className="chip"
+              data-active={price === "paid"}
+              onClick={() => setFilter(() => setPrice("paid"))}>
+              Paid
+            </button>
 
-        {/* Sort + count — single compact row */}
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
-          <p className="text-xs text-muted-foreground" aria-live="polite" aria-atomic="true">
-            {isLoading && !data
-              ? "Loading…"
-              : data
-                ? `${data.total.toLocaleString()} communities`
-                : ""}
-          </p>
-          <div className="flex items-center gap-1" role="group" aria-label="Sort by">
-            <span className="mr-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              Sort
-            </span>
-            {SORT_OPTIONS.map(opt => (
+            {languages.length > 0 && (
+              <span className="mx-0.5 hidden h-4 w-px bg-border sm:block" aria-hidden />
+            )}
+
+            {languages.length > 0 && (
+              <LanguageDropdown
+                languages={languages}
+                value={language}
+                onChange={v => setFilter(() => setLanguage(v))}
+              />
+            )}
+
+            {hasActiveFilters && (
               <button
-                key={opt.key}
                 type="button"
-                onClick={() => toggleSort(opt.key)}
-                aria-pressed={sort === opt.key}
-                className={`inline-flex h-8 items-center gap-1 rounded-[4px] border px-2.5 text-xs font-medium transition-colors ${
-                  sort === opt.key
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-border bg-card text-foreground hover:border-foreground"
-                }`}>
-                {opt.label}
-                {sort === opt.key &&
-                  (direction === "desc" ? (
-                    <ArrowDown className="h-3 w-3" />
-                  ) : (
-                    <ArrowUp className="h-3 w-3" />
-                  ))}
+                onClick={clearAllFilters}
+                className="ml-0.5 inline-flex items-center gap-1 text-xs text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground">
+                <X className="h-3 w-3" /> Clear
               </button>
-            ))}
+            )}
+          </div>
+
+          {/* Right: count + sort buttons */}
+          <div className="flex items-center gap-2">
+            <p className="hidden text-xs text-muted-foreground sm:block" aria-live="polite" aria-atomic="true">
+              {isLoading && !data
+                ? "Loading…"
+                : data
+                  ? `${data.total.toLocaleString()} communities`
+                  : ""}
+            </p>
+            <div className="flex items-center gap-1" role="group" aria-label="Sort by">
+              <span className="mr-0.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Sort
+              </span>
+              {SORT_OPTIONS.map(opt => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  onClick={() => toggleSort(opt.key)}
+                  aria-pressed={sort === opt.key}
+                  className={`inline-flex h-8 items-center gap-1 rounded-[4px] border px-2.5 text-xs font-medium transition-colors ${
+                    sort === opt.key
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-border bg-card text-foreground hover:border-foreground"
+                  }`}>
+                  {opt.label}
+                  {sort === opt.key &&
+                    (direction === "desc" ? (
+                      <ArrowDown className="h-3 w-3" />
+                    ) : (
+                      <ArrowUp className="h-3 w-3" />
+                    ))}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
