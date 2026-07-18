@@ -255,3 +255,6 @@
 
 ## Dockerfile for OG image (2026-07-18)
 - [x] [DOCKER-1] Dockerfile added at project root: node:22-slim base + libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi8 (required by @napi-rs/canvas for OG image generation). Full pnpm build inside image, NODE_ENV=production, CMD node dist/index.js.
+
+## FiltersBar Redesign v2 (2026-07-18)
+- [x] [FILTERS-1] Replaced two-row filter bar with single-row FiltersBar component: "Filters" dropdown button (SlidersHorizontal icon + active count badge) opens panel with Price section (All/Free/Paid) + Language section; Sort buttons (Score/Members/Growth short labels on mobile, full on sm+) take remaining space; Clear button (X icon) when filters active; community count below the row. No overflow on 390px viewport.
