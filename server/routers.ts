@@ -39,7 +39,15 @@ import {
   sendOtpEmail,
 } from "./adminOtp";
 import { SignJWT, jwtVerify } from "jose";
+import { parse as parseCookieHeader } from "cookie";
 import { ENV } from "./_core/env";
+
+/** Read a cookie by name from the raw Cookie header (no cookie-parser middleware needed) */
+function getCookieFromRequest(req: { headers: { cookie?: string } }, name: string): string | undefined {
+  const raw = req.headers.cookie;
+  if (!raw) return undefined;
+  return parseCookieHeader(raw)[name];
+}
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -280,7 +288,7 @@ export const appRouter = router({
 
     /** Check if the current admin OTP session cookie is valid */
     checkSession: publicProcedure.query(async ({ ctx }) => {
-      const token = ctx.req.cookies?.[ADMIN_OTP_COOKIE_NAME];
+      const token = getCookieFromRequest(ctx.req, ADMIN_OTP_COOKIE_NAME);
       if (!token) return { authenticated: false };
       try {
         const secret = new TextEncoder().encode(ENV.cookieSecret);

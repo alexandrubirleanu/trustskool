@@ -248,3 +248,7 @@
 ## Community Detail Mobile UX (2026-07-18)
 - [x] [DETAIL-1] Sticky CTA bar moved to bottom (fixed bottom-0); slides in with translate-y transition only when main CTA block is scrolled off-screen (IntersectionObserver on mainCtaRef)
 - [x] [DETAIL-2] TrustSkore badge + Join button centered on mobile (flex-col items-center); button full-width on mobile (w-full), auto on desktop (md:w-auto)
+
+## Admin OTP Bug Fix (2026-07-18)
+- [x] [ADMIN-BUG-1] Root cause: req.cookies was always undefined because no cookie-parser middleware is registered in server/_core/index.ts. Fixed: checkSession in routers.ts and hasValidOtpSession in trpc.ts now use parseCookieHeader(req.headers.cookie) directly (same pattern as sdk.ts authenticateRequest). Verified: checkSession returns authenticated:true when valid JWT cookie is sent.
+- [x] [ADMIN-BUG-2] Secondary issue: after first failed code attempt, user saw "code expired" on retry because the OTP was consumed on the first (successful server-side) verification, but the cookie was never readable. Fix above resolves both symptoms.

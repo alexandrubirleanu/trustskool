@@ -1,6 +1,7 @@
 import { NOT_ADMIN_ERR_MSG, UNAUTHED_ERR_MSG } from '@shared/const';
 import { initTRPC, TRPCError } from "@trpc/server";
 import { jwtVerify } from "jose";
+import { parse as parseCookieHeader } from "cookie";
 import superjson from "superjson";
 import { ENV } from "./env";
 import type { TrpcContext } from "./context";
@@ -32,7 +33,8 @@ export const protectedProcedure = t.procedure.use(requireUser);
 
 /** Check if the request carries a valid admin OTP session cookie */
 async function hasValidOtpSession(req: TrpcContext["req"]): Promise<boolean> {
-  const token = req.cookies?.[ADMIN_OTP_COOKIE_NAME];
+  const raw = req.headers.cookie;
+  const token = raw ? parseCookieHeader(raw)[ADMIN_OTP_COOKIE_NAME] : undefined;
   if (!token) return false;
   try {
     const secret = new TextEncoder().encode(ENV.cookieSecret);
