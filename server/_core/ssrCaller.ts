@@ -14,5 +14,6 @@ export async function buildSsrPrefetch(req: Request, res: Response): Promise<Ssr
     communitiesList: input => caller.communities.list(input),
     communityBySlug: slug => caller.communities.bySlug({ slug }),
     communitiesFilters: () => caller.communities.filters(),
+    communitiesStats: () => caller.communities.stats(),
   };
 }

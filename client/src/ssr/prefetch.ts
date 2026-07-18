@@ -25,6 +25,7 @@ export type CommunitiesListInput = {
   language?: string;
   category?: string;
   price: "all" | "free" | "paid";
+  trending?: boolean;
   sort: "trustSkore" | "totalMembers" | "growthRateBp" | "category";
   direction: "asc" | "desc";
   page: number;
@@ -36,6 +37,7 @@ export type SsrPrefetch = {
   communitiesList: (input: CommunitiesListInput) => Promise<RO["communities"]["list"]>;
   communityBySlug: (slug: string) => Promise<RO["communities"]["bySlug"]>;
   communitiesFilters: () => Promise<RO["communities"]["filters"]>;
+  communitiesStats: () => Promise<RO["communities"]["stats"]>;
 };
 
 const SITE = BRAND_NAME;
@@ -76,9 +78,10 @@ export async function prefetchForPath(
       page: 1,
       pageSize: HOME_PAGE_SIZE,
     };
-    const [list, filters] = await Promise.all([p.communitiesList(input), p.communitiesFilters()]);
+    const [list, filters, stats] = await Promise.all([p.communitiesList(input), p.communitiesFilters(), p.communitiesStats()]);
     seed(qc, getQueryKey(trpc.communities.list, input, "query"), list);
     seed(qc, getQueryKey(trpc.communities.filters, undefined, "query"), filters);
+    seed(qc, getQueryKey(trpc.communities.stats, undefined, "query"), stats);
     const jsonLd = {
       "@context": "https://schema.org",
       "@type": "ItemList",

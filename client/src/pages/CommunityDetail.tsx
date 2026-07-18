@@ -1,4 +1,4 @@
-import { ArrowLeft, ExternalLink, TrendingDown, TrendingUp, Users } from "lucide-react";
+import { ArrowLeft, ExternalLink, TrendingDown, TrendingUp, Users, Zap } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import {
   CartesianGrid,
@@ -167,8 +167,27 @@ export default function CommunityDetail() {
   const growth = community.growthRateBp;
   const GrowthIcon = growth >= 0 ? TrendingUp : TrendingDown;
 
+  const isFree = !community.priceAmountCents || community.priceAmountCents === 0;
+  const isTrending = community.growthRateBp > 0;
+
   return (
     <SiteLayout>
+      {/* Sticky mobile CTA bar */}
+      <div className="sticky top-16 z-30 flex items-center justify-between gap-3 border-b border-border bg-background/95 px-4 py-2.5 backdrop-blur-sm md:hidden">
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold">{community.displayName}</p>
+          <p className="text-xs text-muted-foreground">
+            TrustSkore <span className="font-bold text-foreground">{formatScore(community.trustSkore)}</span>
+          </p>
+        </div>
+        <a
+          href={`/go/${community.slug}`}
+          rel="nofollow sponsored"
+          className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
+          Join on Skool <ExternalLink className="h-3.5 w-3.5" />
+        </a>
+      </div>
+
       <div className="container py-8 md:py-10">
         <Link
           href="/"
@@ -195,9 +214,20 @@ export default function CommunityDetail() {
               </span>
             )}
             <div>
-              <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
-                {community.displayName}
-              </h1>
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+                  {community.displayName}
+                </h1>
+                {isTrending && (
+                  <span className="badge-trending" aria-label="Trending">
+                    <Zap className="h-3 w-3" />
+                    Trending
+                  </span>
+                )}
+                {isFree && (
+                  <span className="badge-free">Free</span>
+                )}
+              </div>
               {community.description && (
                 <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-[15px]">
                   {community.description}
@@ -418,6 +448,25 @@ export default function CommunityDetail() {
             </div>
           </section>
         )}
+
+        {/* Bottom conversion CTA */}
+        <div className="mt-12 flex flex-col items-center gap-4 rounded-[4px] border border-border bg-card px-6 py-10 text-center">
+          <p className="max-w-md text-base leading-relaxed text-muted-foreground">
+            Ready to join <strong className="font-semibold text-foreground">{community.displayName}</strong>?
+            {isFree
+              ? " It's free — no credit card required."
+              : " Check the latest pricing and join directly on Skool."}
+          </p>
+          <a
+            href={`/go/${community.slug}`}
+            rel="nofollow sponsored"
+            className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-8 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
+            Join {community.displayName} on Skool <ExternalLink className="h-4 w-4" />
+          </a>
+          <p className="text-xs text-muted-foreground">
+            You'll be redirected to Skool. TrustSkool is not affiliated with Skool.
+          </p>
+        </div>
       </div>
     </SiteLayout>
   );

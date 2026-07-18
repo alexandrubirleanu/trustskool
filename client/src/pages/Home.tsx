@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useSearch } from "wouter";
 import CommunityCard from "@/components/CommunityCard";
@@ -14,10 +14,18 @@ const SORT_OPTIONS: { key: SortKey; label: string }[] = [
   { key: "trustSkore", label: "TrustSkore" },
   { key: "totalMembers", label: "Members" },
   { key: "growthRateBp", label: "Growth" },
-  { key: "category", label: "Category" },
 ];
 
 const PAGE_SIZE = 24;
+
+function StatPill({ value, label }: { value: string; label: string }) {
+  return (
+    <span className="inline-flex items-baseline gap-1.5">
+      <span className="text-base font-bold tabular-nums text-foreground">{value}</span>
+      <span className="text-sm text-muted-foreground">{label}</span>
+    </span>
+  );
+}
 
 export default function Home() {
   const searchString = useSearch();
@@ -27,19 +35,19 @@ export default function Home() {
   const [search, setSearch] = useState(urlQuery);
   const [debounced, setDebounced] = useState(urlQuery);
   const [language, setLanguage] = useState<string | undefined>();
-  const [category, setCategory] = useState<string | undefined>();
   const [price, setPrice] = useState<PriceKey>("all");
   const [sort, setSort] = useState<SortKey>("trustSkore");
   const [direction, setDirection] = useState<"asc" | "desc">("desc");
   const [page, setPage] = useState(1);
 
-  // keep local search in sync when the top-nav search navigates to /?q=
+  // sync with top-nav search
   useEffect(() => {
     setSearch(urlQuery);
     setDebounced(urlQuery);
     setPage(1);
   }, [urlQuery]);
 
+  // debounce search input
   useEffect(() => {
     const t = setTimeout(() => {
       setDebounced(search);
@@ -52,20 +60,20 @@ export default function Home() {
     () => ({
       search: debounced || undefined,
       language,
-      category,
       price,
       sort,
       direction,
       page,
       pageSize: PAGE_SIZE,
     }),
-    [debounced, language, category, price, sort, direction, page],
+    [debounced, language, price, sort, direction, page],
   );
 
   const { data, isLoading } = trpc.communities.list.useQuery(listInput, {
     placeholderData: prev => prev,
   });
   const { data: filters } = trpc.communities.filters.useQuery();
+  const { data: stats } = trpc.communities.stats.useQuery();
 
   const totalPages = data ? Math.max(1, Math.ceil(data.total / PAGE_SIZE)) : 1;
 
@@ -74,7 +82,7 @@ export default function Home() {
       setDirection(d => (d === "desc" ? "asc" : "desc"));
     } else {
       setSort(key);
-      setDirection(key === "category" ? "asc" : "desc");
+      setDirection("desc");
     }
     setPage(1);
   };
@@ -84,24 +92,54 @@ export default function Home() {
     setPage(1);
   };
 
-  const languages = filters?.languages ?? [];
-  const categories = filters?.categories ?? [];
+  const clearAllFilters = () => {
+    setSearch("");
+    setDebounced("");
+    setLanguage(undefined);
+    setPrice("all");
+    setSort("trustSkore");
+    setDirection("desc");
+    setPage(1);
+    navigate("/");
+  };
+
+  const hasActiveFilters = Boolean(debounced || language || price !== "all");
+
+  const languages = (filters?.languages ?? []).slice(0, 8);
+
+  // Format stat numbers
+  const fmtK = (n: number) => n >= 1000 ? `${Math.round(n / 1000)}k+` : String(n);
 
   return (
     <SiteLayout>
       {/* Hero */}
       <section className="border-b border-border bg-card">
-        <div className="container py-14 md:py-20">
-          <div className="max-w-3xl">
-            <h1 className="text-[32px] font-bold leading-tight tracking-tight md:text-[45px]">
-              Skool community rankings built on real growth data.
+        <div className="container py-12 md:py-18">
+          <div className="max-w-2xl">
+            <h1 className="text-[30px] font-bold leading-tight tracking-tight md:text-[44px]">
+              Find Skool communities worth joining — before you pay.
             </h1>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              Every community gets a <strong className="font-semibold text-foreground">TrustSkore</strong> computed
-              from member growth, discovery-ranking momentum and price stability — never from paid
-              reviews or sponsorships.
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+              Every community gets a <strong className="font-semibold text-foreground">TrustSkore</strong> built from
+              member growth, discovery-rank momentum and price stability. No paid placements, no
+              sponsored rankings.
             </p>
           </div>
+
+          {/* Social proof stat bar */}
+          {stats && (
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
+              <StatPill value={fmtK(stats.totalCommunities)} label="communities indexed" />
+              <span className="hidden h-4 w-px bg-border sm:block" aria-hidden />
+              <StatPill value={fmtK(stats.freeCommunities)} label="free to join" />
+              {stats.trendingCommunities > 0 && (
+                <>
+                  <span className="hidden h-4 w-px bg-border sm:block" aria-hidden />
+                  <StatPill value={fmtK(stats.trendingCommunities)} label="growing this month" />
+                </>
+              )}
+            </div>
+          )}
 
           {/* In-page search */}
           <div className="relative mt-8 max-w-xl">
@@ -114,26 +152,55 @@ export default function Home() {
               aria-label="Search communities"
               className="h-12 w-full rounded-[4px] border border-input bg-background pl-11 pr-4 text-[15px] outline-none transition-colors focus:border-foreground"
             />
+            {search && (
+              <button
+                type="button"
+                aria-label="Clear search"
+                onClick={() => { setSearch(""); navigate("/"); }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground">
+                <X className="h-4 w-4" />
+              </button>
+            )}
           </div>
         </div>
       </section>
 
       <section className="container py-8">
-        {/* Filters */}
+        {/* Filter bar */}
         <div className="flex flex-col gap-3">
-          <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Price filter">
-            {(["all", "free", "paid"] as PriceKey[]).map(key => (
-              <button
-                key={key}
-                type="button"
-                className="chip"
-                data-active={price === key}
-                onClick={() => setFilter(() => setPrice(key))}>
-                {key === "all" ? "All prices" : capitalize(key)}
-              </button>
-            ))}
-            <span className="mx-1 hidden h-5 w-px bg-border sm:block" aria-hidden />
-            {languages.slice(0, 6).map(lang => (
+          {/* Price + Language row */}
+          <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Quick filters">
+            {/* Price chips */}
+            <button
+              type="button"
+              className="chip"
+              data-active={price === "all"}
+              onClick={() => setFilter(() => setPrice("all"))}>
+              All prices
+            </button>
+            <button
+              type="button"
+              className="chip"
+              data-active={price === "free"}
+              onClick={() => setFilter(() => setPrice("free"))}>
+              Free
+              {stats && price !== "free" && (
+                <span className="chip-count">{fmtK(stats.freeCommunities)}</span>
+              )}
+            </button>
+            <button
+              type="button"
+              className="chip"
+              data-active={price === "paid"}
+              onClick={() => setFilter(() => setPrice("paid"))}>
+              Paid
+            </button>
+
+            {languages.length > 0 && (
+              <span className="mx-1 hidden h-5 w-px bg-border sm:block" aria-hidden />
+            )}
+
+            {languages.map(lang => (
               <button
                 key={lang.value}
                 type="button"
@@ -143,31 +210,32 @@ export default function Home() {
                   setFilter(() => setLanguage(l => (l === lang.value ? undefined : lang.value)))
                 }>
                 {capitalize(lang.value)}
+                {lang.count && language !== lang.value && (
+                  <span className="chip-count">{fmtK(lang.count)}</span>
+                )}
               </button>
             ))}
+
+            {/* Clear all */}
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={clearAllFilters}
+                className="ml-1 inline-flex items-center gap-1 text-xs text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground">
+                <X className="h-3 w-3" /> Clear
+              </button>
+            )}
           </div>
-          {categories.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Category filter">
-              {categories.slice(0, 10).map(cat => (
-                <button
-                  key={cat.value}
-                  type="button"
-                  className="chip"
-                  data-active={category === cat.value}
-                  onClick={() =>
-                    setFilter(() => setCategory(c => (c === cat.value ? undefined : cat.value)))
-                  }>
-                  {formatCategory(cat.value)}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
-        {/* Sort header */}
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-muted-foreground" aria-live="polite">
-            {data ? `${data.total} communities` : "Loading…"}
+        {/* Sort + count header */}
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-muted-foreground" aria-live="polite" aria-atomic="true">
+            {isLoading && !data
+              ? "Loading…"
+              : data
+                ? `${data.total.toLocaleString()} communities`
+                : ""}
           </p>
           <div className="flex items-center gap-1" role="group" aria-label="Sort by">
             <span className="mr-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -186,14 +254,18 @@ export default function Home() {
                 }`}>
                 {opt.label}
                 {sort === opt.key &&
-                  (direction === "desc" ? <ArrowDown className="h-3 w-3" /> : <ArrowUp className="h-3 w-3" />)}
+                  (direction === "desc" ? (
+                    <ArrowDown className="h-3 w-3" />
+                  ) : (
+                    <ArrowUp className="h-3 w-3" />
+                  ))}
               </button>
             ))}
           </div>
         </div>
 
         {/* Leaderboard */}
-        <div className="mt-4 rounded-[4px] border border-border">
+        <div className="mt-3 rounded-[4px] border border-border">
           {isLoading && !data ? (
             <div className="flex flex-col gap-px p-4">
               {Array.from({ length: 8 }).map((_, i) => (
@@ -219,19 +291,13 @@ export default function Home() {
             <div className="px-6 py-16 text-center">
               <p className="text-base font-medium">No communities match your filters.</p>
               <p className="mt-1 text-sm text-muted-foreground">
-                Try clearing the search or picking a different category.
+                Try a different search term or remove a filter.
               </p>
               <button
                 type="button"
                 className="chip mt-4"
-                onClick={() => {
-                  setSearch("");
-                  setLanguage(undefined);
-                  setCategory(undefined);
-                  setPrice("all");
-                  navigate("/");
-                }}>
-                Reset filters
+                onClick={clearAllFilters}>
+                Reset all filters
               </button>
             </div>
           )}
@@ -244,7 +310,7 @@ export default function Home() {
               type="button"
               disabled={page <= 1}
               onClick={() => setPage(p => Math.max(1, p - 1))}
-              className="inline-flex h-9 items-center gap-1 rounded-[4px] border border-border bg-card px-3 text-sm font-medium disabled:opacity-40">
+              className="inline-flex h-9 items-center gap-1 rounded-[4px] border border-border bg-card px-3 text-sm font-medium disabled:opacity-40 transition-colors hover:border-foreground">
               <ChevronLeft className="h-4 w-4" /> Prev
             </button>
             <span className="px-2 text-sm text-muted-foreground tabular-nums">
@@ -254,7 +320,7 @@ export default function Home() {
               type="button"
               disabled={page >= totalPages}
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-              className="inline-flex h-9 items-center gap-1 rounded-[4px] border border-border bg-card px-3 text-sm font-medium disabled:opacity-40">
+              className="inline-flex h-9 items-center gap-1 rounded-[4px] border border-border bg-card px-3 text-sm font-medium disabled:opacity-40 transition-colors hover:border-foreground">
               Next <ChevronRight className="h-4 w-4" />
             </button>
           </nav>
@@ -265,17 +331,17 @@ export default function Home() {
           <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
             <div className="max-w-xl">
               <h2 className="text-xl font-semibold text-background md:text-2xl">
-                Thinking of starting your own community?
+                Ready to start your own community?
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-background/70 md:text-base">
-                Skool gives you a community, courses and events under one roof. Launch yours and
-                start building the growth record that earns a TrustSkore.
+                Skool gives you community, courses and events under one roof — free to start. Build
+                the growth record that earns a TrustSkore.
               </p>
             </div>
             <a
               href="/go/signup"
               className="inline-flex h-11 shrink-0 items-center rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
-              Create your Skool community
+              Start free on Skool
             </a>
           </div>
         </aside>

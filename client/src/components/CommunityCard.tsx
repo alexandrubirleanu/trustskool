@@ -1,4 +1,4 @@
-import { TrendingDown, TrendingUp, Users } from "lucide-react";
+import { ChevronRight, TrendingDown, TrendingUp, Users, Zap } from "lucide-react";
 import { Link } from "wouter";
 import {
   formatCategory,
@@ -69,10 +69,19 @@ export default function CommunityCard({
       <Avatar name={community.displayName} logoUrl={community.logoUrl} />
 
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <h3 className="truncate text-[15px] font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
             {community.displayName}
           </h3>
+          {community.growthRateBp > 0 && (
+            <span className="badge-trending" aria-label="Trending">
+              <Zap className="h-2.5 w-2.5" />
+              Trending
+            </span>
+          )}
+          {(!community.priceAmountCents || community.priceAmountCents === 0) && (
+            <span className="badge-free">Free</span>
+          )}
         </div>
         <p className="mt-0.5 hidden truncate text-sm text-muted-foreground sm:block">
           {community.description}
@@ -93,11 +102,14 @@ export default function CommunityCard({
         </div>
       </div>
 
-      <span
-        className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-[4px] text-sm font-bold tabular-nums ${SCORE_TIER_CLASSES[scoreTier(community.trustSkore)]}`}
-        title={`TrustSkore ${formatScore(community.trustSkore)}`}>
-        {formatScore(community.trustSkore)}
-      </span>
+      <div className="flex shrink-0 items-center gap-1.5">
+        <span
+          className={`flex h-11 w-11 flex-col items-center justify-center rounded-[4px] text-sm font-bold tabular-nums ${SCORE_TIER_CLASSES[scoreTier(community.trustSkore)]}`}
+          title={`TrustSkore ${formatScore(community.trustSkore)}`}>
+          {formatScore(community.trustSkore)}
+        </span>
+        <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
+      </div>
     </Link>
   );
 }

@@ -50,3 +50,17 @@
 
 ## CTA button styling
 - [x] Updated primary CTA buttons to #F8D481 bg / #202124 text / font-bold / 4px radius / no border / no shadow: "Start on Skool" nav (desktop + mobile), "Join on Skool" detail page, "Create your Skool community" banner — all secondary buttons unchanged
+
+## CRO & Filter improvements
+- [x] Hero: social proof stat bar (8k+ indexed, 5k+ free to join; trending shown when >0)
+- [x] Hero: improved headline "Find Skool communities worth joining — before you pay.", cleaner search with clear-X button
+- [x] Filters: count badges on language chips (English 1k+, Spanish 1k+, etc.); top 8 languages shown
+- [x] Trending stat hidden when 0 (all current data has growthRateBp=0); UI ready for when pipeline provides growth data
+- [x] Free chip shows count badge (5k+) and is prominent in filter bar
+- [x] Leaderboard cards: Free badge (green) and Trending badge (amber, only when growthRateBp>0)
+- [x] Cards already have hover:bg-accent transition; TrustSkore badge acts as visual CTA anchor
+- [x] Detail page: sticky mobile CTA bar (name + TrustSkore + Join on Skool button) at top on mobile
+- [x] Detail page: Free/Trending badges in header; bottom CTA copy adapts ("It's free — no credit card required" vs "Check the latest pricing")
+- [x] Detail page: member count shown in header stats row; bottom CTA section personalizes copy per community
+- [x] Banner copy updated: "Ready to start your own community?" + "Start free on Skool" CTA
+- [x] Empty state: clear message + "Reset all filters" chip button

@@ -16,6 +16,7 @@ export interface ListCommunitiesParams {
   language?: string;
   category?: string;
   price?: PriceFilter;
+  trending?: boolean;
   sort?: CommunitySort;
   direction?: "asc" | "desc";
   page?: number;
@@ -49,6 +50,7 @@ export async function listCommunities(params: ListCommunitiesParams) {
     language,
     category,
     price = "all",
+    trending,
     sort = "trustSkore",
     direction = "desc",
     page = 1,
@@ -68,6 +70,7 @@ export async function listCommunities(params: ListCommunitiesParams) {
     if (freeCond) conditions.push(freeCond);
   }
   if (price === "paid") conditions.push(sql`${communities.priceAmountCents} > 0`);
+  if (trending) conditions.push(sql`${communities.growthRateBp} > 0`);
 
   const where = conditions.length ? and(...conditions) : undefined;
 
@@ -259,4 +262,26 @@ export async function getLatestIngestionRun() {
   if (!db) return undefined;
   const rows = await db.select().from(ingestionRuns).orderBy(desc(ingestionRuns.createdAt)).limit(1);
   return rows[0];
+}
+
+/** Returns platform-wide stats for the social proof bar. */
+export async function getPlatformStats() {
+  const db = await getDb();
+  if (!db) return { totalCommunities: 0, freeCommunities: 0, trendingCommunities: 0, totalClicks: 0 };
+  const [totalRows, freeRows, trendingRows, clickRows] = await Promise.all([
+    db.select({ count: sql<number>`count(*)` }).from(communities),
+    db.select({ count: sql<number>`count(*)` }).from(communities).where(
+      sql`${communities.priceAmountCents} = 0 OR ${communities.priceAmountCents} IS NULL`
+    ),
+    db.select({ count: sql<number>`count(*)` }).from(communities).where(
+      sql`${communities.growthRateBp} > 0`
+    ),
+    db.select({ count: sql<number>`count(*)` }).from(clicks),
+  ]);
+  return {
+    totalCommunities: Number(totalRows[0]?.count ?? 0),
+    freeCommunities: Number(freeRows[0]?.count ?? 0),
+    trendingCommunities: Number(trendingRows[0]?.count ?? 0),
+    totalClicks: Number(clickRows[0]?.count ?? 0),
+  };
 }
