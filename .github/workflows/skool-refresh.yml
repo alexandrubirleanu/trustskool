@@ -27,15 +27,19 @@ jobs:
           echo "Today's Tier B bucket: $BUCKET"
           python3 scripts/scrape_skool_discovery.py --refresh --tier-b-bucket $BUCKET --tier-b-buckets 3
 
-      # Placeholder: recompute TrustSkool Score from the updated history files.
-      # Add scripts/compute_scores.py once the scoring formula is finalized, then:
-      # - name: Recompute TrustSkool Score
-      #   run: python3 scripts/compute_scores.py
+      - name: Rebuild data/communities.json (embeds history arrays, app reads this)
+        run: python3 scripts/build_communities_dataset.py
 
-      - name: Commit updated snapshots
+      - name: Commit updated snapshots and dataset
         run: |
           git config user.name "trustskool-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add scripts/skool_data/history/
+          git add scripts/skool_data/history/ data/communities.json
           git diff --cached --quiet || git commit -m "Daily Skool data refresh $(date -u +%Y-%m-%d)"
           git push
+
+      - name: Trigger app ingestion
+        if: env.INGEST_URL != ''
+        env:
+          INGEST_URL: ${{ secrets.INGEST_URL }}
+        run: curl -fsS -X POST "$INGEST_URL" || echo "Ingestion trigger failed (non-fatal, daily Heartbeat cron will pick it up)"
