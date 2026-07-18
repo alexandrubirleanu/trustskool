@@ -143,7 +143,7 @@ describe("Click tracking config", () => {
       referrer: "https://trustskool.com/community/my-community",
       timestamp: new Date("2026-07-18T10:00:00Z"),
     });
-    expect(email.subject).toBe("TrustSkool click: My <Community>");
+    expect(email.subject).toBe("[TrustSkool] Outbound click \u2014 My <Community>");
     expect(email.html).toContain("My &lt;Community&gt;");
     expect(email.html).toContain("my-community");
     expect(email.html).toContain("2026-07-18T10:00:00.000Z");

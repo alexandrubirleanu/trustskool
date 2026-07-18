@@ -14,4 +14,12 @@ export const serverConfig = {
   get datasetUrl(): string {
     return process.env.DATASET_URL || DEFAULT_DATASET_URL;
   },
+  get emailFrom(): string {
+    // Primary: noreply@trustskool.com (DNS records added; pending Resend verification).
+    // Fallback: EMAIL_FROM_FALLBACK env var (set to a verified domain address) used
+    // automatically while trustskool.com verification is still propagating.
+    return process.env.EMAIL_FROM
+      || process.env.EMAIL_FROM_FALLBACK
+      || "TrustSkool <noreply@trustskool.com>";
+  },
 };

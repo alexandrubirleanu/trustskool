@@ -30,22 +30,49 @@ export function buildClickEmail(click: ClickNotification) {
   const referrer = click.referrer ? escapeHtml(click.referrer) : "(direct / unknown)";
   const ts = click.timestamp.toISOString();
   return {
-    subject: `TrustSkool click: ${click.displayName}`,
+    subject: `[TrustSkool] Outbound click — ${click.displayName}`,
     html: `
-      <div style="font-family:Roboto,Arial,sans-serif;color:#202124;max-width:560px">
-        <h2 style="margin:0 0 12px">Outbound click tracked</h2>
-        <table style="border-collapse:collapse;width:100%">
-          <tr><td style="padding:6px 12px 6px 0;color:#909090">Community</td><td style="padding:6px 0"><strong>${name}</strong></td></tr>
-          <tr><td style="padding:6px 12px 6px 0;color:#909090">Slug</td><td style="padding:6px 0">${escapeHtml(click.slug)}</td></tr>
-          <tr><td style="padding:6px 12px 6px 0;color:#909090">Timestamp</td><td style="padding:6px 0">${ts}</td></tr>
-          <tr><td style="padding:6px 12px 6px 0;color:#909090">Referrer</td><td style="padding:6px 0">${referrer}</td></tr>
+      <div style="font-family:Roboto,Arial,sans-serif;color:#202124;max-width:560px;padding:24px">
+        <p style="margin:0 0 4px;font-size:12px;color:#909090;text-transform:uppercase;letter-spacing:.08em">TrustSkool — Click Notification</p>
+        <h2 style="margin:0 0 20px;font-size:20px;font-weight:700">Outbound click tracked</h2>
+        <table style="border-collapse:collapse;width:100%;font-size:14px">
+          <tr style="border-bottom:1px solid #E4E4E4">
+            <td style="padding:10px 16px 10px 0;color:#909090;white-space:nowrap">Community</td>
+            <td style="padding:10px 0"><strong>${name}</strong></td>
+          </tr>
+          <tr style="border-bottom:1px solid #E4E4E4">
+            <td style="padding:10px 16px 10px 0;color:#909090;white-space:nowrap">Slug</td>
+            <td style="padding:10px 0">${escapeHtml(click.slug)}</td>
+          </tr>
+          <tr style="border-bottom:1px solid #E4E4E4">
+            <td style="padding:10px 16px 10px 0;color:#909090;white-space:nowrap">Timestamp (UTC)</td>
+            <td style="padding:10px 0">${ts}</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 16px 10px 0;color:#909090;white-space:nowrap">Referrer</td>
+            <td style="padding:10px 0">${referrer}</td>
+          </tr>
         </table>
-        <p style="margin:16px 0 0">
-          <a href="${skoolUrl}" style="color:#202124">Open on Skool</a>
+        <p style="margin:24px 0 0">
+          <a href="${skoolUrl}" style="display:inline-block;background:#202124;color:#fff;text-decoration:none;padding:10px 20px;border-radius:4px;font-size:14px;font-weight:600">Open community on Skool</a>
+        </p>
+        <p style="margin:32px 0 0;font-size:12px;color:#909090;border-top:1px solid #E4E4E4;padding-top:16px">
+          This is an automated notification from <a href="https://trustskool.com" style="color:#909090">TrustSkool</a>.
+          You are receiving this because you are the site owner.
         </p>
       </div>
     `.trim(),
-    text: `Outbound click tracked\nCommunity: ${click.displayName}\nSlug: ${click.slug}\nTimestamp: ${ts}\nReferrer: ${referrer}\nSkool page: ${skoolUrl}`,
+    text: [
+      "[TrustSkool] Outbound click tracked",
+      "",
+      `Community : ${click.displayName}`,
+      `Slug      : ${click.slug}`,
+      `Timestamp : ${ts}`,
+      `Referrer  : ${referrer}`,
+      `Skool URL : ${skoolUrl}`,
+      "",
+      "This is an automated notification from TrustSkool (https://trustskool.com).",
+    ].join("\n"),
   };
 }
 
@@ -66,10 +93,7 @@ export async function sendClickNotification(click: ClickNotification): Promise<b
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        // trustskool.com is added on Resend but still pending verification; until it
-        // verifies, we send from an already-verified domain on the same account so
-        // notifications can reach any recipient. Override with EMAIL_FROM once ready.
-        from: process.env.EMAIL_FROM || "TrustSkool <trustskool@alexandrubirleanu.it>",
+        from: serverConfig.emailFrom,
         to: [to],
         subject: email.subject,
         html: email.html,
