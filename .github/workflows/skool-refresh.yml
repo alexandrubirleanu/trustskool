@@ -1,0 +1,41 @@
+name: Skool data refresh
+
+on:
+  schedule:
+    - cron: "17 4 * * *"  # once a day, off-peak UTC
+  workflow_dispatch: {}   # allows manual "Run workflow" from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Refresh Tier A (daily, large language segments)
+        run: python3 scripts/scrape_skool_discovery.py --refresh --tier-a
+
+      - name: Refresh Tier B rotating bucket (~every 72h per language)
+        run: |
+          BUCKET=$(( $(date +%j) % 3 ))
+          echo "Today's Tier B bucket: $BUCKET"
+          python3 scripts/scrape_skool_discovery.py --refresh --tier-b-bucket $BUCKET --tier-b-buckets 3
+
+      # Placeholder: recompute TrustSkool Score from the updated history files.
+      # Add scripts/compute_scores.py once the scoring formula is finalized, then:
+      # - name: Recompute TrustSkool Score
+      #   run: python3 scripts/compute_scores.py
+
+      - name: Commit updated snapshots
+        run: |
+          git config user.name "trustskool-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add scripts/skool_data/history/
+          git diff --cached --quiet || git commit -m "Daily Skool data refresh $(date -u +%Y-%m-%d)"
+          git push
