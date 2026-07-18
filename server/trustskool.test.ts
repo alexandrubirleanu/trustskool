@@ -142,11 +142,38 @@ describe("Click tracking config", () => {
       displayName: "My <Community>",
       referrer: "https://trustskool.com/community/my-community",
       timestamp: new Date("2026-07-18T10:00:00Z"),
+      totalMembers: 1500,
+      priceAmountCents: 4900,
+      priceInterval: "month",
+      language: "english",
+      clickCount: 7,
     });
     expect(email.subject).toBe("[TrustSkool] Outbound click \u2014 My <Community>");
     expect(email.html).toContain("My &lt;Community&gt;");
     expect(email.html).toContain("my-community");
     expect(email.html).toContain("2026-07-18T10:00:00.000Z");
     expect(email.text).toContain("https://trustskool.com/community/my-community");
+    // New enrichment fields
+    expect(email.html).toContain("1,500"); // members formatted
+    expect(email.html).toContain("$49/month"); // price formatted
+    expect(email.html).toContain("English"); // language capitalised
+    expect(email.html).toContain("<strong>7</strong>"); // click count
+    expect(email.text).toContain("Members    : 1,500");
+    expect(email.text).toContain("Price      : $49/month");
+    expect(email.text).toContain("Language   : English");
+    expect(email.text).toContain("Clicks     : 7");
+  });
+
+  it("click email shows Free for null/zero price", () => {
+    const email = buildClickEmail({
+      slug: "free-community",
+      displayName: "Free Community",
+      referrer: null,
+      timestamp: new Date("2026-07-18T10:00:00Z"),
+      priceAmountCents: null,
+      clickCount: 1,
+    });
+    expect(email.html).toContain("Free");
+    expect(email.text).toContain("Price      : Free");
   });
 });

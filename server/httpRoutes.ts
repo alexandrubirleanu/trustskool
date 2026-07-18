@@ -1,6 +1,6 @@
 import type { Express, Request, Response } from "express";
 import { skoolCommunityUrl, SKOOL_SIGNUP_URL } from "../shared/appConfig";
-import { getCommunityBySlug, insertClick } from "./dbCommunities";
+import { getCommunityBySlug, getClickCountForSlug, insertClick } from "./dbCommunities";
 import { sendClickNotification } from "./emailNotify";
 import { runIngestion } from "./ingestion";
 import { sdk } from "./_core/sdk";
@@ -60,11 +60,24 @@ async function handleGoRedirect(req: Request, res: Response) {
     console.error("[Go] Failed to log click:", err);
   }
 
-  // 2. Send the notification email BEFORE redirecting (bounded so a slow
-  //    email provider cannot hold the visitor hostage)
-  await sendNotificationWithTimeout({ slug: rawSlug, displayName, referrer, timestamp });
+  // 2. Fetch running click count for this slug (includes the click just inserted)
+  const clickCount = await getClickCountForSlug(rawSlug).catch(() => 0);
 
-  // 3. 302 redirect to Skool with the affiliate ref
+  // 3. Send the notification email BEFORE redirecting (bounded so a slow
+  //    email provider cannot hold the visitor hostage)
+  await sendNotificationWithTimeout({
+    slug: rawSlug,
+    displayName,
+    referrer,
+    timestamp,
+    totalMembers: community?.totalMembers ?? null,
+    priceAmountCents: community?.priceAmountCents ?? null,
+    priceInterval: community?.priceInterval ?? null,
+    language: community?.language ?? null,
+    clickCount,
+  });
+
+  // 4. 302 redirect to Skool with the affiliate ref
   return res.redirect(302, skoolCommunityUrl(rawSlug));
 }
 

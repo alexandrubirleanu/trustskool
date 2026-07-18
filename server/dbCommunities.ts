@@ -230,6 +230,17 @@ export async function listClicks(limit = 500) {
   return db.select().from(clicks).orderBy(desc(clicks.createdAt)).limit(limit);
 }
 
+/** Returns the total number of tracked clicks for a given slug (including the current one). */
+export async function getClickCountForSlug(slug: string): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+  const rows = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(clicks)
+    .where(eq(clicks.slug, slug));
+  return Number(rows[0]?.count ?? 0);
+}
+
 /* ---------------- Ingestion runs ---------------- */
 
 export async function logIngestionRun(run: {

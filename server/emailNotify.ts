@@ -14,6 +14,16 @@ export interface ClickNotification {
   displayName: string;
   referrer: string | null;
   timestamp: Date;
+  /** Community member count at the time of the click (null for unknown/signup). */
+  totalMembers?: number | null;
+  /** Price in cents (0 or null = free). */
+  priceAmountCents?: number | null;
+  /** "month" | "year" | null */
+  priceInterval?: string | null;
+  /** Normalised language string (e.g. "english"). */
+  language?: string | null;
+  /** Running total of tracked clicks for this slug (including this one). */
+  clickCount?: number;
 }
 
 function escapeHtml(value: string): string {
@@ -24,11 +34,34 @@ function escapeHtml(value: string): string {
     .replace(/"/g, "&quot;");
 }
 
+/** Format price for display: null/0 → "Free", otherwise "$X/month" or "$X/year". */
+function formatPrice(cents: number | null | undefined, interval: string | null | undefined): string {
+  if (!cents || cents === 0) return "Free";
+  const dollars = (cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+  const period = interval === "year" ? "/year" : "/month";
+  return `${dollars}${period}`;
+}
+
+/** Capitalise first letter of a language string (e.g. "english" → "English"). */
+function formatLanguage(lang: string | null | undefined): string {
+  if (!lang) return "—";
+  return lang.charAt(0).toUpperCase() + lang.slice(1);
+}
+
 export function buildClickEmail(click: ClickNotification) {
   const skoolUrl = click.slug === "signup" ? SKOOL_SIGNUP_URL : skoolCommunityUrl(click.slug);
   const name = escapeHtml(click.displayName);
   const referrer = click.referrer ? escapeHtml(click.referrer) : "(direct / unknown)";
   const ts = click.timestamp.toISOString();
+  const members = click.totalMembers != null ? click.totalMembers.toLocaleString("en-US") : "—";
+  const price = formatPrice(click.priceAmountCents, click.priceInterval);
+  const language = formatLanguage(click.language);
+  const clickCount = click.clickCount != null ? String(click.clickCount) : "—";
+
+  const tdLabel = `style="padding:10px 16px 10px 0;color:#909090;white-space:nowrap"`;
+  const tdValue = `style="padding:10px 0"`;
+  const trBorder = `style="border-bottom:1px solid #E4E4E4"`;
+
   return {
     subject: `[TrustSkool] Outbound click — ${click.displayName}`,
     html: `
@@ -36,21 +69,33 @@ export function buildClickEmail(click: ClickNotification) {
         <p style="margin:0 0 4px;font-size:12px;color:#909090;text-transform:uppercase;letter-spacing:.08em">TrustSkool — Click Notification</p>
         <h2 style="margin:0 0 20px;font-size:20px;font-weight:700">Outbound click tracked</h2>
         <table style="border-collapse:collapse;width:100%;font-size:14px">
-          <tr style="border-bottom:1px solid #E4E4E4">
-            <td style="padding:10px 16px 10px 0;color:#909090;white-space:nowrap">Community</td>
-            <td style="padding:10px 0"><strong>${name}</strong></td>
+          <tr ${trBorder}>
+            <td ${tdLabel}>Community</td>
+            <td ${tdValue}><strong>${name}</strong></td>
           </tr>
-          <tr style="border-bottom:1px solid #E4E4E4">
-            <td style="padding:10px 16px 10px 0;color:#909090;white-space:nowrap">Slug</td>
-            <td style="padding:10px 0">${escapeHtml(click.slug)}</td>
+          <tr ${trBorder}>
+            <td ${tdLabel}>Members</td>
+            <td ${tdValue}>${members}</td>
           </tr>
-          <tr style="border-bottom:1px solid #E4E4E4">
-            <td style="padding:10px 16px 10px 0;color:#909090;white-space:nowrap">Timestamp (UTC)</td>
-            <td style="padding:10px 0">${ts}</td>
+          <tr ${trBorder}>
+            <td ${tdLabel}>Price</td>
+            <td ${tdValue}>${price}</td>
+          </tr>
+          <tr ${trBorder}>
+            <td ${tdLabel}>Language</td>
+            <td ${tdValue}>${language}</td>
+          </tr>
+          <tr ${trBorder}>
+            <td ${tdLabel}>Clicks (this slug)</td>
+            <td ${tdValue}><strong>${clickCount}</strong></td>
+          </tr>
+          <tr ${trBorder}>
+            <td ${tdLabel}>Timestamp (UTC)</td>
+            <td ${tdValue}>${ts}</td>
           </tr>
           <tr>
-            <td style="padding:10px 16px 10px 0;color:#909090;white-space:nowrap">Referrer</td>
-            <td style="padding:10px 0">${referrer}</td>
+            <td ${tdLabel}>Referrer</td>
+            <td ${tdValue}>${referrer}</td>
           </tr>
         </table>
         <p style="margin:24px 0 0">
@@ -65,11 +110,14 @@ export function buildClickEmail(click: ClickNotification) {
     text: [
       "[TrustSkool] Outbound click tracked",
       "",
-      `Community : ${click.displayName}`,
-      `Slug      : ${click.slug}`,
-      `Timestamp : ${ts}`,
-      `Referrer  : ${referrer}`,
-      `Skool URL : ${skoolUrl}`,
+      `Community  : ${click.displayName}`,
+      `Members    : ${members}`,
+      `Price      : ${price}`,
+      `Language   : ${language}`,
+      `Clicks     : ${clickCount}`,
+      `Timestamp  : ${ts}`,
+      `Referrer   : ${referrer}`,
+      `Skool URL  : ${skoolUrl}`,
       "",
       "This is an automated notification from TrustSkool (https://trustskool.com).",
     ].join("\n"),
