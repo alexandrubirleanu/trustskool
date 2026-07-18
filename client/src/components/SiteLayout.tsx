@@ -97,7 +97,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             </Link>
             <a
               href="/go/signup"
-              rel="sponsored noopener noreferrer"
+              target="_blank" rel="sponsored noopener noreferrer"
               data-fast-goal="skool_click"
               data-fast-goal-source="nav_desktop"
               className="inline-flex h-9 items-center rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
@@ -144,7 +144,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
               </Link>
               <a
                 href="/go/signup"
-                rel="sponsored noopener noreferrer"
+                target="_blank" rel="sponsored noopener noreferrer"
                 data-fast-goal="skool_click"
                 data-fast-goal-source="nav_mobile"
                 className="mt-1 inline-flex h-10 items-center justify-center rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124]">

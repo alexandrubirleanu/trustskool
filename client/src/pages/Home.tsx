@@ -417,7 +417,7 @@ export default function Home() {
             </div>
             <a
               href="/go/signup"
-              rel="sponsored noopener noreferrer"
+              target="_blank" rel="sponsored noopener noreferrer"
               data-fast-goal="skool_click"
               data-fast-goal-source="home_banner"
               className="inline-flex h-11 shrink-0 items-center rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">

@@ -128,7 +128,7 @@ export default function ResourceArticle() {
           </Link>
           <a
             href="/go/signup"
-            rel="sponsored noopener noreferrer"
+            target="_blank" rel="sponsored noopener noreferrer"
             data-fast-goal="skool_click"
             data-fast-goal-source="resource_article_bottom"
             className="text-sm text-muted-foreground underline underline-offset-2 hover:text-foreground">

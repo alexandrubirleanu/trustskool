@@ -231,7 +231,7 @@ export default function CommunityDetail() {
         </div>
         <a
           href={`/go/${community.slug}`}
-          rel="sponsored noopener noreferrer"
+          target="_blank" rel="sponsored noopener noreferrer"
           onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: priceType, source: "mobile_bar" })}
           className="inline-flex h-8 shrink-0 items-center gap-1 rounded-[4px] bg-[#F8D481] px-3 text-xs font-bold text-[#202124] transition-transform active:scale-[0.97]">
           {ctaLabel("short")} <ExternalLink className="h-3.5 w-3.5" />
@@ -327,7 +327,7 @@ export default function CommunityDetail() {
             </div>
             <a
               href={`/go/${community.slug}`}
-              rel="sponsored noopener noreferrer"
+              target="_blank" rel="sponsored noopener noreferrer"
               onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: priceType, source: "header" })}
             className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
               {ctaLabel("short")} <ExternalLink className="h-4 w-4" />
@@ -594,7 +594,7 @@ export default function CommunityDetail() {
           </p>
           <a
             href={`/go/${community.slug}`}
-            rel="sponsored noopener noreferrer"
+            target="_blank" rel="sponsored noopener noreferrer"
             onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: priceType, source: "bottom_cta" })}
             className="inline-flex h-11 items-center gap-2 rounded-[4px] bg-[#F8D481] px-8 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
             {ctaLabel("long")} <ExternalLink className="h-4 w-4" />
