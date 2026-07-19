@@ -338,28 +338,42 @@ export default function Home() {
 
   const [search, setSearch] = useState(urlQuery);
   const [debounced, setDebounced] = useState(urlQuery);
-  // Detect browser language on first render and map to a Skool language slug.
-  // Falls back to "english" if the detected language is not in the dataset.
-  // We use a lazy initialiser so this runs once, client-side only.
+  // Language filter logic:
+  // - First visit: default to "english" (regardless of browser language)
+  // - Return after 7+ days: reset to "english" (stale session)
+  // - clearAllFilters: reset to "english" (not undefined)
+  // - Within-session changes: respect user's explicit selection
+  const LAST_VISIT_KEY = "ts_last_visit";
+  const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
   const [language, setLanguage] = useState<string | undefined>(() => {
     if (typeof window === "undefined") return "english";
-    const browserLang = (navigator.language || "").split("-")[0].toLowerCase();
-    const langMap: Record<string, string> = {
-      en: "english", de: "german", es: "spanish", fr: "french",
-      zh: "chinese", it: "italian", nl: "dutch", vi: "vietnamese",
-      ar: "arabic", he: "hebrew", da: "danish", ro: "romanian",
-      tr: "turkish", pl: "polish", cs: "czech", hu: "hungarian",
-      sv: "swedish", pt: "portuguese", bg: "bulgarian", no: "norwegian",
-      fi: "finnish", hr: "croatian", lv: "latvian", sk: "slovak",
-      sr: "serbian", mn: "mongolian", th: "thai", sl: "slovenian",
-      ru: "russian", lt: "lithuanian", am: "amharic", ms: "malay",
-      et: "estonian", el: "greek", uk: "ukrainian", sw: "swahili",
-      ja: "japanese", fil: "filipino", fa: "persian", cy: "welsh",
-      ko: "korean", id: "indonesian", la: "latin", bn: "bengali",
-      ca: "catalan", hi: "hindi",
-    };
-    return langMap[browserLang] ?? "english";
+    try {
+      const lastVisit = localStorage.getItem(LAST_VISIT_KEY);
+      if (!lastVisit) {
+        // First visit ever — default to english
+        return "english";
+      }
+      const elapsed = Date.now() - parseInt(lastVisit, 10);
+      if (elapsed > SEVEN_DAYS_MS) {
+        // Returning after 7+ days — reset to english
+        return "english";
+      }
+    } catch {
+      // localStorage unavailable (private browsing, etc.) — default to english
+    }
+    return "english";
   });
+
+  // Update lastVisit timestamp on every mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(LAST_VISIT_KEY, String(Date.now()));
+    } catch {
+      // ignore
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [price, setPrice] = useState<PriceKey>("all");
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [sort, setSort] = useState<SortKey>("trustSkore");
@@ -423,7 +437,7 @@ export default function Home() {
   const clearAllFilters = () => {
     setSearch("");
     setDebounced("");
-    setLanguage(undefined);
+    setLanguage("english"); // always reset to english, not undefined
     setPrice("all");
     setCategory(undefined);
     setSort("trustSkore");

@@ -331,3 +331,8 @@
 
 ## Growth Display Improvement (2026-07-19)
 - [x] [GROWTH-1] Hide growth chip on cards when value is +0.0% (abs(growthRateBp) < 10 bp); show only meaningful growth/decline
+
+## Language Filter Persistence (2026-07-19)
+- [x] [LANG-1] Default language = "english" on first visit (already works)
+- [x] [LANG-2] clearAllFilters() resets language to "english" instead of undefined
+- [x] [LANG-3] On mount: if localStorage shows last visit was 7+ days ago, reset language to "english" regardless of any saved state; update lastVisit timestamp on every mount
