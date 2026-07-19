@@ -287,34 +287,47 @@ export interface SlaBreachRow {
   displayName: string;
   totalMembers: number;
   lastScrapedAt: Date | null;
-  hoursOverdue: number;
+  /** Null when the community has never been scraped by this pipeline - there is no baseline to measure "overdue" from */
+  hoursOverdue: number | null;
 }
 
-export function buildSlaAlertEmail(breaches: SlaBreachRow[]): { subject: string; html: string; text: string } {
+export type SlaTotalsByTier = { hot: number; warm: number; cold: number };
+
+export function buildSlaAlertEmail(
+  breaches: SlaBreachRow[],
+  totalsByTier: SlaTotalsByTier,
+): { subject: string; html: string; text: string } {
   const hotBreaches = breaches.filter(b => b.tier === "hot");
   const warmBreaches = breaches.filter(b => b.tier === "warm");
   const coldBreaches = breaches.filter(b => b.tier === "cold");
+  const totalBreaches = totalsByTier.hot + totalsByTier.warm + totalsByTier.cold;
 
-  const subject = `⚠️ TrustSkool SLA breach: ${breaches.length} communities overdue (${hotBreaches.length} hot)`;
+  const subject = `⚠️ TrustSkool SLA breach: ${totalBreaches} communities overdue (${totalsByTier.hot} hot)`;
 
-  const tierSection = (label: string, rows: SlaBreachRow[]) => {
-    if (rows.length === 0) return "";
+  const formatOverdue = (r: SlaBreachRow) =>
+    r.hoursOverdue === null ? "never scraped yet" : `${r.hoursOverdue}h overdue`;
+
+  const tierSection = (label: string, rows: SlaBreachRow[], tierTotal: number) => {
+    if (tierTotal === 0) return "";
     const items = rows
       .slice(0, 20)
-      .map(r => `  • ${r.displayName} (${r.totalMembers.toLocaleString()} members): ${r.hoursOverdue}h overdue`)
+      .map(r => `  • ${r.displayName} (${r.totalMembers.toLocaleString()} members): ${formatOverdue(r)}`)
       .join("\n");
-    return `\n${label} tier (${rows.length}):\n${items}\n`;
+    const shownNote = tierTotal > rows.length ? ` (showing ${Math.min(rows.length, 20)} of ${tierTotal})` : "";
+    return `\n${label} tier (${tierTotal}${shownNote}):\n${items}\n`;
   };
 
   const body = [
     `TrustSkool pipeline SLA breach detected at ${new Date().toUTCString()}.`,
     "",
-    `Total overdue: ${breaches.length} communities`,
-    tierSection("🔴 HOT", hotBreaches),
-    tierSection("🟡 WARM", warmBreaches),
-    tierSection("🔵 COLD", coldBreaches),
+    `Total overdue: ${totalBreaches} communities`,
+    tierSection("🔴 HOT", hotBreaches, totalsByTier.hot),
+    tierSection("🟡 WARM", warmBreaches, totalsByTier.warm),
+    tierSection("🔵 COLD", coldBreaches, totalsByTier.cold),
     "",
     "Action required: check the GitHub Actions pipeline and re-run the affected tier jobs.",
+    "Note: \"never scraped yet\" entries are newly-discovered communities awaiting their first",
+    "tiered-pipeline pass, not stale refreshes - expected after a bulk discovery/expansion run.",
     "",
     "SLA targets:",
     "  hot  → refresh every 24-48h (alert after 72h)",
@@ -326,9 +339,10 @@ export function buildSlaAlertEmail(breaches: SlaBreachRow[]): { subject: string;
   return { subject, html, text: body };
 }
 
-export async function sendSlaAlertEmail(breaches: SlaBreachRow[]): Promise<boolean> {
-  if (breaches.length === 0) return false;
-  const email = buildSlaAlertEmail(breaches);
+export async function sendSlaAlertEmail(breaches: SlaBreachRow[], totalsByTier: SlaTotalsByTier): Promise<boolean> {
+  const totalBreaches = totalsByTier.hot + totalsByTier.warm + totalsByTier.cold;
+  if (totalBreaches === 0) return false;
+  const email = buildSlaAlertEmail(breaches, totalsByTier);
   return sendEmail(email);
 }
 

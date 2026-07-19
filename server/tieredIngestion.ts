@@ -177,24 +177,40 @@ export interface SlaBreachReport {
   displayName: string;
   totalMembers: number;
   lastScrapedAt: Date | null;
-  hoursOverdue: number;
+  /** Null when the community has never been scraped by this pipeline (no baseline to measure overdue-ness from) */
+  hoursOverdue: number | null;
 }
 
 /**
  * Check for SLA breaches: communities that haven't been scraped within their
- * tier's SLA window. Returns a list of breaching communities.
+ * tier's SLA window. Returns a list of breaching communities (capped at 50/tier
+ * for the email body) plus the true total breach count per tier (uncapped), since
+ * a bulk community-discovery pass can create far more "never scraped yet" rows
+ * than the sample size suggests.
  */
-export async function checkSlaBreach(): Promise<SlaBreachReport[]> {
+export async function checkSlaBreach(): Promise<{ breaches: SlaBreachReport[]; totalsByTier: Record<UpdateTier, number> }> {
   const now = Date.now();
   const breaches: SlaBreachReport[] = [];
+  const totalsByTier: Record<UpdateTier, number> = { hot: 0, warm: 0, cold: 0 };
 
   for (const tier of ["hot", "warm", "cold"] as UpdateTier[]) {
     const windowMs = SLA_WINDOWS_MS[tier];
     const cutoff = new Date(now - windowMs);
-
-    // Communities in this tier where lastScrapedAt is NULL or older than cutoff
     const db = await getDb();
     if (!db) continue;
+
+    // lastScrapedAt IS NULL OR lastScrapedAt < cutoff
+    const breachCondition = and(
+      eq(communities.updateTier, tier),
+      sql`(${communities.lastScrapedAt} IS NULL OR ${communities.lastScrapedAt} < ${cutoff})`,
+    );
+
+    const [{ count }] = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(communities)
+      .where(breachCondition);
+    totalsByTier[tier] = Number(count);
+
     const overdue = await db
       .select({
         slug: communities.slug,
@@ -203,19 +219,18 @@ export async function checkSlaBreach(): Promise<SlaBreachReport[]> {
         lastScrapedAt: communities.lastScrapedAt,
       })
       .from(communities)
-      .where(
-        and(
-          eq(communities.updateTier, tier),
-          // lastScrapedAt IS NULL OR lastScrapedAt < cutoff
-          sql`(${communities.lastScrapedAt} IS NULL OR ${communities.lastScrapedAt} < ${cutoff})`
-        )
-      )
-      .limit(50); // cap report size
+      .where(breachCondition)
+      .limit(50); // cap report size (sample only - totalsByTier above has the real count)
 
     for (const row of overdue) {
-      const lastMs = row.lastScrapedAt ? row.lastScrapedAt.getTime() : 0;
-      const overdueMs = now - lastMs - windowMs;
-      const hoursOverdue = Math.round(overdueMs / (60 * 60 * 1000));
+      // A null lastScrapedAt means "never scraped by this pipeline" - there is no
+      // real baseline to compute an overdue duration from. Treating it as epoch
+      // (Jan 1 1970) previously produced a nonsensical ~56-year "overdue" figure
+      // for every newly-discovered, not-yet-processed community. Report it as
+      // unknown/never-scraped instead of fabricating a number.
+      const hoursOverdue = row.lastScrapedAt
+        ? Math.round((now - row.lastScrapedAt.getTime() - windowMs) / (60 * 60 * 1000))
+        : null;
       breaches.push({
         tier,
         slug: row.slug,
@@ -227,7 +242,7 @@ export async function checkSlaBreach(): Promise<SlaBreachReport[]> {
     }
   }
 
-  return breaches;
+  return { breaches, totalsByTier };
 }
 
 /**
@@ -235,9 +250,10 @@ export async function checkSlaBreach(): Promise<SlaBreachReport[]> {
  * Called by the daily-digest heartbeat job (or a dedicated monitor cron).
  */
 export async function runSlaMonitor(): Promise<{ breachCount: number; emailSent: boolean }> {
-  const breaches = await checkSlaBreach();
-  if (breaches.length === 0) return { breachCount: 0, emailSent: false };
+  const { breaches, totalsByTier } = await checkSlaBreach();
+  const totalBreaches = totalsByTier.hot + totalsByTier.warm + totalsByTier.cold;
+  if (totalBreaches === 0) return { breachCount: 0, emailSent: false };
 
-  const emailSent = await sendSlaAlertEmail(breaches);
-  return { breachCount: breaches.length, emailSent };
+  const emailSent = await sendSlaAlertEmail(breaches, totalsByTier);
+  return { breachCount: totalBreaches, emailSent };
 }
