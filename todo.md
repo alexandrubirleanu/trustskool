@@ -271,3 +271,16 @@
 ## Ingestion Fix + Full Dataset Load (2026-07-18)
 - [x] [INGEST-FIX-1] Fixed active_30d_streak schema in ingestion.ts: pipeline sends boolean (True/False) but schema expected integer. Added z.union([z.number(), z.boolean()]) with transform (true→1, false→0). All 22,502 records now parse and upsert correctly.
 - [x] [INGEST-RUN-1] Ran full ingestion: 22,502 communities upserted, 0 skipped, 0 errors. DB updated from 8,154 to 22,502 communities. Top TrustSkore is now 82.25 (vs flat 60.0 before).
+
+## Rankings Feature + Content Import (2026-07-19)
+- [ ] [PULL-1] Pull commit 18b4913 from main via webdev_save_checkpoint sync
+- [ ] [IMPORT-1] Run content import for ~3,200 new pages (reviews, founders, guides, FAQ)
+- [ ] [INGEST-2] Re-ingest dataset at 23,338 communities
+- [ ] [RANKINGS-1] Create categoryRankings DB table + Drizzle migration
+- [ ] [RANKINGS-2] Build computeCategoryRankings() helper in dbCommunities.ts
+- [ ] [RANKINGS-3] Build /rankings index page (9 category cards, SSR)
+- [ ] [RANKINGS-4] Build /rankings/:category page (ranked list, SSR, JSON-LD ItemList)
+- [ ] [RANKINGS-5] Add monthly Heartbeat cron (1st of month) for snapshot computation
+- [ ] [RANKINGS-6] Add admin manual recompute trigger
+- [ ] [RANKINGS-7] Add /rankings/* to sitemap-content.xml
+- [ ] [RANKINGS-8] Verify sample slugs resolve: /rankings/money, /rankings/tech, /rankings/health
