@@ -16,5 +16,7 @@ export async function buildSsrPrefetch(req: Request, res: Response): Promise<Ssr
     communitiesFilters: () => caller.communities.filters(),
     communitiesStats: () => caller.communities.stats(),
     contentBySlug: (slug, type) => caller.content.bySlug({ slug, type }),
+    rankingsSummary: () => caller.rankings.summary(),
+    rankingsByCategory: (category: string) => caller.rankings.byCategory({ category }),
   };
 }

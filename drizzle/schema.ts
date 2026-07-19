@@ -247,6 +247,7 @@ export const contentPages = mysqlTable(
       "pillar",
       "faq",
       "skool-news",
+      "strategy",
     ]).notNull(),
     title: varchar("title", { length: 512 }).notNull(),
     metaDescription: text("metaDescription"),
@@ -322,3 +323,37 @@ export const adminOtps = mysqlTable(
 );
 export type AdminOtp = typeof adminOtps.$inferSelect;
 export type InsertAdminOtp = typeof adminOtps.$inferInsert;
+
+/**
+ * Monthly category ranking snapshots.
+ * One row per (category, rankPosition, snapshotMonth) triple.
+ * Computed by the monthly Heartbeat cron on the 1st of each month.
+ * Keeps prior months for historical comparison.
+ */
+export const categoryRankings = mysqlTable(
+  "categoryRankings",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /** Skool discovery category slug (money | tech | health | hobbies | spirituality | selfimprovement | sports | relationships | music) */
+    category: varchar("category", { length: 128 }).notNull(),
+    /** 1-based rank within the category for this snapshot month */
+    rankPosition: int("rankPosition").notNull(),
+    /** Community slug (FK to communities.slug) */
+    communitySlug: varchar("communitySlug", { length: 191 }).notNull(),
+    /** YYYY-MM string, e.g. '2026-07' */
+    snapshotMonth: varchar("snapshotMonth", { length: 7 }).notNull(),
+    /** TrustSkore at time of snapshot */
+    trustSkoreAtSnapshot: double("trustSkoreAtSnapshot").notNull(),
+    /** Total members at time of snapshot */
+    totalMembersAtSnapshot: int("totalMembersAtSnapshot").notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  table => [
+    index("idx_categoryRankings_category_month").on(table.category, table.snapshotMonth),
+    index("idx_categoryRankings_communitySlug").on(table.communitySlug),
+    index("idx_categoryRankings_snapshotMonth").on(table.snapshotMonth),
+  ],
+);
+
+export type CategoryRanking = typeof categoryRankings.$inferSelect;
+export type InsertCategoryRanking = typeof categoryRankings.$inferInsert;

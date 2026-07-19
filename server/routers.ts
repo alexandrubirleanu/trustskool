@@ -41,6 +41,12 @@ import {
 import { SignJWT, jwtVerify } from "jose";
 import { parse as parseCookieHeader } from "cookie";
 import { ENV } from "./_core/env";
+import {
+  computeCategoryRankings,
+  getCategoryRanking,
+  getCategoryRankingsSummary,
+  getLatestSnapshotMonth,
+} from "./dbRankings";
 
 /** Read a cookie by name from the raw Cookie header (no cookie-parser middleware needed) */
 function getCookieFromRequest(req: { headers: { cookie?: string } }, name: string): string | undefined {
@@ -348,6 +354,24 @@ export const appRouter = router({
       const session = ctx.req.cookies?.session ?? "";
       return listHeartbeatJobs(session);
     }),
+    /** Manually trigger a category rankings snapshot (admin only) */
+    recomputeRankings: adminProcedure
+      .input(z.object({ snapshotMonth: z.string().regex(/^\d{4}-\d{2}$/).optional() }).optional())
+      .mutation(async ({ input }) => {
+        const results = await computeCategoryRankings(input?.snapshotMonth);
+        const total = results.reduce((s, r) => s + r.inserted, 0);
+        return { ok: true, categories: results, totalInserted: total };
+      }),
+  }),
+  rankings: router({
+    /** Summary of latest snapshot for all 9 categories (for /rankings index page) */
+    summary: publicProcedure.query(() => getCategoryRankingsSummary()),
+    /** Latest snapshot month */
+    latestMonth: publicProcedure.query(() => getLatestSnapshotMonth()),
+    /** Ranked list for a single category */
+    byCategory: publicProcedure
+      .input(z.object({ category: z.string().min(1).max(64) }))
+      .query(({ input }) => getCategoryRanking(input.category)),
   }),
 });
 

@@ -42,6 +42,8 @@ export type SsrPrefetch = {
   communitiesFilters: () => Promise<RO["communities"]["filters"]>;
   communitiesStats: () => Promise<RO["communities"]["stats"]>;
   contentBySlug: (slug: string, type: ContentPageType) => Promise<RO["content"]["bySlug"]>;
+  rankingsSummary: () => Promise<RO["rankings"]["summary"]>;
+  rankingsByCategory: (category: string) => Promise<RO["rankings"]["byCategory"]>;
 };
 
 const SITE = BRAND_NAME;
@@ -436,6 +438,59 @@ export async function prefetchForPath(
       description: `Browse the best ${label} communities on Skool, ranked by member growth, discovery momentum, and price stability.`,
       ogType: "website",
       canonicalPath: `/categories/${slug}`,
+    };
+  }
+
+  // Rankings index
+  if (clean === "/rankings") {
+    const summary = await p.rankingsSummary();
+    seed(qc, getQueryKey(trpc.rankings.summary), summary);
+    return {
+      title: `Skool Community Rankings by Category · ${SITE}`,
+      description:
+        "Top Skool communities in each category — Money, Tech, Health, and more — ranked monthly by TrustSkore. Find the best communities worth joining.",
+      keywords: "Skool community rankings, best Skool communities, Skool leaderboard by category, TrustSkore rankings",
+      ogType: "website",
+      canonicalPath: "/rankings",
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: `Skool Community Rankings · ${SITE}`,
+        description: "Monthly rankings of the top Skool communities by TrustSkore across 9 categories.",
+        url: "https://trustskool.com/rankings",
+        publisher: { "@type": "Organization", name: SITE, url: "https://trustskool.com" },
+      },
+    };
+  }
+
+  // Rankings category page
+  const rankingCatMatch = clean.match(/^\/rankings\/([^/]+)$/);
+  if (rankingCatMatch) {
+    const cat = rankingCatMatch[1];
+    const data = await p.rankingsByCategory(cat);
+    seed(qc, getQueryKey(trpc.rankings.byCategory, { category: cat }), data);
+    const label = cat.replace(/\b\w/g, c => c.toUpperCase());
+    const top3 = (data?.rankings ?? []).slice(0, 3).map(r => r.displayName).join(", ");
+    return {
+      title: `Best ${label} Skool Communities · ${SITE} Rankings`,
+      description: `Top ${label} communities on Skool ranked by TrustSkore. ${top3 ? `Includes ${top3} and more.` : "Updated monthly from real member growth data."}`,
+      keywords: `best ${cat} Skool communities, ${cat} Skool ranking, top ${cat} communities Skool`,
+      ogType: "website",
+      canonicalPath: `/rankings/${cat}`,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: `Best ${label} Communities on Skool`,
+        description: `Top ${label} Skool communities ranked by TrustSkore (member growth, discovery rank, price stability).`,
+        url: `https://trustskool.com/rankings/${cat}`,
+        numberOfItems: data?.rankings?.length ?? 0,
+        itemListElement: (data?.rankings ?? []).map((r, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: r.displayName,
+          url: `https://trustskool.com/community/${r.communitySlug}`,
+        })),
+      },
     };
   }
 

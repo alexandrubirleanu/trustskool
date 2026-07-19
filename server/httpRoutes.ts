@@ -5,6 +5,7 @@ import { sendClickNotification } from "./emailNotify";
 import { runDailyDigest } from "./digestJob";
 import { runIngestion } from "./ingestion";
 import { runTieredIngestion, runSlaMonitor } from "./tieredIngestion";
+import { computeCategoryRankings } from "./dbRankings";
 import { sdk } from "./_core/sdk";
 
 /**
@@ -195,6 +196,20 @@ async function handleScheduledSlaMonitor(req: Request, res: Response) {
   }
 }
 
+async function handleScheduledRankingsSnapshot(req: Request, res: Response) {
+  try {
+    const user = await sdk.authenticateRequest(req);
+    if (!user.isCron) return res.status(403).json({ error: "cron-only" });
+    const results = await computeCategoryRankings();
+    const total = results.reduce((s, r) => s + r.inserted, 0);
+    console.log(`[RankingsSnapshot] Computed ${total} ranking rows across ${results.length} categories`);
+    return res.json({ ok: true, categories: results, totalInserted: total, timestamp: new Date().toISOString() });
+  } catch (err) {
+    console.error("[RankingsSnapshot] Failed:", err);
+    return res.status(500).json({ error: String(err), timestamp: new Date().toISOString() });
+  }
+}
+
 export function registerHttpRoutes(app: Express) {
   app.get("/go/:slug", (req, res) => {
     void handleGoRedirect(req, res);
@@ -216,5 +231,8 @@ export function registerHttpRoutes(app: Express) {
   });
   app.post("/api/scheduled/digest", (req, res) => {
     void handleScheduledDigest(req, res);
+  });
+  app.post("/api/scheduled/rankings-snapshot", (req, res) => {
+    void handleScheduledRankingsSnapshot(req, res);
   });
 }

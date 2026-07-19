@@ -71,6 +71,13 @@
       "when": 1784402179032,
       "tag": "0009_swift_mantis",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1784433580491,
+      "tag": "0010_clever_wolfsbane",
+      "breakpoints": true
     }
   ]
 }

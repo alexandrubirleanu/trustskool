@@ -7,6 +7,7 @@ import {
   RefreshCw,
   ShieldAlert,
   TrendingUp,
+  Trophy,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -265,6 +266,13 @@ function AdminDashboard({ email, onLogout }: { email: string; onLogout: () => vo
     onError: err => toast.error(err.message),
   });
 
+  const recomputeRankings = trpc.admin.recomputeRankings.useMutation({
+    onSuccess: result => {
+      toast.success(`Rankings snapshot complete: ${result.totalInserted} rows across ${result.categories.length} categories`);
+    },
+    onError: err => toast.error(`Rankings recompute failed: ${err.message}`),
+  });
+
   const logoutMutation = trpc.adminOtp.logout.useMutation({
     onSuccess: () => onLogout(),
   });
@@ -332,6 +340,26 @@ function AdminDashboard({ email, onLogout }: { email: string; onLogout: () => vo
               </TooltipTrigger>
               <TooltipContent side="bottom" className="max-w-[260px] text-center">
                 Fetches the latest communities.json from the GitHub dataset and upserts all communities into the database. Run this to update from the old 8k dataset to the current 22k+ dataset. Takes 30-60 seconds.
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="bg-card"
+                  disabled={recomputeRankings.isPending}
+                  onClick={() => recomputeRankings.mutate()}>
+                  {recomputeRankings.isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Trophy className="h-4 w-4" />
+                  )}
+                  Recompute rankings
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-[260px] text-center">
+                Compute a fresh monthly rankings snapshot for all 9 categories (top 30 per category, min 100 members, ordered by TrustSkore). Safe to run multiple times — inserts a new snapshotMonth batch.
               </TooltipContent>
             </Tooltip>
 

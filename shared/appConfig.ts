@@ -32,3 +32,21 @@ export const SCORE_WEIGHTS = {
   ranking_momentum: 0.35,
   price_stability: 0.2,
 } as const;
+
+/**
+ * Skool discovery categories (the 9 official tabs on skool.com/discover).
+ * Used for Rankings pages and category filtering.
+ */
+export const SKOOL_CATEGORIES = [
+  { slug: "money", label: "Money", emoji: "💰" },
+  { slug: "selfimprovement", label: "Self-Improvement", emoji: "🌱" },
+  { slug: "tech", label: "Tech", emoji: "💻" },
+  { slug: "health", label: "Health", emoji: "💪" },
+  { slug: "hobbies", label: "Hobbies", emoji: "🎨" },
+  { slug: "spirituality", label: "Spirituality", emoji: "✨" },
+  { slug: "sports", label: "Sports", emoji: "⚽" },
+  { slug: "relationships", label: "Relationships", emoji: "🤝" },
+  { slug: "music", label: "Music", emoji: "🎵" },
+] as const;
+
+export type SkoolCategorySlug = (typeof SKOOL_CATEGORIES)[number]["slug"];

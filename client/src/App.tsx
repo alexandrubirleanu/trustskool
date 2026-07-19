@@ -19,6 +19,8 @@ import FaqArticle from "./pages/FaqArticle";
 import CategoryPage from "./pages/CategoryPage";
 import FounderPage from "./pages/FounderPage";
 import ReviewPage from "./pages/ReviewPage";
+import Rankings from "./pages/Rankings";
+import RankingCategory from "./pages/RankingCategory";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -37,6 +39,8 @@ function Router() {
       <Route path={"/categories/:slug"} component={CategoryPage} />
       <Route path={"/founders/:slug"} component={FounderPage} />
       <Route path={"/reviews/:slug"} component={ReviewPage} />
+      <Route path={"/rankings"} component={Rankings} />
+      <Route path={"/rankings/:category"} component={RankingCategory} />
       <Route path={"/admin"} component={Admin} />
       <Route path={"/admin/clicks"} component={Admin} />
       <Route path={"/404"} component={NotFound} />

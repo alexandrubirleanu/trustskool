@@ -1,5 +1,5 @@
 import type { Express, Request, Response } from "express";
-import { BRAND_NAME, SCORE_NAME } from "../shared/appConfig";
+import { BRAND_NAME, SCORE_NAME, SKOOL_CATEGORIES } from "../shared/appConfig";
 import { getAllSlugsForSitemap, getTopCommunitiesForLlms } from "./dbCommunities";
 import { listContentPagesByTypes } from "./dbContent";
 import { handleOgImage } from "./ogImage";
@@ -79,6 +79,10 @@ async function handleCommunitiesChunk(req: Request, res: Response) {
       urlEntry(`${base}/faq`, { changefreq: "monthly", priority: "0.6" }),
       urlEntry(`${base}/resources`, { changefreq: "weekly", priority: "0.6" }),
       urlEntry(`${base}/news`, { changefreq: "daily", priority: "0.5" }),
+      urlEntry(`${base}/rankings`, { changefreq: "monthly", priority: "0.7" }),
+      ...SKOOL_CATEGORIES.map(cat =>
+        urlEntry(`${base}/rankings/${cat.slug}`, { changefreq: "monthly", priority: "0.7", lastmod: today })
+      ),
     ] : [];
 
     const start = (n - 1) * CHUNK_SIZE;

@@ -4,11 +4,13 @@
  *
  * Mapping:
  *   content/founders/*.md      → type='founder',    slug=filename (community slug)
+ *   content/reviews/*.md       → type='review',     slug=frontmatter.slug || filename
  *   content/categories/*.md    → type='category',   slug=filename
  *   content/guides/*.md        → type='guide',      slug=frontmatter.slug || filename
  *   content/pillar/*.md        → type='pillar',     slug=frontmatter.slug || filename
  *   content/faq/*.md           → type='faq',        slug=filename
  *   content/skool-news/*.md    → type='skool-news', slug=filename, publishedAt from frontmatter.date
+ *   content/strategy/*.md      → type='strategy',   slug=frontmatter.slug || filename
  *
  * Founders: per content-decision.md rule #12, all 30 current founder files are
  * single-community bios → type='founder', folded into /community/:slug page.
@@ -84,11 +86,13 @@ function renderHtml(markdown) {
 function collectFiles() {
   const typeDirs = [
     { dir: "founders", type: "founder" },
+    { dir: "reviews", type: "review" },
     { dir: "categories", type: "category" },
     { dir: "guides", type: "guide" },
     { dir: "pillar", type: "pillar" },
     { dir: "faq", type: "faq" },
     { dir: "skool-news", type: "skool-news" },
+    { dir: "strategy", type: "strategy" },
   ];
 
   const files = [];
