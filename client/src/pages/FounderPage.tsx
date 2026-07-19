@@ -75,6 +75,23 @@ export default function FounderPage() {
               {community && (
                 <span>{community.totalMembers.toLocaleString()} members</span>
               )}
+              {(community as any)?.ownerLastActiveAt && (() => {
+                const daysSince = Math.floor((Date.now() - new Date((community as any).ownerLastActiveAt).getTime()) / 86_400_000);
+                const label = daysSince === 0 ? 'Active today' : daysSince === 1 ? 'Active yesterday' : `Active ${daysSince}d ago`;
+                const isRecent = daysSince <= 7;
+                const isStale = daysSince > 30;
+                return (
+                  <span
+                    title="Last time this founder was active on Skool"
+                    className={`inline-flex items-center gap-1 rounded-[3px] px-1.5 py-0.5 font-semibold ${
+                      isRecent ? 'bg-[oklch(0.97_0.04_140)] text-[oklch(0.45_0.12_140)]'
+                      : isStale ? 'bg-[oklch(0.95_0.02_30)] text-[oklch(0.50_0.08_30)]'
+                      : 'bg-muted text-muted-foreground'
+                    }`}>
+                    {isRecent ? '🟢' : isStale ? '🔴' : '🟡'} {label}
+                  </span>
+                );
+              })()}
             </div>
             <h1 className="mt-3 text-xl font-bold tracking-tight leading-tight sm:text-2xl md:text-4xl">
               {page.title}

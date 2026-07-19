@@ -108,7 +108,9 @@ describe("hasInsufficientHistory", () => {
 
 describe("computeTrustSkoreWithFloor", () => {
   const neutralBreakdown = { growth_momentum: 50, ranking_momentum: 50, price_stability: 100 };
-  // neutral score = 50*0.45 + 50*0.35 + 100*0.20 = 22.5 + 17.5 + 20 = 60.0
+  // weights v1.5: growth=0.35, ranking=0.30, price=0.15, owner_engagement=0.20
+  // owner_engagement absent → defaults to 50 (neutral)
+  // neutral score = 50*0.35 + 50*0.30 + 100*0.15 + 50*0.20 = 17.5 + 15 + 15 + 10 = 57.5
 
   it("applies floor when history is insufficient and floor > raw score", () => {
     const score = computeTrustSkoreWithFloor(neutralBreakdown, 10_000, [], []);
@@ -119,26 +121,26 @@ describe("computeTrustSkoreWithFloor", () => {
   it("uses raw score when history is sufficient (≥2 member points)", () => {
     const twoPoints = [{ date: "2025-01-01" }, { date: "2025-01-02" }];
     const score = computeTrustSkoreWithFloor(neutralBreakdown, 10_000, twoPoints, []);
-    // raw 60 + micro-perturbation (max 0.05 pts)
-    expect(score).toBeGreaterThanOrEqual(60);
-    expect(score).toBeLessThan(60.06);
+    // raw 57.5 + micro-perturbation (max 0.05 pts)
+    expect(score).toBeGreaterThanOrEqual(57.5);
+    expect(score).toBeLessThan(57.56);
   });
 
   it("uses raw score when it exceeds the floor", () => {
     const highBreakdown = { growth_momentum: 90, ranking_momentum: 90, price_stability: 100 };
-    // 90*0.45 + 90*0.35 + 100*0.20 = 40.5 + 31.5 + 20 = 92.0 + micro-perturbation
-    // log10(500) ≈ 2.699, floor ≈ 61.73 + micro — raw 92 > floor
+    // weights v1.5: 90*0.35 + 90*0.30 + 100*0.15 + 50*0.20 = 31.5 + 27 + 15 + 10 = 83.5 + micro-perturbation
+    // log10(500) ≈ 2.699, floor ≈ 61.73 + micro — raw 83.5 > floor
     const score = computeTrustSkoreWithFloor(highBreakdown, 500, [], []);
-    expect(score).toBeGreaterThanOrEqual(92);
-    expect(score).toBeLessThan(92.06); // raw 92 + micro (max 0.05)
+    expect(score).toBeGreaterThanOrEqual(83.5);
+    expect(score).toBeLessThan(83.56); // raw 83.5 + micro (max 0.05)
   });
 
   it("applies floor for small community with insufficient history", () => {
     const score = computeTrustSkoreWithFloor(neutralBreakdown, 300, [], []);
-    // log10(300) ≈ 2.477, floor = 45 + 45*(2.477/5) ≈ 67.29
-    // raw neutral = 60.0, floor = 67.29 → Math.max returns 67.29
-    expect(score).toBeGreaterThan(60); // floor > raw for 300 members
-    expect(score).toBeLessThan(70);
+    // log10(300) ≈ 2.477, floor = 45 + 31*(2.477/5) ≈ 60.36 + micro
+    // raw neutral = 57.5, floor ≈ 60.36 → Math.max returns floor
+    expect(score).toBeGreaterThan(57.5); // floor > raw for 300 members
+    expect(score).toBeLessThan(65);
   });
 });
 
@@ -248,8 +250,10 @@ describe("computeBreakdownWithBootstrap", () => {
   });
 
   it("bootstrap composite TrustSkore scales with member count (v4 continuous formula)", () => {
-    // 5k members: growth=71.48, ranking=68.48, price=100
-    // composite = 71.48*0.45 + 68.48*0.35 + 100*0.20 ≈ 76.14
+    // weights v1.5: growth=0.35, ranking=0.30, price=0.15, owner_engagement=0.20
+    // owner_engagement absent → defaults to 50 (neutral)
+    // 5k members: growth≈71.48, ranking≈68.48, price=100, owner=50
+    // composite = 71.48*0.35 + 68.48*0.30 + 100*0.15 + 50*0.20 ≈ 25.02 + 20.54 + 15 + 10 ≈ 70.56
     const bd5k = computeBreakdownWithBootstrap({
       memberHistory: [],
       rankHistory: [],
@@ -257,11 +261,11 @@ describe("computeBreakdownWithBootstrap", () => {
       totalMembers: 5_000,
     });
     const score5k = computeTrustSkore(bd5k);
-    expect(score5k).toBeGreaterThanOrEqual(74);
-    expect(score5k).toBeLessThanOrEqual(84);
+    expect(score5k).toBeGreaterThanOrEqual(68);
+    expect(score5k).toBeLessThanOrEqual(78);
 
-    // 100k members: growth=85, ranking=82 (max bootstrap)
-    // composite = 85*0.45 + 82*0.35 + 100*0.20 = 86.95
+    // 100k members: growth=85, ranking=82 (max bootstrap), price=100, owner=50
+    // composite = 85*0.35 + 82*0.30 + 100*0.15 + 50*0.20 = 29.75 + 24.6 + 15 + 10 = 79.35
     const bd100k = computeBreakdownWithBootstrap({
       memberHistory: [],
       rankHistory: [],
@@ -269,8 +273,8 @@ describe("computeBreakdownWithBootstrap", () => {
       totalMembers: 100_000,
     });
     const score100k = computeTrustSkore(bd100k);
-    expect(score100k).toBeGreaterThanOrEqual(85);
-    expect(score100k).toBeLessThanOrEqual(90);
+    expect(score100k).toBeGreaterThanOrEqual(77);
+    expect(score100k).toBeLessThanOrEqual(85);
 
     // Larger community should score higher than smaller
     expect(score100k).toBeGreaterThan(score5k);

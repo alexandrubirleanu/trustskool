@@ -32,7 +32,7 @@ if (!DATABASE_URL) {
 const clamp = (v, min = 0, max = 100) => Math.min(max, Math.max(min, v));
 const round2 = (v) => Math.round(v * 100) / 100;
 
-const SCORE_WEIGHTS = { growth_momentum: 0.45, ranking_momentum: 0.35, price_stability: 0.2 };
+const SCORE_WEIGHTS = { growth_momentum: 0.35, ranking_momentum: 0.30, price_stability: 0.15, owner_engagement: 0.20 };
 const BOOTSTRAP_MIN_MEMBERS = 2_000;
 const BOOTSTRAP_SNAPSHOT_THRESHOLD = 3;
 // v4: continuous bootstrap based on member count (replaces fixed 85/82)
@@ -83,6 +83,25 @@ function computeRankingMomentum(history) {
   return clamp(round2(50 + 50 * Math.tanh(improvement * 2)));
 }
 
+function computeOwnerEngagement(ownerLastActiveAt, ownerActiveDaysLast30) {
+  // Recency
+  let recency_score;
+  if (ownerLastActiveAt == null) {
+    recency_score = 50; // no data → neutral
+  } else {
+    const daysSince = (Date.now() - new Date(ownerLastActiveAt).getTime()) / 86_400_000;
+    recency_score = Math.min(100, Math.max(15, round2(100 - daysSince * 2)));
+  }
+  // Frequency
+  let frequency_score;
+  if (ownerActiveDaysLast30 == null) {
+    frequency_score = 50; // no data → neutral
+  } else {
+    frequency_score = clamp(round2((ownerActiveDaysLast30 / 30) * 100), 0, 100);
+  }
+  return clamp(round2(0.6 * recency_score + 0.4 * frequency_score));
+}
+
 function computePriceStability(history) {
   if (!history || history.length < 2) return 100;
   const sorted = sortByDate(history);
@@ -111,7 +130,7 @@ function memberCountFloor(totalMembers) {
   return clamp(Math.round(raw * 10_000) / 10_000, 45, 76.3);
 }
 
-function computeScore(totalMembers, memberHistory, rankHistory, priceHistory, growthRateBp) {
+function computeScore(totalMembers, memberHistory, rankHistory, priceHistory, growthRateBp, ownerLastActiveAt, ownerActiveDaysLast30) {
   const bootstrap = isBootstrap(totalMembers, memberHistory, rankHistory);
   const mLen = memberHistory?.length ?? 0;
 
@@ -128,12 +147,14 @@ function computeScore(totalMembers, memberHistory, rankHistory, priceHistory, gr
 
   const ranking_momentum = bootstrap ? bootstrapRankingMomentum(totalMembers) : computeRankingMomentum(rankHistory);
   const price_stability = computePriceStability(priceHistory);
-  const breakdown = { growth_momentum, ranking_momentum, price_stability, isBootstrap: bootstrap };
+  const owner_engagement = computeOwnerEngagement(ownerLastActiveAt, ownerActiveDaysLast30);
+  const breakdown = { growth_momentum, ranking_momentum, price_stability, owner_engagement, isBootstrap: bootstrap };
 
   const rawBase = clamp(round2(
     growth_momentum * SCORE_WEIGHTS.growth_momentum +
     ranking_momentum * SCORE_WEIGHTS.ranking_momentum +
-    price_stability * SCORE_WEIGHTS.price_stability
+    price_stability * SCORE_WEIGHTS.price_stability +
+    owner_engagement * SCORE_WEIGHTS.owner_engagement
   ));
 
   const hasHistory = mLen >= 2 || (rankHistory?.length ?? 0) >= 2;
@@ -147,9 +168,9 @@ async function main() {
   const conn = await createConnection(DATABASE_URL);
   console.log("Connected to DB");
 
-  // Fetch all communities with their history arrays
+  // Fetch all communities with their history arrays and owner activity fields
   const [rows] = await conn.query(
-    "SELECT id, totalMembers, memberHistory, rankHistory, priceHistory, growthRateBp, trustSkore FROM communities LIMIT 100000"
+    "SELECT id, totalMembers, memberHistory, rankHistory, priceHistory, growthRateBp, trustSkore, ownerLastActiveAt, ownerActiveDaysLast30 FROM communities LIMIT 100000"
   );
 
   console.log(`Computing scores for ${rows.length} communities...`);
@@ -173,6 +194,8 @@ async function main() {
       rankHistory,
       priceHistory,
       growthRateBp,
+      row.ownerLastActiveAt ?? null,
+      row.ownerActiveDaysLast30 ?? null,
     );
 
     return { id: row.id, oldScore: row.trustSkore, score, breakdown };

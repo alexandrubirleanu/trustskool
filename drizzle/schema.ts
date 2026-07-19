@@ -47,6 +47,14 @@ export type ScoreBreakdown = {
   ranking_momentum: number;
   price_stability: number;
   /**
+   * Owner engagement sub-score (0-100).
+   * recency_score = last_active null ? 50 : clamp(100 - days_since_active*2, 15, 100)
+   * frequency_score = active_days_last_30 null ? 50 : (active_days_last_30/30)*100
+   * owner_engagement = 0.6*recency_score + 0.4*frequency_score
+   * null means "no data yet" — resolves to neutral 50 in the formula.
+   */
+  owner_engagement?: number;
+  /**
    * True when sub-scores were bootstrapped from member count rather than
    * computed from real tracked history (< 3 snapshots, >= 2,000 members).
    * Cleared automatically once enough real data accumulates.
@@ -122,6 +130,23 @@ export const communities = mysqlTable(
     ownerJoined: boolean("ownerJoined").default(false).notNull(),
     /** Timestamp when ownerJoined was set to true. */
     ownerJoinedAt: timestamp("ownerJoinedAt"),
+    /**
+     * Owner activity signals scraped from the owner's public Skool profile.
+     * All nullable — null means "no data yet", not zero/inactive.
+     * Filled incrementally as the owner scraper backfills ~1,200 profiles.
+     */
+    /** When the owner first joined Skool (from public profile). */
+    ownerSkoolJoinedAt: timestamp("ownerSkoolJoinedAt"),
+    /** Last time the owner was active on Skool (from public profile). */
+    ownerLastActiveAt: timestamp("ownerLastActiveAt"),
+    /** Number of days the owner was active in the last 30 days. */
+    ownerActiveDaysLast30: int("ownerActiveDaysLast30"),
+    /** Number of days the owner was active in the last 90 days. */
+    ownerActiveDaysLast90: int("ownerActiveDaysLast90"),
+    /** Owner's total lifetime contributions on Skool. */
+    ownerTotalContributions: int("ownerTotalContributions"),
+    /** Owner's total followers on Skool. */
+    ownerTotalFollowers: int("ownerTotalFollowers"),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
     updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   },

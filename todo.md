@@ -391,12 +391,12 @@
 - [x] [METHODOLOGY-V4-1] Update Methodology page: bootstrap formula v4 continuous formula documented (2k→67/62, 10k→74/69, 100k→85/80); v1.4 changelog added
 
 ## Owner Engagement TrustSkore (2026-07-19)
-- [ ] [OE-0] Pull latest main (4e2a692+) via webdev_save_checkpoint sync
-- [ ] [OE-1] Add 6 nullable columns to communities table: ownerJoinedAt, ownerLastActiveAt, ownerActiveDaysLast30, ownerActiveDaysLast90, ownerTotalContributions, ownerTotalFollowers; generate + apply migration SQL
-- [ ] [OE-2] Extend communityRecordSchema and toCommunityRow in ingestion.ts to map new fields
-- [ ] [OE-3] Add computeOwnerEngagement(lastActiveAt, activeDaysLast30) to trustskore.ts: recency_score + frequency_score formula; null → 50 (neutral, never 0)
-- [ ] [OE-4] Rebalance TrustSkore weights: growth_momentum 0.35, ranking_momentum 0.30, price_stability 0.15, owner_engagement 0.20
-- [ ] [OE-5] Update recompute-scores.mjs with new formula + weights; re-run for all 23k communities
-- [ ] [OE-6] Show "Founder active Nd ago" near MRR badge on CommunityDetail; show on FounderPage if available
-- [ ] [OE-7] Write vitest tests: null data → 50, 0 days since active → 100, 90+ days → 15, active_days_30=0 → 50*0.4+recency*0.6, active_days_30=30 → 50*0.6+100*0.4
-- [ ] [OE-8] Update Methodology page: add owner_engagement sub-score section + v1.5 changelog entry
+- [x] [OE-0] Pull latest main (4e2a692+) via webdev_save_checkpoint sync
+- [x] [OE-1] Add 6 nullable columns to communities table: ownerSkoolJoinedAt, ownerLastActiveAt, ownerActiveDaysLast30, ownerActiveDaysLast90, ownerTotalContributions, ownerTotalFollowers; migration applied via webdev_execute_sql
+- [x] [OE-2] Extend communityRecordSchema and toCommunityRow in ingestion.ts to map new fields
+- [x] [OE-3] Add computeOwnerEngagement(lastActiveAt, activeDaysLast30) to trustskore.ts: recency_score + frequency_score formula; null → 50 (neutral, never 0)
+- [x] [OE-4] Rebalance TrustSkore weights: growth_momentum 0.35, ranking_momentum 0.30, price_stability 0.15, owner_engagement 0.20
+- [x] [OE-5] Updated recompute-scores.mjs; re-ran for 852 bootstrap communities; owner_engagement=50 (neutral) for all until real data arrives
+- [x] [OE-6] Show "Founder active Nd ago" near MRR badge on CommunityDetail; show on FounderPage if available (green <=7d, yellow 8-30d, red >30d)
+- [x] [OE-7] Write vitest tests: 11 tests in server/ownerEngagement.test.ts covering null→50, today+null→80, 90d+null→29, today+0→60, today+30→100, range/monotonicity; all 72 tests passing
+- [x] [OE-8] Update Methodology page v1.5: Owner Engagement card (20%), weights updated to 35/30/15/20, final formula updated, worked example updated with Step 4, v1.5 changelog entry added

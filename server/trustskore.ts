@@ -188,6 +188,9 @@ export function computeBreakdownWithBootstrap(input: {
   /** Pipeline-provided growth rate in basis points (e.g. 83 = +0.83%). Used as
    * fallback for growth_momentum when memberHistory has < 2 snapshots. */
   growthRateBp?: number | null;
+  /** Owner activity signals — null means no data yet (resolves to neutral 50) */
+  ownerLastActiveAt?: Date | null;
+  ownerActiveDaysLast30?: number | null;
 }): ScoreBreakdown {
   const bootstrap = isBootstrapScore(
     input.totalMembers,
@@ -218,6 +221,7 @@ export function computeBreakdownWithBootstrap(input: {
       ? bootstrapRankingMomentum(input.totalMembers)
       : computeRankingMomentum(input.rankHistory),
     price_stability: computePriceStability(input.priceHistory),
+    owner_engagement: computeOwnerEngagement(input.ownerLastActiveAt, input.ownerActiveDaysLast30),
     isBootstrap: bootstrap,
   };
 }
@@ -235,6 +239,40 @@ export function computeBreakdown(input: {
 }
 
 /**
+ * Owner engagement sub-score (0-100).
+ *
+ * recency_score  = last_active null ? 50 : clamp(100 - days_since_active*2, 15, 100)
+ * frequency_score = active_days_last_30 null ? 50 : (active_days_last_30/30)*100
+ * owner_engagement = 0.6*recency_score + 0.4*frequency_score
+ *
+ * CRITICAL: null inputs MUST resolve to neutral 50 — never 0 — so communities
+ * without owner data yet are not unfairly penalised when this feature ships.
+ */
+export function computeOwnerEngagement(
+  ownerLastActiveAt: Date | null | undefined,
+  ownerActiveDaysLast30: number | null | undefined,
+): number {
+  // Recency: how recently the owner was active
+  let recency_score: number;
+  if (ownerLastActiveAt == null) {
+    recency_score = 50; // no data → neutral
+  } else {
+    const daysSince = (Date.now() - ownerLastActiveAt.getTime()) / 86_400_000;
+    recency_score = clamp(round2(100 - daysSince * 2), 15, 100);
+  }
+
+  // Frequency: how often the owner is active in the last 30 days
+  let frequency_score: number;
+  if (ownerActiveDaysLast30 == null) {
+    frequency_score = 50; // no data → neutral
+  } else {
+    frequency_score = clamp(round2((ownerActiveDaysLast30 / 30) * 100), 0, 100);
+  }
+
+  return clamp(round2(0.6 * recency_score + 0.4 * frequency_score));
+}
+
+/**
  * Weighted TrustSkore 0-100 from a breakdown.
  *
  * When `communityId` is provided, a deterministic micro-perturbation of up to
@@ -248,10 +286,13 @@ export function computeTrustSkore(
   totalMembers?: number,
   communityId?: number | string,
 ): number {
+  // owner_engagement defaults to neutral 50 when not present in breakdown
+  const ownerEngagement = breakdown.owner_engagement ?? 50;
   const raw =
     breakdown.growth_momentum * SCORE_WEIGHTS.growth_momentum +
     breakdown.ranking_momentum * SCORE_WEIGHTS.ranking_momentum +
-    breakdown.price_stability * SCORE_WEIGHTS.price_stability;
+    breakdown.price_stability * SCORE_WEIGHTS.price_stability +
+    ownerEngagement * SCORE_WEIGHTS.owner_engagement;
   const base = clamp(round2(raw));
   // Micro-perturbation using communityId (guaranteed unique) as seed.
   // Falls back to totalMembers-based perturbation if id not available.

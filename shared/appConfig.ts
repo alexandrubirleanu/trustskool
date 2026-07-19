@@ -28,9 +28,10 @@ export const CANONICAL_ORIGIN = "https://trustskool.com";
 
 /** TrustSkore weighting (must sum to 1) */
 export const SCORE_WEIGHTS = {
-  growth_momentum: 0.45,
-  ranking_momentum: 0.35,
-  price_stability: 0.2,
+  growth_momentum: 0.35,
+  ranking_momentum: 0.30,
+  price_stability: 0.15,
+  owner_engagement: 0.20,
 } as const;
 
 /**

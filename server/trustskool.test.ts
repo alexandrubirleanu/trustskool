@@ -72,10 +72,14 @@ describe("TrustSkore engine", () => {
   });
 
   it("TrustSkore is the weighted sum of the breakdown, clamped 0-100", () => {
+    // weights v1.5: growth=0.35, ranking=0.30, price=0.15, owner_engagement=0.20
+    // When owner_engagement is absent from breakdown it defaults to 50 (neutral)
+    // all-100: 100*0.35 + 100*0.30 + 100*0.15 + 50*0.20 = 35 + 30 + 15 + 10 = 90
     const score = computeTrustSkore({ growth_momentum: 100, ranking_momentum: 100, price_stability: 100 });
-    expect(score).toBe(100);
+    expect(score).toBe(90);
+    // mixed: 80*0.35 + 60*0.30 + 100*0.15 + 50*0.20 = 28 + 18 + 15 + 10 = 71
     const mixed = computeTrustSkore({ growth_momentum: 80, ranking_momentum: 60, price_stability: 100 });
-    expect(mixed).toBeCloseTo(80 * 0.45 + 60 * 0.35 + 100 * 0.2, 2);
+    expect(mixed).toBeCloseTo(80 * 0.35 + 60 * 0.30 + 100 * 0.15 + 50 * 0.20, 2);
   });
 });
 
@@ -122,14 +126,16 @@ describe("Ingestion mapping", () => {
     // It is NOT in bootstrap mode, so the pipeline breakdown is preserved.
     // trustSkore is always recomputed from the breakdown for internal consistency
     // (so the displayed score always matches the displayed sub-scores).
-    // 90*0.45 + 85*0.35 + 88*0.20 = 40.5 + 29.75 + 17.6 = 87.85
-    // + micro-perturbation for id='abc123': idSeed=444, micro=(444%10000)/10000*0.05=0.00222 → 87.8522
+    // weights v1.5: growth=0.35, ranking=0.30, price=0.15, owner_engagement=0.20
+    // owner_engagement absent → defaults to 50 (neutral)
+    // 90*0.35 + 85*0.30 + 88*0.15 + 50*0.20 = 31.5 + 25.5 + 13.2 + 10 = 80.2
+    // + micro-perturbation for id='abc123': idSeed=444, micro=(444%10000)/10000*0.05=0.00222 → 80.2022
     const row = toCommunityRow({
       ...record,
       trust_score: 87.5, // ignored: always recomputed from breakdown
       score_breakdown: { growth_momentum: 90, ranking_momentum: 85, price_stability: 88 },
     });
-    expect(row.trustSkore).toBe(87.8522); // recomputed from breakdown + id-based micro-perturbation
+    expect(row.trustSkore).toBe(80.2022); // recomputed from breakdown + id-based micro-perturbation
     expect(row.scoreBreakdown?.growth_momentum).toBe(90); // pipeline breakdown preserved
   });
 });

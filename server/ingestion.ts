@@ -57,6 +57,13 @@ export const communityRecordSchema = z.object({
     .nullable()
     .optional()
     .transform(v => (typeof v === "boolean" ? (v ? 1 : 0) : v)),
+  /** Owner activity signals from public Skool profile (all nullable — no data yet = null) */
+  owner_skool_joined_at: z.string().datetime({ offset: true }).nullable().optional(),
+  owner_last_active_at: z.string().datetime({ offset: true }).nullable().optional(),
+  owner_active_days_last_30: z.number().int().min(0).max(30).nullable().optional(),
+  owner_active_days_last_90: z.number().int().min(0).max(90).nullable().optional(),
+  owner_total_contributions: z.number().int().nonnegative().nullable().optional(),
+  owner_total_followers: z.number().int().nonnegative().nullable().optional(),
 });
 
 export type PipelineCommunityRecord = z.infer<typeof communityRecordSchema>;
@@ -88,6 +95,8 @@ export function toCommunityRow(record: PipelineCommunityRecord): InsertCommunity
     rankHistory,
     totalMembers: record.total_members,
     growthRateBp: computedGrowthBp !== 0 ? computedGrowthBp : null,
+    ownerLastActiveAt: record.owner_last_active_at ? new Date(record.owner_last_active_at) : null,
+    ownerActiveDaysLast30: record.owner_active_days_last_30 ?? null,
   });
   // Use the computed (bootstrap-aware) breakdown unless the pipeline already
   // has a non-bootstrap score AND the community has graduated (>= 3 snapshots).
@@ -122,6 +131,12 @@ export function toCommunityRow(record: PipelineCommunityRecord): InsertCommunity
     mrrStatus: record.mrr_status ?? null,
     ownerName: record.owner_name ?? null,
     active30dStreak: record.active_30d_streak ?? null,
+    ownerSkoolJoinedAt: record.owner_skool_joined_at ? new Date(record.owner_skool_joined_at) : null,
+    ownerLastActiveAt: record.owner_last_active_at ? new Date(record.owner_last_active_at) : null,
+    ownerActiveDaysLast30: record.owner_active_days_last_30 ?? null,
+    ownerActiveDaysLast90: record.owner_active_days_last_90 ?? null,
+    ownerTotalContributions: record.owner_total_contributions ?? null,
+    ownerTotalFollowers: record.owner_total_followers ?? null,
   };
 }
 

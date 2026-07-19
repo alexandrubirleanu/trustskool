@@ -7,9 +7,10 @@ import SiteLayout from "@/components/SiteLayout";
  * Static content, no data fetching.
  *
  * Weights verified from: server/trustskore.ts + shared/appConfig.ts
- *   growth_momentum:  0.45  (45%)
- *   ranking_momentum: 0.35  (35%)
- *   price_stability:  0.20  (20%)
+ *   growth_momentum:  0.35  (35%)
+ *   ranking_momentum: 0.30  (30%)
+ *   price_stability:  0.15  (15%)
+ *   owner_engagement: 0.20  (20%)
  */
 
 export default function Methodology() {
@@ -18,7 +19,7 @@ export default function Methodology() {
       <div className="container max-w-3xl py-12 md:py-16">
         {/* Page header */}
         <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          Methodology · v1.1 · July 2025
+          Methodology · v1.5 · July 2026
         </p>
         <h1 className="mt-2 text-xl font-bold tracking-tight sm:text-2xl md:text-[40px] md:leading-tight">
           How the TrustSkore is calculated
@@ -57,7 +58,7 @@ export default function Methodology() {
         <section className="mt-14" id="formula" aria-labelledby="formula-heading">
           <h2 id="formula-heading" className="text-xl font-semibold">1. The formula & exact weights</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            The TrustSkore is a weighted average of three sub-indicators, each independently
+            The TrustSkore is a weighted average of four sub-indicators, each independently
             normalized to a 0–100 scale before combination.
           </p>
 
@@ -71,7 +72,7 @@ export default function Methodology() {
                   </span>
                   <h3 className="text-base font-semibold">Growth Momentum</h3>
                 </div>
-                <span className="shrink-0 rounded-[25px] border border-border px-3 py-1 text-xs font-semibold tabular-nums">45%</span>
+                <span className="shrink-0 rounded-[25px] border border-border px-3 py-1 text-xs font-semibold tabular-nums">35%</span>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 Measures the percentage change in total member count over the most recent{" "}
@@ -97,7 +98,7 @@ export default function Methodology() {
                   </span>
                   <h3 className="text-base font-semibold">Ranking Momentum</h3>
                 </div>
-                <span className="shrink-0 rounded-[25px] border border-border px-3 py-1 text-xs font-semibold tabular-nums">35%</span>
+                <span className="shrink-0 rounded-[25px] border border-border px-3 py-1 text-xs font-semibold tabular-nums">30%</span>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 Measures the relative change in Skool's own discovery rank over the{" "}
@@ -121,7 +122,7 @@ export default function Methodology() {
                   </span>
                   <h3 className="text-base font-semibold">Price Stability</h3>
                 </div>
-                <span className="shrink-0 rounded-[25px] border border-border px-3 py-1 text-xs font-semibold tabular-nums">20%</span>
+                <span className="shrink-0 rounded-[25px] border border-border px-3 py-1 text-xs font-semibold tabular-nums">15%</span>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 Tracks the entry price over the{" "}
@@ -135,16 +136,48 @@ export default function Methodology() {
                 score = max(0, 100 − penalty)
               </div>
             </div>
+            {/* Owner Engagement */}
+            <div className="rounded-[4px] border border-border bg-card p-5 md:p-6">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-[4px] bg-secondary">
+                    <TrendingUp className="h-4.5 w-4.5" />
+                  </span>
+                  <h3 className="text-base font-semibold">Owner Engagement</h3>
+                </div>
+                <span className="shrink-0 rounded-[25px] border border-border px-3 py-1 text-xs font-semibold tabular-nums">20%</span>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Measures how actively the community founder participates on Skool. An engaged founder
+                correlates with faster moderation, regular content, and a healthier community culture.
+                The sub-score combines two signals:{" "}
+                <strong className="font-medium text-foreground">recency</strong>{" "}
+                (days since the owner was last active) and{" "}
+                <strong className="font-medium text-foreground">frequency</strong>{" "}
+                (active days in the last 30 days). When owner data is unavailable, both signals
+                default to 50 — a neutral value that neither rewards nor penalises the community.
+              </p>
+              <div className="mt-3 rounded-[4px] bg-secondary/60 p-3 font-mono text-xs">
+                recency_score = data missing ? 50 : clamp(100 − days_since_active × 2, 15, 100)<br />
+                frequency_score = data missing ? 50 : clamp((active_days_last30 / 30) × 100, 0, 100)<br />
+                owner_engagement = 0.6 × recency_score + 0.4 × frequency_score
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                <strong className="text-foreground">Reference values:</strong> active today + 30/30 active days → 100 ·
+                active today + 0/30 active days → 60 · last active 90+ days ago → floor at 29 (recency clamped to 15).
+                The “Founder active N days ago” badge on community pages reflects the recency signal directly.
+              </p>
+            </div>
           </div>
 
           {/* Final formula */}
           <div className="mt-6 rounded-[4px] border border-foreground/20 bg-secondary/60 p-5">
             <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Final formula</p>
             <p className="font-mono text-sm">
-              TrustSkore = 0.45 × Growth Momentum + 0.35 × Ranking Momentum + 0.20 × Price Stability
+              TrustSkore = 0.35 × Growth Momentum + 0.30 × Ranking Momentum + 0.15 × Price Stability + 0.20 × Owner Engagement
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
-              All three sub-scores are on a 0–100 scale. The final TrustSkore is clamped to [0, 100]
+              All four sub-scores are on a 0–100 scale. The final TrustSkore is clamped to [0, 100]
               and rounded to four decimal places. The score is refreshed on each daily ingestion run.
             </p>
             <div className="mt-4 rounded-[4px] border border-border bg-card p-4">
@@ -190,7 +223,7 @@ export default function Methodology() {
             <div className="mt-4 space-y-5">
               {/* Step 1 */}
               <div>
-                <p className="font-medium">Step 1: Growth Momentum (weight 45%)</p>
+                <p className="font-medium">Step 1: Growth Momentum (weight 35%)</p>
                 <ul className="mt-2 space-y-1 text-muted-foreground">
                   <li>Member count 30 days ago: <strong className="text-foreground">2,000</strong></li>
                   <li>Member count today: <strong className="text-foreground">2,340</strong></li>
@@ -201,7 +234,7 @@ export default function Methodology() {
 
               {/* Step 2 */}
               <div>
-                <p className="font-medium">Step 2: Ranking Momentum (weight 35%)</p>
+                <p className="font-medium">Step 2: Ranking Momentum (weight 30%)</p>
                 <ul className="mt-2 space-y-1 text-muted-foreground">
                   <li>Discovery rank at first recorded data point: <strong className="text-foreground">850</strong></li>
                   <li>Discovery rank today: <strong className="text-foreground">510</strong></li>
@@ -212,7 +245,7 @@ export default function Methodology() {
 
               {/* Step 3 */}
               <div>
-                <p className="font-medium">Step 3: Price Stability (weight 20%)</p>
+                <p className="font-medium">Step 3: Price Stability (weight 15%)</p>
                 <ul className="mt-2 space-y-1 text-muted-foreground">
                   <li>Price history: $49/mo → $49/mo → $67/mo (1 change, 1 increase)</li>
                   <li>Penalty = 1 × 15 + 1 × 10 = <strong className="text-foreground">25</strong></li>
@@ -221,10 +254,23 @@ export default function Methodology() {
               </div>
 
               {/* Final */}
+              {/* Step 4 */}
+              <div>
+                <p className="font-medium">Step 4: Owner Engagement (weight 20%)</p>
+                <ul className="mt-2 space-y-1 text-muted-foreground">
+                  <li>Owner last active: <strong className="text-foreground">3 days ago</strong></li>
+                  <li>Active days in last 30: <strong className="text-foreground">22 days</strong></li>
+                  <li>Recency = clamp(100 − 3 × 2, 15, 100) = <strong className="text-foreground">94.0</strong></li>
+                  <li>Frequency = (22 / 30) × 100 = <strong className="text-foreground">73.3</strong></li>
+                  <li>Score = 0.6 × 94.0 + 0.4 × 73.3 = 56.4 + 29.3 = <strong className="text-foreground">85.7</strong></li>
+                </ul>
+              </div>
+
+              {/* Final */}
               <div className="rounded-[4px] bg-secondary/60 p-4 font-mono text-xs">
-                TrustSkore = 0.45 × 95.6 + 0.35 × 83.2 + 0.20 × 75.0<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 43.02 + 29.12 + 15.00<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <strong>87.1</strong>
+                TrustSkore = 0.35 × 95.6 + 0.30 × 83.2 + 0.15 × 75.0 + 0.20 × 85.7<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 33.46 + 24.96 + 11.25 + 17.14<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <strong>86.8</strong>
               </div>
             </div>
           </div>
@@ -420,6 +466,17 @@ export default function Methodology() {
                 </tr>
               </thead>
               <tbody className="bg-card divide-y divide-border">
+                <tr>
+                  <td className="px-4 py-3 font-mono text-xs font-semibold">v1.5</td>
+                  <td className="px-4 py-3 text-muted-foreground">July 2026</td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    Added <strong className="text-foreground">Owner Engagement</strong> as a fourth sub-score (weight 20%).
+                    Weights rebalanced: Growth Momentum 35% (was 45%), Ranking Momentum 30% (was 35%), Price Stability 15% (was 20%).
+                    Owner Engagement combines recency (days since last active, clamped to [15, 100]) and frequency (active days / 30 days).
+                    Missing owner data defaults to neutral 50 so communities without data are not penalised.
+                    Added "Founder active N days ago" badge on community and founder pages.
+                  </td>
+                </tr>
                 <tr>
                   <td className="px-4 py-3 font-mono text-xs font-semibold">v1.4</td>
                   <td className="px-4 py-3 text-muted-foreground">July 2026</td>

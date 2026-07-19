@@ -389,6 +389,25 @@ export default function CommunityDetail() {
                     {getMrrBadge((community as any).mrrStatus)!.emoji} {getMrrBadge((community as any).mrrStatus)!.range}
                   </span>
                 )}
+                {(community as any).ownerLastActiveAt && (() => {
+                  const daysSince = Math.floor((Date.now() - new Date((community as any).ownerLastActiveAt).getTime()) / 86_400_000);
+                  const label = daysSince === 0 ? 'Founder active today' : daysSince === 1 ? 'Founder active yesterday' : `Founder active ${daysSince}d ago`;
+                  const isRecent = daysSince <= 7;
+                  const isStale = daysSince > 30;
+                  return (
+                    <span
+                      title="Last time the community founder was active on Skool"
+                      className={`inline-flex items-center gap-1 rounded-[3px] px-1.5 py-0.5 text-[10px] font-semibold ${
+                        isRecent
+                          ? 'bg-[oklch(0.97_0.04_140)] text-[oklch(0.45_0.12_140)]'
+                          : isStale
+                          ? 'bg-[oklch(0.95_0.02_30)] text-[oklch(0.50_0.08_30)]'
+                          : 'bg-muted text-muted-foreground'
+                      }`}>
+                      {isRecent ? '🟢' : isStale ? '🔴' : '🟡'} {label}
+                    </span>
+                  );
+                })()}
               </div>
             </div>
           </div>
