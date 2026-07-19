@@ -35,19 +35,25 @@ describe("memberCountFloor", () => {
     expect(memberCountFloor(10_000)).toBe(69.8);
   });
 
-  it("returns 63.6 for 1k members", () => {
-    // log10(1000) = 3, floor = 45 + 31*(3/5) = 45 + 18.6 = 63.6
-    expect(memberCountFloor(1_000)).toBe(63.6);
+  it("returns ~63.6 for 1k members (base; +micro perturbation up to 0.3)", () => {
+    // log10(1000) = 3, base = 45 + 31*(3/5) = 63.6; micro = (1000%10000)/10000*0.3 = 0.03
+    const f = memberCountFloor(1_000);
+    expect(f).toBeGreaterThanOrEqual(63.6);
+    expect(f).toBeLessThan(63.6 + 0.31);
   });
 
-  it("returns 57.4 for 100 members", () => {
-    // log10(100) = 2, floor = 45 + 31*(2/5) = 45 + 12.4 = 57.4
-    expect(memberCountFloor(100)).toBe(57.4);
+  it("returns ~57.4 for 100 members (base; +micro perturbation up to 0.3)", () => {
+    // log10(100) = 2, base = 45 + 31*(2/5) = 57.4; micro = (100%10000)/10000*0.3 = 0.003
+    const f = memberCountFloor(100);
+    expect(f).toBeGreaterThanOrEqual(57.4);
+    expect(f).toBeLessThan(57.4 + 0.31);
   });
 
-  it("returns 51.2 for 10 members", () => {
-    // log10(10) = 1, floor = 45 + 31*(1/5) = 45 + 6.2 = 51.2
-    expect(memberCountFloor(10)).toBe(51.2);
+  it("returns ~51.2 for 10 members (base; +micro perturbation up to 0.3)", () => {
+    // log10(10) = 1, base = 45 + 31*(1/5) = 51.2; micro = (10%10000)/10000*0.3 = 0.0003
+    const f = memberCountFloor(10);
+    expect(f).toBeGreaterThanOrEqual(51.2);
+    expect(f).toBeLessThan(51.2 + 0.31);
   });
 
   it("returns 45 for 1 member (minimum)", () => {
@@ -113,15 +119,18 @@ describe("computeTrustSkoreWithFloor", () => {
   it("uses raw score when history is sufficient (≥2 member points)", () => {
     const twoPoints = [{ date: "2025-01-01" }, { date: "2025-01-02" }];
     const score = computeTrustSkoreWithFloor(neutralBreakdown, 10_000, twoPoints, []);
-    expect(score).toBe(60); // raw score, no floor applied
+    // raw 60 + micro-perturbation (max 0.05 pts)
+    expect(score).toBeGreaterThanOrEqual(60);
+    expect(score).toBeLessThan(60.06);
   });
 
   it("uses raw score when it exceeds the floor", () => {
     const highBreakdown = { growth_momentum: 90, ranking_momentum: 90, price_stability: 100 };
-    // 90*0.45 + 90*0.35 + 100*0.20 = 40.5 + 31.5 + 20 = 92.0
-    // log10(500) ≈ 2.699, floor = 45 + 45*(2.699/5) ≈ 69.29
+    // 90*0.45 + 90*0.35 + 100*0.20 = 40.5 + 31.5 + 20 = 92.0 + micro-perturbation
+    // log10(500) ≈ 2.699, floor ≈ 61.73 + micro — raw 92 > floor
     const score = computeTrustSkoreWithFloor(highBreakdown, 500, [], []);
-    expect(score).toBe(92); // raw 92 > floor ~69.3
+    expect(score).toBeGreaterThanOrEqual(92);
+    expect(score).toBeLessThan(92.06); // raw 92 + micro (max 0.05)
   });
 
   it("applies floor for small community with insufficient history", () => {

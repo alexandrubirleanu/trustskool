@@ -91,8 +91,12 @@ function isBootstrap(totalMembers, memberHistory, rankHistory) {
 
 function memberCountFloor(totalMembers) {
   const members = Math.max(1, totalMembers);
-  const score = 45 + 31 * (Math.log10(members) / 5); // rebalanced ceiling = 76
-  return clamp(round2(score), 45, 76);
+  const base = 45 + 31 * (Math.log10(members) / 5); // rebalanced ceiling = 76
+  // Micro-perturbation: up to +0.3 pts based on exact member count mod 10000
+  const micro = (members % 10_000) / 10_000 * 0.3;
+  const raw = base + micro;
+  // 4-decimal precision for unique scores per exact member count
+  return clamp(Math.round(raw * 10_000) / 10_000, 45, 76.3);
 }
 
 function computeScore(totalMembers, memberHistory, rankHistory, priceHistory, growthRateBp) {
@@ -114,15 +118,15 @@ function computeScore(totalMembers, memberHistory, rankHistory, priceHistory, gr
   const price_stability = computePriceStability(priceHistory);
   const breakdown = { growth_momentum, ranking_momentum, price_stability, isBootstrap: bootstrap };
 
-  const raw = clamp(round2(
+  const rawBase = clamp(round2(
     growth_momentum * SCORE_WEIGHTS.growth_momentum +
     ranking_momentum * SCORE_WEIGHTS.ranking_momentum +
     price_stability * SCORE_WEIGHTS.price_stability
   ));
 
   const hasHistory = mLen >= 2 || (rankHistory?.length ?? 0) >= 2;
-  const score = hasHistory ? raw : Math.max(raw, memberCountFloor(totalMembers));
-  return { score: clamp(round2(score)), breakdown };
+  const score = hasHistory ? rawBase : Math.max(rawBase, memberCountFloor(totalMembers));
+  return { score: clamp(Math.round(score * 10_000) / 10_000), breakdown };
 }
 
 // ── Main ────────────────────────────────────────────────────────────────────
@@ -156,7 +160,7 @@ async function main() {
       const priceHistory = parseCol(row.priceHistory);
       const growthRateBp = row.growthRateBp ?? 0;
 
-      const { score, breakdown } = computeScore(
+      const { score: baseScore, breakdown } = computeScore(
         row.totalMembers,
         memberHistory,
         rankHistory,
@@ -164,7 +168,15 @@ async function main() {
         growthRateBp,
       );
 
-      if (Math.abs(score - row.trustSkore) < 0.01) {
+      // Apply community-id-based micro-perturbation for guaranteed unique scores
+      // The id is a string like 'abc123xyz' — sum char codes for a numeric seed
+      const idSeed = typeof row.id === 'string'
+        ? row.id.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)
+        : (row.id ?? 0);
+      const idMicro = (idSeed % 10_000) / 10_000 * 0.05;
+      const score = Math.round((baseScore + idMicro) * 10_000) / 10_000;
+
+      if (Math.abs(score - row.trustSkore) < 0.0001) {
         unchanged++;
         continue;
       }

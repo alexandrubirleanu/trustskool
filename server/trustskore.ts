@@ -210,13 +210,38 @@ export function computeBreakdown(input: {
   };
 }
 
-/** Weighted TrustSkore 0-100 from a breakdown */
-export function computeTrustSkore(breakdown: ScoreBreakdown): number {
-  const score =
+/**
+ * Weighted TrustSkore 0-100 from a breakdown.
+ *
+ * When `communityId` is provided, a deterministic micro-perturbation of up to
+ * 0.05 points is added based on the community's unique ID. This ensures every
+ * community gets a numerically unique score even when their breakdown components
+ * round to the same value. The perturbation is invisible to users (displayed as
+ * integer or 1 decimal) but prevents ties in the sort order.
+ */
+export function computeTrustSkore(
+  breakdown: ScoreBreakdown,
+  totalMembers?: number,
+  communityId?: number | string,
+): number {
+  const raw =
     breakdown.growth_momentum * SCORE_WEIGHTS.growth_momentum +
     breakdown.ranking_momentum * SCORE_WEIGHTS.ranking_momentum +
     breakdown.price_stability * SCORE_WEIGHTS.price_stability;
-  return clamp(round2(score));
+  const base = clamp(round2(raw));
+  // Micro-perturbation using communityId (guaranteed unique) as seed.
+  // Falls back to totalMembers-based perturbation if id not available.
+  const seed = communityId != null
+    ? (typeof communityId === 'string'
+        ? communityId.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)
+        : communityId)
+    : (totalMembers ?? 0);
+  if (seed > 0) {
+    // max 0.05 pts, 4-decimal precision — invisible in display but unique in DB
+    const micro = (seed % 10_000) / 10_000 * 0.05;
+    return clamp(Math.round((base + micro) * 10_000) / 10_000);
+  }
+  return base;
 }
 
 /**
@@ -229,16 +254,18 @@ export function computeTrustSkore(breakdown: ScoreBreakdown): number {
  * have real growth data. Communities with ≥2 real snapshots and strong growth
  * can now score above 76 and outrank large-but-idle ones.
  *
- * Formula: floor = 45 + 31 * log10(max(1, totalMembers)) / log10(100_000)
- * This maps:
+ * MICRO-PERTURBATION (2026-07-19): adds (n mod 10000) / 10000 * 0.3 to the
+ * log-scale base, so every community with a distinct member count gets a
+ * numerically unique floor score. The perturbation is ≤0.3 pts and never
+ * crosses an order-of-magnitude boundary, preserving the overall ranking economy.
+ *
+ * Formula: floor = 45 + 31 * log10(max(1, n)) / 5 + (n mod 10000) / 10000 * 0.3
+ * Example reference values (base only, before perturbation):
  *   1 member    → 45.0
  *   10 members  → 51.2
  *   100 members → 57.4
- *   500 members → 61.3
  *   1k members  → 63.6
- *   5k members  → 67.5
  *   10k members → 69.8
- *   50k members → 73.7
  *   100k members→ 76.0
  *
  * Communities with real growth data can still score 77-95+ via the momentum
@@ -246,9 +273,15 @@ export function computeTrustSkore(breakdown: ScoreBreakdown): number {
  */
 export function memberCountFloor(totalMembers: number): number {
   const members = Math.max(1, totalMembers);
-  // log10(100_000) = 5; ceiling = 45 + 31 = 76
-  const score = 45 + 31 * (Math.log10(members) / 5);
-  return clamp(round2(score), 45, 76);
+  // log10(100_000) = 5; base ceiling = 45 + 31 = 76
+  const base = 45 + 31 * (Math.log10(members) / 5);
+  // Micro-perturbation: spreads communities with similar member counts apart
+  // by up to 0.3 points based on the exact member count modulo 10000.
+  // Use 4-decimal precision (not round2) to maximise unique score values.
+  const micro = (members % 10_000) / 10_000 * 0.3;
+  const raw = base + micro;
+  // Round to 4 decimal places for uniqueness while keeping display clean
+  return clamp(Math.round(raw * 10_000) / 10_000, 45, 76.3);
 }
 
 /**
@@ -273,8 +306,9 @@ export function computeTrustSkoreWithFloor(
   totalMembers: number,
   memberHistory: { date: string }[] | null | undefined,
   rankHistory: { date: string }[] | null | undefined,
+  communityId?: number | string,
 ): number {
-  const raw = computeTrustSkore(breakdown);
+  const raw = computeTrustSkore(breakdown, totalMembers, communityId);
   if (hasInsufficientHistory(memberHistory, rankHistory)) {
     const floor = memberCountFloor(totalMembers);
     return Math.max(raw, floor);

@@ -123,12 +123,13 @@ describe("Ingestion mapping", () => {
     // trustSkore is always recomputed from the breakdown for internal consistency
     // (so the displayed score always matches the displayed sub-scores).
     // 90*0.45 + 85*0.35 + 88*0.20 = 40.5 + 29.75 + 17.6 = 87.85
+    // + micro-perturbation for id='abc123': idSeed=444, micro=(444%10000)/10000*0.05=0.00222 → 87.8522
     const row = toCommunityRow({
       ...record,
       trust_score: 87.5, // ignored: always recomputed from breakdown
       score_breakdown: { growth_momentum: 90, ranking_momentum: 85, price_stability: 88 },
     });
-    expect(row.trustSkore).toBe(87.85); // recomputed from breakdown
+    expect(row.trustSkore).toBe(87.8522); // recomputed from breakdown + id-based micro-perturbation
     expect(row.scoreBreakdown?.growth_momentum).toBe(90); // pipeline breakdown preserved
   });
 });

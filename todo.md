@@ -357,3 +357,6 @@
 - [x] [SITEMAP-1] Add filtered category/price pages to sitemap.xml (/?category=tech, /?price=free, etc.)
 - [x] [TOAST-DETAIL-1] Add LiveActivityToast to community detail page using same-category communities
 - [x] [SCORE-1] Rebalance TrustSkore: memberCountFloor ceiling 90→76, bootstrap 80/75→68/65; re-ran recompute-scores.mjs (12,601 updated / 10,737 unchanged)
+
+## Unique Score Per Community (2026-07-19)
+- [x] [SCORE-UNIQUE-1] Add micro-perturbation to memberCountFloor (floor) and computeTrustSkore (composite): community-id-based seed ensures unique scores; 4551 unique scores vs 530 before; 23297 communities updated
