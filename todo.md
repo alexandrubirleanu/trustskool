@@ -344,3 +344,7 @@
 ## URL-Persistent Filters + Breadcrumb (2026-07-19)
 - [x] [URL-FILTER-1] Serialize category, price, language into URL query params (?category=tech&price=free&lang=english); read them on mount to restore state; update URL on every filter change without pushing to history
 - [x] [BREADCRUMB-1] Add visible breadcrumb UI on CommunityDetail: Home > [Category] > [Community name], with clickable links
+
+## Live Activity Toast (2026-07-19)
+- [x] [LIVE-1] Build LiveActivityToast component: bottom-left fixed toast showing "Someone is viewing [community]" and "Someone just joined [community]" using real community names from leaderboard data, with plausible timing simulation
+- [x] [LIVE-2] Wire LiveActivityToast to homepage — only shown when leaderboard data is loaded

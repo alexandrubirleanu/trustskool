@@ -8,6 +8,7 @@ import { capitalize, formatCategory } from "@/lib/format";
 import { SKOOL_CATEGORIES } from "@shared/appConfig";
 import { trpc } from "@/lib/trpc";
 import { useDatafast } from "@/hooks/useDatafast";
+import LiveActivityToast from "@/components/LiveActivityToast";
 
 type SortKey = "trustSkore" | "totalMembers" | "growthRateBp" | "category";
 type PriceKey = "all" | "free" | "paid";
@@ -509,6 +510,10 @@ export default function Home() {
 
   return (
     <SiteLayout>
+      {/* Live activity toast — bottom-left, only when data is loaded */}
+      {data && data.items.length > 0 && (
+        <LiveActivityToast communities={data.items.map(c => ({ slug: c.slug, displayName: c.displayName, logoUrl: c.logoUrl }))} />
+      )}
       {/* Hero */}
       <section className="border-b border-border bg-card">
         <div className="container py-6 md:py-12">
