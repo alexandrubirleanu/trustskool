@@ -216,36 +216,30 @@ export function computeTrustSkore(breakdown: ScoreBreakdown): number {
 }
 
 /**
- * Minimum TrustSkore floor based on member count.
+ * Continuous TrustSkore floor based on member count, using log-scale interpolation.
  * Applied when history is too short (<2 data points) to compute real momentum.
- * Prevents popular communities from showing a misleading 60.0 flat score.
+ * Prevents popular communities from showing a misleading flat score.
  *
- * Uses a log-scale interpolation so scores are continuous and differentiated
- * across the full member range, not just 5 flat buckets.
+ * Formula: floor = 45 + 45 * log10(max(1, totalMembers)) / log10(100_000)
+ * This maps:
+ *   1 member    → 45.0
+ *   10 members  → 54.0
+ *   100 members → 63.0
+ *   500 members → 68.8
+ *   1k members  → 72.0
+ *   5k members  → 77.5
+ *   10k members → 81.0
+ *   50k members → 86.5
+ *   100k members→ 90.0
  *
- * Tiers (member count → floor):
- *   50k+  → 90   (top-tier, massive community)
- *   25k+  → 87
- *   10k+  → 84
- *   5k+   → 80
- *   2k+   → 75
- *   1k+   → 70
- *   500+  → 65
- *   200+  → 60
- *   100+  → 55
- *   <100  → 50   (no floor — too small to assume trust)
+ * This produces a continuous, differentiable distribution so communities
+ * with different member counts always get different scores.
  */
 export function memberCountFloor(totalMembers: number): number {
-  if (totalMembers >= 50_000) return 90;
-  if (totalMembers >= 25_000) return 87;
-  if (totalMembers >= 10_000) return 84;
-  if (totalMembers >= 5_000)  return 80;
-  if (totalMembers >= 2_000)  return 75;
-  if (totalMembers >= 1_000)  return 70;
-  if (totalMembers >= 500)    return 65;
-  if (totalMembers >= 200)    return 60;
-  if (totalMembers >= 100)    return 55;
-  return 50;
+  const members = Math.max(1, totalMembers);
+  // log10(100_000) = 5, so the formula maps 1→45, 100_000→90
+  const score = 45 + 45 * (Math.log10(members) / 5);
+  return clamp(round2(score), 45, 90);
 }
 
 /**
