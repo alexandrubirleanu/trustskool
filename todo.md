@@ -328,3 +328,6 @@
 - [x] [CAT-1] Add category filter chip to FiltersBar (Money, Tech, Health, Hobbies, Spirituality, Self-improvement, Sports, Relationships, Music)
 - [x] [CAT-2] Wire category filter to listCommunities tRPC query
 - [x] [SCROLL-1] Add scroll-to-top on page change (Prev/Next and go-to-page)
+
+## Growth Display Improvement (2026-07-19)
+- [x] [GROWTH-1] Hide growth chip on cards when value is +0.0% (abs(growthRateBp) < 10 bp); show only meaningful growth/decline

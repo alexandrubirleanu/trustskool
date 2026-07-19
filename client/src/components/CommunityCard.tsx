@@ -65,6 +65,8 @@ export default function CommunityCard({
   const isTrending = growth > 0;
   const isFree = priceType === "free";
   const isTop = Boolean(community.isCategoryTop);
+  // Only show growth when it's meaningful (>= 0.1% or <= -0.1%)
+  const hasSignificantGrowth = Math.abs(growth) >= 10;
 
   return (
     <Link
@@ -116,11 +118,13 @@ export default function CommunityCard({
             {formatMembers(community.totalMembers)}
           </span>
           <span>{formatPrice(community.priceAmountCents, community.priceInterval)}</span>
-          <span
-            className={`inline-flex items-center gap-1 ${growth >= 0 ? "text-[oklch(0.5_0.12_155)]" : "text-[oklch(0.55_0.18_25)]"}`}>
-            <GrowthIcon className="h-3 w-3" />
-            {formatGrowth(growth)}
-          </span>
+          {hasSignificantGrowth && (
+            <span
+              className={`inline-flex items-center gap-1 ${growth >= 0 ? "text-[oklch(0.5_0.12_155)]" : "text-[oklch(0.55_0.18_25)]"}`}>
+              <GrowthIcon className="h-3 w-3" />
+              {formatGrowth(growth)}
+            </span>
+          )}
           {community.category && (
             <span className="hidden sm:inline">{formatCategory(community.category)}</span>
           )}
