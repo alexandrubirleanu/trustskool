@@ -67,6 +67,8 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setMobileOpen(false);
+    // Scroll to top on every route change
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, [location]);
 
   return (

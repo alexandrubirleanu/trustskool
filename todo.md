@@ -336,3 +336,7 @@
 - [x] [LANG-1] Default language = "english" on first visit (already works)
 - [x] [LANG-2] clearAllFilters() resets language to "english" instead of undefined
 - [x] [LANG-3] On mount: if localStorage shows last visit was 7+ days ago, reset language to "english" regardless of any saved state; update lastVisit timestamp on every mount
+
+## Navigation UX (2026-07-19)
+- [x] [NAV-SCROLL-1] Scroll to top on every route change (global, covers all internal navigation)
+- [x] [FOOTER-1] Rankings link already present in footer navigation (verified)
