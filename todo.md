@@ -389,3 +389,14 @@
 - [x] [MRR-FILTER-1] Add "Revenue verified" toggle to FiltersBar dropdown (shows only communities with mrrStatus != null)
 - [x] [MRR-FILTER-2] Wire mrrVerified filter to listCommunities tRPC query and dbCommunities WHERE clause
 - [x] [METHODOLOGY-V4-1] Update Methodology page: bootstrap formula v4 continuous formula documented (2k→67/62, 10k→74/69, 100k→85/80); v1.4 changelog added
+
+## Owner Engagement TrustSkore (2026-07-19)
+- [ ] [OE-0] Pull latest main (4e2a692+) via webdev_save_checkpoint sync
+- [ ] [OE-1] Add 6 nullable columns to communities table: ownerJoinedAt, ownerLastActiveAt, ownerActiveDaysLast30, ownerActiveDaysLast90, ownerTotalContributions, ownerTotalFollowers; generate + apply migration SQL
+- [ ] [OE-2] Extend communityRecordSchema and toCommunityRow in ingestion.ts to map new fields
+- [ ] [OE-3] Add computeOwnerEngagement(lastActiveAt, activeDaysLast30) to trustskore.ts: recency_score + frequency_score formula; null → 50 (neutral, never 0)
+- [ ] [OE-4] Rebalance TrustSkore weights: growth_momentum 0.35, ranking_momentum 0.30, price_stability 0.15, owner_engagement 0.20
+- [ ] [OE-5] Update recompute-scores.mjs with new formula + weights; re-run for all 23k communities
+- [ ] [OE-6] Show "Founder active Nd ago" near MRR badge on CommunityDetail; show on FounderPage if available
+- [ ] [OE-7] Write vitest tests: null data → 50, 0 days since active → 100, 90+ days → 15, active_days_30=0 → 50*0.4+recency*0.6, active_days_30=30 → 50*0.6+100*0.4
+- [ ] [OE-8] Update Methodology page: add owner_engagement sub-score section + v1.5 changelog entry
