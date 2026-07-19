@@ -294,3 +294,8 @@
 - [x] [DETAIL-REORDER-1] Reorder sections: Growth History → TrustSkore Breakdown → Estimated Revenue → About the Founder → Similar Communities
 - [x] [DETAIL-SEO-1] Added itemScope/itemType Person schema + rel=author link to full founder profile page
 - [x] [DETAIL-SEO-2] Improved heading and added descriptive subtitle for similar communities section
+
+## Affiliate Click Email Notifications (2026-07-19)
+- [x] [AFFILIATE-EMAIL-1] Diagnosed: aflPercent was read only from ownerProfile (often null); community.aflPercent (populated from dataset) was ignored
+- [x] [AFFILIATE-EMAIL-2] Fixed: httpRoutes.ts now uses community.aflPercent as fallback when ownerProfile doesn't have the data; added console logging for production debugging
+- [x] [AFFILIATE-EMAIL-3] Already included in existing buildClickEmail: name, members, price, commission estimate, language, click count, timestamp, referrer, Skool URL

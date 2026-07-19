@@ -235,9 +235,10 @@ async function sendEmail(payload: { subject: string; html: string; text: string 
   const apiKey = serverConfig.resendApiKey;
   const to = serverConfig.notificationEmail;
   if (!apiKey || !to) {
-    console.warn("[EmailNotify] RESEND_API_KEY or NOTIFICATION_EMAIL missing, skipping email");
+    console.warn("[EmailNotify] RESEND_API_KEY or NOTIFICATION_EMAIL missing — skipping. apiKey present:", !!apiKey, "to present:", !!to);
     return false;
   }
+  console.log(`[EmailNotify] Sending email to ${to} from ${serverConfig.emailFrom}: ${payload.subject}`);
   try {
     const res = await fetch(RESEND_ENDPOINT, {
       method: "POST",
@@ -258,6 +259,8 @@ async function sendEmail(payload: { subject: string; html: string; text: string 
       console.error(`[EmailNotify] Resend returned ${res.status}: ${body}`);
       return false;
     }
+    const result = await res.json().catch(() => ({}));
+    console.log(`[EmailNotify] Email sent OK. Resend id: ${(result as { id?: string }).id ?? "unknown"}`);
     return true;
   } catch (err) {
     console.error("[EmailNotify] Failed to send:", err);
@@ -266,7 +269,9 @@ async function sendEmail(payload: { subject: string; html: string; text: string 
 }
 
 export async function sendClickNotification(click: ClickNotification): Promise<boolean> {
-  if (!shouldSendTierA(click)) return false; // Tier B only — skip real-time
+  const tierA = shouldSendTierA(click);
+  console.log(`[EmailNotify] Click on ${click.slug}: isPaid=${(click.priceAmountCents ?? 0) > 0}, aflPercent=${click.aflPercent}, ownerJoined=${click.ownerJoined} → Tier${tierA ? 'A (real-time)' : 'B (digest)'}`);
+  if (!tierA) return false;
   const email = buildClickEmail(click);
   return sendEmail(email);
 }

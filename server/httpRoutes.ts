@@ -66,18 +66,22 @@ async function handleGoRedirect(req: Request, res: Response) {
   // 2. Fetch running click count for this slug (includes the click just inserted)
   const clickCount = await getClickCountForSlug(rawSlug).catch(() => 0);
 
-  // 3. Fetch affiliate commission from owner profile (best-effort, non-blocking)
-  let aflPercent: number | null = null;
+  // 3. Fetch affiliate commission — prefer ownerProfile (has per-community afl_percent),
+  //    fall back to community.aflPercent which is populated directly from the dataset.
+  let aflPercent: number | null = community?.aflPercent ?? null;
   try {
     const ownerProfile = await getOwnerProfileBySlug(rawSlug);
     if (ownerProfile) {
       const entry = (ownerProfile.ownedCommunities as Array<{ slug: string; afl_percent?: number | null }> | null)
         ?.find(c => c.slug === rawSlug);
-      aflPercent = entry?.afl_percent ?? null;
+      if (entry?.afl_percent != null) {
+        aflPercent = entry.afl_percent; // ownerProfile wins when available
+      }
     }
   } catch {
-    // non-fatal — proceed without commission data
+    // non-fatal — proceed with community.aflPercent fallback
   }
+  console.log(`[Go] ${rawSlug}: price=${community?.priceAmountCents ?? 0}c, aflPercent=${aflPercent}, ownerJoined=${community?.ownerJoined}`);
 
   // 4. Send the notification email BEFORE redirecting (bounded so a slow
   //    email provider cannot hold the visitor hostage).
