@@ -35,8 +35,15 @@ const round2 = (v) => Math.round(v * 100) / 100;
 const SCORE_WEIGHTS = { growth_momentum: 0.45, ranking_momentum: 0.35, price_stability: 0.2 };
 const BOOTSTRAP_MIN_MEMBERS = 2_000;
 const BOOTSTRAP_SNAPSHOT_THRESHOLD = 3;
-const BOOTSTRAP_GROWTH_MOMENTUM = 85;  // recalibrated v3
-const BOOTSTRAP_RANKING_MOMENTUM = 82; // recalibrated v3
+// v4: continuous bootstrap based on member count (replaces fixed 85/82)
+function bootstrapGrowthMomentum(totalMembers) {
+  const n = Math.max(2_000, totalMembers);
+  return Math.min(100, Math.max(0, Math.round((60 + 25 * Math.log10(n) / 5) * 100) / 100));
+}
+function bootstrapRankingMomentum(totalMembers) {
+  const n = Math.max(2_000, totalMembers);
+  return Math.min(100, Math.max(0, Math.round((57 + 25 * Math.log10(n) / 5) * 100) / 100));
+}
 
 function sortByDate(points) {
   return [...points].sort((a, b) => a.date.localeCompare(b.date));
@@ -110,7 +117,7 @@ function computeScore(totalMembers, memberHistory, rankHistory, priceHistory, gr
 
   let growth_momentum;
   if (bootstrap) {
-    growth_momentum = BOOTSTRAP_GROWTH_MOMENTUM;
+    growth_momentum = bootstrapGrowthMomentum(totalMembers);
   } else if (mLen >= 2) {
     growth_momentum = computeGrowthMomentum(memberHistory);
   } else if (growthRateBp != null && growthRateBp !== 0) {
@@ -119,7 +126,7 @@ function computeScore(totalMembers, memberHistory, rankHistory, priceHistory, gr
     growth_momentum = 50;
   }
 
-  const ranking_momentum = bootstrap ? BOOTSTRAP_RANKING_MOMENTUM : computeRankingMomentum(rankHistory);
+  const ranking_momentum = bootstrap ? bootstrapRankingMomentum(totalMembers) : computeRankingMomentum(rankHistory);
   const price_stability = computePriceStability(priceHistory);
   const breakdown = { growth_momentum, ranking_momentum, price_stability, isBootstrap: bootstrap };
 

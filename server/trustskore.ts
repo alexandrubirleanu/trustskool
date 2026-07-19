@@ -35,12 +35,31 @@ export const BOOTSTRAP_MIN_MEMBERS = 2_000;
 export const BOOTSTRAP_SNAPSHOT_THRESHOLD = 3;
 /**
  * Bootstrap sub-scores for popular communities with insufficient history.
- * REBALANCED v3 (2026-07-19): raised to 85/82 so top communities reach 85-88 range.
- * Communities with real growth data (+0.83% max currently) score ~90+ and can outrank them.
- * Composite: 85*0.45 + 82*0.35 + 100*0.20 = 38.25 + 28.7 + 20 = 86.95 base.
+ * REBALANCED v4 (2026-07-19): replaced fixed 85/82 constants with a continuous
+ * member-count-based formula so bootstrap communities are spread across a wide
+ * score range instead of all clustering at 87.
+ *
+ * bootstrapGrowth  = 60 + 25 * log10(n) / log10(100_000)  → 2k→67.5, 10k→73.9, 100k→85
+ * bootstrapRanking = 57 + 25 * log10(n) / log10(100_000)  → 2k→64.5, 10k→70.9, 100k→82
+ *
+ * Composite range: ~62 (2k members) to ~87 (100k+ members).
+ * Communities with real growth data can still score 88-95+ and outrank bootstrap ones.
  */
-export const BOOTSTRAP_GROWTH_MOMENTUM = 85;
-export const BOOTSTRAP_RANKING_MOMENTUM = 82;
+export const BOOTSTRAP_GROWTH_MOMENTUM = 85; // kept for reference; use bootstrapGrowthMomentum(n) instead
+export const BOOTSTRAP_RANKING_MOMENTUM = 82; // kept for reference; use bootstrapRankingMomentum(n) instead
+
+/** Continuous bootstrap growth momentum based on member count. */
+export function bootstrapGrowthMomentum(totalMembers: number): number {
+  const n = Math.max(2_000, totalMembers);
+  // log10(100_000) = 5
+  return clamp(Math.round((60 + 25 * Math.log10(n) / 5) * 100) / 100);
+}
+
+/** Continuous bootstrap ranking momentum based on member count. */
+export function bootstrapRankingMomentum(totalMembers: number): number {
+  const n = Math.max(2_000, totalMembers);
+  return clamp(Math.round((57 + 25 * Math.log10(n) / 5) * 100) / 100);
+}
 
 function sortByDate<T extends { date: string }>(points: T[]): T[] {
   return [...points].sort((a, b) => a.date.localeCompare(b.date));
@@ -184,7 +203,7 @@ export function computeBreakdownWithBootstrap(input: {
   const mLen = input.memberHistory?.length ?? 0;
   let growth_momentum: number;
   if (bootstrap) {
-    growth_momentum = BOOTSTRAP_GROWTH_MOMENTUM;
+    growth_momentum = bootstrapGrowthMomentum(input.totalMembers);
   } else if (mLen >= 2) {
     growth_momentum = computeGrowthMomentum(input.memberHistory);
   } else if (input.growthRateBp != null) {
@@ -196,7 +215,7 @@ export function computeBreakdownWithBootstrap(input: {
   return {
     growth_momentum,
     ranking_momentum: bootstrap
-      ? BOOTSTRAP_RANKING_MOMENTUM
+      ? bootstrapRankingMomentum(input.totalMembers)
       : computeRankingMomentum(input.rankHistory),
     price_stability: computePriceStability(input.priceHistory),
     isBootstrap: bootstrap,

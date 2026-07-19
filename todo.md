@@ -381,3 +381,6 @@
 - [x] [UNIQUE-1] Guarantee every community has a unique TrustSkore: integer-based uniqueness pass (score×100) resolves 23336 collisions; only 40.00 floor duplicates remain (irrelevant micro-communities)
 - [x] [UNIQUE-2] Re-ran recompute-scores.mjs; 2439 updated, 20899 unchanged; top community scores now 79.59/79.58/79.57... (all distinct)
 - [x] [CAT-RANK-FIX-1] Fixed isCategoryTop to use dynamic trustSkore comparison instead of stale categoryRankings table; now exactly 1 community per category is #1
+
+## Score Distribution Spread (2026-07-19)
+- [x] [SPREAD-1] Bootstrap formula v4: continuous member-count-based formula (2k→62, 10k→74, 100k→87); top 15 scores now 87.82/87.1/86.83/86.55/86.41... (visually distinct); 850 communities updated

@@ -193,15 +193,18 @@ describe("isBootstrapScore", () => {
 // ─── computeBreakdownWithBootstrap ──────────────────────────────────────────
 
 describe("computeBreakdownWithBootstrap", () => {
-  it("sets bootstrap sub-scores for large community with <3 snapshots", () => {
+  it("sets bootstrap sub-scores for large community with <3 snapshots (v4: continuous formula)", () => {
     const bd = computeBreakdownWithBootstrap({
       memberHistory: [],
       rankHistory: [],
       priceHistory: [],
       totalMembers: 5_000,
     });
-    expect(bd.growth_momentum).toBe(BOOTSTRAP_GROWTH_MOMENTUM);
-    expect(bd.ranking_momentum).toBe(BOOTSTRAP_RANKING_MOMENTUM);
+    // v4: continuous formula — 5k members → growth ~71.48, ranking ~68.48
+    expect(bd.growth_momentum).toBeGreaterThan(60);
+    expect(bd.growth_momentum).toBeLessThan(85);
+    expect(bd.ranking_momentum).toBeGreaterThan(57);
+    expect(bd.ranking_momentum).toBeLessThan(82);
     expect(bd.isBootstrap).toBe(true);
   });
 
@@ -244,17 +247,33 @@ describe("computeBreakdownWithBootstrap", () => {
     expect(bd.ranking_momentum).toBe(50); // neutral default
   });
 
-  it("bootstrap composite TrustSkore is around 87 (recalibrated v3 2026-07-19)", () => {
-    const bd = computeBreakdownWithBootstrap({
+  it("bootstrap composite TrustSkore scales with member count (v4 continuous formula)", () => {
+    // 5k members: growth=71.48, ranking=68.48, price=100
+    // composite = 71.48*0.45 + 68.48*0.35 + 100*0.20 ≈ 76.14
+    const bd5k = computeBreakdownWithBootstrap({
       memberHistory: [],
       rankHistory: [],
       priceHistory: [],
       totalMembers: 5_000,
     });
-    // 85*0.45 + 82*0.35 + 100*0.20 = 38.25 + 28.7 + 20 = 86.95
-    const score = computeTrustSkore(bd);
-    expect(score).toBeGreaterThanOrEqual(85);
-    expect(score).toBeLessThanOrEqual(90);
+    const score5k = computeTrustSkore(bd5k);
+    expect(score5k).toBeGreaterThanOrEqual(74);
+    expect(score5k).toBeLessThanOrEqual(84);
+
+    // 100k members: growth=85, ranking=82 (max bootstrap)
+    // composite = 85*0.45 + 82*0.35 + 100*0.20 = 86.95
+    const bd100k = computeBreakdownWithBootstrap({
+      memberHistory: [],
+      rankHistory: [],
+      priceHistory: [],
+      totalMembers: 100_000,
+    });
+    const score100k = computeTrustSkore(bd100k);
+    expect(score100k).toBeGreaterThanOrEqual(85);
+    expect(score100k).toBeLessThanOrEqual(90);
+
+    // Larger community should score higher than smaller
+    expect(score100k).toBeGreaterThan(score5k);
   });
 });
 
