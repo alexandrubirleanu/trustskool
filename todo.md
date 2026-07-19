@@ -360,3 +360,6 @@
 
 ## Unique Score Per Community (2026-07-19)
 - [x] [SCORE-UNIQUE-1] Add micro-perturbation to memberCountFloor (floor) and computeTrustSkore (composite): community-id-based seed ensures unique scores; 4551 unique scores vs 530 before; 23297 communities updated
+
+## Methodology Page Update (2026-07-19)
+- [x] [METHODOLOGY-1] Update floor reference values on Methodology page: 1k→63.6, 10k→69.8, 100k→76 (was 72/81/90); bootstrap 80/75→68/65; added v1.2 changelog entry; updated llms.txt bootstrap text

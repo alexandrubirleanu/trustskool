@@ -145,8 +145,26 @@ export default function Methodology() {
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
               All three sub-scores are on a 0–100 scale. The final TrustSkore is clamped to [0, 100]
-              and rounded to two decimal places. The score is refreshed on each daily ingestion run.
+              and rounded to four decimal places. The score is refreshed on each daily ingestion run.
             </p>
+            <div className="mt-4 rounded-[4px] border border-border bg-card p-4">
+              <p className="text-xs font-semibold text-foreground">Member-count floor (applied when fewer than 2 history snapshots are available)</p>
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                Communities with insufficient history receive a minimum score derived from their current member count via a log-scale formula.
+                This prevents large, established communities from showing a misleadingly low score while our tracking is young.
+                Communities with real growth data can still score above the floor and outrank larger-but-idle ones.
+              </p>
+              <div className="mt-3 rounded-[4px] bg-secondary/60 p-3 font-mono text-xs">
+                floor = 45 + 31 × log<sub>10</sub>(members) / 5<br />
+                <span className="text-muted-foreground">// Reference values: 1k members → 63.6 · 10k → 69.8 · 100k → 76.0</span>
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                <strong className="text-foreground">Bootstrap rule:</strong> Communities with ≥ 2,000 members and fewer than 3 snapshots receive a temporary starting estimate of{" "}
+                <strong className="text-foreground">Growth Momentum = 68</strong> and{" "}
+                <strong className="text-foreground">Ranking Momentum = 65</strong> instead of the neutral 50/50 defaults.
+                Once 3 or more real snapshots are collected, the bootstrap is dropped and real computed values take over permanently.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -396,6 +414,16 @@ export default function Methodology() {
                 </tr>
               </thead>
               <tbody className="bg-card divide-y divide-border">
+                <tr>
+                  <td className="px-4 py-3 font-mono text-xs font-semibold">v1.2</td>
+                  <td className="px-4 py-3 text-muted-foreground">July 2026</td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    TrustSkore rebalance: member-count floor ceiling lowered from 90 → 76 (formula: 45 + 31 × log₁₀(n) / 5).
+                    Bootstrap starting estimates reduced from 80/75 → 68/65 so communities with real growth data can outrank large-but-idle ones.
+                    Added deterministic micro-perturbation (max 0.05 pts) per community ID to eliminate score ties.
+                    Methodology page updated with explicit floor reference values and bootstrap documentation.
+                  </td>
+                </tr>
                 <tr>
                   <td className="px-4 py-3 font-mono text-xs font-semibold">v1.1</td>
                   <td className="px-4 py-3 text-muted-foreground">July 2025</td>

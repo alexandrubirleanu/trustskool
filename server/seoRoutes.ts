@@ -322,7 +322,7 @@ async function handleLlmsTxt(_req: Request, res: Response) {
         "- growthMomentum (45%): rate of member growth over tracked history. A community gaining 500 members/week scores higher than one losing members.",
         "- rankingMomentum (35%): improvement in Skool's own discovery rank over time. Reflects organic platform visibility.",
         "- priceStability (20%): penalises frequent or steep price increases. A community that has held its price for 12 months scores 100 here.",
-        "- Bootstrap rule: communities with 2,000+ members and fewer than 3 tracked snapshots receive growthMomentum=80, rankingMomentum=75 as a starting estimate, updated once real history accumulates.",
+        "- Bootstrap rule: communities with 2,000+ members and fewer than 3 tracked snapshots receive growthMomentum=68, rankingMomentum=65 as a starting estimate (rebalanced July 2026), updated once real history accumulates.",
         `- Full methodology with worked numeric example: ${base}/methodology`,
         "",
         "## What TrustSkore does NOT measure",
