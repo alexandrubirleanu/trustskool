@@ -1,5 +1,6 @@
 import { ArrowLeft, ChevronRight, ExternalLink, TrendingDown, TrendingUp, Users, Zap } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import LiveActivityToast, { type LiveActivityItem } from "@/components/LiveActivityToast";
 import {
   CartesianGrid,
   Line,
@@ -706,6 +707,16 @@ export default function CommunityDetail() {
           </p>
         </div>
       </div>
+      {/* Live activity toast: shows activity from similar communities in the same niche */}
+      {similar && similar.length > 0 && (
+        <LiveActivityToast
+          communities={similar.map((c): LiveActivityItem => ({
+            slug: c.slug,
+            displayName: c.displayName ?? c.slug,
+            logoUrl: c.logoUrl ?? null,
+          }))}
+        />
+      )}
     </SiteLayout>
   );
 }

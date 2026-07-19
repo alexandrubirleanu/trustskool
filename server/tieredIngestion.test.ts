@@ -15,37 +15,39 @@ import { TIER_THRESHOLDS, SLA_WINDOWS_MS } from "./tieredIngestion";
 
 // ─── memberCountFloor ────────────────────────────────────────────────────────
 
-// memberCountFloor uses continuous log-scale: floor = 45 + 45 * log10(max(1, n)) / 5
+// memberCountFloor uses continuous log-scale: floor = 45 + 31 * log10(max(1, n)) / 5
+// REBALANCED (2026-07-19): ceiling lowered from 90 to 76 to allow communities
+// with real growth data to outrank large-but-stagnant ones.
 // Key reference values (log10 based):
 //   1       → 45.0
-//   10      → 54.0
-//   100     → 63.0
-//   1000    → 72.0
-//   10000   → 81.0
-//   100000  → 90.0
+//   10      → 51.2
+//   100     → 57.4
+//   1000    → 63.6
+//   10000   → 69.8
+//   100000  → 76.0
 describe("memberCountFloor", () => {
-  it("returns 90 for 100k members (max)", () => {
-    expect(memberCountFloor(100_000)).toBe(90);
+  it("returns 76 for 100k members (max, rebalanced ceiling)", () => {
+    expect(memberCountFloor(100_000)).toBe(76);
   });
 
-  it("returns 81 for 10k members", () => {
-    // log10(10000) = 4, floor = 45 + 45*(4/5) = 81.0
-    expect(memberCountFloor(10_000)).toBe(81);
+  it("returns 69.8 for 10k members", () => {
+    // log10(10000) = 4, floor = 45 + 31*(4/5) = 45 + 24.8 = 69.8
+    expect(memberCountFloor(10_000)).toBe(69.8);
   });
 
-  it("returns 72 for 1k members", () => {
-    // log10(1000) = 3, floor = 45 + 45*(3/5) = 72.0
-    expect(memberCountFloor(1_000)).toBe(72);
+  it("returns 63.6 for 1k members", () => {
+    // log10(1000) = 3, floor = 45 + 31*(3/5) = 45 + 18.6 = 63.6
+    expect(memberCountFloor(1_000)).toBe(63.6);
   });
 
-  it("returns 63 for 100 members", () => {
-    // log10(100) = 2, floor = 45 + 45*(2/5) = 63.0
-    expect(memberCountFloor(100)).toBe(63);
+  it("returns 57.4 for 100 members", () => {
+    // log10(100) = 2, floor = 45 + 31*(2/5) = 45 + 12.4 = 57.4
+    expect(memberCountFloor(100)).toBe(57.4);
   });
 
-  it("returns 54 for 10 members", () => {
-    // log10(10) = 1, floor = 45 + 45*(1/5) = 54.0
-    expect(memberCountFloor(10)).toBe(54);
+  it("returns 51.2 for 10 members", () => {
+    // log10(10) = 1, floor = 45 + 31*(1/5) = 45 + 6.2 = 51.2
+    expect(memberCountFloor(10)).toBe(51.2);
   });
 
   it("returns 45 for 1 member (minimum)", () => {
@@ -56,9 +58,9 @@ describe("memberCountFloor", () => {
 
   it("produces continuous values between reference points", () => {
     const f500 = memberCountFloor(500);
-    // log10(500) ≈ 2.699, floor ≈ 69.29
-    expect(f500).toBeGreaterThan(63);
-    expect(f500).toBeLessThan(72);
+    // log10(500) ≈ 2.699, floor = 45 + 31*(2.699/5) ≈ 61.73
+    expect(f500).toBeGreaterThan(57.4); // above 100-member floor
+    expect(f500).toBeLessThan(63.6);    // below 1k-member floor
   });
 
   it("is monotonically increasing with member count", () => {
@@ -104,8 +106,8 @@ describe("computeTrustSkoreWithFloor", () => {
 
   it("applies floor when history is insufficient and floor > raw score", () => {
     const score = computeTrustSkoreWithFloor(neutralBreakdown, 10_000, [], []);
-    // log10(10000) = 4, floor = 45 + 45*(4/5) = 45 + 36 = 81.0
-    expect(score).toBe(81); // continuous log floor for 10k members
+    // log10(10000) = 4, floor = 45 + 31*(4/5) = 45 + 24.8 = 69.8 (rebalanced)
+    expect(score).toBe(69.8); // continuous log floor for 10k members
   });
 
   it("uses raw score when history is sufficient (≥2 member points)", () => {
@@ -233,17 +235,17 @@ describe("computeBreakdownWithBootstrap", () => {
     expect(bd.ranking_momentum).toBe(50); // neutral default
   });
 
-  it("bootstrap composite TrustSkore is around 80 (not hardcoded)", () => {
+  it("bootstrap composite TrustSkore is around 73 (rebalanced 2026-07-19)", () => {
     const bd = computeBreakdownWithBootstrap({
       memberHistory: [],
       rankHistory: [],
       priceHistory: [],
       totalMembers: 5_000,
     });
-    // 80*0.45 + 75*0.35 + 100*0.20 = 36 + 26.25 + 20 = 82.25
+    // 68*0.45 + 65*0.35 + 100*0.20 = 30.6 + 22.75 + 20 = 73.35
     const score = computeTrustSkore(bd);
-    expect(score).toBeGreaterThanOrEqual(80);
-    expect(score).toBeLessThanOrEqual(90);
+    expect(score).toBeGreaterThanOrEqual(70);
+    expect(score).toBeLessThanOrEqual(80);
   });
 });
 

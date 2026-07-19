@@ -33,9 +33,13 @@ const round2 = (v: number) => Math.round(v * 100) / 100;
 export const BOOTSTRAP_MIN_MEMBERS = 2_000;
 /** Minimum snapshot count to graduate out of bootstrap mode */
 export const BOOTSTRAP_SNAPSHOT_THRESHOLD = 3;
-/** Bootstrap sub-scores for popular communities with insufficient history */
-export const BOOTSTRAP_GROWTH_MOMENTUM = 80;
-export const BOOTSTRAP_RANKING_MOMENTUM = 75;
+/**
+ * Bootstrap sub-scores for popular communities with insufficient history.
+ * REBALANCED (2026-07-19): lowered from 80/75 to 68/65 so bootstrapped large
+ * communities (score ~72-74) can be outranked by smaller ones with real growth data.
+ */
+export const BOOTSTRAP_GROWTH_MOMENTUM = 68;
+export const BOOTSTRAP_RANKING_MOMENTUM = 65;
 
 function sortByDate<T extends { date: string }>(points: T[]): T[] {
   return [...points].sort((a, b) => a.date.localeCompare(b.date));
@@ -220,26 +224,31 @@ export function computeTrustSkore(breakdown: ScoreBreakdown): number {
  * Applied when history is too short (<2 data points) to compute real momentum.
  * Prevents popular communities from showing a misleading flat score.
  *
- * Formula: floor = 45 + 45 * log10(max(1, totalMembers)) / log10(100_000)
+ * REBALANCED (2026-07-19): ceiling lowered from 90 → 76 and slope compressed
+ * so large-but-stagnant communities don't permanently dominate communities that
+ * have real growth data. Communities with ≥2 real snapshots and strong growth
+ * can now score above 76 and outrank large-but-idle ones.
+ *
+ * Formula: floor = 45 + 31 * log10(max(1, totalMembers)) / log10(100_000)
  * This maps:
  *   1 member    → 45.0
- *   10 members  → 54.0
- *   100 members → 63.0
- *   500 members → 68.8
- *   1k members  → 72.0
- *   5k members  → 77.5
- *   10k members → 81.0
- *   50k members → 86.5
- *   100k members→ 90.0
+ *   10 members  → 51.2
+ *   100 members → 57.4
+ *   500 members → 61.3
+ *   1k members  → 63.6
+ *   5k members  → 67.5
+ *   10k members → 69.8
+ *   50k members → 73.7
+ *   100k members→ 76.0
  *
- * This produces a continuous, differentiable distribution so communities
- * with different member counts always get different scores.
+ * Communities with real growth data can still score 77-95+ via the momentum
+ * components, so the leaderboard rewards active communities over large-but-idle ones.
  */
 export function memberCountFloor(totalMembers: number): number {
   const members = Math.max(1, totalMembers);
-  // log10(100_000) = 5, so the formula maps 1→45, 100_000→90
-  const score = 45 + 45 * (Math.log10(members) / 5);
-  return clamp(round2(score), 45, 90);
+  // log10(100_000) = 5; ceiling = 45 + 31 = 76
+  const score = 45 + 31 * (Math.log10(members) / 5);
+  return clamp(round2(score), 45, 76);
 }
 
 /**

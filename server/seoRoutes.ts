@@ -80,6 +80,14 @@ async function handleCommunitiesChunk(req: Request, res: Response) {
       urlEntry(`${base}/resources`, { changefreq: "weekly", priority: "0.6" }),
       urlEntry(`${base}/news`, { changefreq: "daily", priority: "0.5" }),
       urlEntry(`${base}/rankings`, { changefreq: "monthly", priority: "0.7" }),
+      // Category-filtered homepage pages (high SEO value — contextual OG + canonical)
+      ...SKOOL_CATEGORIES.map(cat =>
+        urlEntry(`${base}/?category=${cat.slug}`, { lastmod: today, changefreq: "daily", priority: "0.85" })
+      ),
+      // Price-filtered pages
+      urlEntry(`${base}/?price=free`, { lastmod: today, changefreq: "daily", priority: "0.8" }),
+      urlEntry(`${base}/?price=paid`, { lastmod: today, changefreq: "daily", priority: "0.7" }),
+      // Category rankings sub-pages
       ...SKOOL_CATEGORIES.map(cat =>
         urlEntry(`${base}/rankings/${cat.slug}`, { changefreq: "monthly", priority: "0.7", lastmod: today })
       ),

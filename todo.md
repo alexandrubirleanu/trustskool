@@ -352,3 +352,8 @@
 ## Language URL + Dynamic OG (2026-07-19)
 - [x] [URL-LANG-1] Serialize language into URL param (?lang=italian) for all non-English selections; keep English omitted from URL (clean default)
 - [x] [OG-1] Add dynamic Open Graph meta tags on homepage for filtered URLs: title/description change based on active category, price, language filters
+
+## Sitemap + Toast Detail + Score Rebalance (2026-07-19)
+- [x] [SITEMAP-1] Add filtered category/price pages to sitemap.xml (/?category=tech, /?price=free, etc.)
+- [x] [TOAST-DETAIL-1] Add LiveActivityToast to community detail page using same-category communities
+- [x] [SCORE-1] Rebalance TrustSkore: memberCountFloor ceiling 90→76, bootstrap 80/75→68/65; re-ran recompute-scores.mjs (12,601 updated / 10,737 unchanged)
