@@ -52,10 +52,12 @@ CATEGORIES = {
 NEXT_DATA_RE = re.compile(r'__NEXT_DATA__" type="application/json">(.*?)</script>', re.S)
 
 
-def fetch_page(lang, page, category_id=None):
+def fetch_page(lang, page, category_id=None, price_filter=None):
     url = f"https://www.skool.com/discovery?lang={lang}&srt=trending&p={page}"
     if category_id:
         url += f"&c={category_id}"
+    if price_filter:
+        url += f"&pr={price_filter}"
     for attempt in range(1, MAX_RETRIES + 1):
         req = Request(url, headers={"User-Agent": UA, "Accept-Language": "en"})
         try:
@@ -127,9 +129,9 @@ def normalize_group(entry, lang, category=None):
     }
 
 
-def fetch_all_groups(lang, category_id=None, category_name=None, label=None):
-    """Paginate a language (+ optional category) discovery listing to the natural end.
-    Returns (records, reached_natural_end)."""
+def fetch_all_groups(lang, category_id=None, category_name=None, label=None, price_filter=None):
+    """Paginate a language (+ optional category, + optional price filter) discovery
+    listing to the natural end. Returns (records, reached_natural_end)."""
     tag = label or lang
     seen_ids = set()
     records = []
@@ -137,7 +139,7 @@ def fetch_all_groups(lang, category_id=None, category_name=None, label=None):
     total_declared = None
     reached_natural_end = False
     while True:
-        pp = fetch_page(lang, page, category_id=category_id)
+        pp = fetch_page(lang, page, category_id=category_id, price_filter=price_filter)
         time.sleep(SLEEP_SECONDS)
         if pp in ("error", "blocked"):
             print(f"[{tag}] stopping early at page {page} due to fetch error/block ({pp})")
@@ -201,6 +203,50 @@ def expand_language(lang):
     with open(os.path.join(DATA_DIR, f"{lang}.done"), "w") as f:
         f.write(str(len(merged)))
     print(f"[{lang}] EXPANDED: {len(merged)} total communities (plain + {len(CATEGORIES)} categories, deduped)")
+
+
+def expand_language_deep(lang):
+    """Break past the ~1000-per-category cap discovered on 2026-07-19: a category
+    query alone (e.g. english+money) truncates at exactly 1000 results, but crossing
+    that SAME category with Skool's price filter (pr=free / pr=paid) each independently
+    also returns up to 1000 - meaning a saturated category can hide up to ~2x more
+    communities than the plain category query alone ever surfaces. This does the
+    language+category expansion (same as expand_language) AND, for each category,
+    also queries category+free and category+paid, merging in anything new.
+    Overwrites <lang>.jsonl same as expand_language."""
+    out_path = os.path.join(DATA_DIR, f"{lang}.jsonl")
+    merged = {}
+    for rec in load_jsonl_helper(out_path):
+        merged[rec["id"]] = rec
+
+    plain_records, _ = fetch_all_groups(lang, label=f"{lang}/plain")
+    for r in plain_records:
+        existing = merged.get(r["id"])
+        if existing and existing.get("category") and not r.get("category"):
+            r["category"] = existing["category"]
+        merged[r["id"]] = r
+
+    for cat_name, cat_id in CATEGORIES.items():
+        cat_records, _ = fetch_all_groups(lang, category_id=cat_id, category_name=cat_name, label=f"{lang}/{cat_name}")
+        for r in cat_records:
+            merged[r["id"]] = r
+
+        for price in ("free", "paid"):
+            price_records, _ = fetch_all_groups(
+                lang, category_id=cat_id, category_name=cat_name,
+                label=f"{lang}/{cat_name}/{price}", price_filter=price,
+            )
+            new_count = sum(1 for r in price_records if r["id"] not in merged)
+            for r in price_records:
+                merged[r["id"]] = r
+            print(f"[{lang}/{cat_name}/{price}] +{new_count} new communities not seen in plain/category passes")
+
+    with open(out_path, "w", encoding="utf-8") as f:
+        for r in merged.values():
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    with open(os.path.join(DATA_DIR, f"{lang}.done"), "w") as f:
+        f.write(str(len(merged)))
+    print(f"[{lang}] DEEP EXPANDED: {len(merged)} total communities (plain + {len(CATEGORIES)} categories + price-crossed)")
 
 
 def load_jsonl_helper(path):
@@ -276,6 +322,14 @@ def main():
         for lang in targets:
             expand_language(lang)
         # refresh the consumable dataset for the app after expanding
+        os.system(f"{sys.executable} {os.path.join(OUT_DIR, 'build_communities_dataset.py')}")
+        return
+
+    if args and args[0] == "--expand-deep":
+        targets = args[1:] or ["english"]
+        print(f"Deep expand mode (plain + all {len(CATEGORIES)} categories, each also crossed with pr=free/paid), languages: {targets}")
+        for lang in targets:
+            expand_language_deep(lang)
         os.system(f"{sys.executable} {os.path.join(OUT_DIR, 'build_communities_dataset.py')}")
         return
 
