@@ -57,7 +57,15 @@ jobs:
         run: |
           git config user.name "trustskool-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add scripts/skool_data/history/ scripts/skool_data/owner_badges.jsonl scripts/skool_data/rotation_state.json data/communities.json
+          # Stage the whole skool_data/ tree, not an explicit subset: the discovery
+          # + expansion pass above (--refresh/--expand) overwrites per-language base
+          # files (scripts/skool_data/<lang>.jsonl + .done markers) directly, not
+          # just history/. An incomplete git-add list here left those modified but
+          # unstaged, which made the later `git rebase origin/main` refuse to even
+          # start ("cannot rebase: you have unstaged changes") - confirmed as the
+          # actual cause of the 2026-07-19 workflow_dispatch failure, and it would
+          # have hit every real discovery-pass day (day-of-year % 3 == 0) too.
+          git add scripts/skool_data/ data/communities.json
           git diff --cached --quiet || git commit -m "Daily Skool data refresh $(date -u +%Y-%m-%d)"
           # The run above can take hours (network-bound scraping); other pushes to
           # main (my own manual work, MANUS's app commits) routinely land during
