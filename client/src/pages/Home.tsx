@@ -5,6 +5,7 @@ import CommunityCard from "@/components/CommunityCard";
 import SiteLayout from "@/components/SiteLayout";
 import { Skeleton } from "@/components/ui/skeleton";
 import { capitalize, formatCategory } from "@/lib/format";
+import { SKOOL_CATEGORIES } from "@shared/appConfig";
 import { trpc } from "@/lib/trpc";
 import { useDatafast } from "@/hooks/useDatafast";
 
@@ -128,9 +129,11 @@ function LanguageDropdown({
 type FiltersBarProps = {
   price: PriceKey;
   language: string | undefined;
+  category: string | undefined;
   sort: SortKey;
   direction: "asc" | "desc";
   languages: { value: string; count?: number }[];
+  categories: { value: string; count?: number }[];
   stats: { freeCommunities: number; paidCommunities?: number; totalCommunities: number; trendingCommunities: number } | undefined;
   hasActiveFilters: boolean;
   isLoading: boolean;
@@ -138,13 +141,14 @@ type FiltersBarProps = {
   fmtK: (n: number) => string;
   onPrice: (v: PriceKey) => void;
   onLanguage: (v: string | undefined) => void;
+  onCategory: (v: string | undefined) => void;
   onSort: (key: SortKey) => void;
   onClear: () => void;
 };
 
 function FiltersBar({
-  price, language, sort, direction, languages, stats, hasActiveFilters,
-  isLoading, total, fmtK, onPrice, onLanguage, onSort, onClear,
+  price, language, category, sort, direction, languages, categories, stats, hasActiveFilters,
+  isLoading, total, fmtK, onPrice, onLanguage, onCategory, onSort, onClear,
 }: FiltersBarProps) {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const filtersRef = useRef<HTMLDivElement>(null);
@@ -161,7 +165,7 @@ function FiltersBar({
     return () => document.removeEventListener("mousedown", handler);
   }, [filtersOpen]);
 
-  const activeFilterCount = (price !== "all" ? 1 : 0) + (language ? 1 : 0);
+  const activeFilterCount = (price !== "all" ? 1 : 0) + (language ? 1 : 0) + (category ? 1 : 0);
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -219,7 +223,7 @@ function FiltersBar({
 
               {/* Language section */}
               {languages.length > 0 && (
-                <div className="p-3">
+                <div className="border-b border-border p-3">
                   <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Language</p>
                   <LanguageDropdown
                     languages={languages}
@@ -228,6 +232,43 @@ function FiltersBar({
                   />
                 </div>
               )}
+
+              {/* Category section */}
+              <div className="p-3">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Category</p>
+                <div className="flex flex-col gap-1">
+                  <button
+                    type="button"
+                    onClick={() => { onCategory(undefined); }}
+                    className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-sm transition-colors hover:bg-accent ${
+                      !category ? "bg-[#F8D481]/20 font-semibold" : ""
+                    }`}>
+                    <span>All categories</span>
+                    {stats && (
+                      <span className="text-xs text-muted-foreground tabular-nums">{fmtK(stats.totalCommunities)}</span>
+                    )}
+                  </button>
+                  {SKOOL_CATEGORIES.map((cat: typeof SKOOL_CATEGORIES[number]) => {
+                    const dbCat = categories.find(c => c.value === cat.slug);
+                    return (
+                      <button
+                        key={cat.slug}
+                        type="button"
+                        onClick={() => { onCategory(cat.slug); }}
+                        className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-sm transition-colors hover:bg-accent ${
+                          category === cat.slug ? "bg-[#F8D481]/20 font-semibold" : ""
+                        }`}>
+                        <span>{cat.emoji} {cat.label}</span>
+                        {dbCat?.count != null && (
+                          <span className="text-xs text-muted-foreground tabular-nums">
+                            {dbCat.count >= 1000 ? `${Math.round(dbCat.count / 1000)}k+` : dbCat.count}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
               {/* Clear inside dropdown */}
               {activeFilterCount > 0 && (
@@ -320,6 +361,7 @@ export default function Home() {
     return langMap[browserLang] ?? "english";
   });
   const [price, setPrice] = useState<PriceKey>("all");
+  const [category, setCategory] = useState<string | undefined>(undefined);
   const [sort, setSort] = useState<SortKey>("trustSkore");
   const [direction, setDirection] = useState<"asc" | "desc">("desc");
   const [page, setPage] = useState(1);
@@ -345,12 +387,13 @@ export default function Home() {
       search: debounced || undefined,
       language,
       price,
+      category,
       sort,
       direction,
       page,
       pageSize: PAGE_SIZE,
     }),
-    [debounced, language, price, sort, direction, page],
+    [debounced, language, price, category, sort, direction, page],
   );
 
   const { data, isLoading } = trpc.communities.list.useQuery(listInput, {
@@ -382,13 +425,14 @@ export default function Home() {
     setDebounced("");
     setLanguage(undefined);
     setPrice("all");
+    setCategory(undefined);
     setSort("trustSkore");
     setDirection("desc");
     setPage(1);
     navigate("/");
   };
 
-  const hasActiveFilters = Boolean(debounced || language || price !== "all");
+  const hasActiveFilters = Boolean(debounced || language || price !== "all" || category);
 
   const { track } = useDatafast();
 
@@ -404,6 +448,7 @@ export default function Home() {
 
   // All languages shown in Skool's canonical order (ordered server-side)
   const languages = filters?.languages ?? [];
+  const categories = filters?.categories ?? [];
 
   // Format stat numbers: exact number with locale formatting (e.g. 22,502)
   // Use fixed 'en-US' locale to prevent SSR/client hydration mismatch
@@ -446,9 +491,11 @@ export default function Home() {
         <FiltersBar
           price={price}
           language={language}
+          category={category}
           sort={sort}
           direction={direction}
           languages={languages}
+          categories={categories}
           stats={stats}
           hasActiveFilters={hasActiveFilters}
           isLoading={isLoading}
@@ -456,6 +503,7 @@ export default function Home() {
           fmtK={fmtK}
           onPrice={v => setFilter(() => setPrice(v))}
           onLanguage={v => setFilter(() => setLanguage(v))}
+          onCategory={v => setFilter(() => setCategory(v))}
           onSort={toggleSort}
           onClear={clearAllFilters}
         />
@@ -505,7 +553,7 @@ export default function Home() {
             <button
               type="button"
               disabled={page <= 1}
-              onClick={() => setPage(p => Math.max(1, p - 1))}
+              onClick={() => { setPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
               className="inline-flex h-10 items-center gap-1 rounded-[4px] border border-border bg-card px-4 text-sm font-medium disabled:opacity-40 transition-colors hover:border-foreground active:scale-[0.97]">
               <ChevronLeft className="h-4 w-4" /> Prev
             </button>
@@ -515,7 +563,7 @@ export default function Home() {
             <button
               type="button"
               disabled={page >= totalPages}
-              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+              onClick={() => { setPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
               className="inline-flex h-10 items-center gap-1 rounded-[4px] border border-border bg-card px-4 text-sm font-medium disabled:opacity-40 transition-colors hover:border-foreground active:scale-[0.97]">
               Next <ChevronRight className="h-4 w-4" />
             </button>
@@ -527,6 +575,7 @@ export default function Home() {
                 const val = parseInt((e.currentTarget.elements.namedItem("gotopage") as HTMLInputElement).value, 10);
                 if (!isNaN(val) && val >= 1 && val <= totalPages) {
                   setPage(val);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
                   (e.currentTarget.elements.namedItem("gotopage") as HTMLInputElement).value = "";
                 }
               }}>
