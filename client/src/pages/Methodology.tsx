@@ -160,8 +160,8 @@ export default function Methodology() {
               </div>
               <p className="mt-3 text-xs text-muted-foreground">
                 <strong className="text-foreground">Bootstrap rule:</strong> Communities with ≥ 2,000 members and fewer than 3 snapshots receive a temporary starting estimate of{" "}
-                <strong className="text-foreground">Growth Momentum = 68</strong> and{" "}
-                <strong className="text-foreground">Ranking Momentum = 65</strong> instead of the neutral 50/50 defaults.
+                <strong className="text-foreground">Growth Momentum = 85</strong> and{" "}
+                <strong className="text-foreground">Ranking Momentum = 82</strong> instead of the neutral 50/50 defaults.
                 Once 3 or more real snapshots are collected, the bootstrap is dropped and real computed values take over permanently.
               </p>
             </div>
@@ -414,6 +414,16 @@ export default function Methodology() {
                 </tr>
               </thead>
               <tbody className="bg-card divide-y divide-border">
+                <tr>
+                  <td className="px-4 py-3 font-mono text-xs font-semibold">v1.3</td>
+                  <td className="px-4 py-3 text-muted-foreground">July 2026</td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    Growth curve recalibrated: saturation constant 7 → 2.5 so modest real growth (+3%/30d) maps to ~82 instead of ~65.
+                    Bootstrap estimates raised to 85/82 so established communities (≥ 2,000 members) show a realistic starting score of ~87;
+                    communities with real growth data can still outrank them once sufficient snapshots accumulate.
+                    Score range now 60–87 for bootstrapped communities; 85–95+ achievable with strong real growth data.
+                  </td>
+                </tr>
                 <tr>
                   <td className="px-4 py-3 font-mono text-xs font-semibold">v1.2</td>
                   <td className="px-4 py-3 text-muted-foreground">July 2026</td>

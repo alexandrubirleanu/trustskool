@@ -363,3 +363,8 @@
 
 ## Methodology Page Update (2026-07-19)
 - [x] [METHODOLOGY-1] Update floor reference values on Methodology page: 1k→63.6, 10k→69.8, 100k→76 (was 72/81/90); bootstrap 80/75→68/65; added v1.2 changelog entry; updated llms.txt bootstrap text
+
+## Score Recalibration (2026-07-19)
+- [x] [SCORE-RECAL-1] Growth curve recalibrated: pct/7 → pct/2.5 so +3% → ~82, +5% → ~91, +10% → ~98
+- [x] [SCORE-RECAL-2] Bootstrap raised to 85/82 (v3); composite score ~87 for 2000+ member communities
+- [x] [SCORE-RECAL-3] Recomputed 852 communities; max score now 87.0, range 60-87; Methodology v1.3 changelog added

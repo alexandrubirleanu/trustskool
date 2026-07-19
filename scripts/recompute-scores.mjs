@@ -28,8 +28,8 @@ const round2 = (v) => Math.round(v * 100) / 100;
 const SCORE_WEIGHTS = { growth_momentum: 0.45, ranking_momentum: 0.35, price_stability: 0.2 };
 const BOOTSTRAP_MIN_MEMBERS = 2_000;
 const BOOTSTRAP_SNAPSHOT_THRESHOLD = 3;
-const BOOTSTRAP_GROWTH_MOMENTUM = 68;  // rebalanced
-const BOOTSTRAP_RANKING_MOMENTUM = 65; // rebalanced
+const BOOTSTRAP_GROWTH_MOMENTUM = 85;  // recalibrated v3
+const BOOTSTRAP_RANKING_MOMENTUM = 82; // recalibrated v3
 
 function sortByDate(points) {
   return [...points].sort((a, b) => a.date.localeCompare(b.date));
@@ -49,13 +49,15 @@ function computeGrowthRatePct(history, windowDays = 30) {
 function computeGrowthMomentum(history) {
   if (!history || history.length < 2) return 50;
   const pct = computeGrowthRatePct(history);
-  if (pct >= 0) return clamp(round2(50 + 50 * (1 - Math.exp(-pct / 7))));
+  // RECALIBRATED: saturation constant 7 → 2.5 so +3% → ~82, +5% → ~91
+  if (pct >= 0) return clamp(round2(50 + 50 * (1 - Math.exp(-pct / 2.5))));
   return clamp(round2(50 * Math.exp(pct / 10)));
 }
 
 function computeGrowthMomentumFromBp(growthRateBp) {
   const pct = growthRateBp / 100;
-  if (pct >= 0) return clamp(round2(50 + 50 * (1 - Math.exp(-pct / 7))));
+  // RECALIBRATED: saturation constant 7 → 2.5 to match computeGrowthMomentum
+  if (pct >= 0) return clamp(round2(50 + 50 * (1 - Math.exp(-pct / 2.5))));
   return clamp(round2(50 * Math.exp(pct / 10)));
 }
 

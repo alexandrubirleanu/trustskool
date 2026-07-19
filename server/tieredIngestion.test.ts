@@ -244,17 +244,17 @@ describe("computeBreakdownWithBootstrap", () => {
     expect(bd.ranking_momentum).toBe(50); // neutral default
   });
 
-  it("bootstrap composite TrustSkore is around 73 (rebalanced 2026-07-19)", () => {
+  it("bootstrap composite TrustSkore is around 87 (recalibrated v3 2026-07-19)", () => {
     const bd = computeBreakdownWithBootstrap({
       memberHistory: [],
       rankHistory: [],
       priceHistory: [],
       totalMembers: 5_000,
     });
-    // 68*0.45 + 65*0.35 + 100*0.20 = 30.6 + 22.75 + 20 = 73.35
+    // 85*0.45 + 82*0.35 + 100*0.20 = 38.25 + 28.7 + 20 = 86.95
     const score = computeTrustSkore(bd);
-    expect(score).toBeGreaterThanOrEqual(70);
-    expect(score).toBeLessThanOrEqual(80);
+    expect(score).toBeGreaterThanOrEqual(85);
+    expect(score).toBeLessThanOrEqual(90);
   });
 });
 
