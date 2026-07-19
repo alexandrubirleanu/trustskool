@@ -93,6 +93,11 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
               News
             </Link>
             <Link
+              href="/rankings"
+              className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
+              Rankings
+            </Link>
+            <Link
               href="/methodology"
               className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
               Methodology
@@ -140,6 +145,11 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                 News
               </Link>
               <Link
+                href="/rankings"
+                className="rounded-[4px] px-2 py-2 text-sm font-medium hover:bg-accent">
+                Rankings
+              </Link>
+              <Link
                 href="/methodology"
                 className="rounded-[4px] px-2 py-2 text-sm font-medium hover:bg-accent">
                 Methodology
@@ -169,7 +179,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
               </p>
             </div>
             <nav className="flex flex-col gap-2 text-sm" aria-label="Footer">
-              <Link href="/" className="text-foreground/80 hover:text-foreground">
+              <Link href="/rankings" className="text-foreground/80 hover:text-foreground">
                 Rankings
               </Link>
               <Link href="/resources" className="text-foreground/80 hover:text-foreground">
