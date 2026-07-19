@@ -8,6 +8,7 @@ import {
   formatPrice,
   formatScore,
   getPriceType,
+  getMrrBadge,
   SCORE_TIER_CLASSES,
   scoreTier,
   capitalize,
@@ -26,6 +27,8 @@ export interface CommunityListItem {
   trustSkore: number;
   growthRateBp: number;
   isCategoryTop?: number | null;
+  mrrStatus?: string | null;
+  categoryRank?: number | null;
 }
 
 function Avatar({ name, logoUrl }: { name: string; logoUrl: string | null }) {
@@ -65,6 +68,8 @@ export default function CommunityCard({
   const isTrending = growth > 0;
   const isFree = priceType === "free";
   const isTop = Boolean(community.isCategoryTop);
+  const mrrBadge = getMrrBadge(community.mrrStatus);
+  const catRank = community.categoryRank && community.category ? community.categoryRank : null;
   // Only show growth when it's meaningful (>= 0.1% or <= -0.1%)
   const hasSignificantGrowth = Math.abs(growth) >= 10;
 
@@ -141,6 +146,18 @@ export default function CommunityCard({
             <span className="hidden sm:inline-flex items-center gap-1 rounded-[3px] bg-[oklch(0.97_0.05_85)] px-1.5 py-0.5 text-[10px] font-semibold text-[oklch(0.55_0.15_85)]">
               <Crown className="h-2.5 w-2.5" />
               #1 {formatCategory(community.category)}
+            </span>
+          )}
+          {!isTop && catRank && catRank <= 50 && community.category && (
+            <span className="hidden sm:inline rounded-[3px] bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+              #{catRank} {formatCategory(community.category)}
+            </span>
+          )}
+          {mrrBadge && (
+            <span
+              title={`Est. revenue: ${mrrBadge.range} (Skool-verified minimum)`}
+              className="inline-flex items-center gap-0.5 rounded-[3px] bg-[oklch(0.97_0.04_140)] px-1.5 py-0.5 text-[10px] font-semibold text-[oklch(0.45_0.12_140)]">
+              {mrrBadge.emoji} {mrrBadge.range}
             </span>
           )}
         </div>

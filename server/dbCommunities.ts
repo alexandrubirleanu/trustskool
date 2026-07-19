@@ -44,6 +44,14 @@ const LIST_COLUMNS = {
   growthRateBp: communities.growthRateBp,
   isFlagged: communities.isFlagged,
   flagReason: communities.flagReason,
+  mrrStatus: communities.mrrStatus,
+  /** Rank of this community within its category by trustSkore (1 = best in category) */
+  categoryRank: sql<number>`(
+    SELECT COUNT(*) + 1 FROM communities c2
+    WHERE c2.category = ${communities.category}
+      AND c2.category IS NOT NULL
+      AND c2.trustSkore > ${communities.trustSkore}
+  )`,
   /** 1 if this community is #1 in its category in the latest snapshot, 0 otherwise */
   isCategoryTop: sql<number>`(
     SELECT COUNT(*) FROM categoryRankings cr

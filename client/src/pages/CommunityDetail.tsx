@@ -22,6 +22,7 @@ import {
   formatMembers,
   formatPrice,
   formatScore,
+  getMrrBadge,
   getPriceType,
   SCORE_TIER_CLASSES,
   scoreTier,
@@ -370,8 +371,24 @@ export default function CommunityDetail() {
                   <GrowthIcon className="h-4 w-4" /> {formatGrowth(growth)} / 30d
                 </span>
                 <span>{formatPrice(community.priceAmountCents, community.priceInterval)}</span>
-                {community.category && <span>{formatCategory(community.category)}</span>}
+                {community.category && (
+                  <span className="inline-flex items-center gap-1">
+                    {formatCategory(community.category)}
+                    {(community as any).categoryRank && (community as any).categoryRank <= 100 && (
+                      <span className="rounded-[3px] bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+                        #{(community as any).categoryRank} in category
+                      </span>
+                    )}
+                  </span>
+                )}
                 <span>{capitalize(community.language)}</span>
+                {getMrrBadge((community as any).mrrStatus) && (
+                  <span
+                    title={`Est. revenue: ${getMrrBadge((community as any).mrrStatus)!.range} (Skool-verified minimum)`}
+                    className="inline-flex items-center gap-1 rounded-[3px] bg-[oklch(0.97_0.04_140)] px-1.5 py-0.5 text-[10px] font-semibold text-[oklch(0.45_0.12_140)]">
+                    {getMrrBadge((community as any).mrrStatus)!.emoji} {getMrrBadge((community as any).mrrStatus)!.range}
+                  </span>
+                )}
               </div>
             </div>
           </div>

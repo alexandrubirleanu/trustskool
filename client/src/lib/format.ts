@@ -72,6 +72,30 @@ export function formatCategory(value: string | null): string {
   return value.split(/[-_]/).map(capitalize).join(" ");
 }
 
+/**
+ * Maps a Skool MRR badge to a human-readable revenue range.
+ * These are verified minimums — actual MRR may be higher.
+ * Ranges: clover=$3k-$10k, rocket=$10k-$30k, crown=$30k-$100k,
+ *         diamond=$100k-$300k, red_diamond=$300k-$1M, goated=$1M+
+ */
+export type MrrStatus = "none" | "clover" | "liftoff" | "rocket" | "crown" | "diamond" | "red_diamond" | "goat" | "goated";
+
+export const MRR_BADGE: Record<string, { emoji: string; range: string; label: string }> = {
+  clover:      { emoji: "🍀", range: "$3k–$10k/mo",   label: "$3k+ verified" },
+  liftoff:     { emoji: "🚀", range: "$10k+/mo",      label: "$10k+ verified" },
+  rocket:      { emoji: "🚀", range: "$10k–$30k/mo",  label: "$10k+ verified" },
+  crown:       { emoji: "👑", range: "$30k–$100k/mo", label: "$30k+ verified" },
+  diamond:     { emoji: "💎", range: "$100k–$300k/mo",label: "$100k+ verified" },
+  red_diamond: { emoji: "💎", range: "$300k–$1M/mo",  label: "$300k+ verified" },
+  goat:        { emoji: "🐐", range: "$1M+/mo",       label: "$1M+ verified" },
+  goated:      { emoji: "🐐", range: "$1M+/mo",       label: "$1M+ verified" },
+};
+
+export function getMrrBadge(status: string | null | undefined) {
+  if (!status || status === "none") return null;
+  return MRR_BADGE[status] ?? null;
+}
+
 export function formatDate(value: string | Date): string {
   const d = typeof value === "string" ? new Date(value) : value;
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });

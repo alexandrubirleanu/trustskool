@@ -368,3 +368,11 @@
 - [x] [SCORE-RECAL-1] Growth curve recalibrated: pct/7 → pct/2.5 so +3% → ~82, +5% → ~91, +10% → ~98
 - [x] [SCORE-RECAL-2] Bootstrap raised to 85/82 (v3); composite score ~87 for 2000+ member communities
 - [x] [SCORE-RECAL-3] Recomputed 852 communities; max score now 87.0, range 60-87; Methodology v1.3 changelog added
+
+## MRR Badge + Category Rank (2026-07-19)
+- [x] [MRR-1] Create getMrrBadge() helper in format.ts: clover=$3k-$10k, rocket=$10k-$30k, crown=$30k-$100k, diamond=$100k-$300k, red_diamond=$300k-$1M, goated=$1M+
+- [x] [MRR-2] Expose mrrStatus in listCommunities via LIST_COLUMNS in dbCommunities.ts (bySlug already returns full row)
+- [x] [MRR-3] Show MRR range badge on CommunityCard and CommunityDetail (only when mrrStatus is set and not null/none)
+- [x] [CAT-RANK-1] Compute categoryRank server-side via correlated subquery in LIST_COLUMNS (COUNT(*)+1 of communities with higher score in same category)
+- [x] [CAT-RANK-2] categoryRank exposed in listCommunities via LIST_COLUMNS; CommunityDetail uses (community as any).categoryRank from bySlug
+- [x] [CAT-RANK-3] Show "#N in [Category]" on CommunityCard (top 50 only) and CommunityDetail (top 100 only)
