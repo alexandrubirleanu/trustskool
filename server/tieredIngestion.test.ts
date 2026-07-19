@@ -16,33 +16,53 @@ import { TIER_THRESHOLDS, SLA_WINDOWS_MS } from "./tieredIngestion";
 // ─── memberCountFloor ────────────────────────────────────────────────────────
 
 describe("memberCountFloor", () => {
-  it("returns 82 for 10k+ members", () => {
-    expect(memberCountFloor(10_000)).toBe(82);
-    expect(memberCountFloor(50_000)).toBe(82);
+  it("returns 90 for 50k+ members", () => {
+    expect(memberCountFloor(50_000)).toBe(90);
+    expect(memberCountFloor(100_000)).toBe(90);
   });
 
-  it("returns 78 for 5k–9999 members", () => {
-    expect(memberCountFloor(5_000)).toBe(78);
-    expect(memberCountFloor(9_999)).toBe(78);
+  it("returns 87 for 25k–49999 members", () => {
+    expect(memberCountFloor(25_000)).toBe(87);
+    expect(memberCountFloor(49_999)).toBe(87);
   });
 
-  it("returns 72 for 2k–4999 members", () => {
-    expect(memberCountFloor(2_000)).toBe(72);
-    expect(memberCountFloor(4_999)).toBe(72);
+  it("returns 84 for 10k–24999 members", () => {
+    expect(memberCountFloor(10_000)).toBe(84);
+    expect(memberCountFloor(24_999)).toBe(84);
   });
 
-  it("returns 67 for 1k–1999 members", () => {
-    expect(memberCountFloor(1_000)).toBe(67);
-    expect(memberCountFloor(1_999)).toBe(67);
+  it("returns 80 for 5k–9999 members", () => {
+    expect(memberCountFloor(5_000)).toBe(80);
+    expect(memberCountFloor(9_999)).toBe(80);
   });
 
-  it("returns 62 for 500–999 members", () => {
-    expect(memberCountFloor(500)).toBe(62);
-    expect(memberCountFloor(999)).toBe(62);
+  it("returns 75 for 2k–4999 members", () => {
+    expect(memberCountFloor(2_000)).toBe(75);
+    expect(memberCountFloor(4_999)).toBe(75);
   });
 
-  it("returns 50 (no floor) for <500 members", () => {
-    expect(memberCountFloor(499)).toBe(50);
+  it("returns 70 for 1k–1999 members", () => {
+    expect(memberCountFloor(1_000)).toBe(70);
+    expect(memberCountFloor(1_999)).toBe(70);
+  });
+
+  it("returns 65 for 500–999 members", () => {
+    expect(memberCountFloor(500)).toBe(65);
+    expect(memberCountFloor(999)).toBe(65);
+  });
+
+  it("returns 60 for 200–499 members", () => {
+    expect(memberCountFloor(200)).toBe(60);
+    expect(memberCountFloor(499)).toBe(60);
+  });
+
+  it("returns 55 for 100–199 members", () => {
+    expect(memberCountFloor(100)).toBe(55);
+    expect(memberCountFloor(199)).toBe(55);
+  });
+
+  it("returns 50 (no floor) for <100 members", () => {
+    expect(memberCountFloor(99)).toBe(50);
     expect(memberCountFloor(0)).toBe(50);
   });
 });
@@ -81,7 +101,7 @@ describe("computeTrustSkoreWithFloor", () => {
 
   it("applies floor when history is insufficient and floor > raw score", () => {
     const score = computeTrustSkoreWithFloor(neutralBreakdown, 10_000, [], []);
-    expect(score).toBe(82); // floor for 10k+ members
+    expect(score).toBe(84); // floor for 10k+ members (new tier)
   });
 
   it("uses raw score when history is sufficient (≥2 member points)", () => {
@@ -94,12 +114,12 @@ describe("computeTrustSkoreWithFloor", () => {
     const highBreakdown = { growth_momentum: 90, ranking_momentum: 90, price_stability: 100 };
     // 90*0.45 + 90*0.35 + 100*0.20 = 40.5 + 31.5 + 20 = 92.0
     const score = computeTrustSkoreWithFloor(highBreakdown, 500, [], []);
-    expect(score).toBe(92); // raw 92 > floor 62
+    expect(score).toBe(92); // raw 92 > floor 65
   });
 
   it("applies floor for small community with insufficient history", () => {
     const score = computeTrustSkoreWithFloor(neutralBreakdown, 300, [], []);
-    expect(score).toBe(60); // raw 60 >= floor 50, so raw wins (Math.max)
+    expect(score).toBe(60); // raw 60 >= floor 60 (200+ tier), Math.max returns 60
   });
 });
 

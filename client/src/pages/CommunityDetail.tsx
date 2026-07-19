@@ -153,7 +153,21 @@ export default function CommunityDetail() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [community?.slug]);
 
-  const memberData = useMemo(
+  // Period selector: 7 / 30 / 90 days
+  const [period, setPeriod] = useState<7 | 30 | 90>(7);
+
+  // Filter history arrays to the selected period window
+  function filterByPeriod<T extends { date: string }>(arr: T[], days: number): T[] {
+    if (!arr.length) return arr;
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - days);
+    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    const filtered = arr.filter(p => p.date >= cutoffStr);
+    // Always include at least the first available point so the chart isn't empty
+    return filtered.length >= 2 ? filtered : arr.slice(-Math.min(arr.length, days));
+  }
+
+  const allMemberData = useMemo(
     () =>
       (community?.memberHistory ?? []).map(p => ({
         date: p.date,
@@ -161,7 +175,7 @@ export default function CommunityDetail() {
       })),
     [community],
   );
-  const priceData = useMemo(
+  const allPriceData = useMemo(
     () =>
       (community?.priceHistory ?? []).map(p => ({
         date: p.date,
@@ -169,7 +183,7 @@ export default function CommunityDetail() {
       })),
     [community],
   );
-  const rankData = useMemo(
+  const allRankData = useMemo(
     () =>
       (community?.rankHistory ?? []).map(p => ({
         date: p.date,
@@ -177,6 +191,20 @@ export default function CommunityDetail() {
       })),
     [community],
   );
+
+  const memberData = useMemo(() => filterByPeriod(allMemberData, period), [allMemberData, period]);
+  const priceData  = useMemo(() => filterByPeriod(allPriceData, period),  [allPriceData,  period]);
+  const rankData   = useMemo(() => filterByPeriod(allRankData, period),   [allRankData,   period]);
+
+  // Available periods — only unlock 30d/90d when we have enough data
+  const availablePeriods = useMemo(() => {
+    const total = allMemberData.length;
+    return [
+      { label: "7d",  value: 7  as const, enabled: true },
+      { label: "30d", value: 30 as const, enabled: total >= 10 },
+      { label: "90d", value: 90 as const, enabled: total >= 30 },
+    ];
+  }, [allMemberData]);
 
   if (isLoading) {
     return (
@@ -357,9 +385,31 @@ export default function CommunityDetail() {
 
         {/* Charts — Growth history first */}
         <section className="mt-10" aria-labelledby="charts-heading">
-          <h2 id="charts-heading" className="text-lg font-semibold">
-            Growth history
-          </h2>
+          <div className="flex items-center justify-between gap-3">
+            <h2 id="charts-heading" className="text-lg font-semibold">
+              Growth history
+            </h2>
+            {/* Period selector — only shown when there’s enough data */}
+            <div className="flex items-center gap-1 rounded-[4px] border border-border bg-muted/40 p-0.5">
+              {availablePeriods.map(p => (
+                <button
+                  key={p.value}
+                  disabled={!p.enabled}
+                  onClick={() => setPeriod(p.value)}
+                  className={`rounded-[3px] px-2.5 py-1 text-xs font-medium transition-colors ${
+                    period === p.value
+                      ? "bg-background text-foreground shadow-sm"
+                      : p.enabled
+                        ? "text-muted-foreground hover:text-foreground"
+                        : "cursor-not-allowed text-muted-foreground/40"
+                  }`}
+                  title={!p.enabled ? `Not enough data for ${p.label} view yet` : undefined}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="mt-4 grid gap-4 lg:grid-cols-3">
             <ChartCard title="Members" empty={memberData.length < 2}>
               <ResponsiveContainer width="100%" height="100%">

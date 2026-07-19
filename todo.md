@@ -311,3 +311,15 @@
 - [x] [CARD-1] Two-row layout on mobile: row 1 = avatar + title + TrustSkore, row 2 = price/members/growth + chips (Free/Trending)
 - [x] [CARD-2] Spotlight badge for category #1 community (golden ring border + Crown icon + #1 [Category] badge)
 - [x] [CARD-3] Compact chip design: emoji icon + text, chips on second row so no overflow on narrow screens
+
+## TrustSkore Redesign + Growth % + Period Selector (2026-07-19)
+- [x] [SKORE-1] Expanded memberCountFloor to 10 tiers: <100→50, 100+→55, 200+→60, 500+→65, 1k+→70, 2k+→75, 5k+→80, 10k+→84, 25k+→87, 50k+→90; continuous distribution instead of 4 flat buckets
+- [x] [SKORE-2] growthRateBp from real 2-day snapshots used as growth_momentum input (328 communities with real delta); ingestion.ts cleaned up
+- [x] [SKORE-3] Added 7/30/90d period selector to community detail growth chart; 30d/90d auto-disabled when not enough data; filterByPeriod() clips all three charts consistently
+- [x] [SKORE-4] Ingestion running in background (PID 26584) to recompute all 23338 TrustSkore values with new 10-tier floor
+- [x] [SKORE-5] Updated tieredIngestion.test.ts: 10 new floor tier assertions + computeTrustSkoreWithFloor expectations updated; 62/63 tests pass (1 Resend network timeout)
+
+## Card Layout Redesign (2026-07-19)
+- [x] [CARD-1] Two-row layout on mobile: row 1 = avatar + title + TrustSkore, row 2 = price/members/growth + chips (Free/Trending)
+- [x] [CARD-2] Spotlight badge for category #1 community (golden ring border + Crown icon + #1 [Category] badge)
+- [x] [CARD-3] Compact chip design: emoji icon + text, chips on second row so no overflow on narrow screens

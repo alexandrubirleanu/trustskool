@@ -70,6 +70,20 @@ export function computeGrowthMomentum(history: MemberHistoryPoint[] | null | und
 }
 
 /**
+ * Growth momentum from basis points (growthRateBp from the pipeline dataset).
+ * Used as a fallback when memberHistory has fewer than 2 snapshots.
+ * 0 bp -> 50 (neutral), +500 bp (+5%) -> ~75, +2000 bp (+20%) -> ~97
+ * Negative bp decays toward 0 symmetrically.
+ */
+export function computeGrowthMomentumFromBp(growthRateBp: number): number {
+  const pct = growthRateBp / 100; // convert bp to percentage
+  if (pct >= 0) {
+    return clamp(round2(50 + 50 * (1 - Math.exp(-pct / 7))));
+  }
+  return clamp(round2(50 * Math.exp(pct / 10)));
+}
+
+/**
  * Ranking momentum 0-100 from discovery rank movement (lower rank = better).
  * Improvement of the rank over the window maps above 50; worsening below 50.
  */
@@ -143,6 +157,9 @@ export function computeBreakdownWithBootstrap(input: {
   rankHistory?: RankHistoryPoint[] | null;
   priceHistory?: PriceHistoryPoint[] | null;
   totalMembers: number;
+  /** Pipeline-provided growth rate in basis points (e.g. 83 = +0.83%). Used as
+   * fallback for growth_momentum when memberHistory has < 2 snapshots. */
+  growthRateBp?: number | null;
 }): ScoreBreakdown {
   const bootstrap = isBootstrapScore(
     input.totalMembers,
@@ -150,10 +167,25 @@ export function computeBreakdownWithBootstrap(input: {
     input.rankHistory,
   );
 
+  // Determine growth_momentum:
+  // 1. If bootstrap (large community, few snapshots) → use bootstrap value
+  // 2. If we have ≥2 member history points → compute from real snapshots
+  // 3. If we have pipeline growthRateBp → convert bp to momentum score
+  // 4. Otherwise → neutral 50
+  const mLen = input.memberHistory?.length ?? 0;
+  let growth_momentum: number;
+  if (bootstrap) {
+    growth_momentum = BOOTSTRAP_GROWTH_MOMENTUM;
+  } else if (mLen >= 2) {
+    growth_momentum = computeGrowthMomentum(input.memberHistory);
+  } else if (input.growthRateBp != null) {
+    growth_momentum = computeGrowthMomentumFromBp(input.growthRateBp);
+  } else {
+    growth_momentum = 50;
+  }
+
   return {
-    growth_momentum: bootstrap
-      ? BOOTSTRAP_GROWTH_MOMENTUM
-      : computeGrowthMomentum(input.memberHistory),
+    growth_momentum,
     ranking_momentum: bootstrap
       ? BOOTSTRAP_RANKING_MOMENTUM
       : computeRankingMomentum(input.rankHistory),
@@ -188,20 +220,31 @@ export function computeTrustSkore(breakdown: ScoreBreakdown): number {
  * Applied when history is too short (<2 data points) to compute real momentum.
  * Prevents popular communities from showing a misleading 60.0 flat score.
  *
+ * Uses a log-scale interpolation so scores are continuous and differentiated
+ * across the full member range, not just 5 flat buckets.
+ *
  * Tiers (member count → floor):
- *   10k+  → 82   (established large community)
- *   5k+   → 78
- *   2k+   → 72
- *   1k+   → 67
- *   500+  → 62
- *   <500  → 50   (no floor — too small to assume trust)
+ *   50k+  → 90   (top-tier, massive community)
+ *   25k+  → 87
+ *   10k+  → 84
+ *   5k+   → 80
+ *   2k+   → 75
+ *   1k+   → 70
+ *   500+  → 65
+ *   200+  → 60
+ *   100+  → 55
+ *   <100  → 50   (no floor — too small to assume trust)
  */
 export function memberCountFloor(totalMembers: number): number {
-  if (totalMembers >= 10_000) return 82;
-  if (totalMembers >= 5_000)  return 78;
-  if (totalMembers >= 2_000)  return 72;
-  if (totalMembers >= 1_000)  return 67;
-  if (totalMembers >= 500)    return 62;
+  if (totalMembers >= 50_000) return 90;
+  if (totalMembers >= 25_000) return 87;
+  if (totalMembers >= 10_000) return 84;
+  if (totalMembers >= 5_000)  return 80;
+  if (totalMembers >= 2_000)  return 75;
+  if (totalMembers >= 1_000)  return 70;
+  if (totalMembers >= 500)    return 65;
+  if (totalMembers >= 200)    return 60;
+  if (totalMembers >= 100)    return 55;
   return 50;
 }
 

@@ -77,11 +77,17 @@ export function toCommunityRow(record: PipelineCommunityRecord): InsertCommunity
   // pipeline's neutral 50/50 sub-scores with the bootstrap values — the pipeline
   // doesn't know about our bootstrap rule and would otherwise produce a
   // misleading mediocre score for a large established community.
+  // Compute growthRateBp from the member_history snapshots.
+  // For communities with 2+ snapshots this is a real delta; for those with
+  // only 1 snapshot it will be 0 (no history to compare against).
+  // The breakdown engine uses this as the growth_momentum input.
+  const computedGrowthBp = Math.round(computeGrowthRatePct(memberHistory) * 100);
   const computedBreakdown = computeBreakdownWithBootstrap({
     memberHistory,
     priceHistory,
     rankHistory,
     totalMembers: record.total_members,
+    growthRateBp: computedGrowthBp !== 0 ? computedGrowthBp : null,
   });
   // Use the computed (bootstrap-aware) breakdown unless the pipeline already
   // has a non-bootstrap score AND the community has graduated (>= 3 snapshots).
