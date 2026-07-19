@@ -34,20 +34,20 @@ jobs:
 
       # Discovery pass: finds NEW communities and updates Skool's own trending-rank
       # position (only available from the /discovery listing, not /about pages).
-      # Runs weekly, not daily — it's a broader/slower pass than the popularity
-      # refresh above, and its job is discovery + rank tracking, not day-to-day
-      # stat freshness for known communities.
-      - name: Weekly discovery + expansion pass (new communities + rank tracking)
+      # Runs every 3 days (day-of-year % 3 == 0), not daily — it's a broader/slower
+      # pass than the popularity refresh above, and its job is discovery + rank
+      # tracking, not day-to-day stat freshness for known communities.
+      - name: New-community discovery + expansion pass (every 3 days)
         run: |
-          if [ "$(date -u +%u)" = "7" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "Running weekly discovery pass"
+          if [ "$(( $(date +%j) % 3 ))" = "0" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Running discovery pass"
             python3 scripts/scrape_skool_discovery.py --refresh --tier-a
             BUCKET=$(( $(date +%j) % 3 ))
             python3 scripts/scrape_skool_discovery.py --refresh --tier-b-bucket $BUCKET --tier-b-buckets 3
             echo "Running category-expansion pass for capped languages (english/german/spanish/french)"
             python3 scripts/scrape_skool_discovery.py --expand english german spanish french
           else
-            echo "Not Sunday, skipping the weekly discovery/expansion pass (popularity-tier refresh above still ran)"
+            echo "Not a discovery-pass day, skipping (popularity-tier refresh above still ran)"
           fi
 
       - name: Rebuild data/communities.json (embeds history + owner badge/affiliate data)
@@ -59,7 +59,30 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add scripts/skool_data/history/ scripts/skool_data/owner_badges.jsonl scripts/skool_data/rotation_state.json data/communities.json
           git diff --cached --quiet || git commit -m "Daily Skool data refresh $(date -u +%Y-%m-%d)"
-          git push
+          # The run above can take hours (network-bound scraping); other pushes to
+          # main (my own manual work, MANUS's app commits) routinely land during
+          # that window. A bare `git push` here is a near-guaranteed non-fast-forward
+          # rejection in an actively-developed repo — confirmed as the actual cause
+          # of both historical run failures (2026-07-19 audit). Rebase onto whatever
+          # is now on main before pushing, retrying a few times in case of a race
+          # on the retry itself.
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            if git rebase origin/main; then
+              if git push origin main; then
+                echo "Pushed on attempt $attempt"
+                break
+              fi
+            else
+              git rebase --abort
+            fi
+            if [ "$attempt" = "5" ]; then
+              echo "::error::Failed to push after 5 attempts (persistent conflict or push rejection)"
+              exit 1
+            fi
+            echo "Push attempt $attempt failed, retrying after backoff..."
+            sleep $(( attempt * 10 ))
+          done
 
       - name: Trigger app ingestion
         if: env.INGEST_URL != ''
