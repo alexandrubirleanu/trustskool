@@ -35,28 +35,36 @@ const CHART_GRID = "oklch(0.9161 0.0015 84.57)";
 const CHART_MUTED = "oklch(0.6538 0 0)";
 
 const SUB_INDICATORS: {
-  key: "growth_momentum" | "ranking_momentum" | "price_stability";
+  key: "growth_momentum" | "ranking_momentum" | "price_stability" | "owner_engagement";
   label: string;
   weight: string;
   description: string;
+  noDataLabel?: string;
 }[] = [
   {
     key: "growth_momentum",
     label: "Growth Momentum",
-    weight: "45%",
+    weight: "35%",
     description: "How fast the member base grew over the recent window.",
   },
   {
     key: "ranking_momentum",
     label: "Ranking Momentum",
-    weight: "35%",
-    description: "Movement in Skool's discovery ranking over time.",
+    weight: "30%",
+    description: "Movement in Skool\u2019s discovery ranking over time.",
   },
   {
     key: "price_stability",
     label: "Price Stability",
-    weight: "20%",
+    weight: "15%",
     description: "How consistent the entry price has stayed.",
+  },
+  {
+    key: "owner_engagement",
+    label: "Owner Engagement",
+    weight: "20%",
+    description: "How recently and frequently the founder is active in the community.",
+    noDataLabel: "No data yet",
   },
 ];
 
@@ -589,28 +597,49 @@ export default function CommunityDetail() {
           <h2 id="breakdown-heading" className="text-lg font-semibold">
             TrustSkore breakdown
           </h2>
-          <div className="mt-4 grid gap-4 md:grid-cols-3">
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
             {SUB_INDICATORS.map(ind => {
-              const value = breakdown?.[ind.key] ?? 0;
+              // owner_engagement: null means no data yet (not zero/inactive) — show neutral state
+              const rawValue = breakdown?.[ind.key];
+              const hasData = rawValue != null;
+              const value = rawValue ?? 50; // neutral 50 for display when no data
+              const isNoData = ind.noDataLabel && !hasData;
               return (
                 <div key={ind.key} className="rounded-[4px] border border-border bg-card p-5">
                   <div className="flex items-baseline justify-between">
                     <h3 className="text-sm font-semibold">{ind.label}</h3>
                     <span className="text-xs text-muted-foreground">weight {ind.weight}</span>
                   </div>
-                  <p className="mt-3 text-3xl font-bold tabular-nums">{formatScore(value)}</p>
-                  <div
-                    className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-secondary"
-                    role="progressbar"
-                    aria-valuenow={Math.round(value)}
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-label={ind.label}>
-                    <div
-                      className="h-full rounded-full bg-foreground"
-                      style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
-                    />
-                  </div>
+                  {isNoData ? (
+                    <>
+                      <p className="mt-3 text-lg font-semibold text-muted-foreground">{ind.noDataLabel}</p>
+                      <div
+                        className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-secondary"
+                        role="progressbar"
+                        aria-valuenow={50}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-label={`${ind.label} — no data yet`}>
+                        <div className="h-full w-1/2 rounded-full bg-muted-foreground/30" />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="mt-3 text-3xl font-bold tabular-nums">{formatScore(value)}</p>
+                      <div
+                        className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-secondary"
+                        role="progressbar"
+                        aria-valuenow={Math.round(value)}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-label={ind.label}>
+                        <div
+                          className="h-full rounded-full bg-foreground"
+                          style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
+                        />
+                      </div>
+                    </>
+                  )}
                   <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
                     {ind.description}
                   </p>

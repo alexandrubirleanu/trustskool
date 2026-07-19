@@ -400,3 +400,7 @@
 - [x] [OE-6] Show "Founder active Nd ago" near MRR badge on CommunityDetail; show on FounderPage if available (green <=7d, yellow 8-30d, red >30d)
 - [x] [OE-7] Write vitest tests: 11 tests in server/ownerEngagement.test.ts covering null→50, today+null→80, 90d+null→29, today+0→60, today+30→100, range/monotonicity; all 72 tests passing
 - [x] [OE-8] Update Methodology page v1.5: Owner Engagement card (20%), weights updated to 35/30/15/20, final formula updated, worked example updated with Step 4, v1.5 changelog entry added
+
+## Owner Engagement — Follow-up (2026-07-19)
+- [x] [OE-9] Confirm pipeline ingestion already maps all 6 owner activity fields (ownerSkoolJoinedAt, ownerLastActiveAt, ownerActiveDaysLast30, ownerActiveDaysLast90, ownerTotalContributions, ownerTotalFollowers) — confirmed, already wired in communityRecordSchema + toCommunityRow + upsertCommunity; no code change needed
+- [x] [OE-10] Add Owner Engagement as 4th bar in CommunityDetail breakdown section: SUB_INDICATORS updated (weights 35/30/15/20%), grid changed to sm:grid-cols-2 md:grid-cols-4, null owner_engagement shows "No data yet" with neutral 50% bar, upsertCommunity now includes all 6 owner activity fields in onDuplicateKeyUpdate

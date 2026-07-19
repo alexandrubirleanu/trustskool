@@ -305,6 +305,13 @@ export async function upsertCommunity(record: InsertCommunity) {
         ...(record.mrrStatus !== undefined && { mrrStatus: record.mrrStatus }),
         ...(record.ownerName !== undefined && { ownerName: record.ownerName }),
         ...(record.active30dStreak !== undefined && { active30dStreak: record.active30dStreak }),
+        // Owner activity signals — only update when pipeline provides them (null = no data yet)
+        ...(record.ownerSkoolJoinedAt !== undefined && { ownerSkoolJoinedAt: record.ownerSkoolJoinedAt }),
+        ...(record.ownerLastActiveAt !== undefined && { ownerLastActiveAt: record.ownerLastActiveAt }),
+        ...(record.ownerActiveDaysLast30 !== undefined && { ownerActiveDaysLast30: record.ownerActiveDaysLast30 }),
+        ...(record.ownerActiveDaysLast90 !== undefined && { ownerActiveDaysLast90: record.ownerActiveDaysLast90 }),
+        ...(record.ownerTotalContributions !== undefined && { ownerTotalContributions: record.ownerTotalContributions }),
+        ...(record.ownerTotalFollowers !== undefined && { ownerTotalFollowers: record.ownerTotalFollowers }),
         ingestedAt: new Date(),
       },
     });
