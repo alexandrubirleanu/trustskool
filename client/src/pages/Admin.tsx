@@ -252,6 +252,19 @@ function AdminDashboard({ email, onLogout }: { email: string; onLogout: () => vo
 
   const { data: scheduledJobs } = trpc.admin.listScheduledJobs.useQuery();
   const digestActive = scheduledJobs?.jobs?.some((j: { name: string }) => j.name === "daily-digest") ?? false;
+  const nightlyIngestionActive = scheduledJobs?.jobs?.some((j: { name: string }) => j.name === "nightly-ingestion") ?? false;
+
+  const provisionNightlyIngestion = trpc.admin.provisionNightlyIngestion.useMutation({
+    onSuccess: result => {
+      if (result.created) {
+        toast.success(`Nightly ingestion cron activated (03:00 UTC daily, taskUid: ${result.taskUid})`);
+      } else {
+        toast.info("Nightly ingestion cron is already active.");
+      }
+      utils.admin.listScheduledJobs.invalidate();
+    },
+    onError: err => toast.error(`Nightly ingestion activation failed: ${err.message}`),
+  });
 
   const runIngestion = trpc.admin.runIngestion.useMutation({
     onSuccess: result => {
@@ -320,6 +333,30 @@ function AdminDashboard({ email, onLogout }: { email: string; onLogout: () => vo
                 {digestActive
                   ? "A daily summary email is sent at 09:00 UTC with all Tier-B clicks (free communities or unknown commission) from the past 24 hours."
                   : "Register the daily digest cron job. It sends a summary email at 09:00 UTC for Tier-B clicks. One-time setup — safe to click again if already active."}
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="bg-card"
+                  disabled={nightlyIngestionActive || provisionNightlyIngestion.isPending}
+                  onClick={() => provisionNightlyIngestion.mutate()}>
+                  {provisionNightlyIngestion.isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : nightlyIngestionActive ? (
+                    <span className="inline-block h-2 w-2 rounded-full bg-green-500" />
+                  ) : (
+                    <span className="inline-block h-2 w-2 rounded-full bg-amber-400" />
+                  )}
+                  {nightlyIngestionActive ? "Nightly ingest active (03:00 UTC)" : "Activate nightly ingest"}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-[260px] text-center">
+                {nightlyIngestionActive
+                  ? "The nightly ingestion cron is active. It fetches the latest dataset from GitHub and upserts all communities every night at 03:00 UTC."
+                  : "Register the nightly ingestion cron job. Runs every night at 03:00 UTC to keep the community dataset in sync with the GitHub pipeline. One-time setup."}
               </TooltipContent>
             </Tooltip>
 

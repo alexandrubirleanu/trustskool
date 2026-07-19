@@ -279,6 +279,13 @@ function FiltersBar({
           </button>
         )}
       </div>
+
+      {/* Filtered count row — only shown when filters are active */}
+      {hasActiveFilters && total != null && (
+        <p className="text-xs text-muted-foreground">
+          {isLoading ? "Searching\u2026" : `${total.toLocaleString("en-US")} ${total === 1 ? "community" : "communities"} match your filters`}
+        </p>
+      )}
     </div>
   );
 }
@@ -494,7 +501,7 @@ export default function Home() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <nav className="mt-6 flex items-center justify-center gap-2" aria-label="Pagination">
+          <nav className="mt-6 flex flex-wrap items-center justify-center gap-2" aria-label="Pagination">
             <button
               type="button"
               disabled={page <= 1}
@@ -512,6 +519,28 @@ export default function Home() {
               className="inline-flex h-10 items-center gap-1 rounded-[4px] border border-border bg-card px-4 text-sm font-medium disabled:opacity-40 transition-colors hover:border-foreground active:scale-[0.97]">
               Next <ChevronRight className="h-4 w-4" />
             </button>
+            {/* Go-to-page input */}
+            <form
+              className="flex items-center gap-1.5"
+              onSubmit={e => {
+                e.preventDefault();
+                const val = parseInt((e.currentTarget.elements.namedItem("gotopage") as HTMLInputElement).value, 10);
+                if (!isNaN(val) && val >= 1 && val <= totalPages) {
+                  setPage(val);
+                  (e.currentTarget.elements.namedItem("gotopage") as HTMLInputElement).value = "";
+                }
+              }}>
+              <label htmlFor="gotopage" className="text-xs text-muted-foreground whitespace-nowrap">Go to</label>
+              <input
+                id="gotopage"
+                name="gotopage"
+                type="number"
+                min={1}
+                max={totalPages}
+                placeholder={String(page)}
+                className="h-10 w-16 rounded-[4px] border border-border bg-card px-2 text-center text-sm tabular-nums focus:outline-none focus:ring-1 focus:ring-foreground"
+              />
+            </form>
           </nav>
         )}
 

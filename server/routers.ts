@@ -349,6 +349,24 @@ export const appRouter = router({
       );
       return { created: true, taskUid: result.taskUid, nextExecutionAt: result.nextExecutionAt };
     }),
+    /** Register (idempotent) the nightly full-dataset ingestion cron at 03:00 UTC */
+    provisionNightlyIngestion: adminProcedure.mutation(async ({ ctx }) => {
+      const session = ctx.req.cookies?.session ?? "";
+      const existing = await listHeartbeatJobs(session);
+      const alreadyExists = existing.jobs.some((j: { name: string }) => j.name === "nightly-ingestion");
+      if (alreadyExists) return { created: false, message: "Nightly ingestion job already provisioned" };
+      const result = await createHeartbeatJob(
+        {
+          name: "nightly-ingestion",
+          cron: "0 0 3 * * *", // 03:00 UTC daily
+          path: "/api/scheduled/ingest",
+          method: "POST",
+          description: "Nightly full dataset ingestion from GitHub pipeline (communities.json → DB upsert)",
+        },
+        session,
+      );
+      return { created: true, taskUid: result.taskUid, nextExecutionAt: result.nextExecutionAt };
+    }),
     /** List all scheduled heartbeat jobs */
     listScheduledJobs: adminProcedure.query(async ({ ctx }) => {
       const session = ctx.req.cookies?.session ?? "";

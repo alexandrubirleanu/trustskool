@@ -284,3 +284,8 @@
 - [x] [RANKINGS-6] Add admin manual recompute trigger
 - [x] [RANKINGS-7] Add /rankings/* to sitemap-communities-1.xml (static pages in chunk 1)
 - [x] [RANKINGS-8] Initial snapshot computed: 270 rows (30 per category × 9 categories)
+
+## Three UX + Ops Improvements (2026-07-19)
+- [x] [CRON-1] Register nightly ingestion Heartbeat cron (daily 03:00 UTC) — taskUid VF8HamKFy8P77ZrwDUgkMf; provisionNightlyIngestion admin procedure + button added to Admin panel
+- [x] [FILTER-COUNT-1] Show filtered community count in FiltersBar when filters are active (uses data.total from existing query)
+- [x] [PAGINATION-1] Add go-to-page input field next to Prev/Next pagination buttons (form with number input, submit on Enter)
