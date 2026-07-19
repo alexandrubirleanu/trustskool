@@ -73,16 +73,20 @@ export async function prefetchForPath(
   const clean = pathOnly.replace(/\/+$/, "") || "/";
 
   if (clean === "/") {
-    const q = new URLSearchParams(rawSearch).get("q") ?? "";
+    const sp = new URLSearchParams(rawSearch);
+    const q = sp.get("q") ?? "";
+    const urlCategory = sp.get("category") ?? undefined;
+    const urlPrice = (sp.get("price") ?? "all") as "all" | "free" | "paid";
+    const urlLang = sp.get("lang") ?? undefined;
     // Mirror Home.tsx listInput exactly (types AND defaulted keys): search from
     // ?q=, everything else initial state.
     // IMPORTANT: language must match Home.tsx useState initial value ("english")
     // so the SSR-seeded cache key matches the first client query key.
     const input: CommunitiesListInput = {
       search: q || undefined,
-      language: "english",
-      category: undefined,
-      price: "all",
+      language: urlLang ?? "english",
+      category: urlCategory,
+      price: urlPrice === "free" || urlPrice === "paid" ? urlPrice : "all",
       sort: "trustSkore",
       direction: "desc",
       page: 1,
@@ -132,12 +136,51 @@ export async function prefetchForPath(
         },
       ],
     };
+    // Build dynamic title/description for filtered URLs
+    const categoryLabel = urlCategory
+      ? urlCategory.charAt(0).toUpperCase() + urlCategory.slice(1)
+      : null;
+    const priceLabel = urlPrice === "free" ? "Free" : urlPrice === "paid" ? "Paid" : null;
+    const langLabel = urlLang && urlLang !== "english"
+      ? urlLang.charAt(0).toUpperCase() + urlLang.slice(1)
+      : null;
+
+    let dynamicTitle = "TrustSkool: Skool Communities Ranked by TrustSkore";
+    let dynamicDesc = DESC;
+    let canonicalPath: string = "/";
+
+    if (categoryLabel || priceLabel || langLabel || q) {
+      const parts: string[] = [];
+      if (categoryLabel) parts.push(`Top ${categoryLabel} communities`);
+      else if (priceLabel) parts.push(`Top ${priceLabel} communities`);
+      else parts.push("Top communities");
+      if (langLabel) parts.push(`in ${langLabel}`);
+      parts.push("on Skool — ranked by TrustSkore");
+      dynamicTitle = `${SITE}: ${parts.join(" ")}`;
+
+      const descParts: string[] = [];
+      if (categoryLabel) descParts.push(`${categoryLabel} Skool communities`);
+      else descParts.push("Skool communities");
+      if (priceLabel === "Free") descParts.push("that are free to join");
+      else if (priceLabel === "Paid") descParts.push("with paid membership");
+      if (langLabel) descParts.push(`in ${langLabel}`);
+      dynamicDesc = `Browse ${descParts.join(" ")}, ranked by TrustSkore — member growth, rank momentum and price stability. No paid placements.`;
+
+      // Canonical includes the filter params so Google can index filtered pages
+      const cp = new URLSearchParams();
+      if (urlCategory) cp.set("category", urlCategory);
+      if (urlPrice !== "all") cp.set("price", urlPrice);
+      if (urlLang) cp.set("lang", urlLang);
+      if (q) cp.set("q", q);
+      canonicalPath = cp.toString() ? `/?${cp.toString()}` : "/";
+    }
+
     return {
-      title: "TrustSkool: Skool Communities Ranked by TrustSkore",
-      description: DESC,
+      title: dynamicTitle,
+      description: dynamicDesc,
       keywords: HOME_KEYWORDS,
       ogType: "website",
-      canonicalPath: "/",
+      canonicalPath,
       ogImage: "/manus-storage/trustskool-og_10a2b5e1.png",
       ogImageAlt: "TrustSkool: Skool community leaderboard",
       jsonLd,

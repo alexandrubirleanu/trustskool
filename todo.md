@@ -348,3 +348,7 @@
 ## Live Activity Toast (2026-07-19)
 - [x] [LIVE-1] Build LiveActivityToast component: bottom-left fixed toast showing "Someone is viewing [community]" and "Someone just joined [community]" using real community names from leaderboard data, with plausible timing simulation
 - [x] [LIVE-2] Wire LiveActivityToast to homepage — only shown when leaderboard data is loaded
+
+## Language URL + Dynamic OG (2026-07-19)
+- [x] [URL-LANG-1] Serialize language into URL param (?lang=italian) for all non-English selections; keep English omitted from URL (clean default)
+- [x] [OG-1] Add dynamic Open Graph meta tags on homepage for filtered URLs: title/description change based on active category, price, language filters

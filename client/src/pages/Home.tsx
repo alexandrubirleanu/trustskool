@@ -350,6 +350,9 @@ export default function Home() {
   const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
   const [language, setLanguage] = useState<string | undefined>(() => {
     if (typeof window === "undefined") return "english";
+    // If URL has ?lang=xxx, always honour it (shared/deep link)
+    const urlLang = new URLSearchParams(window.location.search).get("lang");
+    if (urlLang) return urlLang;
     try {
       const lastVisit = localStorage.getItem(LAST_VISIT_KEY);
       if (!lastVisit) {
@@ -407,6 +410,7 @@ export default function Home() {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams();
     if (debounced) params.set("q", debounced);
+    // Include lang in URL for all non-English selections so links are shareable
     if (language && language !== "english") params.set("lang", language);
     if (price !== "all") params.set("price", price);
     if (category) params.set("category", category);
