@@ -50,6 +50,18 @@ jobs:
             echo "Not a discovery-pass day, skipping (popularity-tier refresh above still ran)"
           fi
 
+      # Owner activity pass: fetches each known owner's @handle profile (portfolio
+      # of communities they run + real activity signals - last-active timestamp,
+      # days active in the last 30/90, lifetime contribution count). An owner who's
+      # still actively posting is a verifiable signal the community isn't abandoned.
+      # Capped per run (PORTFOLIO_BATCH_SIZE) and skips already-fetched handles, so
+      # a large backlog catches up incrementally across several days rather than
+      # one very long run.
+      - name: Owner activity pass (portfolio + engagement signals, incremental)
+        env:
+          PORTFOLIO_BATCH_SIZE: "300"
+        run: python3 scripts/scrape_owner_profiles.py --portfolio-only
+
       - name: Rebuild data/communities.json (embeds history + owner badge/affiliate data)
         run: python3 scripts/build_communities_dataset.py
 

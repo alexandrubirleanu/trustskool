@@ -27,6 +27,7 @@ import re
 import sys
 import os
 import time
+import datetime
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
@@ -123,6 +124,15 @@ def parse_about_page(slug, html):
 
 
 def get_owner_profile(handle):
+    """Fetch @handle's public profile. Beyond the owned-communities portfolio, this
+    page also exposes real activity signals not available anywhere else (confirmed
+    2026-07-19 against skool.com/@pablo-reche-1632): metadata.lastOffline (a
+    nanosecond-precision Unix timestamp - divide by 1e9 for seconds since epoch),
+    profileData.totalContributions (lifetime post/comment count), and
+    profileData.dailyActivities ({startDate, endDate, counts[]} - one integer per
+    day for the trailing year, the same data behind the profile's activity heatmap).
+    An owner who's still actively posting is a real, verifiable signal that the
+    community is being tended to, not abandoned."""
     html = fetch_html(f"https://www.skool.com/@{handle}")
     time.sleep(SLEEP_SECONDS)
     if not html:
@@ -137,7 +147,8 @@ def get_owner_profile(handle):
     user = data.get("props", {}).get("pageProps", {}).get("currentUser")
     if not user:
         return None
-    owned = user.get("profileData", {}).get("groupsCreatedByUser") or []
+    profile_data = user.get("profileData", {})
+    owned = profile_data.get("groupsCreatedByUser") or []
     owned_communities = [
         {
             "slug": g.get("name"),
@@ -147,11 +158,27 @@ def get_owner_profile(handle):
         }
         for g in owned
     ]
+
+    last_offline_ns = user.get("metadata", {}).get("lastOffline")
+    last_active_at = None
+    if last_offline_ns:
+        last_active_at = datetime.datetime.utcfromtimestamp(last_offline_ns / 1e9).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    daily = profile_data.get("dailyActivities") or {}
+    counts = daily.get("counts") or []
+    active_days_last_30 = sum(1 for c in counts[-30:] if c > 0)
+    active_days_last_90 = sum(1 for c in counts[-90:] if c > 0)
+
     return {
         "handle": handle,
         "first_name": user.get("firstName"),
         "last_name": user.get("lastName"),
-        "total_followers": user.get("profileData", {}).get("totalFollowers"),
+        "total_followers": profile_data.get("totalFollowers"),
+        "total_contributions": profile_data.get("totalContributions"),
+        "joined_at": user.get("createdAt"),
+        "last_active_at": last_active_at,
+        "active_days_last_30": active_days_last_30,
+        "active_days_last_90": active_days_last_90,
         "owned_communities": owned_communities,
     }
 
@@ -167,12 +194,50 @@ def load_done_slugs(path, key="slug"):
     return done
 
 
+def run_portfolio_pass(handles):
+    """Fetch @handle profile pages (portfolio + activity signals) for any handle
+    not already in owner_profiles.jsonl. Appends new records, returns the count.
+    Capped per run (PORTFOLIO_BATCH_SIZE env, default 300) so a large backlog is
+    caught up incrementally over several daily runs instead of one very long run;
+    already-fetched handles are skipped so each run makes fresh progress."""
+    known_portfolios = load_done_slugs(PORTFOLIO_PATH, key="handle")
+    new_handles = sorted(set(handles) - set(known_portfolios.keys()))
+    batch_size = int(os.environ.get("PORTFOLIO_BATCH_SIZE", "300"))
+    remaining = len(new_handles)
+    new_handles = new_handles[:batch_size]
+    print(f"Fetching {len(new_handles)} of {remaining} pending owner portfolio pages (batch cap {batch_size})...")
+    portfolio_records = []
+    for handle in new_handles:
+        profile = get_owner_profile(handle)
+        if profile:
+            print(f"  [@{handle}] owns {len(profile['owned_communities'])} communities, "
+                  f"active_days_last_30={profile['active_days_last_30']}, last_active={profile['last_active_at']}")
+            portfolio_records.append(profile)
+    with open(PORTFOLIO_PATH, "a", encoding="utf-8") as f:
+        for rec in portfolio_records:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    print(f"Appended {len(portfolio_records)} portfolio records to {PORTFOLIO_PATH}")
+    return len(portfolio_records)
+
+
 def main():
     args = sys.argv[1:]
+
+    if "--portfolio-only" in args:
+        # Recurring-cron mode: no community slugs needed, just pick up every handle
+        # already known from owner_badges.jsonl (written daily by refresh_by_popularity.py's
+        # own inline /about scrape) and backfill their portfolio+activity data incrementally.
+        badges = load_done_slugs(OWNERS_PATH)
+        handles = {rec["owner_handle"] for rec in badges.values() if rec.get("owner_handle")}
+        print(f"{len(handles)} distinct owner handles known from {OWNERS_PATH}")
+        run_portfolio_pass(handles)
+        return
+
     with_portfolio = "--with-portfolio" in args
     slugs = [a for a in args if a != "--with-portfolio"]
     if not slugs:
         print("Usage: scrape_owner_profiles.py <community-slug> [<community-slug> ...] [--with-portfolio]")
+        print("       scrape_owner_profiles.py --portfolio-only")
         return
 
     already_done = load_done_slugs(OWNERS_PATH)
@@ -200,19 +265,7 @@ def main():
     print(f"\nAppended {len(new_badge_records)} records to {OWNERS_PATH}")
 
     if with_portfolio:
-        known_portfolios = load_done_slugs(PORTFOLIO_PATH, key="handle")
-        new_handles = sorted(handles_seen - set(known_portfolios.keys()))
-        print(f"Fetching {len(new_handles)} new owner portfolio pages...")
-        portfolio_records = []
-        for handle in new_handles:
-            profile = get_owner_profile(handle)
-            if profile:
-                print(f"  [@{handle}] owns {len(profile['owned_communities'])} communities")
-                portfolio_records.append(profile)
-        with open(PORTFOLIO_PATH, "a", encoding="utf-8") as f:
-            for rec in portfolio_records:
-                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-        print(f"Appended {len(portfolio_records)} portfolio records to {PORTFOLIO_PATH}")
+        run_portfolio_pass(handles_seen)
 
 
 if __name__ == "__main__":
