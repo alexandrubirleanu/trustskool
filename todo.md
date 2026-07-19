@@ -299,3 +299,15 @@
 - [x] [AFFILIATE-EMAIL-1] Diagnosed: aflPercent was read only from ownerProfile (often null); community.aflPercent (populated from dataset) was ignored
 - [x] [AFFILIATE-EMAIL-2] Fixed: httpRoutes.ts now uses community.aflPercent as fallback when ownerProfile doesn't have the data; added console logging for production debugging
 - [x] [AFFILIATE-EMAIL-3] Already included in existing buildClickEmail: name, members, price, commission estimate, language, click count, timestamp, referrer, Skool URL
+
+## TrustSkore Redesign + Growth % Feature (2026-07-19)
+- [ ] [SKORE-1] Audit current data: member_history snapshots per community, current formula, score distribution
+- [ ] [SKORE-2] Redesign TrustSkore formula to use real snapshot deltas (differentiate scores)
+- [ ] [SKORE-3] Add 7-day growth % to homepage community cards
+- [ ] [SKORE-4] Add 7/30/90d period selector to community detail growth chart
+- [ ] [SKORE-5] Re-run ingestion to recompute TrustSkore with new formula
+
+## Card Layout Redesign (2026-07-19)
+- [x] [CARD-1] Two-row layout on mobile: row 1 = avatar + title + TrustSkore, row 2 = price/members/growth + chips (Free/Trending)
+- [x] [CARD-2] Spotlight badge for category #1 community (golden ring border + Crown icon + #1 [Category] badge)
+- [x] [CARD-3] Compact chip design: emoji icon + text, chips on second row so no overflow on narrow screens

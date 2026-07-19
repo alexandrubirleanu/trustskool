@@ -1,5 +1,6 @@
 import { and, asc, desc, eq, isNull, like, ne, or, sql, type SQL } from "drizzle-orm";
 import {
+  categoryRankings,
   clicks,
   communities,
   ingestionRuns,
@@ -43,6 +44,16 @@ const LIST_COLUMNS = {
   growthRateBp: communities.growthRateBp,
   isFlagged: communities.isFlagged,
   flagReason: communities.flagReason,
+  /** 1 if this community is #1 in its category in the latest snapshot, 0 otherwise */
+  isCategoryTop: sql<number>`(
+    SELECT COUNT(*) FROM categoryRankings cr
+    WHERE cr.communitySlug = ${communities.slug}
+      AND cr.rankPosition = 1
+      AND cr.snapshotMonth = (
+        SELECT MAX(cr2.snapshotMonth) FROM categoryRankings cr2
+        WHERE cr2.category = ${communities.category}
+      )
+  )`,
 };
 
 export async function listCommunities(params: ListCommunitiesParams) {
