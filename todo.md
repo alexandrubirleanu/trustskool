@@ -340,3 +340,7 @@
 ## Navigation UX (2026-07-19)
 - [x] [NAV-SCROLL-1] Scroll to top on every route change (global, covers all internal navigation)
 - [x] [FOOTER-1] Rankings link already present in footer navigation (verified)
+
+## URL-Persistent Filters + Breadcrumb (2026-07-19)
+- [x] [URL-FILTER-1] Serialize category, price, language into URL query params (?category=tech&price=free&lang=english); read them on mount to restore state; update URL on every filter change without pushing to history
+- [x] [BREADCRUMB-1] Add visible breadcrumb UI on CommunityDetail: Home > [Category] > [Community name], with clickable links

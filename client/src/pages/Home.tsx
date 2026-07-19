@@ -334,7 +334,9 @@ function FiltersBar({
 export default function Home() {
   const searchString = useSearch();
   const [, navigate] = useLocation();
-  const urlQuery = useMemo(() => new URLSearchParams(searchString).get("q") ?? "", [searchString]);
+  // Parse all filter state from URL params on every render (for SSR + deep links)
+  const urlParams = useMemo(() => new URLSearchParams(searchString), [searchString]);
+  const urlQuery = useMemo(() => urlParams.get("q") ?? "", [urlParams]);
 
   const [search, setSearch] = useState(urlQuery);
   const [debounced, setDebounced] = useState(urlQuery);
@@ -374,11 +376,48 @@ export default function Home() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [price, setPrice] = useState<PriceKey>("all");
-  const [category, setCategory] = useState<string | undefined>(undefined);
-  const [sort, setSort] = useState<SortKey>("trustSkore");
-  const [direction, setDirection] = useState<"asc" | "desc">("desc");
-  const [page, setPage] = useState(1);
+  const [price, setPrice] = useState<PriceKey>(() => {
+    if (typeof window === "undefined") return "all";
+    const p = new URLSearchParams(window.location.search).get("price");
+    return (p === "free" || p === "paid") ? p : "all";
+  });
+  const [category, setCategory] = useState<string | undefined>(() => {
+    if (typeof window === "undefined") return undefined;
+    return new URLSearchParams(window.location.search).get("category") ?? undefined;
+  });
+  const [sort, setSort] = useState<SortKey>(() => {
+    if (typeof window === "undefined") return "trustSkore";
+    const s = new URLSearchParams(window.location.search).get("sort");
+    return (s === "totalMembers" || s === "growthRateBp") ? s : "trustSkore";
+  });
+  const [direction, setDirection] = useState<"asc" | "desc">(() => {
+    if (typeof window === "undefined") return "desc";
+    const d = new URLSearchParams(window.location.search).get("dir");
+    return d === "asc" ? "asc" : "desc";
+  });
+  const [page, setPage] = useState(() => {
+    if (typeof window === "undefined") return 1;
+    const p = parseInt(new URLSearchParams(window.location.search).get("page") ?? "1", 10);
+    return isNaN(p) || p < 1 ? 1 : p;
+  });
+
+  // Sync filter state → URL (replaceState so it doesn't pollute history)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams();
+    if (debounced) params.set("q", debounced);
+    if (language && language !== "english") params.set("lang", language);
+    if (price !== "all") params.set("price", price);
+    if (category) params.set("category", category);
+    if (sort !== "trustSkore") params.set("sort", sort);
+    if (direction !== "desc") params.set("dir", direction);
+    if (page > 1) params.set("page", String(page));
+    const qs = params.toString();
+    const newUrl = qs ? `/?${qs}` : "/";
+    if (window.location.search !== (qs ? `?${qs}` : "")) {
+      window.history.replaceState(null, "", newUrl);
+    }
+  }, [debounced, language, price, category, sort, direction, page]);
 
   // sync with top-nav search
   useEffect(() => {

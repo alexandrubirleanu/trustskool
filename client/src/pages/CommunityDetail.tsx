@@ -1,4 +1,4 @@
-import { ArrowLeft, ExternalLink, TrendingDown, TrendingUp, Users, Zap } from "lucide-react";
+import { ArrowLeft, ChevronRight, ExternalLink, TrendingDown, TrendingUp, Users, Zap } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   CartesianGrid,
@@ -285,11 +285,29 @@ export default function CommunityDetail() {
       </div>
 
       <div className="container py-5 md:py-10">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground">
-          <ArrowLeft className="h-4 w-4" /> Back to rankings
-        </Link>
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-sm text-muted-foreground">
+          <Link href="/" className="transition-colors hover:text-foreground">Home</Link>
+          <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+          {community.category ? (
+            <>
+              <Link
+                href={`/categories/${community.category}`}
+                className="transition-colors hover:text-foreground">
+                {formatCategory(community.category)}
+              </Link>
+              <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+            </>
+          ) : (
+            <>
+              <Link href="/rankings" className="transition-colors hover:text-foreground">Rankings</Link>
+              <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+            </>
+          )}
+          <span className="max-w-[200px] truncate font-medium text-foreground sm:max-w-xs">
+            {community.displayName}
+          </span>
+        </nav>
 
         {/* Fraud/scam flag banner */}
         {community.isFlagged && (
