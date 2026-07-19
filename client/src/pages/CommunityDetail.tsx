@@ -355,105 +355,7 @@ export default function CommunityDetail() {
           </div>
         </header>
 
-        {/* MRR Estimate */}
-        {mrrEstimate && (
-          <section className="mt-8" aria-labelledby="mrr-heading">
-            <div className="flex items-center gap-2">
-              <h2 id="mrr-heading" className="text-lg font-semibold">Estimated Revenue</h2>
-              <a
-                href="/methodology#mrr"
-                title="How is this estimated?"
-                className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-border text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
-                aria-label="Revenue estimate methodology">
-                ?
-              </a>
-            </div>
-            <div className="mt-3 rounded-[4px] border border-border bg-card p-5">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <p className="text-2xl font-bold tabular-nums tracking-tight">
-                    {mrrEstimate.label}
-                  </p>
-                  {mrrEstimate.reinforced ? (
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      Reinforced by creator's public Skool revenue badge
-                      {mrrEstimate.ownerCommunityCount > 1 && (
-                        <> &mdash; estimated share across {mrrEstimate.ownerCommunityCount} communities this creator owns</>
-                      )}
-                    </p>
-                  ) : (
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      Ceiling estimate from member count × price. No public creator revenue badge available yet.
-                    </p>
-                  )}
-                </div>
-                <span className="shrink-0 rounded-[4px] border border-border px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                  ESTIMATE
-                </span>
-              </div>
-              {mrrEstimate.note && (
-                <p className="mt-3 border-t border-border pt-3 text-xs leading-relaxed text-muted-foreground">
-                  {mrrEstimate.note}
-                </p>
-              )}
-            </div>
-          </section>
-        )}
-
-        {/* Score breakdown */}
-        <section className="mt-10" aria-labelledby="breakdown-heading">
-          <h2 id="breakdown-heading" className="text-lg font-semibold">
-            TrustSkore breakdown
-          </h2>
-          <div className="mt-4 grid gap-4 md:grid-cols-3">
-            {SUB_INDICATORS.map(ind => {
-              const value = breakdown?.[ind.key] ?? 0;
-              return (
-                <div key={ind.key} className="rounded-[4px] border border-border bg-card p-5">
-                  <div className="flex items-baseline justify-between">
-                    <h3 className="text-sm font-semibold">{ind.label}</h3>
-                    <span className="text-xs text-muted-foreground">weight {ind.weight}</span>
-                  </div>
-                  <p className="mt-3 text-3xl font-bold tabular-nums">{formatScore(value)}</p>
-                  <div
-                    className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-secondary"
-                    role="progressbar"
-                    aria-valuenow={Math.round(value)}
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-label={ind.label}>
-                    <div
-                      className="h-full rounded-full bg-foreground"
-                      style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
-                    />
-                  </div>
-                  <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                    {ind.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-          {breakdown?.isBootstrap && (
-            <p className="mt-3 flex items-start gap-1.5 rounded-[4px] border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-300">
-              <svg className="mt-0.5 h-3.5 w-3.5 shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
-                <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm.75 4.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11a.875.875 0 1 0 0-1.75A.875.875 0 0 0 8 11Z"/>
-              </svg>
-              <span>
-                <strong className="font-semibold">Initial score estimated from community size.</strong> Refines with real growth data as tracking accumulates.
-              </span>
-            </p>
-          )}
-          <p className="mt-3 text-xs text-muted-foreground">
-            How is this computed?{" "}
-            <Link href="/methodology" className="underline underline-offset-2 hover:text-foreground">
-              Read the methodology
-            </Link>
-            .
-          </p>
-        </section>
-
-        {/* Charts */}
+        {/* Charts — Growth history first */}
         <section className="mt-10" aria-labelledby="charts-heading">
           <h2 id="charts-heading" className="text-lg font-semibold">
             Growth history
@@ -577,23 +479,135 @@ export default function CommunityDetail() {
           </div>
         </section>
 
-        {/* Founder bio — folded from content/founders/:slug.md */}
-        {founderPage && founderPage.bodyHtml && (
-          <section className="mt-12" aria-labelledby="founder-heading">
-            <h2 id="founder-heading" className="text-lg font-semibold">About the Founder</h2>
-            <div
-              className="prose prose-sm mt-4 max-w-none rounded-[4px] border border-border bg-card px-4 py-4 text-foreground sm:px-6 sm:py-5 [&_a]:text-foreground [&_a]:underline [&_a]:underline-offset-2 [&_h2]:text-base [&_h2]:font-semibold [&_h3]:text-sm [&_h3]:font-semibold [&_p]:text-sm [&_p]:leading-relaxed [&_p]:text-muted-foreground [&_ul]:text-sm [&_ul]:text-muted-foreground"
-              dangerouslySetInnerHTML={{ __html: founderPage.bodyHtml }}
-            />
+        {/* Score breakdown */}
+        <section className="mt-10" aria-labelledby="breakdown-heading">
+          <h2 id="breakdown-heading" className="text-lg font-semibold">
+            TrustSkore breakdown
+          </h2>
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
+            {SUB_INDICATORS.map(ind => {
+              const value = breakdown?.[ind.key] ?? 0;
+              return (
+                <div key={ind.key} className="rounded-[4px] border border-border bg-card p-5">
+                  <div className="flex items-baseline justify-between">
+                    <h3 className="text-sm font-semibold">{ind.label}</h3>
+                    <span className="text-xs text-muted-foreground">weight {ind.weight}</span>
+                  </div>
+                  <p className="mt-3 text-3xl font-bold tabular-nums">{formatScore(value)}</p>
+                  <div
+                    className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-secondary"
+                    role="progressbar"
+                    aria-valuenow={Math.round(value)}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label={ind.label}>
+                    <div
+                      className="h-full rounded-full bg-foreground"
+                      style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
+                    />
+                  </div>
+                  <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                    {ind.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+          {breakdown?.isBootstrap && (
+            <p className="mt-3 flex items-start gap-1.5 rounded-[4px] border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-300">
+              <svg className="mt-0.5 h-3.5 w-3.5 shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+                <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm.75 4.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM8 11a.875.875 0 1 0 0-1.75A.875.875 0 0 0 8 11Z"/>
+              </svg>
+              <span>
+                <strong className="font-semibold">Initial score estimated from community size.</strong> Refines with real growth data as tracking accumulates.
+              </span>
+            </p>
+          )}
+          <p className="mt-3 text-xs text-muted-foreground">
+            How is this computed?{" "}
+            <Link href="/methodology" className="underline underline-offset-2 hover:text-foreground">
+              Read the methodology
+            </Link>
+            .
+          </p>
+        </section>
+
+        {/* MRR Estimate */}
+        {mrrEstimate && (
+          <section className="mt-10" aria-labelledby="mrr-heading">
+            <div className="flex items-center gap-2">
+              <h2 id="mrr-heading" className="text-lg font-semibold">Estimated Revenue</h2>
+              <a
+                href="/methodology#mrr"
+                title="How is this estimated?"
+                className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-border text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+                aria-label="Revenue estimate methodology">
+                ?
+              </a>
+            </div>
+            <div className="mt-3 rounded-[4px] border border-border bg-card p-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="text-2xl font-bold tabular-nums tracking-tight">
+                    {mrrEstimate.label}
+                  </p>
+                  {mrrEstimate.reinforced ? (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Reinforced by creator’s public Skool revenue badge
+                      {mrrEstimate.ownerCommunityCount > 1 && (
+                        <> — estimated share across {mrrEstimate.ownerCommunityCount} communities this creator owns</>
+                      )}
+                    </p>
+                  ) : (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Ceiling estimate from member count × price. No public creator revenue badge available yet.
+                    </p>
+                  )}
+                </div>
+                <span className="shrink-0 rounded-[4px] border border-border px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                  ESTIMATE
+                </span>
+              </div>
+              {mrrEstimate.note && (
+                <p className="mt-3 border-t border-border pt-3 text-xs leading-relaxed text-muted-foreground">
+                  {mrrEstimate.note}
+                </p>
+              )}
+            </div>
           </section>
         )}
 
-        {/* Similar communities */}
+        {/* Founder bio — SEO: rel=author, itemprop=author for structured data */}
+        {founderPage && founderPage.bodyHtml && (
+          <section className="mt-12" aria-labelledby="founder-heading" itemScope itemType="https://schema.org/Person">
+            <h2 id="founder-heading" className="text-lg font-semibold">About the Founder</h2>
+            <div
+              className="prose prose-sm mt-4 max-w-none rounded-[4px] border border-border bg-card px-4 py-4 text-foreground sm:px-6 sm:py-5 [&_a]:text-foreground [&_a]:underline [&_a]:underline-offset-2 [&_h2]:text-base [&_h2]:font-semibold [&_h3]:text-sm [&_h3]:font-semibold [&_p]:text-sm [&_p]:leading-relaxed [&_p]:text-muted-foreground [&_ul]:text-sm [&_ul]:text-muted-foreground"
+              itemProp="description"
+              dangerouslySetInnerHTML={{ __html: founderPage.bodyHtml }}
+            />
+            {founderPage.slug && (
+              <p className="mt-3 text-xs text-muted-foreground">
+                <Link
+                  href={`/founders/${founderPage.slug}`}
+                  className="underline underline-offset-2 hover:text-foreground"
+                  rel="author">
+                  View full founder profile →
+                </Link>
+              </p>
+            )}
+          </section>
+        )}
+
+        {/* Similar communities — SEO: internal links with descriptive anchor text */}
         {similar && similar.length > 0 && (
           <section className="mt-12" aria-labelledby="similar-heading">
             <h2 id="similar-heading" className="text-lg font-semibold">
-              Similar communities
+              Similar communities you might like
             </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Other Skool communities in the same niche, ranked by TrustSkore.
+            </p>
             <div className="mt-4 rounded-[4px] border border-border">
               {similar.map((c, i) => (
                 <CommunityCard key={c.slug} community={c} rank={i + 1} />

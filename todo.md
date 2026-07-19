@@ -289,3 +289,8 @@
 - [x] [CRON-1] Register nightly ingestion Heartbeat cron (daily 03:00 UTC) — taskUid VF8HamKFy8P77ZrwDUgkMf; provisionNightlyIngestion admin procedure + button added to Admin panel
 - [x] [FILTER-COUNT-1] Show filtered community count in FiltersBar when filters are active (uses data.total from existing query)
 - [x] [PAGINATION-1] Add go-to-page input field next to Prev/Next pagination buttons (form with number input, submit on Enter)
+
+## CommunityDetail Section Reorder (2026-07-19)
+- [x] [DETAIL-REORDER-1] Reorder sections: Growth History → TrustSkore Breakdown → Estimated Revenue → About the Founder → Similar Communities
+- [x] [DETAIL-SEO-1] Added itemScope/itemType Person schema + rel=author link to full founder profile page
+- [x] [DETAIL-SEO-2] Improved heading and added descriptive subtitle for similar communities section
