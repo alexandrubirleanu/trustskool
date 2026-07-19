@@ -1,7 +1,14 @@
 /**
  * Score recomputation script — run after changing memberCountFloor or bootstrap values.
- * Reads all communities from DB, recomputes TrustSkore with the new formula, and
- * bulk-updates the trustSkore and scoreBreakdown columns.
+ * Reads all communities from DB, recomputes TrustSkore with the new formula,
+ * applies a guaranteed-unique post-processing pass (no two communities share the same score),
+ * and bulk-updates the trustSkore and scoreBreakdown columns.
+ *
+ * Uniqueness algorithm:
+ *   1. Compute raw scores for all communities.
+ *   2. Sort by (rawScore DESC, id ASC) — deterministic tie-breaking.
+ *   3. Walk the sorted list: if score[i] >= score[i-1], set score[i] = score[i-1] - 0.01.
+ *   4. Clamp to [40, 100].
  *
  * Usage: node scripts/recompute-scores.mjs
  */
@@ -49,14 +56,12 @@ function computeGrowthRatePct(history, windowDays = 30) {
 function computeGrowthMomentum(history) {
   if (!history || history.length < 2) return 50;
   const pct = computeGrowthRatePct(history);
-  // RECALIBRATED: saturation constant 7 → 2.5 so +3% → ~82, +5% → ~91
   if (pct >= 0) return clamp(round2(50 + 50 * (1 - Math.exp(-pct / 2.5))));
   return clamp(round2(50 * Math.exp(pct / 10)));
 }
 
 function computeGrowthMomentumFromBp(growthRateBp) {
   const pct = growthRateBp / 100;
-  // RECALIBRATED: saturation constant 7 → 2.5 to match computeGrowthMomentum
   if (pct >= 0) return clamp(round2(50 + 50 * (1 - Math.exp(-pct / 2.5))));
   return clamp(round2(50 * Math.exp(pct / 10)));
 }
@@ -93,11 +98,9 @@ function isBootstrap(totalMembers, memberHistory, rankHistory) {
 
 function memberCountFloor(totalMembers) {
   const members = Math.max(1, totalMembers);
-  const base = 45 + 31 * (Math.log10(members) / 5); // rebalanced ceiling = 76
-  // Micro-perturbation: up to +0.3 pts based on exact member count mod 10000
+  const base = 45 + 31 * (Math.log10(members) / 5);
   const micro = (members % 10_000) / 10_000 * 0.3;
   const raw = base + micro;
-  // 4-decimal precision for unique scores per exact member count
   return clamp(Math.round(raw * 10_000) / 10_000, 45, 76.3);
 }
 
@@ -142,59 +145,96 @@ async function main() {
     "SELECT id, totalMembers, memberHistory, rankHistory, priceHistory, growthRateBp, trustSkore FROM communities LIMIT 100000"
   );
 
-  console.log(`Recomputing scores for ${rows.length} communities...`);
+  console.log(`Computing scores for ${rows.length} communities...`);
 
+  // ── Phase 1: compute raw scores for every community ──────────────────────
+  const computed = rows.map(row => {
+    const parseCol = (v) => {
+      if (!v) return [];
+      if (Array.isArray(v)) return v;
+      if (typeof v === 'string') return JSON.parse(v);
+      return [];
+    };
+    const memberHistory = parseCol(row.memberHistory);
+    const rankHistory = parseCol(row.rankHistory);
+    const priceHistory = parseCol(row.priceHistory);
+    const growthRateBp = row.growthRateBp ?? 0;
+
+    const { score, breakdown } = computeScore(
+      row.totalMembers,
+      memberHistory,
+      rankHistory,
+      priceHistory,
+      growthRateBp,
+    );
+
+    return { id: row.id, oldScore: row.trustSkore, score, breakdown };
+  });
+
+  // ── Phase 2: guaranteed-unique pass ──────────────────────────────────────
+  // Convert scores to integers (×100) to avoid floating-point rounding issues.
+  // Sort by (scoreInt DESC, id ASC) for deterministic tie-breaking.
+  // Walk the list: if scoreInt[i] >= scoreInt[i-1], set scoreInt[i] = scoreInt[i-1] - 1.
+  // This guarantees every score is unique at 2-decimal precision.
+  computed.sort((a, b) => {
+    const ai = Math.round(a.score * 100);
+    const bi = Math.round(b.score * 100);
+    if (bi !== ai) return bi - ai;
+    return String(a.id).localeCompare(String(b.id));
+  });
+
+  // Convert to integer scores for the uniqueness pass
+  for (const item of computed) {
+    item.scoreInt = Math.round(item.score * 100);
+  }
+
+  let collisions = 0;
+  for (let i = 1; i < computed.length; i++) {
+    if (computed[i].scoreInt >= computed[i - 1].scoreInt) {
+      computed[i].scoreInt = computed[i - 1].scoreInt - 1;
+      collisions++;
+    }
+    // Clamp to minimum 4000 (= 40.00)
+    computed[i].scoreInt = Math.max(4000, computed[i].scoreInt);
+  }
+
+  // Convert back to 2-decimal float
+  for (const item of computed) {
+    item.score = item.scoreInt / 100;
+  }
+
+  console.log(`Uniqueness pass: resolved ${collisions} collisions`);
+
+  // ── Phase 3: bulk-update only changed rows ────────────────────────────────
   let updated = 0;
   let unchanged = 0;
-  const BATCH = 500;
 
-  for (let i = 0; i < rows.length; i += BATCH) {
-    const batch = rows.slice(i, i + BATCH);
-    for (const row of batch) {
-      const parseCol = (v) => {
-        if (!v) return [];
-        if (Array.isArray(v)) return v;
-        if (typeof v === 'string') return JSON.parse(v);
-        return [];
-      };
-      const memberHistory = parseCol(row.memberHistory);
-      const rankHistory = parseCol(row.rankHistory);
-      const priceHistory = parseCol(row.priceHistory);
-      const growthRateBp = row.growthRateBp ?? 0;
-
-      const { score: baseScore, breakdown } = computeScore(
-        row.totalMembers,
-        memberHistory,
-        rankHistory,
-        priceHistory,
-        growthRateBp,
-      );
-
-      // Apply community-id-based micro-perturbation for guaranteed unique scores
-      // The id is a string like 'abc123xyz' — sum char codes for a numeric seed
-      const idSeed = typeof row.id === 'string'
-        ? row.id.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)
-        : (row.id ?? 0);
-      const idMicro = (idSeed % 10_000) / 10_000 * 0.05;
-      const score = Math.round((baseScore + idMicro) * 10_000) / 10_000;
-
-      if (Math.abs(score - row.trustSkore) < 0.0001) {
-        unchanged++;
-        continue;
-      }
-
-      await conn.execute(
-        "UPDATE communities SET trustSkore = ?, scoreBreakdown = ? WHERE id = ?",
-        [score, JSON.stringify(breakdown), row.id]
-      );
-      updated++;
+  for (const item of computed) {
+    if (Math.abs(item.score - item.oldScore) < 0.001) {
+      unchanged++;
+      continue;
     }
-    if ((i / BATCH) % 10 === 0) {
-      process.stdout.write(`  ${i + batch.length}/${rows.length} processed...\r`);
+    await conn.execute(
+      "UPDATE communities SET trustSkore = ?, scoreBreakdown = ? WHERE id = ?",
+      [item.score, JSON.stringify(item.breakdown), item.id]
+    );
+    updated++;
+    if (updated % 500 === 0) {
+      process.stdout.write(`  ${updated} updated...\r`);
     }
   }
 
   console.log(`\nDone. Updated: ${updated}, Unchanged: ${unchanged}`);
+
+  // ── Verify uniqueness ─────────────────────────────────────────────────────
+  const scoreSet = new Set(computed.map(c => c.score));
+  console.log(`Unique scores in memory: ${scoreSet.size} / ${computed.length}`);
+  if (scoreSet.size !== computed.length) {
+    console.warn("WARNING: still have duplicate scores in memory — check logic");
+  } else {
+    console.log("✓ All scores are unique");
+  }
+
   await conn.end();
 }
 

@@ -52,15 +52,14 @@ const LIST_COLUMNS = {
       AND c2.category IS NOT NULL
       AND c2.trustSkore > ${communities.trustSkore}
   )`,
-  /** 1 if this community is #1 in its category in the latest snapshot, 0 otherwise */
+  /** 1 if this community is #1 in its category by current trustSkore */
   isCategoryTop: sql<number>`(
-    SELECT COUNT(*) FROM categoryRankings cr
-    WHERE cr.communitySlug = ${communities.slug}
-      AND cr.rankPosition = 1
-      AND cr.snapshotMonth = (
-        SELECT MAX(cr2.snapshotMonth) FROM categoryRankings cr2
-        WHERE cr2.category = ${communities.category}
-      )
+    SELECT CASE WHEN (
+      SELECT COUNT(*) FROM communities c2
+      WHERE c2.category = ${communities.category}
+        AND c2.category IS NOT NULL
+        AND c2.trustSkore > ${communities.trustSkore}
+    ) = 0 AND ${communities.category} IS NOT NULL THEN 1 ELSE 0 END
   )`,
 };
 

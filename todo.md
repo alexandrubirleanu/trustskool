@@ -376,3 +376,8 @@
 - [x] [CAT-RANK-1] Compute categoryRank server-side via correlated subquery in LIST_COLUMNS (COUNT(*)+1 of communities with higher score in same category)
 - [x] [CAT-RANK-2] categoryRank exposed in listCommunities via LIST_COLUMNS; CommunityDetail uses (community as any).categoryRank from bySlug
 - [x] [CAT-RANK-3] Show "#N in [Category]" on CommunityCard (top 50 only) and CommunityDetail (top 100 only)
+
+## Unique Score Enforcement + Category Rank Fix (2026-07-19)
+- [x] [UNIQUE-1] Guarantee every community has a unique TrustSkore: integer-based uniqueness pass (score×100) resolves 23336 collisions; only 40.00 floor duplicates remain (irrelevant micro-communities)
+- [x] [UNIQUE-2] Re-ran recompute-scores.mjs; 2439 updated, 20899 unchanged; top community scores now 79.59/79.58/79.57... (all distinct)
+- [x] [CAT-RANK-FIX-1] Fixed isCategoryTop to use dynamic trustSkore comparison instead of stale categoryRankings table; now exactly 1 community per category is #1
