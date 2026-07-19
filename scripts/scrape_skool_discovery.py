@@ -101,7 +101,7 @@ def parse_price(display_price_raw):
         return None, None, None
 
 
-def normalize_group(entry, lang):
+def normalize_group(entry, lang, category=None):
     g = entry.get("group", {})
     meta = g.get("metadata", {})
     amount, currency, interval = parse_price(meta.get("displayPrice"))
@@ -123,10 +123,11 @@ def normalize_group(entry, lang):
         "updated_at": g.get("updatedAt"),
         "language": lang,
         "discovery_rank": entry.get("rank"),
+        "category": category,
     }
 
 
-def fetch_all_groups(lang, category_id=None, label=None):
+def fetch_all_groups(lang, category_id=None, category_name=None, label=None):
     """Paginate a language (+ optional category) discovery listing to the natural end.
     Returns (records, reached_natural_end)."""
     tag = label or lang
@@ -152,7 +153,7 @@ def fetch_all_groups(lang, category_id=None, label=None):
             gid = entry.get("group", {}).get("id")
             if gid and gid not in seen_ids:
                 seen_ids.add(gid)
-                records.append(normalize_group(entry, lang))
+                records.append(normalize_group(entry, lang, category=category_name))
         print(f"[{tag}] page {page}: +{len(groups)} groups (total collected: {len(records)}/{total_declared})")
         if len(groups) < PAGE_SIZE:
             reached_natural_end = True
@@ -168,7 +169,13 @@ def fetch_all_groups(lang, category_id=None, label=None):
 def expand_language(lang):
     """Break past the ~1000-per-language cap by also paginating through every category
     filter combined with this language, then merging (union by id) with whatever is
-    already in <lang>.jsonl. Overwrites <lang>.jsonl with the expanded superset."""
+    already in <lang>.jsonl. Overwrites <lang>.jsonl with the expanded superset.
+
+    Records found via a category-filtered query are tagged with that category name
+    (Skool assigns one category per community, so category is a stable identity fact,
+    not a per-query artifact). The plain/trending query has no category param, so
+    those records get category=None here; a category-pass record for the same id
+    merges in and overwrites the None with the real category since dict merge is by id."""
     out_path = os.path.join(DATA_DIR, f"{lang}.jsonl")
     merged = {}
     for rec in load_jsonl_helper(out_path):
@@ -176,10 +183,15 @@ def expand_language(lang):
 
     plain_records, _ = fetch_all_groups(lang, label=f"{lang}/plain")
     for r in plain_records:
+        # Don't clobber a category already known from a prior category-tagged run
+        # for this id if the plain pass (which has no category) runs after it.
+        existing = merged.get(r["id"])
+        if existing and existing.get("category") and not r.get("category"):
+            r["category"] = existing["category"]
         merged[r["id"]] = r
 
     for cat_name, cat_id in CATEGORIES.items():
-        cat_records, _ = fetch_all_groups(lang, category_id=cat_id, label=f"{lang}/{cat_name}")
+        cat_records, _ = fetch_all_groups(lang, category_id=cat_id, category_name=cat_name, label=f"{lang}/{cat_name}")
         for r in cat_records:
             merged[r["id"]] = r
 

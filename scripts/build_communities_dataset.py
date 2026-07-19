@@ -58,7 +58,7 @@ def main():
                 "price_interval": rec.get("price_interval"),
                 "logo_url": rec.get("logo_url"),
                 "language": rec.get("language", "english"),
-                "category": None,
+                "category": rec.get("category"),
                 "member_history": {},  # date -> total_members
                 "price_history": {},   # date -> price_amount_cents
                 "rank_history": {},    # date -> discovery_rank (1-indexed)
@@ -91,7 +91,7 @@ def main():
                     "price_interval": rec.get("price_interval"),
                     "logo_url": rec.get("logo_url"),
                     "language": rec.get("language", "english"),
-                    "category": None,
+                    "category": rec.get("category"),
                     "member_history": {},
                     "price_history": {},
                     "rank_history": {},
@@ -105,6 +105,11 @@ def main():
             communities[cid]["total_members"] = rec["total_members"]
             communities[cid]["price_amount_cents"] = rec.get("price_amount_cents")
             communities[cid]["description"] = rec.get("description")
+            # history/refresh records never carry category (only a category-filtered
+            # discovery query can know it) - never let a None here clobber a real
+            # category already known from the base backfill/expand record.
+            if rec.get("category"):
+                communities[cid]["category"] = rec["category"]
 
     # 3. Overlay owner badge/affiliate data (owner_badges.jsonl, one row per community,
     # keyed by slug — last write wins if a community was refreshed more than once).
