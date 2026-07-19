@@ -20,6 +20,8 @@ export interface ListCommunitiesParams {
   category?: string;
   price?: PriceFilter;
   trending?: boolean;
+  /** When true, show only communities with a verified Skool MRR badge (mrrStatus IS NOT NULL) */
+  mrrVerified?: boolean;
   sort?: CommunitySort;
   direction?: "asc" | "desc";
   page?: number;
@@ -99,6 +101,7 @@ export async function listCommunities(params: ListCommunitiesParams) {
   }
   if (price === "paid") conditions.push(sql`${communities.priceAmountCents} > 0`);
   if (trending) conditions.push(sql`${communities.growthRateBp} > 0`);
+  if (params.mrrVerified) conditions.push(sql`${communities.mrrStatus} IS NOT NULL AND ${communities.mrrStatus} != 'none'`);
 
   const where = conditions.length ? and(...conditions) : undefined;
 

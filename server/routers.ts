@@ -78,6 +78,7 @@ export const appRouter = router({
           category: z.string().max(128).optional(),
           price: z.enum(["all", "free", "paid"]).default("all"),
           trending: z.boolean().optional(),
+          mrrVerified: z.boolean().optional(),
           sort: z.enum(["trustSkore", "totalMembers", "growthRateBp", "category"]).default("trustSkore"),
           direction: z.enum(["asc", "desc"]).default("desc"),
           page: z.number().int().min(1).default(1),

@@ -384,3 +384,8 @@
 
 ## Score Distribution Spread (2026-07-19)
 - [x] [SPREAD-1] Bootstrap formula v4: continuous member-count-based formula (2k→62, 10k→74, 100k→87); top 15 scores now 87.82/87.1/86.83/86.55/86.41... (visually distinct); 850 communities updated
+
+## Revenue Filter + Methodology V4 (2026-07-19)
+- [x] [MRR-FILTER-1] Add "Revenue verified" toggle to FiltersBar dropdown (shows only communities with mrrStatus != null)
+- [x] [MRR-FILTER-2] Wire mrrVerified filter to listCommunities tRPC query and dbCommunities WHERE clause
+- [x] [METHODOLOGY-V4-1] Update Methodology page: bootstrap formula v4 continuous formula documented (2k→67/62, 10k→74/69, 100k→85/80); v1.4 changelog added

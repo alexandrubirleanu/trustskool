@@ -159,9 +159,15 @@ export default function Methodology() {
                 <span className="text-muted-foreground">// Reference values: 1k members → 63.6 · 10k → 69.8 · 100k → 76.0</span>
               </div>
               <p className="mt-3 text-xs text-muted-foreground">
-                <strong className="text-foreground">Bootstrap rule:</strong> Communities with ≥ 2,000 members and fewer than 3 snapshots receive a temporary starting estimate of{" "}
-                <strong className="text-foreground">Growth Momentum = 85</strong> and{" "}
-                <strong className="text-foreground">Ranking Momentum = 82</strong> instead of the neutral 50/50 defaults.
+                <strong className="text-foreground">Bootstrap rule (v4):</strong> Communities with ≥ 2,000 members and fewer than 3 snapshots receive temporary starting estimates derived continuously from their member count:
+              </p>
+              <div className="mt-2 rounded-[4px] bg-secondary/60 p-3 font-mono text-xs">
+                Growth Momentum = 60 + 25 × log<sub>10</sub>(members) / log<sub>10</sub>(100,000)<br />
+                Ranking Momentum = 55 + 25 × log<sub>10</sub>(members) / log<sub>10</sub>(100,000)<br />
+                <span className="text-muted-foreground">// 2k members → ~67/62 · 10k → ~74/69 · 100k → 85/80</span>
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">
+                This ensures every community has a numerically distinct score based on its exact size.
                 Once 3 or more real snapshots are collected, the bootstrap is dropped and real computed values take over permanently.
               </p>
             </div>
@@ -414,6 +420,17 @@ export default function Methodology() {
                 </tr>
               </thead>
               <tbody className="bg-card divide-y divide-border">
+                <tr>
+                  <td className="px-4 py-3 font-mono text-xs font-semibold">v1.4</td>
+                  <td className="px-4 py-3 text-muted-foreground">July 2026</td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    Bootstrap formula v4: replaced fixed 85/82 constants with a continuous member-count-based formula
+                    (Growth Momentum = 60 + 25 × log₁₀(n) / log₁₀(100k), Ranking Momentum = 55 + 25 × log₁₀(n) / log₁₀(100k)).
+                    This ensures every community has a numerically distinct score: 2k members → ~67/62, 10k → ~74/69, 100k → 85/80.
+                    Added "Revenue verified" filter (100 communities with Skool-confirmed MRR badge).
+                    Post-processing uniqueness pass guarantees no two communities share the same TrustSkore.
+                  </td>
+                </tr>
                 <tr>
                   <td className="px-4 py-3 font-mono text-xs font-semibold">v1.3</td>
                   <td className="px-4 py-3 text-muted-foreground">July 2026</td>

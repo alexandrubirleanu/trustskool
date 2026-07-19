@@ -131,6 +131,7 @@ type FiltersBarProps = {
   price: PriceKey;
   language: string | undefined;
   category: string | undefined;
+  mrrVerified: boolean;
   sort: SortKey;
   direction: "asc" | "desc";
   languages: { value: string; count?: number }[];
@@ -143,13 +144,14 @@ type FiltersBarProps = {
   onPrice: (v: PriceKey) => void;
   onLanguage: (v: string | undefined) => void;
   onCategory: (v: string | undefined) => void;
+  onMrrVerified: (v: boolean) => void;
   onSort: (key: SortKey) => void;
   onClear: () => void;
 };
 
 function FiltersBar({
-  price, language, category, sort, direction, languages, categories, stats, hasActiveFilters,
-  isLoading, total, fmtK, onPrice, onLanguage, onCategory, onSort, onClear,
+  price, language, category, mrrVerified, sort, direction, languages, categories, stats, hasActiveFilters,
+  isLoading, total, fmtK, onPrice, onLanguage, onCategory, onMrrVerified, onSort, onClear,
 }: FiltersBarProps) {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const filtersRef = useRef<HTMLDivElement>(null);
@@ -166,7 +168,7 @@ function FiltersBar({
     return () => document.removeEventListener("mousedown", handler);
   }, [filtersOpen]);
 
-  const activeFilterCount = (price !== "all" ? 1 : 0) + (language ? 1 : 0) + (category ? 1 : 0);
+  const activeFilterCount = (price !== "all" ? 1 : 0) + (language ? 1 : 0) + (category ? 1 : 0) + (mrrVerified ? 1 : 0);
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -269,6 +271,20 @@ function FiltersBar({
                     );
                   })}
                 </div>
+              </div>
+
+              {/* Revenue Verified section */}
+              <div className="border-t border-border p-3">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Revenue</p>
+                <button
+                  type="button"
+                  onClick={() => onMrrVerified(!mrrVerified)}
+                  className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-sm transition-colors hover:bg-accent ${
+                    mrrVerified ? "bg-[#F8D481]/20 font-semibold" : ""
+                  }`}>
+                  <span>💰 Revenue verified</span>
+                  <span className="text-xs text-muted-foreground">100</span>
+                </button>
               </div>
 
               {/* Clear inside dropdown */}
@@ -404,6 +420,10 @@ export default function Home() {
     const p = parseInt(new URLSearchParams(window.location.search).get("page") ?? "1", 10);
     return isNaN(p) || p < 1 ? 1 : p;
   });
+  const [mrrVerified, setMrrVerified] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return new URLSearchParams(window.location.search).get("mrr") === "1";
+  });
 
   // Sync filter state → URL (replaceState so it doesn't pollute history)
   useEffect(() => {
@@ -414,6 +434,7 @@ export default function Home() {
     if (language && language !== "english") params.set("lang", language);
     if (price !== "all") params.set("price", price);
     if (category) params.set("category", category);
+    if (mrrVerified) params.set("mrr", "1");
     if (sort !== "trustSkore") params.set("sort", sort);
     if (direction !== "desc") params.set("dir", direction);
     if (page > 1) params.set("page", String(page));
@@ -422,7 +443,7 @@ export default function Home() {
     if (window.location.search !== (qs ? `?${qs}` : "")) {
       window.history.replaceState(null, "", newUrl);
     }
-  }, [debounced, language, price, category, sort, direction, page]);
+  }, [debounced, language, price, category, mrrVerified, sort, direction, page]);
 
   // sync with top-nav search
   useEffect(() => {
@@ -446,12 +467,13 @@ export default function Home() {
       language,
       price,
       category,
+      mrrVerified: mrrVerified || undefined,
       sort,
       direction,
       page,
       pageSize: PAGE_SIZE,
     }),
-    [debounced, language, price, category, sort, direction, page],
+    [debounced, language, price, category, mrrVerified, sort, direction, page],
   );
 
   const { data, isLoading } = trpc.communities.list.useQuery(listInput, {
@@ -484,13 +506,14 @@ export default function Home() {
     setLanguage("english"); // always reset to english, not undefined
     setPrice("all");
     setCategory(undefined);
+    setMrrVerified(false);
     setSort("trustSkore");
     setDirection("desc");
     setPage(1);
     navigate("/");
   };
 
-  const hasActiveFilters = Boolean(debounced || language || price !== "all" || category);
+  const hasActiveFilters = Boolean(debounced || language || price !== "all" || category || mrrVerified);
 
   const { track } = useDatafast();
 
@@ -563,9 +586,11 @@ export default function Home() {
           isLoading={isLoading}
           total={data?.total}
           fmtK={fmtK}
+          mrrVerified={mrrVerified}
           onPrice={v => setFilter(() => setPrice(v))}
           onLanguage={v => setFilter(() => setLanguage(v))}
           onCategory={v => setFilter(() => setCategory(v))}
+          onMrrVerified={v => setFilter(() => setMrrVerified(v))}
           onSort={toggleSort}
           onClear={clearAllFilters}
         />
