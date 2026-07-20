@@ -125,6 +125,111 @@ function LanguageDropdown({
   );
 }
 
+// ─── CategoryDropdown ───────────────────────────────────────────────────────
+/** Compact searchable category dropdown — mirrors LanguageDropdown */
+function CategoryDropdown({
+  categories,
+  value,
+  onChange,
+  stats,
+  fmtK,
+}: {
+  categories: { value: string; count?: number }[];
+  value: string | undefined;
+  onChange: (v: string | undefined) => void;
+  stats: { totalCommunities: number } | undefined;
+  fmtK: (n: number) => string;
+}) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+        setSearch("");
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  const filtered = useMemo(() => {
+    const q = search.toLowerCase();
+    return q
+      ? SKOOL_CATEGORIES.filter(c => c.label.toLowerCase().includes(q) || c.slug.includes(q))
+      : SKOOL_CATEGORIES;
+  }, [search]);
+
+  const selectedCat = value ? SKOOL_CATEGORIES.find(c => c.slug === value) : undefined;
+  const label = selectedCat ? `${selectedCat.emoji} ${selectedCat.label}` : "Category";
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => { setOpen(o => !o); setSearch(""); }}
+        className="chip inline-flex items-center gap-1.5"
+        data-active={Boolean(value)}>
+        {label}
+        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-1 w-56 rounded-[4px] border border-border bg-background shadow-md">
+          <div className="border-b border-border p-2">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+              <input
+                autoFocus
+                type="search"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Search…"
+                className="h-8 w-full rounded-[4px] border border-input bg-card pl-8 pr-3 text-sm outline-none focus:border-foreground"
+              />
+            </div>
+          </div>
+          <div className="max-h-60 overflow-y-auto py-1">
+            {!search && (
+              <button
+                type="button"
+                onClick={() => { onChange(undefined); setOpen(false); setSearch(""); }}
+                className={`flex w-full items-center justify-between px-3 py-2 text-sm transition-colors hover:bg-accent ${!value ? "font-semibold" : ""}`}>
+                <span>All categories</span>
+                {stats && (
+                  <span className="ml-2 text-xs text-muted-foreground tabular-nums">{fmtK(stats.totalCommunities)}</span>
+                )}
+              </button>
+            )}
+            {filtered.map(cat => {
+              const dbCat = categories.find(c => c.value === cat.slug);
+              return (
+                <button
+                  key={cat.slug}
+                  type="button"
+                  onClick={() => { onChange(cat.slug); setOpen(false); setSearch(""); }}
+                  className={`flex w-full items-center justify-between px-3 py-2 text-sm transition-colors hover:bg-accent ${value === cat.slug ? "bg-[#F8D481]/20 font-semibold" : ""}`}>
+                  <span>{cat.emoji} {cat.label}</span>
+                  {dbCat?.count != null && (
+                    <span className="ml-2 text-xs text-muted-foreground tabular-nums">
+                      {dbCat.count >= 1000 ? `${Math.round(dbCat.count / 1000)}k+` : dbCat.count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+            {filtered.length === 0 && (
+              <p className="px-3 py-3 text-sm text-muted-foreground">No categories found.</p>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── FiltersBar ──────────────────────────────────────────────────────────────
 
 type FiltersBarProps = {
@@ -194,40 +299,44 @@ function FiltersBar({
             <ChevronDown className={`h-3.5 w-3.5 transition-transform ${filtersOpen ? "rotate-180" : ""}`} />
           </button>
 
-          {/* Dropdown panel */}
+          {/* Dropdown panel — compact grid layout */}
           {filtersOpen && (
-            <div className="absolute left-0 top-full z-50 mt-1 w-56 rounded-[4px] border border-border bg-background shadow-md">
-              {/* Price section */}
-              <div className="border-b border-border p-3">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Price</p>
-                <div className="flex flex-col gap-1">
-                  {(["all", "free", "paid"] as PriceKey[]).map(p => (
-                    <button
-                      key={p}
-                      type="button"
-                      onClick={() => { onPrice(p); }}
-                      className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-sm transition-colors hover:bg-accent ${
-                        price === p ? "bg-[#F8D481]/20 font-semibold" : ""
-                      }`}>
-                      <span>{p === "all" ? "All prices" : p === "free" ? "Free" : "Paid"}</span>
-                      {p === "free" && stats && (
-                        <span className="text-xs text-muted-foreground tabular-nums">{fmtK(stats.freeCommunities)}</span>
-                      )}
-                      {p === "paid" && stats?.paidCommunities != null && (
-                        <span className="text-xs text-muted-foreground tabular-nums">{fmtK(stats.paidCommunities)}</span>
-                      )}
-                      {p === "all" && stats && (
-                        <span className="text-xs text-muted-foreground tabular-nums">{fmtK(stats.totalCommunities)}</span>
-                      )}
-                    </button>
-                  ))}
+            <div className="absolute left-0 top-full z-50 mt-1 w-64 rounded-[4px] border border-border bg-background shadow-md">
+
+              {/* Price + Category in a 2-col grid */}
+              <div className="grid grid-cols-2 gap-px border-b border-border bg-border">
+                {/* Price */}
+                <div className="bg-background p-3">
+                  <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Price</p>
+                  <select
+                    value={price}
+                    onChange={e => onPrice(e.target.value as PriceKey)}
+                    className="h-8 w-full rounded-[4px] border border-input bg-card px-2 text-sm outline-none focus:border-foreground cursor-pointer">
+                    <option value="all">All{stats ? ` (${fmtK(stats.totalCommunities)})` : ""}</option>
+                    <option value="free">Free{stats ? ` (${fmtK(stats.freeCommunities)})` : ""}</option>
+                    <option value="paid">Paid{stats?.paidCommunities != null ? ` (${fmtK(stats.paidCommunities)})` : ""}</option>
+                  </select>
+                </div>
+                {/* Revenue verified toggle */}
+                <div className="bg-background p-3">
+                  <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Revenue</p>
+                  <button
+                    type="button"
+                    onClick={() => onMrrVerified(!mrrVerified)}
+                    className={`flex h-8 w-full items-center justify-center gap-1.5 rounded-[4px] border text-xs font-medium transition-colors ${
+                      mrrVerified
+                        ? "border-foreground bg-foreground text-background"
+                        : "border-border bg-card text-foreground hover:border-foreground"
+                    }`}>
+                    💰 Verified
+                  </button>
                 </div>
               </div>
 
-              {/* Language section */}
+              {/* Language */}
               {languages.length > 0 && (
                 <div className="border-b border-border p-3">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Language</p>
+                  <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Language</p>
                   <LanguageDropdown
                     languages={languages}
                     value={language}
@@ -236,60 +345,21 @@ function FiltersBar({
                 </div>
               )}
 
-              {/* Category section */}
-              <div className="p-3">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Category</p>
-                <div className="flex flex-col gap-1">
-                  <button
-                    type="button"
-                    onClick={() => { onCategory(undefined); }}
-                    className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-sm transition-colors hover:bg-accent ${
-                      !category ? "bg-[#F8D481]/20 font-semibold" : ""
-                    }`}>
-                    <span>All categories</span>
-                    {stats && (
-                      <span className="text-xs text-muted-foreground tabular-nums">{fmtK(stats.totalCommunities)}</span>
-                    )}
-                  </button>
-                  {SKOOL_CATEGORIES.map((cat: typeof SKOOL_CATEGORIES[number]) => {
-                    const dbCat = categories.find(c => c.value === cat.slug);
-                    return (
-                      <button
-                        key={cat.slug}
-                        type="button"
-                        onClick={() => { onCategory(cat.slug); }}
-                        className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-sm transition-colors hover:bg-accent ${
-                          category === cat.slug ? "bg-[#F8D481]/20 font-semibold" : ""
-                        }`}>
-                        <span>{cat.emoji} {cat.label}</span>
-                        {dbCat?.count != null && (
-                          <span className="text-xs text-muted-foreground tabular-nums">
-                            {dbCat.count >= 1000 ? `${Math.round(dbCat.count / 1000)}k+` : dbCat.count}
-                          </span>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
+              {/* Category */}
+              <div className="border-b border-border p-3">
+                <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Category</p>
+                <CategoryDropdown
+                  categories={categories}
+                  value={category}
+                  onChange={v => { onCategory(v); }}
+                  stats={stats}
+                  fmtK={fmtK}
+                />
               </div>
 
-              {/* Revenue Verified section */}
-              <div className="border-t border-border p-3">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Revenue</p>
-                <button
-                  type="button"
-                  onClick={() => onMrrVerified(!mrrVerified)}
-                  className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-sm transition-colors hover:bg-accent ${
-                    mrrVerified ? "bg-[#F8D481]/20 font-semibold" : ""
-                  }`}>
-                  <span>💰 Revenue verified</span>
-                  <span className="text-xs text-muted-foreground">100</span>
-                </button>
-              </div>
-
-              {/* Clear inside dropdown */}
+              {/* Clear */}
               {activeFilterCount > 0 && (
-                <div className="border-t border-border p-2">
+                <div className="p-2">
                   <button
                     type="button"
                     onClick={() => { onClear(); setFiltersOpen(false); }}

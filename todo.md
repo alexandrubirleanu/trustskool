@@ -418,3 +418,9 @@
 - [x] [CR-3] CommunityDetail.tsx updated: inline IIFE renders correct chip per rank
 - [x] [CR-4] Ring highlight now uses isTop3 (rank <= 3) instead of isCategoryTop
 - [x] [CR-5] DB verified: top 15 communities show distinct ranks (1,2,3,4,5,6,7...) across money/tech/health/spirituality categories
+
+## Filter UX Optimization (2026-07-20)
+- [x] [FLT-1] Price filter converted to native select with counts (All/Free/Paid with totals)
+- [x] [FLT-2] Category filter converted to searchable CategoryDropdown (mirrors LanguageDropdown, emoji + count display)
+- [x] [FLT-3] Filters panel restructured: 2-col grid (Price select + Revenue toggle), Language dropdown, Category dropdown; panel width 64 for better fit
+- [x] [FLT-4] Mobile (390px) verified: homepage and community detail render cleanly, nav hamburger works, 93/93 tests passing
