@@ -56,22 +56,27 @@ const LIST_COLUMNS = {
    * a tied group show as rank 1 simultaneously (confirmed live: two different
    * communities both displaying "#1 Money").
    */
+  /**
+   * CORRELATED subquery: references outer row via unquoted column names.
+   * Using ${communities.col} here would bind as a SQL parameter (constant),
+   * making every row return rank 1 — so we use literal column references.
+   */
   categoryRank: sql<number>`(
     SELECT COUNT(*) + 1 FROM communities c2
-    WHERE c2.category = ${communities.category}
+    WHERE c2.category = communities.category
       AND c2.category IS NOT NULL
-      AND (c2.trustSkore > ${communities.trustSkore}
-        OR (c2.trustSkore = ${communities.trustSkore} AND c2.id < ${communities.id}))
+      AND (c2.trustSkore > communities.trustSkore
+        OR (c2.trustSkore = communities.trustSkore AND c2.id < communities.id))
   )`,
   /** True only for the single community whose categoryRank (tie-broken) is 1 */
   isCategoryTop: sql<number>`(
     SELECT CASE WHEN (
       SELECT COUNT(*) FROM communities c2
-      WHERE c2.category = ${communities.category}
+      WHERE c2.category = communities.category
         AND c2.category IS NOT NULL
-        AND (c2.trustSkore > ${communities.trustSkore}
-          OR (c2.trustSkore = ${communities.trustSkore} AND c2.id < ${communities.id}))
-    ) = 0 AND ${communities.category} IS NOT NULL THEN 1 ELSE 0 END
+        AND (c2.trustSkore > communities.trustSkore
+          OR (c2.trustSkore = communities.trustSkore AND c2.id < communities.id))
+    ) = 0 AND communities.category IS NOT NULL THEN 1 ELSE 0 END
   )`,
 };
 
