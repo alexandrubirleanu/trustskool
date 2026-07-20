@@ -382,7 +382,7 @@ export default function CommunityDetail() {
                 {community.category && (
                   <span className="inline-flex items-center gap-1">
                     {formatCategory(community.category)}
-                    {(community as any).categoryRank && (community as any).categoryRank <= 100 && (
+                    {(community as any).categoryRank && (community as any).categoryRank <= 10 && (
                       <span className="rounded-[3px] bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
                         #{(community as any).categoryRank} in category
                       </span>

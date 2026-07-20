@@ -47,20 +47,30 @@ const LIST_COLUMNS = {
   isFlagged: communities.isFlagged,
   flagReason: communities.flagReason,
   mrrStatus: communities.mrrStatus,
-  /** Rank of this community within its category by trustSkore (1 = best in category) */
+  /**
+   * Rank of this community within its category by trustSkore (1 = best in category).
+   * Tie-broken by id (lower id wins) so communities sharing the exact same trustSkore
+   * (common - many share a neutral/bootstrap/floor value) get distinct sequential
+   * ranks instead of all tying for the same position. Without the tiebreaker this
+   * used a plain "count with strictly greater score" test, which let every member of
+   * a tied group show as rank 1 simultaneously (confirmed live: two different
+   * communities both displaying "#1 Money").
+   */
   categoryRank: sql<number>`(
     SELECT COUNT(*) + 1 FROM communities c2
     WHERE c2.category = ${communities.category}
       AND c2.category IS NOT NULL
-      AND c2.trustSkore > ${communities.trustSkore}
+      AND (c2.trustSkore > ${communities.trustSkore}
+        OR (c2.trustSkore = ${communities.trustSkore} AND c2.id < ${communities.id}))
   )`,
-  /** 1 if this community is #1 in its category by current trustSkore */
+  /** True only for the single community whose categoryRank (tie-broken) is 1 */
   isCategoryTop: sql<number>`(
     SELECT CASE WHEN (
       SELECT COUNT(*) FROM communities c2
       WHERE c2.category = ${communities.category}
         AND c2.category IS NOT NULL
-        AND c2.trustSkore > ${communities.trustSkore}
+        AND (c2.trustSkore > ${communities.trustSkore}
+          OR (c2.trustSkore = ${communities.trustSkore} AND c2.id < ${communities.id}))
     ) = 0 AND ${communities.category} IS NOT NULL THEN 1 ELSE 0 END
   )`,
 };

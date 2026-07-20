@@ -148,7 +148,7 @@ export default function CommunityCard({
               #1 {formatCategory(community.category)}
             </span>
           )}
-          {!isTop && catRank && catRank <= 50 && community.category && (
+          {!isTop && catRank && catRank <= 10 && community.category && (
             <span className="hidden sm:inline rounded-[3px] bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
               #{catRank} {formatCategory(community.category)}
             </span>
