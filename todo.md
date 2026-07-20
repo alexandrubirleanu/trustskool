@@ -404,3 +404,10 @@
 ## Owner Engagement — Follow-up (2026-07-19)
 - [x] [OE-9] Confirm pipeline ingestion already maps all 6 owner activity fields (ownerSkoolJoinedAt, ownerLastActiveAt, ownerActiveDaysLast30, ownerActiveDaysLast90, ownerTotalContributions, ownerTotalFollowers) — confirmed, already wired in communityRecordSchema + toCommunityRow + upsertCommunity; no code change needed
 - [x] [OE-10] Add Owner Engagement as 4th bar in CommunityDetail breakdown section: SUB_INDICATORS updated (weights 35/30/15/20%), grid changed to sm:grid-cols-2 md:grid-cols-4, null owner_engagement shows "No data yet" with neutral 50% bar, upsertCommunity now includes all 6 owner activity fields in onDuplicateKeyUpdate
+
+## MRR Badge Floor (2026-07-20)
+- [x] [MRR-1] Add mrrBadgeFloor(mrrStatus) to trustskore.ts: clover→75, rocket/liftoff→82, crown→88, diamond→93, red_diamond→97, goat/goated→99, none/null→0
+- [x] [MRR-2] Extend computeTrustSkoreWithFloor signature to accept mrrStatus, apply finalScore = max(raw, memberCountFloor?, mrrBadgeFloor)
+- [x] [MRR-3] Update ingestion.ts to pass record.mrr_status to computeTrustSkoreWithFloor
+- [x] [MRR-4] Write Vitest tests: 21 tests in server/mrrBadgeFloor.test.ts (13 unit + 8 integration), all passing; 93/93 total tests passing
+- [x] [MRR-5] Update Methodology v1.6: added MRR badge floor table in formula section, added v1.6 changelog entry, bumped version header

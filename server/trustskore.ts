@@ -4,6 +4,7 @@ import type {
   RankHistoryPoint,
   ScoreBreakdown,
 } from "../drizzle/schema";
+import type { MrrStatus } from "./mrrEstimate";
 import { SCORE_WEIGHTS } from "../shared/appConfig";
 
 /**
@@ -363,8 +364,42 @@ export function hasInsufficientHistory(
 }
 
 /**
- * Compute TrustSkore with member-count floor applied when history is too short.
- * Once the pipeline accumulates ≥2 data points, the real score takes over.
+ * Permanent TrustSkore floor based on the community's Skool-verified MRR badge.
+ * A verified badge is a stable, external trust signal that should always be
+ * reflected in the score — unlike the memberCountFloor which is only a bootstrap
+ * proxy until real history accumulates.
+ *
+ * Tier mapping (badge → floor):
+ *   clover      ($3k+/mo)   → 75
+ *   rocket      ($10k+/mo)  → 82
+ *   liftoff     ($10k+/mo)  → 82  (alias for rocket)
+ *   crown       ($30k+/mo)  → 88
+ *   diamond     ($100k+/mo) → 93
+ *   red_diamond ($300k+/mo) → 97
+ *   goated      ($1M+/mo)   → 99
+ *   goat        ($1M+/mo)   → 99  (alias for goated)
+ *   none / null             →  0  (no floor applied)
+ */
+export function mrrBadgeFloor(mrrStatus: MrrStatus | string | null | undefined): number {
+  switch (mrrStatus) {
+    case "clover":      return 75;
+    case "rocket":      return 82;
+    case "liftoff":     return 82;
+    case "crown":       return 88;
+    case "diamond":     return 93;
+    case "red_diamond": return 97;
+    case "goated":      return 99;
+    case "goat":        return 99;
+    default:            return 0;
+  }
+}
+
+/**
+ * Compute TrustSkore with all applicable floors:
+ * 1. memberCountFloor — applied only when history is too short (<2 data points)
+ * 2. mrrBadgeFloor    — applied always when a Skool-verified MRR badge is present
+ *
+ * finalScore = max(rawComputedScore, memberCountFloor?, mrrBadgeFloor)
  */
 export function computeTrustSkoreWithFloor(
   breakdown: ScoreBreakdown,
@@ -372,11 +407,19 @@ export function computeTrustSkoreWithFloor(
   memberHistory: { date: string }[] | null | undefined,
   rankHistory: { date: string }[] | null | undefined,
   communityId?: number | string,
+  mrrStatus?: MrrStatus | string | null,
 ): number {
   const raw = computeTrustSkore(breakdown, totalMembers, communityId);
+  let score = raw;
+  // Member-count floor: only when history is too short to compute real momentum
   if (hasInsufficientHistory(memberHistory, rankHistory)) {
     const floor = memberCountFloor(totalMembers);
-    return Math.max(raw, floor);
+    score = Math.max(score, floor);
   }
-  return raw;
+  // MRR badge floor: always applied when a verified badge is present
+  const badgeFloor = mrrBadgeFloor(mrrStatus);
+  if (badgeFloor > 0) {
+    score = Math.max(score, badgeFloor);
+  }
+  return score;
 }

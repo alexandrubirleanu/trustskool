@@ -105,7 +105,7 @@ export function toCommunityRow(record: PipelineCommunityRecord): InsertCommunity
     : (record.score_breakdown ?? computedBreakdown); // graduated: prefer pipeline
   // Recompute the composite score from the final breakdown so it's always
   // internally consistent (breakdown sub-scores always add up to the displayed score).
-  const trustSkore = computeTrustSkoreWithFloor(breakdown, record.total_members, memberHistory, rankHistory, record.id);
+  const trustSkore = computeTrustSkoreWithFloor(breakdown, record.total_members, memberHistory, rankHistory, record.id, record.mrr_status ?? null);
   const growthRateBp = Math.round(computeGrowthRatePct(memberHistory) * 100);
 
   return {

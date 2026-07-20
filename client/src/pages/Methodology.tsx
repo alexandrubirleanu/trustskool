@@ -19,7 +19,7 @@ export default function Methodology() {
       <div className="container max-w-3xl py-12 md:py-16">
         {/* Page header */}
         <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          Methodology · v1.5 · July 2026
+          Methodology · v1.6 · July 2026
         </p>
         <h1 className="mt-2 text-xl font-bold tracking-tight sm:text-2xl md:text-[40px] md:leading-tight">
           How the TrustSkore is calculated
@@ -180,6 +180,29 @@ export default function Methodology() {
               All four sub-scores are on a 0–100 scale. The final TrustSkore is clamped to [0, 100]
               and rounded to four decimal places. The score is refreshed on each daily ingestion run.
             </p>
+            <div className="mt-4 rounded-[4px] border border-border bg-card p-4">
+              <p className="text-xs font-semibold text-foreground">MRR badge floor (permanent — applied whenever a Skool-verified badge is present)</p>
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                Communities with a Skool-verified MRR badge receive a permanent minimum TrustSkore.
+                This floor is always applied — a verified badge is a stable external trust signal, not a bootstrap proxy.
+              </p>
+              <div className="mt-3 overflow-x-auto rounded-[4px] bg-secondary/60 p-3 font-mono text-xs">
+                <table className="w-full text-left">
+                  <thead><tr className="text-muted-foreground"><th className="pr-6">Badge</th><th className="pr-6">MRR tier</th><th>Floor</th></tr></thead>
+                  <tbody>
+                    <tr><td className="pr-6">clover</td><td className="pr-6">$3k+/mo</td><td>75</td></tr>
+                    <tr><td className="pr-6">rocket / liftoff</td><td className="pr-6">$10k+/mo</td><td>82</td></tr>
+                    <tr><td className="pr-6">crown</td><td className="pr-6">$30k+/mo</td><td>88</td></tr>
+                    <tr><td className="pr-6">diamond</td><td className="pr-6">$100k+/mo</td><td>93</td></tr>
+                    <tr><td className="pr-6">red_diamond</td><td className="pr-6">$300k+/mo</td><td>97</td></tr>
+                    <tr><td className="pr-6">goated / goat</td><td className="pr-6">$1M+/mo</td><td>99</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Final score = max(raw computed score, MRR badge floor)
+              </p>
+            </div>
             <div className="mt-4 rounded-[4px] border border-border bg-card p-4">
               <p className="text-xs font-semibold text-foreground">Member-count floor (applied when fewer than 2 history snapshots are available)</p>
               <p className="mt-1.5 text-xs text-muted-foreground">
@@ -466,6 +489,18 @@ export default function Methodology() {
                 </tr>
               </thead>
               <tbody className="bg-card divide-y divide-border">
+                <tr>
+                  <td className="px-4 py-3 font-mono text-xs font-semibold">v1.6</td>
+                  <td className="px-4 py-3 text-muted-foreground">July 2026</td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    Added permanent <strong className="text-foreground">MRR badge floor</strong>: communities with a Skool-verified
+                    revenue badge receive a minimum TrustSkore regardless of history length.
+                    Floors by tier: clover ($3k+/mo) → 75, rocket/liftoff ($10k+/mo) → 82, crown ($30k+/mo) → 88,
+                    diamond ($100k+/mo) → 93, red_diamond ($300k+/mo) → 97, goated ($1M+/mo) → 99.
+                    Unlike the member-count bootstrap floor, the MRR floor is always applied — a verified badge
+                    is a stable external trust signal. Final score = max(raw, member-count floor if applicable, MRR badge floor).
+                  </td>
+                </tr>
                 <tr>
                   <td className="px-4 py-3 font-mono text-xs font-semibold">v1.5</td>
                   <td className="px-4 py-3 text-muted-foreground">July 2026</td>
