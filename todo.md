@@ -411,3 +411,10 @@
 - [x] [MRR-3] Update ingestion.ts to pass record.mrr_status to computeTrustSkoreWithFloor
 - [x] [MRR-4] Write Vitest tests: 21 tests in server/mrrBadgeFloor.test.ts (13 unit + 8 integration), all passing; 93/93 total tests passing
 - [x] [MRR-5] Update Methodology v1.6: added MRR badge floor table in formula section, added v1.6 changelog entry, bumped version header
+
+## Category Rank Badges (2026-07-20)
+- [x] [CR-1] categoryRank subquery confirmed correct (tie-broken by id); isCategoryTop is virtual, no schema change needed
+- [x] [CR-2] CommunityCard.tsx updated: getCatRankChip() helper, gold/silver/bronze/top10/top20 chips, ring-1 extended to top 3
+- [x] [CR-3] CommunityDetail.tsx updated: inline IIFE renders correct chip per rank
+- [x] [CR-4] Ring highlight now uses isTop3 (rank <= 3) instead of isCategoryTop
+- [x] [CR-5] DB verified: top 15 communities show distinct ranks (1,2,3,4,5,6,7...) across money/tech/health/spirituality categories

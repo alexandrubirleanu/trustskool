@@ -379,16 +379,39 @@ export default function CommunityDetail() {
                   <GrowthIcon className="h-4 w-4" /> {formatGrowth(growth)} / 30d
                 </span>
                 <span>{formatPrice(community.priceAmountCents, community.priceInterval)}</span>
-                {community.category && (
-                  <span className="inline-flex items-center gap-1">
-                    {formatCategory(community.category)}
-                    {(community as any).categoryRank && (community as any).categoryRank <= 10 && (
-                      <span className="rounded-[3px] bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
-                        #{(community as any).categoryRank} in category
-                      </span>
-                    )}
-                  </span>
-                )}
+                {community.category && (() => {
+                  const cr = (community as any).categoryRank as number | null | undefined;
+                  return (
+                    <span className="inline-flex items-center gap-1">
+                      {formatCategory(community.category)}
+                      {cr === 1 && (
+                        <span className="rounded-[3px] bg-[oklch(0.97_0.05_85)] px-1.5 py-0.5 text-[10px] font-semibold text-[oklch(0.50_0.15_85)]">
+                          🥇 #1 in category
+                        </span>
+                      )}
+                      {cr === 2 && (
+                        <span className="rounded-[3px] bg-[oklch(0.97_0.02_265)] px-1.5 py-0.5 text-[10px] font-semibold text-[oklch(0.42_0.05_265)]">
+                          🥈 #2 in category
+                        </span>
+                      )}
+                      {cr === 3 && (
+                        <span className="rounded-[3px] bg-[oklch(0.97_0.03_40)] px-1.5 py-0.5 text-[10px] font-semibold text-[oklch(0.48_0.10_40)]">
+                          🥉 #3 in category
+                        </span>
+                      )}
+                      {cr && cr >= 4 && cr <= 10 && (
+                        <span className="rounded-[3px] bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+                          Top 10 in category
+                        </span>
+                      )}
+                      {cr && cr >= 11 && cr <= 20 && (
+                        <span className="rounded-[3px] bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+                          Top 20 in category
+                        </span>
+                      )}
+                    </span>
+                  );
+                })()}
                 <span>{capitalize(community.language)}</span>
                 {getMrrBadge((community as any).mrrStatus) && (
                   <span

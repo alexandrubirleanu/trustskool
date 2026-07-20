@@ -54,6 +54,42 @@ function Avatar({ name, logoUrl }: { name: string; logoUrl: string | null }) {
   );
 }
 
+/** Returns the category rank chip config based on the numeric rank */
+function getCatRankChip(rank: number, category: string) {
+  const cat = formatCategory(category);
+  if (rank === 1) return {
+    label: `🥇 #1 ${cat}`,
+    className: "bg-[oklch(0.97_0.05_85)] text-[oklch(0.50_0.15_85)]",
+    iconColor: "text-[oklch(0.65_0.15_85)]",
+    showCrown: true,
+  };
+  if (rank === 2) return {
+    label: `🥈 #2 ${cat}`,
+    className: "bg-[oklch(0.97_0.02_265)] text-[oklch(0.42_0.05_265)]",
+    iconColor: "text-[oklch(0.60_0.05_265)]",
+    showCrown: true,
+  };
+  if (rank === 3) return {
+    label: `🥉 #3 ${cat}`,
+    className: "bg-[oklch(0.97_0.03_40)] text-[oklch(0.48_0.10_40)]",
+    iconColor: "text-[oklch(0.58_0.10_40)]",
+    showCrown: true,
+  };
+  if (rank <= 10) return {
+    label: `Top 10 ${cat}`,
+    className: "bg-secondary text-muted-foreground",
+    iconColor: "",
+    showCrown: false,
+  };
+  if (rank <= 20) return {
+    label: `Top 20 ${cat}`,
+    className: "bg-secondary text-muted-foreground",
+    iconColor: "",
+    showCrown: false,
+  };
+  return null;
+}
+
 export default function CommunityCard({
   community,
   rank,
@@ -67,9 +103,10 @@ export default function CommunityCard({
   const priceType = getPriceType(community.priceAmountCents, community.priceInterval);
   const isTrending = growth > 0;
   const isFree = priceType === "free";
-  const isTop = Boolean(community.isCategoryTop);
   const mrrBadge = getMrrBadge(community.mrrStatus);
   const catRank = community.categoryRank && community.category ? community.categoryRank : null;
+  const catChip = catRank && community.category ? getCatRankChip(catRank, community.category) : null;
+  const isTop3 = catRank !== null && catRank !== undefined && catRank <= 3;
   // Only show growth when it's meaningful (>= 0.1% or <= -0.1%)
   const hasSignificantGrowth = Math.abs(growth) >= 10;
 
@@ -87,7 +124,7 @@ export default function CommunityCard({
         "group flex items-center gap-3 border-b border-border bg-card px-3 py-3 transition-colors",
         "first:rounded-t-[4px] last:rounded-b-[4px] last:border-b-0 hover:bg-accent",
         "sm:gap-4 sm:px-5 sm:py-4",
-        isTop ? "ring-1 ring-inset ring-[oklch(0.75_0.15_85)]" : "",
+        isTop3 ? "ring-1 ring-inset ring-[oklch(0.75_0.15_85)]" : "",
       ]
         .filter(Boolean)
         .join(" ")}>
@@ -101,12 +138,24 @@ export default function CommunityCard({
 
       {/* Main content — two rows on mobile */}
       <div className="min-w-0 flex-1">
-        {/* Row 1: title */}
+        {/* Row 1: title with optional rank crown icon */}
         <div className="flex min-w-0 items-center gap-1.5">
-          {isTop && (
+          {catRank === 1 && (
             <Crown
               className="h-3.5 w-3.5 shrink-0 text-[oklch(0.65_0.15_85)]"
               aria-label={`#1 in ${community.category ?? "category"}`}
+            />
+          )}
+          {catRank === 2 && (
+            <Crown
+              className="h-3.5 w-3.5 shrink-0 text-[oklch(0.60_0.05_265)]"
+              aria-label={`#2 in ${community.category ?? "category"}`}
+            />
+          )}
+          {catRank === 3 && (
+            <Crown
+              className="h-3.5 w-3.5 shrink-0 text-[oklch(0.58_0.10_40)]"
+              aria-label={`#3 in ${community.category ?? "category"}`}
             />
           )}
           <h3
@@ -142,17 +191,15 @@ export default function CommunityCard({
             </span>
           )}
           {isFree && <span className="badge-free">Free</span>}
-          {isTop && community.category && (
-            <span className="hidden sm:inline-flex items-center gap-1 rounded-[3px] bg-[oklch(0.97_0.05_85)] px-1.5 py-0.5 text-[10px] font-semibold text-[oklch(0.55_0.15_85)]">
-              <Crown className="h-2.5 w-2.5" />
-              #1 {formatCategory(community.category)}
+
+          {/* Category rank chip: gold/silver/bronze/top10/top20 */}
+          {catChip && (
+            <span
+              className={`hidden sm:inline-flex items-center gap-1 rounded-[3px] px-1.5 py-0.5 text-[10px] font-semibold ${catChip.className}`}>
+              {catChip.label}
             </span>
           )}
-          {!isTop && catRank && catRank <= 10 && community.category && (
-            <span className="hidden sm:inline rounded-[3px] bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
-              #{catRank} {formatCategory(community.category)}
-            </span>
-          )}
+
           {mrrBadge && (
             <span
               title={`Est. revenue: ${mrrBadge.range} (Skool-verified minimum)`}
