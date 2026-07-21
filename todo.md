@@ -424,3 +424,8 @@
 - [x] [FLT-2] Category filter converted to searchable CategoryDropdown (mirrors LanguageDropdown, emoji + count display)
 - [x] [FLT-3] Filters panel restructured: 2-col grid (Price select + Revenue toggle), Language dropdown, Category dropdown; panel width 64 for better fit
 - [x] [FLT-4] Mobile (390px) verified: homepage and community detail render cleanly, nav hamburger works, 93/93 tests passing
+
+## Rankings Fix (2026-07-21)
+- [x] [RNK-1] Added computeCategoryRankings() call after runIngestion() in handleScheduledIngest — non-fatal, logs result
+- [x] [RNK-2] Snapshot recomputed via tsx script: 270 rows across 9 categories (30 per category), snapshotMonth 2026-07
+- [x] [RNK-3] Verified: Money #1 Blue-Collar Biz Accelerator (99), #2 Blue-Collar Biz Free Group (99), #3 Origins Ecommerce (97) — matches homepage

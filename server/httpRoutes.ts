@@ -127,6 +127,17 @@ async function handleScheduledIngest(req: Request, res: Response) {
       return res.status(403).json({ error: "cron-only" });
     }
     const result = await runIngestion();
+    // After ingestion, refresh the monthly rankings snapshot so /rankings
+    // always reflects the current TrustSkore data.
+    let rankingsRefreshed = 0;
+    try {
+      const rankResults = await computeCategoryRankings();
+      rankingsRefreshed = rankResults.reduce((s, r) => s + r.inserted, 0);
+      console.log(`[ScheduledIngest] Rankings snapshot refreshed: ${rankingsRefreshed} rows across ${rankResults.length} categories`);
+    } catch (rankErr) {
+      // Non-fatal — ingestion result is still returned
+      console.error("[ScheduledIngest] Rankings snapshot failed (non-fatal):", rankErr);
+    }
     return res.json({
       ok: result.ok,
       source: result.source,
@@ -134,6 +145,7 @@ async function handleScheduledIngest(req: Request, res: Response) {
       upserted: result.upserted,
       skipped: result.skipped,
       errors: result.errors,
+      rankingsRefreshed,
     });
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
