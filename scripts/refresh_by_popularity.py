@@ -5,8 +5,8 @@ re-paginating whole-language discovery listings. One request per community (its
 /about page), which also captures the owner MRR badge + real affiliate percentage
 in the same pass (see scrape_owner_profiles.py for the parsing this reuses).
 
-Tiers (thresholds calibrated from the real distribution across 8,154 communities,
-not arbitrary — see the analysis in the PR/commit that added this):
+Tiers (thresholds originally calibrated from the distribution across 8,154
+communities; slice sizes are updated as the dataset grows):
   Tier A  >= 2,000 members   refresh every 24-48h    ~330 communities today
   Tier B  200-1,999 members  refresh every 7-14 days  ~2,140 communities today
   Tier C  < 200 members      refresh every 30-45 days ~5,680 communities today
@@ -246,8 +246,8 @@ def refresh_slice(communities_slice, snapshot_date):
 
 def main():
     args = sys.argv[1:]
-    tier_b_slice_size = int(os.environ.get("TIER_B_SLICE_SIZE", "250"))
-    tier_c_slice_size = int(os.environ.get("TIER_C_SLICE_SIZE", "170"))
+    tier_b_slice_size = int(os.environ.get("TIER_B_SLICE_SIZE", "700"))
+    tier_c_slice_size = int(os.environ.get("TIER_C_SLICE_SIZE", "800"))
 
     communities = load_communities()
     tier_a, tier_b, tier_c = classify(communities)
