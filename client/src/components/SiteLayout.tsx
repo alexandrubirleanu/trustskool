@@ -48,7 +48,7 @@ function NavSearch({ onNavigate }: { onNavigate?: () => void }) {
   };
 
   return (
-    <form onSubmit={submit} role="search" className="relative w-full max-w-sm">
+    <form onSubmit={submit} role="search" className="relative w-full max-w-lg">
       <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
       <input
         type="search"
@@ -76,30 +76,31 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm">
-        <div className="container flex h-16 items-center justify-between gap-4">
+        <div className="mx-auto flex h-16 w-full max-w-[1536px] items-center gap-3 px-4 sm:px-6 lg:gap-5 lg:px-8">
           <Link href="/" aria-label="TrustSkool home" className="shrink-0">
             <BrandMark />
           </Link>
 
-          <div className="hidden flex-1 justify-center md:flex">
+          <div className="hidden min-w-[16rem] flex-1 justify-start md:flex lg:min-w-[18rem] xl:min-w-[24rem]">
             <NavSearch />
           </div>
 
-          <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
+          <nav className="ml-auto hidden shrink-0 items-center gap-3 lg:flex xl:gap-4" aria-label="Main">
             <Link
               href="/watchlist"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
-              <Bookmark className="h-4 w-4" /> Watchlist
+              aria-label={`Watchlist${watchlist.count > 0 ? `, ${watchlist.count} saved` : ""}`}
+              className="inline-flex h-9 items-center gap-1.5 rounded-[4px] border border-border px-2.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground xl:border-transparent xl:px-1">
+              <Bookmark className="h-4 w-4" /> <span className="hidden xl:inline">Watchlist</span>
               {watchlist.count > 0 && <span className="rounded-full bg-foreground px-1.5 py-0.5 text-[10px] leading-none text-background">{watchlist.count}</span>}
             </Link>
             <Link
               href="/resources"
-              className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
+              className="hidden text-sm font-medium text-foreground/80 transition-colors hover:text-foreground 2xl:block">
               Resources
             </Link>
             <Link
               href="/news"
-              className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
+              className="hidden text-sm font-medium text-foreground/80 transition-colors hover:text-foreground 2xl:block">
               News
             </Link>
             <Link
@@ -109,7 +110,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             </Link>
             <Link
               href="/methodology"
-              className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
+              className="hidden text-sm font-medium text-foreground/80 transition-colors hover:text-foreground 2xl:block">
               Methodology
             </Link>
             <a
@@ -117,15 +118,16 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
               target="_blank" rel="sponsored noopener noreferrer"
               data-fast-goal="skool_click"
               data-fast-goal-source="nav_desktop"
-              className="inline-flex h-9 items-center rounded-[4px] bg-[#F8D481] px-4 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97]">
-              Start on Skool for $9
+              className="inline-flex h-9 items-center rounded-[4px] bg-[#F8D481] px-3 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97] xl:px-4">
+              <span className="xl:hidden">Start on Skool</span>
+              <span className="hidden xl:inline">Start on Skool for $9</span>
             </a>
           </nav>
 
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="ml-auto flex items-center gap-2 lg:hidden">
             <button
               type="button"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-[4px] border border-border"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-[4px] border border-border md:hidden"
               aria-label="Search communities"
               onClick={() => setMobileOpen(true)}>
               <Search className="h-4 w-4" />
@@ -141,7 +143,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
         </div>
 
         {mobileOpen && (
-          <div className="border-t border-border bg-background px-4 pb-4 pt-3 md:hidden">
+          <div className="border-t border-border bg-background px-4 pb-4 pt-3 lg:hidden">
             <NavSearch onNavigate={() => setMobileOpen(false)} />
             <div className="mt-3 flex flex-col gap-1">
               <Link href="/watchlist" className="flex items-center gap-2 rounded-[4px] px-2 py-2 text-sm font-medium hover:bg-accent">
