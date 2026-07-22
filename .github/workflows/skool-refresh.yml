@@ -28,8 +28,16 @@ jobs:
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           ALERT_EMAIL: ${{ secrets.ALERT_EMAIL }}
-          TIER_B_SLICE_SIZE: "250"
-          TIER_C_SLICE_SIZE: "170"
+          # Bumped 2026-07-22: slice sizes were calibrated for the ~8,154-community
+          # dataset in refresh_by_popularity.py's docstring. After the language
+          # expansion passes (33 new languages + en/de/es/fr deep-expand), the live
+          # tiers are Tier B ~6,359 / Tier C ~24,771 - at the old 250/170 slices that's
+          # a ~25/~146 day full cycle against 10/35 day targets, well past the
+          # 21d/60d SLA alert thresholds. New sizes target ~9d/~31d cycles with
+          # headroom for continued growth (check_capacity() will alert again if the
+          # dataset outgrows this).
+          TIER_B_SLICE_SIZE: "700"
+          TIER_C_SLICE_SIZE: "800"
         run: python3 scripts/refresh_by_popularity.py all
 
       # Discovery pass: finds NEW communities and updates Skool's own trending-rank
