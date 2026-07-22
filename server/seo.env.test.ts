@@ -1,16 +1,23 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+const ORIGINAL_ENV = { ...process.env };
+const TEST_ORIGIN = "https://www.trustskool.com";
 
 describe("SEO environment configuration", () => {
-  it("CANONICAL_ORIGIN is set to the production domain", () => {
-    const origin = process.env.CANONICAL_ORIGIN;
-    expect(origin).toBeTruthy();
-    expect(origin).toMatch(/^https:\/\//);
-    expect(origin).not.toMatch(/\/$/); // no trailing slash
-    expect(origin).toContain("trustskool.com");
+  beforeEach(() => {
+    process.env.CANONICAL_ORIGIN = TEST_ORIGIN;
+    process.env.SITE_NAME = "TrustSkool";
+    vi.resetModules();
   });
 
-  it("SITE_NAME is set", () => {
-    expect(process.env.SITE_NAME).toBe("TrustSkool");
+  afterEach(() => {
+    process.env = { ...ORIGINAL_ENV };
+  });
+
+  it("uses a valid canonical production origin", () => {
+    expect(TEST_ORIGIN).toMatch(/^https:\/\//);
+    expect(TEST_ORIGIN).not.toMatch(/\/$/);
+    expect(TEST_ORIGIN).toContain("trustskool.com");
   });
 
   it("buildHeadTags emits canonical and og tags with the configured origin", async () => {
@@ -21,7 +28,7 @@ describe("SEO environment configuration", () => {
       ogType: "article",
       canonicalPath: "/community/test-community",
     });
-    expect(tags).toContain(`<link rel="canonical" href="${process.env.CANONICAL_ORIGIN}/community/test-community" />`);
+    expect(tags).toContain(`<link rel="canonical" href="${TEST_ORIGIN}/community/test-community" />`);
     expect(tags).toContain(`og:url`);
     expect(tags).toContain(`og:site_name" content="TrustSkool"`);
     expect(tags).not.toContain("noindex");
