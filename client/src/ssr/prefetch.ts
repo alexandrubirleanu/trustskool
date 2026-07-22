@@ -537,6 +537,28 @@ export async function prefetchForPath(
     };
   }
 
+  // Browser-local decision tools. These routes contain viewer-specific data
+  // from localStorage, so they must render with HTTP 200 but remain noindex.
+  if (clean === "/watchlist") {
+    return {
+      title: `Your Skool community watchlist · ${SITE}`,
+      description:
+        "Track saved Skool communities and compare changes in members, price, growth, and TrustSkore without creating an account.",
+      canonicalPath: "/watchlist",
+      noindex: true,
+    };
+  }
+
+  if (clean === "/compare") {
+    return {
+      title: `Compare Skool communities · ${SITE}`,
+      description:
+        "Compare TrustSkore, members, pricing, growth, founder engagement, and data confidence across Skool communities.",
+      canonicalPath: "/compare",
+      noindex: true,
+    };
+  }
+
   // Auth-gated routes: 200 + default head, noindex, no prefetch.
   if (clean === "/admin" || clean.startsWith("/admin/")) {
     return { title: SITE, description: DESC, noindex: true };
