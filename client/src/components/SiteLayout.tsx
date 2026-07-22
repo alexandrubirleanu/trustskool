@@ -1,6 +1,7 @@
-import { Menu, Search, X } from "lucide-react";
+import { Bookmark, Menu, Search, X } from "lucide-react";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
+import { useWatchlist } from "@/hooks/useWatchlist";
 /**
  * Public site layout: top-nav with TrustSkool branding, search bar and
  * Methodology link, plus the compliance footer. Used by every public page.
@@ -64,6 +65,7 @@ function NavSearch({ onNavigate }: { onNavigate?: () => void }) {
 export default function SiteLayout({ children }: { children: ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [location] = useLocation();
+  const watchlist = useWatchlist();
 
   useEffect(() => {
     setMobileOpen(false);
@@ -84,6 +86,12 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
           </div>
 
           <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
+            <Link
+              href="/watchlist"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
+              <Bookmark className="h-4 w-4" /> Watchlist
+              {watchlist.count > 0 && <span className="rounded-full bg-foreground px-1.5 py-0.5 text-[10px] leading-none text-background">{watchlist.count}</span>}
+            </Link>
             <Link
               href="/resources"
               className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
@@ -136,6 +144,9 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
           <div className="border-t border-border bg-background px-4 pb-4 pt-3 md:hidden">
             <NavSearch onNavigate={() => setMobileOpen(false)} />
             <div className="mt-3 flex flex-col gap-1">
+              <Link href="/watchlist" className="flex items-center gap-2 rounded-[4px] px-2 py-2 text-sm font-medium hover:bg-accent">
+                <Bookmark className="h-4 w-4" /> Watchlist {watchlist.count > 0 && `(${watchlist.count})`}
+              </Link>
               <Link
                 href="/resources"
                 className="rounded-[4px] px-2 py-2 text-sm font-medium hover:bg-accent">
@@ -181,6 +192,9 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
               </p>
             </div>
             <nav className="flex flex-col gap-2 text-sm" aria-label="Footer">
+              <Link href="/watchlist" className="text-foreground/80 hover:text-foreground">
+                Watchlist
+              </Link>
               <Link href="/rankings" className="text-foreground/80 hover:text-foreground">
                 Rankings
               </Link>
