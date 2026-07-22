@@ -8,6 +8,7 @@ import {
   getAdminOpportunityView,
   getClickStats,
   getCommunityBySlug,
+  getCommunitiesBySlugs,
   getFilterOptions,
   getLatestIngestionRun,
   getOwnerProfileBySlug,
@@ -93,6 +94,10 @@ export const appRouter = router({
         const community = await getCommunityBySlug(input.slug);
         return community ?? null;
       }),
+
+    bySlugs: publicProcedure
+      .input(z.object({ slugs: z.array(z.string().min(1).max(191)).max(100) }))
+      .query(({ input }) => getCommunitiesBySlugs(input.slugs)),
 
     similar: publicProcedure
       .input(

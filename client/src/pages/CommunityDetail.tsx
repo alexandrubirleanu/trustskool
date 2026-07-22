@@ -29,6 +29,8 @@ import {
 } from "@/lib/format";
 import { trpc } from "@/lib/trpc";
 import { useDatafast } from "@/hooks/useDatafast";
+import WatchlistButton from "@/components/WatchlistButton";
+import { getDataConfidence } from "@/lib/dataConfidence";
 
 const CHART_INK = "oklch(0.2436 0.0048 247.9)";
 const CHART_GRID = "oklch(0.9161 0.0015 84.57)";
@@ -261,6 +263,7 @@ export default function CommunityDetail() {
   const priceType = getPriceType(community.priceAmountCents, community.priceInterval);
   const isFree = priceType === "free";
   const isTrending = community.growthRateBp > 0;
+  const confidence = getDataConfidence(community);
 
   /** CTA label for Join buttons, context-aware per price type */
   function ctaLabel(context: "short" | "long"): string {
@@ -459,13 +462,16 @@ export default function CommunityDetail() {
                 )}
               </div>
             </div>
-            <a
-              href={`/go/${community.slug}`}
-              target="_blank" rel="sponsored noopener noreferrer"
-              onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: priceType, source: "header" })}
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97] md:w-auto">
-              {ctaLabel("short")} <ExternalLink className="h-4 w-4" />
-            </a>
+            <div className="flex w-full gap-2 md:w-auto">
+              <WatchlistButton community={community} />
+              <a
+                href={`/go/${community.slug}`}
+                target="_blank" rel="sponsored noopener noreferrer"
+                onClick={() => track("community_click", { slug: community.slug, community_name: community.displayName.slice(0, 100), price_type: priceType, source: "header" })}
+                className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-[4px] bg-[#F8D481] px-6 text-sm font-bold text-[#202124] transition-transform active:scale-[0.97] md:w-auto">
+                {ctaLabel("short")} <ExternalLink className="h-4 w-4" />
+              </a>
+            </div>
           </div>
         </header>
 
@@ -617,9 +623,13 @@ export default function CommunityDetail() {
 
         {/* Score breakdown */}
         <section className="mt-10" aria-labelledby="breakdown-heading">
-          <h2 id="breakdown-heading" className="text-lg font-semibold">
-            TrustSkore breakdown
-          </h2>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 id="breakdown-heading" className="text-lg font-semibold">TrustSkore breakdown</h2>
+            <div title={confidence.explanation} className="inline-flex items-center gap-2 rounded-[4px] border border-border bg-card px-3 py-1.5 text-xs">
+              <span className="text-muted-foreground">Data confidence</span>
+              <span className="font-semibold">{confidence.level} · {confidence.score}%</span>
+            </div>
+          </div>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
             {SUB_INDICATORS.map(ind => {
               // owner_engagement: null means no data yet (not zero/inactive) — show neutral state

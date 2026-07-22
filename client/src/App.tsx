@@ -21,6 +21,8 @@ import FounderPage from "./pages/FounderPage";
 import ReviewPage from "./pages/ReviewPage";
 import Rankings from "./pages/Rankings";
 import RankingCategory from "./pages/RankingCategory";
+import Watchlist from "./pages/Watchlist";
+import Compare from "./pages/Compare";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -41,6 +43,8 @@ function Router() {
       <Route path={"/reviews/:slug"} component={ReviewPage} />
       <Route path={"/rankings"} component={Rankings} />
       <Route path={"/rankings/:category"} component={RankingCategory} />
+      <Route path={"/watchlist"} component={Watchlist} />
+      <Route path={"/compare"} component={Compare} />
       <Route path={"/admin"} component={Admin} />
       <Route path={"/admin/clicks"} component={Admin} />
       <Route path={"/404"} component={NotFound} />

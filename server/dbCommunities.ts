@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, isNull, like, ne, or, sql, type SQL } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull, like, ne, or, sql, type SQL } from "drizzle-orm";
 import {
   categoryRankings,
   clicks,
@@ -149,6 +149,21 @@ export async function getCommunityBySlug(slug: string) {
   if (!db) return undefined;
   const rows = await db.select().from(communities).where(eq(communities.slug, slug)).limit(1);
   return rows[0];
+}
+
+export async function getCommunitiesBySlugs(slugs: string[]) {
+  const db = await getDb();
+  if (!db || slugs.length === 0) return [];
+  const uniqueSlugs = Array.from(new Set(slugs)).slice(0, 100);
+  const rows = await db
+    .select()
+    .from(communities)
+    .where(inArray(communities.slug, uniqueSlugs));
+  const bySlug = new Map(rows.map(row => [row.slug, row]));
+  return uniqueSlugs.flatMap(slug => {
+    const row = bySlug.get(slug);
+    return row ? [row] : [];
+  });
 }
 
 export async function getSimilarCommunities(slug: string, language: string, category: string | null, limit = 4) {
