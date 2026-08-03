@@ -126,4 +126,17 @@ Sorted by total_members descending, slug — display_name — members:
 4. Took the top 100.
 5. Split into 10 batches of 10 and generated pages via parallel writer agents, each applying the same non-negotiable rules from the 2026-07-19 launch batch (no invented bios, skip pure-filler descriptions, honest pricing, no em dashes, mandatory CTA, 400-650 word target matching frontmatter `word_count`).
 6. Verified all 84 written files: zero em dashes, correct CTA line format on every file, frontmatter `word_count` matching actual body word count within tolerance.
-7. Wrote this log and opened a PR against `main` from branch `routine/community-reviews-2026-08-03`.
+7. Committed and pushed branch `routine/community-reviews-2026-08-03` to origin.
+
+## PR status: could not be opened automatically
+
+Branch `routine/community-reviews-2026-08-03` is pushed to origin with the commit
+`[Routine] Community reviews 2026-08-03 - 84 new pages`, but this run could not open
+the pull request itself: GitHub API access (both the `gh` CLI and direct REST calls)
+returned `GitHub access is not enabled for this session. An org admin must connect
+the Claude GitHub App for this organization.` This is an org-level authorization gate,
+not a retryable error, so it wasn't worked around.
+
+**Action needed:** either connect the Claude GitHub App for this organization so future
+runs can open the PR automatically, or open it manually here:
+https://github.com/alexandrubirleanu/trustskool/pull/new/routine/community-reviews-2026-08-03
