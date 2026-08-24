@@ -3,7 +3,7 @@ title: "Le Club Blitzstream Review 2026: Free French Chess Community on Skool"
 meta_description: "Le Club Blitzstream review: a free, 9,115-member French-language Skool community for improving at chess through courses and community support."
 slug: "blitzstream-6028"
 niche: "Chess improvement courses and community, French-language"
-word_count: 396
+word_count: 476
 ---
 # Le Club Blitzstream Review 2026: Free French Chess Community on Skool
 
@@ -12,6 +12,8 @@ Chess communities aren't the most common thing on Skool, which makes Le Club Bli
 ## What's Actually Inside
 
 The description is short and direct: "Progresser aux échecs avec les cours et la communauté Blitzstream," which translates to "Improve at chess with Blitzstream's courses and community." That single line names two components explicitly, courses and community, suggesting the group pairs structured chess instruction with a peer discussion space rather than being one or the other exclusively. Because it's categorized under hobbies on Skool, this reads as a recreational and skill-building community rather than a competitive or professional chess training program. The description doesn't specify skill level, so it's unclear from the data whether the courses target beginners, intermediate players, or a mix.
+
+The membership figures show steady, incremental growth rather than a sudden spike, which fits the pattern of a hobby community that gains members gradually through word of mouth or an existing following, rather than one built on a single viral moment. For a niche topic like chess, sustained growth over time is arguably a better signal of ongoing value than a fast initial surge followed by drop-off, since it suggests people who join tend to stick around or refer others.
 
 ## Who Runs It
 

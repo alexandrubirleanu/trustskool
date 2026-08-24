@@ -3,7 +3,7 @@ title: "SMMA Secrets Review 2026: Is This Free Skool Community Worth Joining?"
 meta_description: "SMMA Secrets review: a free, 6,955-member Skool community for social media marketing agency owners, with live calls and peer support."
 slug: "smma-secrets-9123"
 niche: "SMMA (social media marketing agency) training and networking"
-word_count: 500
+word_count: 570
 ---
 # SMMA Secrets Review 2026: Is This Free Skool Community Worth Joining?
 

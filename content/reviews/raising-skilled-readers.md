@@ -3,7 +3,7 @@ title: "Raising Skilled Readers Review 2026: Free Skool Community for Parents"
 meta_description: "Raising Skilled Readers review: a free, 8,135-member Skool community offering parent education and expert support for teaching kids to read."
 slug: "raising-skilled-readers"
 niche: "Parent education for teaching children to read"
-word_count: 421
+word_count: 422
 ---
 # Raising Skilled Readers Review 2026: Free Skool Community for Parents
 

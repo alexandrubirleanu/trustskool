@@ -3,7 +3,7 @@ title: "Spanish After Hours Review 2026: Free Skool Community for Learning Spani
 meta_description: "Spanish After Hours review: a free, 7,594-member Skool community teaching Spanish using Lauri's method."
 slug: "friends"
 niche: "Spanish language learning using Lauri's method"
-word_count: 407
+word_count: 438
 ---
 # Spanish After Hours Review 2026: Free Skool Community for Learning Spanish
 

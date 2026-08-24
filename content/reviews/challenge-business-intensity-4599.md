@@ -3,7 +3,7 @@ title: "Challenge Business Intensity Review 2026: Free French Skool Community fo
 meta_description: "Challenge Business Intensity review: a free, 7,339-member French-language Skool community promising a 3-day path to 5,000 to 10,000 euros a month without social media posting."
 slug: "challenge-business-intensity-4599"
 niche: "French-language income challenge without social media"
-word_count: 0
+word_count: 451
 ---
 # Challenge Business Intensity Review 2026: Free French Skool Community for a 3-Day Income Challenge
 

@@ -3,7 +3,7 @@ title: "eCom Messiah Review 2026: Is Carl Weische's $1/Month Skool Community Wor
 meta_description: "eCom Messiah review: a $1/month, 7,660-member Skool community by Carl Weische focused on scaling ecommerce from 7 to 8 figures per year."
 slug: "ecom-messiah"
 niche: "Ecommerce scaling from 7 to 8 figures, led by Carl Weische"
-word_count: 418
+word_count: 453
 ---
 # eCom Messiah Review 2026: Is Carl Weische's $1/Month Skool Community Worth Joining?
 

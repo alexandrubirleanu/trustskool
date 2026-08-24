@@ -3,7 +3,7 @@ title: "Pegasus Chess Academy Review 2026: Is This Paid Skool Community Worth Jo
 meta_description: "Pegasus Chess Academy review: a paid, 7,518-member Skool community helping busy adult chess players make fewer mistakes and win more games."
 slug: "pegasus-chess-academy"
 niche: "Chess improvement coaching for busy adult players"
-word_count: 402
+word_count: 436
 ---
 # Pegasus Chess Academy Review 2026: Is This Paid Skool Community Worth Joining for Adult Chess Players?
 

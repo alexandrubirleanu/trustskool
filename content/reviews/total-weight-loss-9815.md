@@ -3,7 +3,7 @@ title: "Total Weight Loss Review 2026: Free Skool Community Worth Joining?"
 meta_description: "Total Weight Loss review: a free, 8,359-member Skool community focused on recipes and simple everyday habits for reaching a healthy weight."
 slug: "total-weight-loss-9815"
 niche: "Weight loss through recipes and daily habits"
-word_count: 420
+word_count: 432
 ---
 # Total Weight Loss Review 2026: Free Skool Community Worth Joining?
 

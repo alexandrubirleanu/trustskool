@@ -3,7 +3,7 @@ title: "Automation Network Review 2026: Free Skool Community for Faceless YouTub
 meta_description: "Automation Network review: a free, 8,182-member Skool community using AI to help members start and grow faceless YouTube channels."
 slug: "automation-network-9294"
 niche: "AI-assisted faceless YouTube channel growth"
-word_count: 418
+word_count: 436
 ---
 # Automation Network Review 2026: Free Skool Community for Faceless YouTube
 
