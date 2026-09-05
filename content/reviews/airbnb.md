@@ -3,7 +3,7 @@ title: "Airbnb Startup University Review 2026: Free 30-Day Arbitrage and Co-Host
 meta_description: "Airbnb Startup University review: a free, 5,105-member Skool community for launching an Airbnb arbitrage or co-hosting business in 30 days."
 slug: airbnb
 niche: "Airbnb rental arbitrage and co-hosting"
-word_count: 0
+word_count: 466
 ---
 # Airbnb Startup University Review 2026: Free 30-Day Arbitrage and Co-Hosting Plan
 

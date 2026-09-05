@@ -11,7 +11,7 @@ word_count: 0
 
 ## What's Actually Inside
 
-The framing is explicitly faith-based, tying personal growth to a Christian sense of purpose rather than the more secular language typical of most self-improvement listings on Skool. Beyond that one line, though, there's no detail on format, whether the community centers on devotionals, group challenges, live discussion, or something else. The category tag is the generic "self-improvement" bucket, so the faith angle is really only visible in the description itself, not in a separate niche label.
+The framing is explicitly faith-based, tying personal growth to a Christian sense of purpose rather than the more secular language typical of most self-improvement listings on Skool. Beyond that one line, though, there's no detail on format, whether the community centers on devotionals, group challenges, live discussion, or something else. The category tag is the generic "self-improvement" bucket, so the faith angle is really only visible in the description itself, not in a separate niche label. Almost 9,000 people have joined under that single line, which suggests the phrase resonates even without further elaboration on structure, and it's reasonable to assume word of mouth within faith circles plays some role in that growth.
 
 ## Who Runs It
 
@@ -31,7 +31,7 @@ Ryan Mak is listed as the owner of this community on Skool. No further independe
 
 ## Who It's a Good Fit For
 
-People who want their self-improvement work explicitly framed around Christian faith, and who are comfortable joining a free community without a detailed public curriculum, are the clearest fit here.
+People who want their self-improvement work explicitly framed around Christian faith, and who are comfortable joining a free community without a detailed public curriculum, are the clearest fit here. Members who value belonging to a values-aligned group over having every format detail spelled out in advance will likely feel at home.
 
 ## Who Should Skip It
 

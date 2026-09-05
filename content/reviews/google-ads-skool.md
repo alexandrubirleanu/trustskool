@@ -3,7 +3,7 @@ title: "Google Ads Skool Review 2026: Free Community for Campaign Feedback and S
 meta_description: "Google Ads Skool review: a free, 5,099-member Skool community for launching, optimizing, and scaling Google Ads campaigns."
 slug: google-ads-skool
 niche: "Google Ads campaign strategy and optimization"
-word_count: 0
+word_count: 457
 ---
 # Google Ads Skool Review 2026: Free Community for Campaign Feedback and Support
 

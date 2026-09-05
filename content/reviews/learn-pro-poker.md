@@ -3,7 +3,7 @@ title: "LearnProPoker Review 2026: Free Coaching from a 15-Year Pro, Ryan Laplan
 meta_description: "LearnProPoker review: a free, 5,757-member Skool community with structured poker training built by 15-year professional player Ryan Laplante."
 slug: learn-pro-poker
 niche: "Structured poker training from a professional player"
-word_count: 0
+word_count: 442
 ---
 
 # LearnProPoker Review 2026: Free Coaching from a 15-Year Pro, Ryan Laplante

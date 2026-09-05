@@ -11,7 +11,7 @@ Free entry, broad promises: This Is It Team Training is a Skool community of 9,1
 
 ## What's Actually Inside
 
-Four separate ideas are packed into that one sentence, knowledge, strategies, belief, and resources, which suggests a fairly wide net rather than one narrow specialty. There's no mention of a specific business model, whether that's e-commerce, coaching, real estate, or something else, and no detail on format, whether content arrives as courses, live calls, or discussion threads. The word "belief" standing alongside "strategies" and "resources" hints at a mindset component alongside anything more tactical, though the listing doesn't elaborate further.
+Four separate ideas are packed into that one sentence, knowledge, strategies, belief, and resources, which suggests a fairly wide net rather than one narrow specialty. There's no mention of a specific business model, whether that's e-commerce, coaching, real estate, or something else, and no detail on format, whether content arrives as courses, live calls, or discussion threads. The word "belief" standing alongside "strategies" and "resources" hints at a mindset component alongside anything more tactical, though the listing doesn't elaborate further. "Unlocking full potentials" is another phrase that leans motivational rather than descriptive, and taken together the pitch reads closer to a general business-mindset hub than a program built around one repeatable method.
 
 ## Who Runs It
 
@@ -31,7 +31,7 @@ Steve Merritt is listed as the owner of this community on Skool. No further inde
 
 ## Who It's a Good Fit For
 
-Early-stage entrepreneurs who want general motivation and broad strategic exposure for free, and who are comfortable exploring without a pre-defined business model, fit the profile this listing suggests.
+Early-stage entrepreneurs who want general motivation and broad strategic exposure for free, and who are comfortable exploring without a pre-defined business model, fit the profile this listing suggests. People who value a mindset-and-belief component alongside tactical advice may also find the framing appealing.
 
 ## Who Should Skip It
 

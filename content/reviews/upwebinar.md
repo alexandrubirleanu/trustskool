@@ -3,7 +3,7 @@ title: "Webinar Masters Review 2026: The Closed Beta Community Behind upwebinar.
 meta_description: "Webinar Masters review: a free, 5,762-member Skool community for beta users of upwebinar.ai that is currently closed to new members."
 slug: upwebinar
 niche: "Automated webinar software beta users"
-word_count: 0
+word_count: 424
 ---
 
 # Webinar Masters Review 2026: The Closed Beta Community Behind upwebinar.ai

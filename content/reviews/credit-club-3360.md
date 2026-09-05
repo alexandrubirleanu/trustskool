@@ -3,7 +3,7 @@ title: "Credit Club Review 2026: Free Skool Community for Credit Lines and Trave
 meta_description: "Credit Club review: a free, 5,142-member Skool community focused on credit scores, credit lines, and premium travel perks."
 slug: credit-club-3360
 niche: "Personal credit building and travel rewards"
-word_count: 0
+word_count: 409
 ---
 # Credit Club Review 2026: Free Skool Community for Credit Lines and Travel Perks
 

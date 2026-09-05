@@ -3,7 +3,7 @@ title: "Faceless Wealth Guide Review 2026: Free Skool Community for Viral Facele
 meta_description: "Faceless Wealth Guide review: a free, 5,762-member Skool community focused on creating viral faceless videos and building income without showing your face."
 slug: faceless-wealth-guide-8689
 niche: "Faceless video creation and income streams"
-word_count: 0
+word_count: 482
 ---
 
 # Faceless Wealth Guide Review 2026: Free Skool Community for Viral Faceless Video Income

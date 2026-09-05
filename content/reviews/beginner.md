@@ -3,7 +3,7 @@ title: "The Public Speaking Community Review 2026: Free Skool Group for Speaking
 meta_description: "The Public Speaking Community review: a free, 5,147-member Skool community billed as the largest public speaking group on the platform."
 slug: beginner
 niche: "Public speaking skills and confidence"
-word_count: 0
+word_count: 429
 ---
 # The Public Speaking Community Review 2026: Free Skool Group for Speaking Skills
 

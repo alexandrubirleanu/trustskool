@@ -3,7 +3,7 @@ title: "Create Faceless Wealth Review 2026: Free Skool Community for Camera-Shy 
 meta_description: "Create Faceless Wealth review: a free, 5,775-member Skool community teaching faceless content creation and 10 digital income streams."
 slug: createfacelesswealth
 niche: "Faceless content creation and digital income streams"
-word_count: 0
+word_count: 484
 ---
 
 # Create Faceless Wealth Review 2026: Free Skool Community for Camera-Shy Creators

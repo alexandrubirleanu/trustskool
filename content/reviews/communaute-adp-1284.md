@@ -6,6 +6,8 @@ niche: "French-language personal development coaching"
 word_count: 0
 ---
 
+# Communauté ADP Review 2026: Is $9/Month Worth It for French Personal Development?
+
 Twelve years of history is an unusually long track record to see referenced in a Skool community description, and 🌞 Communauté ADP 🌞 leads with exactly that: "Depuis + de 12 ans l'Académie du Dév Perso vous accompagne dans votre évolution personnelle à l'aide de nos différents experts," meaning the Académie du Développement Personnel (Academy of Personal Development) has supported members' personal growth with the help of various experts for over 12 years. The community itself has 5,643 members and costs $9 a month.
 
 ## What's Actually Inside

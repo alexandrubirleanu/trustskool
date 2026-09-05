@@ -11,7 +11,7 @@ Exclusivity is the whole pitch here. MoneyLab 1% Club, a free, Arabic-language S
 
 ## What's Actually Inside
 
-The description leans entirely on identity and mindset framing rather than naming any specific program, course, or step-by-step method. "The 1%" is used as a badge of belonging more than a description of content, and the phrase "mindset, skill, and a step" (عقلية مهارة و خطوة) gestures at a philosophy of gradual, effort-based progress rather than luck. Beyond that framing, the listing doesn't specify what members actually do inside the community, whether that's structured lessons, live calls, or open discussion.
+The description leans entirely on identity and mindset framing rather than naming any specific program, course, or step-by-step method. "The 1%" is used as a badge of belonging more than a description of content, and the phrase "mindset, skill, and a step" (عقلية مهارة و خطوة) gestures at a philosophy of gradual, effort-based progress rather than luck. Beyond that framing, the listing doesn't specify what members actually do inside the community, whether that's structured lessons, live calls, or open discussion. No category tag is attached to this community in the Skool data reviewed here, which makes it harder to place alongside comparable money- or mindset-focused Arabic-language communities on the platform. That absence of a category, combined with the identity-first pitch, suggests the founders are betting on emotional resonance to drive sign-ups more than on a clearly labeled content niche.
 
 ## Who Runs It
 
@@ -28,6 +28,7 @@ Taher Shabaan is listed as the owner of this community on Skool. No further inde
 - The description is built on identity and exclusivity language rather than any named curriculum, tool, or outcome.
 - It's not clear from the listing whether "1%" refers to income, mindset, discipline, or something else entirely.
 - No independent reviews of this community were found beyond its own Skool listing.
+- No category classification is attached to the community in the data reviewed, so it isn't officially grouped with similar money or self-improvement communities on Skool.
 
 ## Who It's a Good Fit For
 

@@ -3,7 +3,7 @@ title: "Less Hustle Tribe Review 2026: Free Skool Community for Faith-Based Entr
 meta_description: "Less Hustle Tribe review: a free, 5,139-member Skool community for entrepreneurs building business through a biblical lens."
 slug: lesshustle
 niche: "Faith-based entrepreneurship, rejecting hustle culture"
-word_count: 0
+word_count: 414
 ---
 # Less Hustle Tribe Review 2026: Free Skool Community for Faith-Based Entrepreneurs
 

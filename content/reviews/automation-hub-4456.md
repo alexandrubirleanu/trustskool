@@ -3,7 +3,7 @@ title: "AI Automation Network Review 2026: Free Skool Community for Building AI 
 meta_description: "AI Automation Network review: a free, 5,140-member Skool community for building AI agents and automated workflows."
 slug: automation-hub-4456
 niche: "AI agent building and workflow automation"
-word_count: 0
+word_count: 429
 ---
 # AI Automation Network Review 2026: Free Skool Community for Building AI Agents
 

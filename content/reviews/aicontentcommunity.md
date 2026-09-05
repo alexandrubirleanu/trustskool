@@ -3,7 +3,7 @@ title: "AI Content Creation Community Review 2026: Is This Free German AI Hub Wo
 meta_description: "AI Content Creation Community review: a free, 5,156-member German-language Skool community sharing AI prompts, tools, and results daily."
 slug: aicontentcommunity
 niche: "AI prompts, tools, and content creation (German-language)"
-word_count: 0
+word_count: 447
 ---
 # AI Content Creation Community Review 2026: Is This Free German AI Hub Worth It?
 

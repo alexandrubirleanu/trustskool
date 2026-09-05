@@ -11,7 +11,7 @@ GEM stands for Grow, Earn, Multiply, and the "2.0" in the name signals this is a
 
 ## What's Actually Inside
 
-The description frames the community around three verbs, learn, network, and grow (or multiply) income, which at least sets rough expectations around content type: some form of education, some form of peer connection, and an income-building focus. It doesn't name a specific business model, platform, or method behind that income growth, so the actual mechanics remain unclear from the listing alone. The "2.0" naming also raises an unanswered question, since the data gives no indication of what a first version looked like or why this one is presented as an upgrade.
+The description frames the community around three verbs, learn, network, and grow (or multiply) income, which at least sets rough expectations around content type: some form of education, some form of peer connection, and an income-building focus. It doesn't name a specific business model, platform, or method behind that income growth, so the actual mechanics remain unclear from the listing alone. The "2.0" naming also raises an unanswered question, since the data gives no indication of what a first version looked like or why this one is presented as an upgrade. The exclamation-point energy of "let's grow, earn, and multiply!" in the description also signals a motivational, community-driven tone rather than a dry instructional one, which may matter more to some prospective members than the specific tactics taught.
 
 ## Who Runs It
 
@@ -31,7 +31,7 @@ Ebony Johnson is listed as the owner of this community on Skool. No further inde
 
 ## Who It's a Good Fit For
 
-People interested in general income-building content and networking opportunities, who are comfortable joining a free community without a pre-specified business model, match the profile this listing suggests.
+People interested in general income-building content and networking opportunities, who are comfortable joining a free community without a pre-specified business model, match the profile this listing suggests. Members who prioritize community energy and peer connection alongside income goals may also find the framing appealing.
 
 ## Who Should Skip It
 

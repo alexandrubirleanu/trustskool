@@ -3,7 +3,7 @@ title: "炒股黑客 (Stock Hacker) Review 2026: A Free 7-Day Prop Firm Communit
 meta_description: "炒股黑客 review: a free, 5,838-member Chinese-language Skool community that promises to teach 9-to-5 workers Prop Firm trading in 7 days."
 slug: stockhacker
 niche: "Prop firm trading education for Chinese-speaking traders"
-word_count: 0
+word_count: 463
 ---
 
 # 炒股黑客 (Stock Hacker) Review 2026: A Free 7-Day Prop Firm Community for Chinese Traders

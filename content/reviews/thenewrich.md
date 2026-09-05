@@ -11,7 +11,7 @@ word_count: 0
 
 ## What's Actually Inside
 
-The pipeline metaphor is a well-known one in wealth-mindset content, the idea of building a repeatable system instead of trading hours for money one bucket at a time. Beyond that single-sentence pitch, though, the listing doesn't name a specific business model, course structure, or content format. There's no category tag attached to this community in the data reviewed, and the description itself is short, a motivational framing rather than a syllabus.
+The pipeline metaphor is a well-known one in wealth-mindset content, the idea of building a repeatable system instead of trading hours for money one bucket at a time. Beyond that single-sentence pitch, though, the listing doesn't name a specific business model, course structure, or content format. There's no category tag attached to this community in the data reviewed, and the description itself is short, a motivational framing rather than a syllabus. Given the emphasis on "getting rich in life, little by little," the tone reads as patient and incremental rather than promising overnight results, which is worth noting in a niche where quick-money language is common.
 
 ## Who Runs It
 
@@ -31,7 +31,7 @@ Tran Manh Duc is listed as the owner of this community on Skool. No further inde
 
 ## Who It's a Good Fit For
 
-Vietnamese speakers drawn to general wealth-mindset content and comfortable exploring a free community built around a motivational metaphor rather than a fully detailed syllabus upfront.
+Vietnamese speakers drawn to general wealth-mindset content and comfortable exploring a free community built around a motivational metaphor rather than a fully detailed syllabus upfront. Members who respond to incremental, "little by little" framing over promises of fast results may find the tone here a reasonable match.
 
 ## Who Should Skip It
 

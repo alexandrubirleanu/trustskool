@@ -3,7 +3,7 @@ title: "10x Youtube Review 2026: Free Vietnamese Skool Community for YouTube and
 meta_description: "10x Youtube review: a free, 5,121-member Vietnamese-language Skool community teaching YouTube plus AI as an income strategy."
 slug: 10x-youtube
 niche: "YouTube growth combined with AI (Vietnamese-language)"
-word_count: 0
+word_count: 444
 ---
 # 10x Youtube Review 2026: Free Vietnamese Skool Community for YouTube and AI
 

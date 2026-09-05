@@ -3,7 +3,7 @@ title: "PostGraduate Academy Review 2026: Is This Free Arabic Medical Training C
 meta_description: "PostGraduate Academy review: a free, 5,862-member Arabic-language Skool community built to help doctors close the postgraduate clinical training gap."
 slug: postgraduate-academy-7355
 niche: "Postgraduate medical training for Arabic-speaking doctors"
-word_count: 0
+word_count: 508
 ---
 
 # PostGraduate Academy Review 2026: Is This Free Arabic Medical Training Community Worth It?

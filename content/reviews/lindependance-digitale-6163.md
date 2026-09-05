@@ -11,7 +11,7 @@ word_count: 0
 
 ## What's Actually Inside
 
-The pitch is built around "digital" as a broad path to freedom rather than any one named business model. It doesn't specify whether that means affiliate marketing, e-commerce, freelancing, content creation, or something else entirely, "digital" is doing a lot of work in a single-sentence description. The self-improvement category tag suggests the framing may lean more toward personal transformation and mindset than a narrowly tactical business course, but that's an inference from the tag, not something stated directly.
+The pitch is built around "digital" as a broad path to freedom rather than any one named business model. It doesn't specify whether that means affiliate marketing, e-commerce, freelancing, content creation, or something else entirely, "digital" is doing a lot of work in a single-sentence description. The self-improvement category tag suggests the framing may lean more toward personal transformation and mindset than a narrowly tactical business course, but that's an inference from the tag, not something stated directly. With over 8,000 members already in the community, the freedom-and-independence pitch clearly resonates with a French-speaking audience, even without a detailed public breakdown of the underlying method.
 
 ## Who Runs It
 
@@ -31,7 +31,7 @@ Elisabeth Schlunke is listed as the owner of this community on Skool. No further
 
 ## Who It's a Good Fit For
 
-French speakers curious about digital entrepreneurship in general terms, who are comfortable exploring a free community without a fully defined curriculum spelled out in advance.
+French speakers curious about digital entrepreneurship in general terms, who are comfortable exploring a free community without a fully defined curriculum spelled out in advance. Anyone specifically looking for a French-language space, rather than a translated English program, may value that this one is built for French speakers from the start.
 
 ## Who Should Skip It
 
