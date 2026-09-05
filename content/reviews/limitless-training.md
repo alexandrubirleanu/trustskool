@@ -13,6 +13,8 @@ Limitless Training keeps its pitch simple: better health made simple, with pract
 
 The description reads: "Be part of a community that makes better health simple with practical advice and real support!" That's a broad health framing rather than a narrow niche, it doesn't name a specific diet, training method, or medical condition. The repeated emphasis on "practical" and "real support" suggests peer accountability alongside advice, but the listing doesn't clarify whether the actual focus is nutrition, exercise programming, mental health, or general wellness content.
 
+The community sits in the "health" category and has grown to 5,435 members, essentially flat against the 5,434 recorded just before it in the tracked history, suggesting a mature, stable group rather than one in active expansion right now. The word "limitless" in the name leans toward a motivational, mindset-adjacent angle, though nothing in the description confirms whether that framing carries through into the actual content members receive once inside.
+
 ## Who Runs It
 
 Chris William is listed as the owner of Limitless Training on Skool. Skool profile data shows over 4,100 recorded contributions and close to 5,800 followers, though recent activity was limited, just 2 active days in the most recent 30-day window tracked. No further independent background or credentials are available in the data reviewed here.

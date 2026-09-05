@@ -3,7 +3,7 @@ title: "AI Experts Club Review 2026: What's Behind This Free 5,000+ Member Skool
 meta_description: "AI Experts Club review: a free, 5,076-member English-language Skool community for learning and mastering AI, with no listed niche category."
 slug: aiexpertsclub
 niche: "General AI learning and upskilling"
-word_count: 0
+word_count: 433
 ---
 
 AI Experts Club has crossed 5,000 members without Skool ever assigning it a niche category, which is unusual for a community this size and makes its actual focus harder to pin down from the listing alone. It's free to join, runs in English, and its own description frames it simply as a place to "work smarter, grow faster, and stay ahead of the curve" with AI.

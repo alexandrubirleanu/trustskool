@@ -3,7 +3,7 @@ title: "Agentur Community (DACH) Review 2026: Free Skool Group for German Agency
 meta_description: "Agentur Community (DACH) review: a free, 5,061-member German-language Skool community teaching client acquisition, ads, and social media for agencies."
 slug: freelancer-masterclass
 niche: "Client acquisition and marketing for DACH-region agencies and freelancers"
-word_count: 0
+word_count: 400
 ---
 
 Agentur Community (DACH) targets a specific slice of the German-speaking business world: agency owners and freelancers across Germany, Austria, and Switzerland (the DACH region) trying to win clients on a repeatable basis. It's free, runs in German, and has grown to 5,061 members.

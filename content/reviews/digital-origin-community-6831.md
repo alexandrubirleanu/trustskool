@@ -3,7 +3,7 @@ title: "Digital Origin Community Review 2026: Is the $47 One-Time Fee Worth It?"
 meta_description: "Digital Origin Community review: a $47 one-time, 6,352-member French Skool community focused on selling digital products."
 slug: digital-origin-community-6831
 niche: "French digital product sales"
-word_count: 0
+word_count: 446
 ---
 # Digital Origin Community Review 2026: Is the $47 One-Time Fee Worth It?
 

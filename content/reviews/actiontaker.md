@@ -3,7 +3,7 @@ title: "Fulltime Freedom Review 2026: A Free Community for 5 Day Challenge Funne
 meta_description: "Fulltime Freedom review: a free, 6,341-member Skool community teaching coaches and creators to build a 5 Day Challenge that converts without sales calls."
 slug: actiontaker
 niche: "5-day challenge funnels for coaches and creators"
-word_count: 0
+word_count: 449
 ---
 # Fulltime Freedom Review 2026: A Free Community for 5 Day Challenge Funnels
 

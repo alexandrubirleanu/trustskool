@@ -13,6 +13,8 @@ Tax resolution, representing clients directly against the IRS, is a narrow profe
 
 The description reads: "We are a community of dedicated tax resolution pros committed to mastering IRS representation, sharing strategies, and growing together." That's framed as a peer professional network, practitioners helping practitioners, rather than a beginner course. The emphasis on "mastering IRS representation" and "sharing strategies" suggests conversation pitched at people already working in the field, but the listing doesn't say whether membership requires a credential like an EA, CPA, or attorney license, nor does it mention specifics like templates, scripts for IRS calls, or continuing education credit.
 
+Filed under the "money" category, it sits alongside many broader income and business communities on Skool, though its actual focus is considerably narrower and more technical than most listings in that category. Membership grew from 5,428 to 5,446 across the tracked period, a modest but real increase that suggests the community is still actively attracting new tax resolution professionals rather than sitting static.
+
 ## Who Runs It
 
 Mitchell Piper is listed as the owner of Tax Resolution Pros on Skool. No further independent background or credentials are available in the data reviewed here.

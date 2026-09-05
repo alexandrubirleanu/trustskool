@@ -12,6 +12,8 @@ Digital Brand Builders leads with a big number: its own description says founder
 
 According to the description, this is positioned as "the top e-commerce coaching community online," led by Jamal, with the $20 million sales figure presented as his result across Amazon and Shopify. That's a specific, notable claim, but it's worth being clear about where it comes from: it's the community's own self-description, not something independently verified here. Beyond that headline number, the description doesn't detail curriculum, whether coaching is live or recorded, or which specific e-commerce strategies (private label, dropshipping, wholesale) are covered.
 
+Calling itself "the top" community in a crowded field of e-commerce coaching is also a marketing superlative rather than a ranked, measurable claim, plenty of Skool communities use similar language to describe themselves. What sets this listing apart somewhat is naming a specific founder and a specific dollar figure rather than staying anonymous or vague, which at least gives prospective members a concrete claim to research further on their own before joining, even if the review itself has no way to confirm or refute it from the data provided.
+
 ## Who Runs It
 
 Jamal Muse is listed as the owner of this community on Skool. The $20 million sales figure referenced above comes directly from the community's own description; no independent verification or further background on his career is available in the data reviewed here.
@@ -30,7 +32,7 @@ Jamal Muse is listed as the owner of this community on Skool. The $20 million sa
 
 ## Who It's a Good Fit For
 
-Aspiring or early-stage Amazon and Shopify sellers who want to learn from a coach positioned around a large personal sales track record, and who are comfortable doing their own diligence on that claim.
+Aspiring or early-stage Amazon and Shopify sellers who want to learn from a coach positioned around a large personal sales track record, and who are comfortable doing their own diligence on that claim before relying on it heavily.
 
 ## Who Should Skip It
 

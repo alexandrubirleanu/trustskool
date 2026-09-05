@@ -3,7 +3,7 @@ title: "AI Creators Club Review 2026: A Free Mastermind for AI Content Creators"
 meta_description: "AI Creators Club review: a free, 6,233-member Skool mastermind teaching creators to use AI to create, automate, and scale content channels."
 slug: ai-creators-club-1501
 niche: "AI-powered content creation mastermind"
-word_count: 0
+word_count: 400
 ---
 # AI Creators Club Review 2026: A Free Mastermind for AI Content Creators
 

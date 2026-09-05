@@ -3,7 +3,7 @@ title: "Pro Gig Academy Review 2026: Free Skool Community for Acoustic Guitarist
 meta_description: "Pro Gig Academy review: a free, 5,031-member Skool community for solo acoustic guitarists and singers, calling itself the #1 free community in its niche."
 slug: pro-gig-academy
 niche: "Solo acoustic guitar and vocal performance"
-word_count: 0
+word_count: 435
 ---
 
 Solo acoustic guitarists and singers are a narrow enough niche that a free community built specifically around them stands out from the general sea of "musician" groups on Skool. Pro Gig Academy calls itself "The #1 FREE community for solo acoustic guitarists + singers," and it has built that pitch into 5,031 members.

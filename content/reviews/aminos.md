@@ -3,7 +3,7 @@ title: "Aminos Community Review 2026: A Private Group for Product Owners"
 meta_description: "Aminos Community review: a free, 6,230-member Skool community exclusively for owners of the Aminos product."
 slug: aminos
 niche: "Product-owner community for Aminos device owners"
-word_count: 0
+word_count: 406
 ---
 # Aminos Community Review 2026: A Private Group for Product Owners
 

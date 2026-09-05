@@ -12,6 +12,8 @@ word_count: 0
 
 The description states, in Arabic, that over the next hundred days members will write together and let go of their hesitation, describing the community's purpose as preparing writers to master the craft of writing and commit to it consistently. That's a structure built around habit formation over a fixed period, rather than a one-time course or a loose discussion group. The description doesn't specify whether there are daily prompts, accountability check-ins, or peer feedback built into the format, so the exact mechanics of the "100 days" structure aren't confirmed here.
 
+The emphasis on "leaving hesitation behind" ("تترك ترددك") is notable phrasing for a writing community, it targets a psychological barrier rather than a technical skill gap, which suggests the program may lean as much on encouragement and accountability as on craft instruction like grammar, structure, or style. With over 5,300 members, the community has clearly found an audience among Arabic-speaking writers, though the description alone doesn't indicate what proportion of members are actively completing the 100-day commitment versus simply having joined.
+
 ## Who Runs It
 
 محمد الضبع (Mohammed Aldhabaa) is listed as the owner of this community on Skool. No further independent background or credentials are available in the data reviewed here.
@@ -30,7 +32,7 @@ The description states, in Arabic, that over the next hundred days members will 
 
 ## Who It's a Good Fit For
 
-Arabic-speaking aspiring writers who want a structured, time-bound push to build a consistent writing habit and are motivated by a defined 100-day commitment.
+Arabic-speaking aspiring writers who want a structured, time-bound push to build a consistent writing habit and are motivated by a defined 100-day commitment rather than an open-ended course.
 
 ## Who Should Skip It
 

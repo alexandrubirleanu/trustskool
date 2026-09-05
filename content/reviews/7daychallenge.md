@@ -3,7 +3,7 @@ title: "7 Day AI Challenge Review 2026: Is This Free German AI Community Worth J
 meta_description: "7 Day AI Challenge review: a free, 5,090-member German-language Skool community promising your first money from AI within 7 days."
 slug: 7daychallenge
 niche: "German-language AI side-income challenge"
-word_count: 0
+word_count: 426
 ---
 
 In German-speaking Skool circles, a challenge promising "zum ersten Geld" (to your first money) within just seven days needs to earn skepticism before enthusiasm, and the 7 Day AI Challenge is exactly that kind of pitch: a free, German-language community with just over 5,090 members built around a one-week format.

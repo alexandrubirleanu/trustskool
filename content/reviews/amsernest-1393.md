@@ -3,7 +3,7 @@ title: "Becoming Global Citizens Review 2026: Free Vietnamese Community for Engl
 meta_description: "Becoming Global Citizens review: a free, 6,137-member Vietnamese-language Skool community covering English learning, studying abroad, and settling overseas."
 slug: amsernest-1393
 niche: "Vietnamese English learning, study abroad, and immigration"
-word_count: 0
+word_count: 429
 ---
 # Becoming Global Citizens Review 2026: Free Vietnamese Community for English, Study Abroad, and Immigration
 

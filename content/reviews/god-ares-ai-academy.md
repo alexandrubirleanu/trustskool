@@ -13,6 +13,8 @@ word_count: 0
 
 The description states: "We create VIRAL AI VIDEOS 🔥 500M+ views. Learn the EXACT prompts, workflows & trends used to EXPLODE on social media." The bold, specific claim, 500M+ views, is used as social proof, and the promise of "EXACT prompts, workflows & trends" suggests tactical, copy-this-approach content rather than general theory about virality. What the listing doesn't identify is which platforms those views came from, over what time period, or which AI video tools are actually used in the process.
 
+It's filed under the "money" category rather than a content-creation or marketing tag, which suggests the community frames its value primarily around income potential from viral content rather than the craft of video-making itself. The all-caps emphasis throughout the description, "VIRAL," "EXACT," "EXPLODE," matches a high-energy marketing style common in fast-growing AI-adjacent communities, and the consistent week-over-week member growth tracked here supports that this is an actively promoted, currently expanding listing.
+
 ## Who Runs It
 
 Marcos Rocha is listed as the owner of God Ares AI Academy on Skool. No further independent background or credentials are available in the data reviewed here.

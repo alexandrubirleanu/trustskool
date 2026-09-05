@@ -12,7 +12,7 @@ Spanish-language marketing communities are a smaller slice of Skool's overall ca
 
 ## What's Actually Inside
 
-The description leans on broad, aspirational language rather than naming specific tactics, platforms, or a curriculum. There's no mention of whether the focus is paid ads, organic content, email marketing, or something else within digital marketing, and no breakdown of formats like live calls, recorded courses, or a classroom section. What is clear is the language, Spanish, and the general subject area, digital marketing, which narrows the audience to Spanish speakers looking for marketing education without a niche specialization already declared.
+The description leans on broad, aspirational language rather than naming specific tactics, platforms, or a curriculum. There's no mention of whether the focus is paid ads, organic content, email marketing, or something else within digital marketing, and no breakdown of formats like live calls, recorded courses, or a classroom section. What is clear is the language, Spanish, and the general subject area, digital marketing, which narrows the audience to Spanish speakers looking for marketing education without a niche specialization already declared. Given how crowded the "learn marketing" space is across every language, the value of a community like this tends to come down to execution, how active the discussion is, how current the tactics stay, and how much direct feedback members get, none of which can be judged from the listing text alone.
 
 ## Who Runs It
 
@@ -29,6 +29,7 @@ Gabriel Beltran is listed as the owner of this community on Skool. No further in
 - The description is vague on specific tactics or platforms covered, so prospective members can't tell in advance whether the content matches their particular marketing goals.
 - No independent reviews of this community were found beyond its own Skool listing, so claims of "incomparable" or "unexplored" methods can't be verified from outside sources.
 - There's no stated cadence for content, calls, or coaching, so it's unclear how active or structured the day-to-day experience actually is.
+- No pricing history, growth trajectory, or membership breakdown is included in the listing beyond the current total, making it hard to judge momentum from the description alone.
 
 ## Who It's a Good Fit For
 

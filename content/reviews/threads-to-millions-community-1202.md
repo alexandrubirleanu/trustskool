@@ -12,7 +12,7 @@ Threads, Meta's text-based app, has become its own small cottage industry of "gr
 
 ## What's Actually Inside
 
-Beyond the platform name and the general goal of business growth, the description doesn't get specific. It doesn't say whether the focus is content strategy, growing a following, converting followers into customers, or some combination, nor does it mention formats like templates, scripts, or live coaching. The name itself, Threads to Millions, implies an ambitious revenue outcome, but no numbers, case studies, or member outcomes are cited in the listing to back that framing up.
+Beyond the platform name and the general goal of business growth, the description doesn't get specific. It doesn't say whether the focus is content strategy, growing a following, converting followers into customers, or some combination, nor does it mention formats like templates, scripts, or live coaching. The name itself, Threads to Millions, implies an ambitious revenue outcome, but no numbers, case studies, or member outcomes are cited in the listing to back that framing up. Platform-specific growth communities like this tend to live or die on how quickly the advice keeps pace with algorithm changes, since a tactic that works on a fast-evolving app one quarter can stop working the next, and the listing gives no signal on how current or how frequently updated the shared strategies actually are.
 
 ## Who Runs It
 
@@ -29,6 +29,7 @@ Alexis Loeper is listed as the owner of this community on Skool. No further inde
 - The "to Millions" framing in the name isn't backed by any specific outcomes, case studies, or numbers in the description itself.
 - No detail is given on content format, posting cadence, or whether coaching is live or self-serve.
 - No independent reviews of this community were found beyond its own Skool listing.
+- The listing doesn't say whether tactics are updated regularly to keep pace with changes to the Threads app itself, which matters a great deal for platform-specific advice.
 
 ## Who It's a Good Fit For
 

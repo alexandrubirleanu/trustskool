@@ -3,7 +3,7 @@ title: "AchieveGreatness Skool Growth Review 2026: Free Community for Scaling a 
 meta_description: "AchieveGreatness Skool Growth review: a free, 4,977-member Skool community aiming to turn personal brands into businesses scaling to $1M-$10M a year."
 slug: grow
 niche: "Personal brand monetization and business scaling"
-word_count: 0
+word_count: 425
 ---
 
 Turning a personal brand into what the listing calls a "Client Generating machine" scaling to "$1M-$10M/year" is a big promise, and AchieveGreatness Skool Growth makes it to just under 5,000 free members in English.

@@ -12,6 +12,8 @@ A store built in five minutes is a bold promise, and it's the headline of Loja V
 
 The description translates to "ready-made store in 5 minutes, plus access to a complete course on how to start selling in dollars today," which points to a dropshipping-style or pre-built ecommerce store offer aimed at Portuguese-speaking sellers wanting to earn in a stronger foreign currency. The "5 minutes" framing is a speed claim about store setup rather than about building a profitable business, and the description doesn't clarify what happens afterward, traffic generation, product sourcing, and ongoing support are all unaddressed. The community has also shown steady member growth in recent tracking, climbing from roughly 5,127 to 5,296 in a short window.
 
+The "selling in dollars" angle is a common pitch among Brazilian and Portuguese-speaking ecommerce educators, since local currency depreciation makes dollar-denominated income attractive on its own even before accounting for the underlying business fundamentals. That framing can be a genuine draw, but it also means the appeal rests partly on currency arbitrage rather than a unique product or marketing edge, so members should weigh how much of the pitch depends on the dollar angle versus a sound, repeatable sales process.
+
 ## Who Runs It
 
 Gabriel Silva is listed as the owner of this community on Skool. No further independent background or credentials are available in the data reviewed here.

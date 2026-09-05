@@ -3,7 +3,7 @@ title: "Millionaires in Medicine Club Review 2026: Free Financial Coaching for D
 meta_description: "Millionaires in Medicine Club review: a free, 6,275-member Skool community helping medical professionals clear debt and build wealth."
 slug: millionairesinmedicine
 niche: "Financial coaching for medical professionals"
-word_count: 0
+word_count: 433
 ---
 # Millionaires in Medicine Club Review 2026: Free Financial Coaching for Doctors?
 

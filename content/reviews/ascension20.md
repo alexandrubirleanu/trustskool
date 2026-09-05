@@ -3,14 +3,14 @@ title: "Ascension 20 Review 2026: Free French Community for Boosting Your School
 meta_description: "Ascension 20 review: a free, 4,991-member French-language Skool community aimed at raising grades and navigating Parcoursup."
 slug: ascension20
 niche: "French academic performance and Parcoursup preparation"
-word_count: 0
+word_count: 407
 ---
 
 Ascension 20 borrows a promise familiar to any French lycée student stressed about university admissions: raise your average by 2 to 6 points and get through Parcoursup, France's centralized higher-education admission platform, without sacrificing your personal life. It's a free, French-language Skool community that has grown to just under 5,000 members.
 
 ## What's Actually Inside
 
-The description reads, translated: "What school never told you to raise your average by 2 to 6 points and crush Parcoursup without sacrificing your personal life." The category tag is "selfimprovement," which fits a pitch built around study methods and time management rather than subject-specific tutoring in any one class. The specific range named, 2 to 6 points on a French grading average, gives a concrete, if self-reported, benchmark, but the listing doesn't explain the actual method behind that claim: whether it's study techniques, time-management systems, exam strategy, or something else framed as what "school never told you."
+The description reads, translated: "What school never told you to raise your average by 2 to 6 points and crush Parcoursup without sacrificing your personal life." The category tag is "selfimprovement," which fits a pitch built around study methods and time management rather than subject-specific tutoring in any one class. The specific range named, 2 to 6 points on a French grading average, gives a concrete, if self-reported, benchmark, but the listing doesn't explain the actual method behind that claim: whether it's study techniques, time-management systems, exam strategy, or something else framed as what "school never told you." The name itself, Ascension 20, nods to the 20-point scale used in French schools, reinforcing that the whole pitch is built specifically around that national grading and admissions system rather than a generic study-skills framework that could apply anywhere.
 
 ## Who Runs It
 

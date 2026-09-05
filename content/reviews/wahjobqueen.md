@@ -12,7 +12,7 @@ The pitch behind WAH Vault w/WAHJobQueen™ is a simple one: job leads that supp
 
 ## What's Actually Inside
 
-The description centers entirely on exclusivity of access rather than a specific job category, industry, or skill level. It doesn't say what kind of work-from-home roles are shared, customer service, data entry, virtual assistant work, or something else, how often new leads are posted, or how they're sourced if not from public job boards or employer emails. The core promise is reduced competition for whatever leads do appear, which is a distinct value proposition from a course or coaching program, more like a curated leads feed than a training resource.
+The description centers entirely on exclusivity of access rather than a specific job category, industry, or skill level. It doesn't say what kind of work-from-home roles are shared, customer service, data entry, virtual assistant work, or something else, how often new leads are posted, or how they're sourced if not from public job boards or employer emails. The core promise is reduced competition for whatever leads do appear, which is a distinct value proposition from a course or coaching program, more like a curated leads feed than a training resource. That framing puts the burden on members to still do the actual work of applying and interviewing once a lead surfaces, and it means the community's value rises or falls almost entirely on the quality and freshness of what gets posted, something that's impossible to judge from the description alone.
 
 ## Who Runs It
 
@@ -29,6 +29,7 @@ Tywanna Jones is listed as the owner of this community on Skool. No further inde
 - The description doesn't specify job categories, pay ranges, or how leads are verified as legitimate before being shared.
 - No independent reviews were found confirming the volume or quality of leads posted, so the "better shot" claim can't be checked from outside sources.
 - There's no detail on posting frequency, so it's unclear whether this is a daily feed or an occasional trickle.
+- The name promises leads "not on Facebook, not in emails, not on the website," but doesn't explain how such leads are sourced in the first place, which is worth a healthy dose of skepticism.
 
 ## Who It's a Good Fit For
 

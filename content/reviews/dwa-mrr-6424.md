@@ -3,7 +3,7 @@ title: "DWA MRR Review 2026: Is This Free Digital Marketing Community a One-Stop
 meta_description: "DWA MRR review: a free, 6,340-member Skool community from the Digital Wealth Academy covering digital marketing and online monetization."
 slug: dwa-mrr-6424
 niche: "Digital marketing monetization"
-word_count: 0
+word_count: 444
 ---
 # DWA MRR Review 2026: Is This Free Digital Marketing Community a One-Stop Shop?
 

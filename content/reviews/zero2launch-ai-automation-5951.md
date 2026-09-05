@@ -13,6 +13,8 @@ word_count: 0
 
 The description states it plainly: "We simplify advanced AI automation. 'Explain like I'm five' - this is the place." That framing positions the community as an accessible entry point into a technical, fast-moving field, in contrast to more advanced or jargon-heavy AI automation groups. What the listing doesn't specify is which tools or platforms are covered, whether that's no-code builders, custom scripts, or specific AI models, nor does it name who is teaching or how lessons are delivered, live sessions, recorded content, or written guides.
 
+It's listed under the "tech" category, alongside a wide range of other AI and software-focused Skool communities, so the "explain like I'm five" positioning is likely a deliberate way to stand out in a crowded field of more advanced-sounding pitches. Membership held essentially flat across the tracked window, moving from 5,474 down slightly to 5,472, which suggests a mature, stable community rather than one in the middle of a rapid growth spike.
+
 ## Who Runs It
 
 Duyet Tran is listed as the owner of Zero2Launch AI Automation on Skool. No further independent background or credentials are available in the data reviewed here.

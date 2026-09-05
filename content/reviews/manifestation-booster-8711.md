@@ -12,7 +12,7 @@ word_count: 0
 
 ## What's Actually Inside
 
-Manifestation and law-of-attraction content is a well-established genre in the self-improvement space, and this listing follows the familiar pattern: emotionally charged promises about transformation and secrets, without naming a specific method, framework, or daily practice. It's not clear from the description whether members get guided exercises, journaling prompts, live sessions, or simply motivational posts, and there's no detail on what makes this "advanced level" different from introductory manifestation content available elsewhere for free.
+Manifestation and law-of-attraction content is a well-established genre in the self-improvement space, and this listing follows the familiar pattern: emotionally charged promises about transformation and secrets, without naming a specific method, framework, or daily practice. It's not clear from the description whether members get guided exercises, journaling prompts, live sessions, or simply motivational posts, and there's no detail on what makes this "advanced level" different from introductory manifestation content available elsewhere for free. The 🔥 in the display name and the exclamatory tone of the description both signal a high-energy, motivational style, which may suit some members well and feel overwhelming or repetitive to others depending on personal taste.
 
 ## Who Runs It
 
