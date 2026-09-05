@@ -3,7 +3,7 @@ title: "MANIFESTATION LAB Review 2026: Free French Skool Community for Manifesta
 meta_description: "MANIFESTATION LAB review: a free, 5,211-member French-language Skool community on manifestation and law-of-attraction practice."
 slug: manifestation-booster-8711
 niche: "French-language manifestation and law-of-attraction coaching"
-word_count: 0
+word_count: 437
 ---
 
 # MANIFESTATION LAB Review 2026: Free French Skool Community for Manifestation Coaching

@@ -3,7 +3,7 @@ title: "Rise and Rewire Review 2026: Can This Free Community Land You Multiple I
 meta_description: "Rise and Rewire review: a free, 5,182-member Skool community promising job seekers multiple interviews in 30 days through career strategy coaching."
 slug: rise-and-rewire-4309
 niche: "Job search and interview strategy coaching"
-word_count: 0
+word_count: 459
 ---
 
 # Rise and Rewire Review 2026: Can This Free Community Land You Multiple Interviews in 30 Days?

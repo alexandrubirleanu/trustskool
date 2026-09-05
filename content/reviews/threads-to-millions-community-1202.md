@@ -3,7 +3,7 @@ title: "Threads to Millions Review 2026: Free Skool Community for Growing a Busi
 meta_description: "Threads to Millions review: a free, 5,236-member Skool community teaching strategies to grow a business using the Threads app."
 slug: threads-to-millions-community-1202
 niche: "Growing a business using the Threads app"
-word_count: 0
+word_count: 452
 ---
 
 # Threads to Millions Review 2026: Free Skool Community for Growing a Business on Threads

@@ -3,7 +3,7 @@ title: "Tongue of Fire Ministry Review 2026: Is the $1/Month Marriage Restoratio
 meta_description: "Tongue of Fire Ministry review: a $1/month, 5,176-member Skool community centered on faith-based marriage restoration."
 slug: tongue-of-fire
 niche: "Christian ministry focused on marriage restoration"
-word_count: 0
+word_count: 450
 ---
 
 # Tongue of Fire Ministry Review 2026: Is the $1/Month Marriage Restoration Community Legit?

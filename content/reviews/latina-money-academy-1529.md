@@ -3,7 +3,7 @@ title: "Latina Money Academy Review 2026: Free Spanish-Language Community for On
 meta_description: "Latina Money Academy review: a free, 5,191-member Spanish-language Skool community teaching online income methods and resale rights, made by Latinas."
 slug: latina-money-academy-1529
 niche: "Spanish-language online income and resale-rights training for a Latino audience"
-word_count: 0
+word_count: 493
 ---
 
 # Latina Money Academy Review 2026: Free Spanish-Language Community for Online Income

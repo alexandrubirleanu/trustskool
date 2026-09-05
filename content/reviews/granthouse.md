@@ -3,7 +3,7 @@ title: "GrantHouse Review 2026: Free Skool Community for Business Grants and Fun
 meta_description: "GrantHouse review: a free, 5,198-member Skool community on securing business grants, using AI, and building funding systems."
 slug: granthouse
 niche: "Business grants and funding strategy"
-word_count: 0
+word_count: 468
 ---
 
 # GrantHouse Review 2026: Free Skool Community for Business Grants and Funding

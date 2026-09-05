@@ -3,7 +3,7 @@ title: "Skool Community (deutsch) Review 2026: Free German-Language Group for Sk
 meta_description: "Skool Community (deutsch) review: a free, 5,205-member German-language Skool group for people learning to build communities on Skool itself."
 slug: germanskoolers
 niche: "German-language meta-community about building Skool communities"
-word_count: 0
+word_count: 443
 ---
 
 # Skool Community (deutsch) Review 2026: Free German-Language Group for Skool Creators

@@ -3,7 +3,7 @@ title: "True Marketer Review 2026: Is This Free Spanish-Language Marketing Commu
 meta_description: "True Marketer review: a free, 5,251-member Spanish-language Skool community focused on digital marketing skills."
 slug: true-marketer-4927
 niche: "Spanish-language digital marketing skill development"
-word_count: 0
+word_count: 477
 ---
 
 # True Marketer Review 2026: Is This Free Spanish-Language Marketing Community Worth Joining?

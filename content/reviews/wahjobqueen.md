@@ -3,7 +3,7 @@ title: "WAH Vault w/WAHJobQueen™ Review 2026: Are the 'Hidden' Job Leads Worth
 meta_description: "WAH Vault w/WAHJobQueen™ review: a free, 5,239-member Skool community sharing work-from-home job leads not posted elsewhere."
 slug: wahjobqueen
 niche: "Work-from-home job leads curation"
-word_count: 0
+word_count: 495
 ---
 
 # WAH Vault w/WAHJobQueen™ Review 2026: Are the 'Hidden' Job Leads Worth It?
