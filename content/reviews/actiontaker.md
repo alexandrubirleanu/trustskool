@@ -32,10 +32,10 @@ Doug Boughton is listed as the owner of this community on Skool. No further inde
 
 ## Who It's a Good Fit For
 
-Coaches and creators who want a structured, repeatable client-acquisition funnel and specifically prefer a challenge-based format over one-on-one sales calls.
+Coaches and creators who want a structured, repeatable client-acquisition funnel and specifically prefer a challenge-based format over one-on-one sales calls. It may also appeal to people who already have some audience or following and are looking for a way to convert that attention into paying clients without adding live sales conversations to their workload.
 
 ## Who Should Skip It
 
-Anyone outside the coaching or content-creator space, or those looking for organic growth and content strategy rather than a direct conversion funnel, may find this too narrowly focused on the challenge-to-client mechanism specifically.
+Anyone outside the coaching or content-creator space, or those looking for organic growth and content strategy rather than a direct conversion funnel, may find this too narrowly focused on the challenge-to-client mechanism specifically. People with no existing audience at all may also need to build some initial following before a 5 Day Challenge has anyone to convert.
 
 [See Fulltime Freedom's real growth data on TrustSkool](https://trustskool.com/community/actiontaker)

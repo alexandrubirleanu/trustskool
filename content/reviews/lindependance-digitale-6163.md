@@ -35,6 +35,6 @@ French speakers curious about digital entrepreneurship in general terms, who are
 
 ## Who Should Skip It
 
-Non-French speakers won't get much use out of a community that operates entirely in French, and anyone wanting one specific digital business model explained upfront should ask directly, since the public description doesn't name one.
+Non-French speakers won't get much use out of a community that operates entirely in French, and anyone wanting one specific digital business model explained upfront should ask directly, since the public description doesn't name one. People who prefer joining communities with a clearly published syllabus or pricing tier structure before signing up may also find the brevity of this listing a reason for caution, even at no cost.
 
 [See L'indépendance Digitale's real growth data on TrustSkool](https://trustskool.com/community/lindependance-digitale-6163)

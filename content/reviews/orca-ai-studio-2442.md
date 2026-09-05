@@ -12,6 +12,8 @@ Orca AI Studio bills itself, in its own description, as the first AI automation 
 
 The Serbian description translates roughly to "make AI work for you, save time, build systems, and earn more," positioning the community around practical AI automation rather than theory. It explicitly frames itself as targeting "smart operators" ("pametne operatere") in the Balkan region specifically, which suggests content may reference regional business context, though the description doesn't name specific tools, platforms, or automation frameworks covered.
 
+Being labeled "the first AI automation community in the Balkans" is a first-mover claim rather than a quality claim, being first doesn't necessarily mean being best, and the description offers no way to independently confirm the claim either way. What it does signal is an intent to serve a specific language and regional market that larger, English-language AI communities typically don't address directly. For members who are more comfortable discussing business automation in Serbian, or who want examples grounded in regional market conditions rather than generic US-centric case studies, that positioning could be a genuine differentiator, assuming the content delivers on the practical framing the description promises.
+
 ## Who Runs It
 
 Branislav Radojevic is listed as the owner of this community on Skool. No further independent background or credentials are available in the data reviewed here.
@@ -30,7 +32,7 @@ Branislav Radojevic is listed as the owner of this community on Skool. No furthe
 
 ## Who It's a Good Fit For
 
-Serbian-speaking entrepreneurs and operators in the Balkan region who want practical AI automation guidance and value a community built around a specific regional audience.
+Serbian-speaking entrepreneurs and operators in the Balkan region who want practical AI automation guidance and value a community built around a specific regional audience rather than a broad, international one.
 
 ## Who Should Skip It
 

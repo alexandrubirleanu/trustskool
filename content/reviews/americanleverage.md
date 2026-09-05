@@ -11,7 +11,7 @@ ITIN, Funding, Travel. Those three words, listed right in the description, make 
 
 ## What's Actually Inside
 
-Each of the three named areas points to a real, practical pain point for entrepreneurs based outside the US. An ITIN, an Individual Taxpayer Identification Number, is often a prerequisite for non-US citizens or businesses trying to interact with the US tax and banking system at all. "Funding" suggests some form of business credit or financing guidance layered on top of that. "Travel" is the least self-explanatory of the three, the description doesn't clarify how travel logistics connect to ITIN registration or funding access, so that piece remains a bit of a question mark from the listing alone.
+Each of the three named areas points to a real, practical pain point for entrepreneurs based outside the US. An ITIN, an Individual Taxpayer Identification Number, is often a prerequisite for non-US citizens or businesses trying to interact with the US tax and banking system at all. "Funding" suggests some form of business credit or financing guidance layered on top of that. "Travel" is the least self-explanatory of the three, the description doesn't clarify how travel logistics connect to ITIN registration or funding access, so that piece remains a bit of a question mark from the listing alone. Even without that detail, naming three concrete service areas rather than a single vague promise gives prospective members more to evaluate up front than most free money-category communities on Skool typically offer.
 
 ## Who Runs It
 
@@ -31,7 +31,7 @@ Jean-Paul D'Andrea is listed as the owner of this community on Skool. No further
 
 ## Who It's a Good Fit For
 
-Non-US business owners specifically needing help with ITIN registration, US funding access, or related logistics are the clearest fit, especially given there's no cost to join and explore.
+Non-US business owners specifically needing help with ITIN registration, US funding access, or related logistics are the clearest fit, especially given there's no cost to join and explore. Founders early in the process of setting up a US-facing business presence, without existing local relationships, may find the free entry point particularly low-risk.
 
 ## Who Should Skip It
 

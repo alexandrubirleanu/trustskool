@@ -13,6 +13,8 @@ The pitch is bold right out of the gate. THE SKOOL HUB claims it has "helped com
 
 This isn't a course or coaching community in the usual sense, it's positioned as an advertising and cross-promotion hub. The description reads, word for word: "ADVERTISE your community here to thousand of people! We have helped community owners gain 100+ members over night.. what are you waiting for?" That informal, ad-style copy signals the community's function: a place where Skool owners post their own communities for exposure to a large pool of members. What isn't clear from the listing is whether there's a vetting process, a cost involved beyond the free base membership, or any way to verify the "100+ members overnight" claim.
 
+The category tag here is "tech," which is a slightly odd fit for what functions more like a marketing directory than a technical resource, and it's worth noting for anyone browsing by category expecting software or development content. With 5,550 members already inside, the community has clearly attracted a wide audience, though a large membership count in a directory-style community measures reach for advertisers more than it measures depth of engagement or discussion quality among members.
+
 ## Who Runs It
 
 Joseph Groom is listed as the owner of THE SKOOL HUB. Skool profile data shows over 6,300 recorded contributions and roughly 7,200 followers, giving some sense of general platform activity, but no independent background or credentials specific to this community are available beyond that.

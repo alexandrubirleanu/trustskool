@@ -3,7 +3,7 @@ title: "Communauté ADP Review 2026: Is $9/Month Worth It for French Personal De
 meta_description: "Communauté ADP review: a $9/month, 5,643-member French Skool community from Académie du Développement Personnel offering personal development guidance."
 slug: communaute-adp-1284
 niche: "French-language personal development coaching"
-word_count: 0
+word_count: 492
 ---
 
 # Communauté ADP Review 2026: Is $9/Month Worth It for French Personal Development?

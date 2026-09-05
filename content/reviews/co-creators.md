@@ -35,6 +35,6 @@ People who want their self-improvement work explicitly framed around Christian f
 
 ## Who Should Skip It
 
-Anyone looking for secular self-improvement content, or members needing confirmation of a specific denominational alignment before joining, should look elsewhere or ask directly, since the listing doesn't spell that out.
+Anyone looking for secular self-improvement content, or members needing confirmation of a specific denominational alignment before joining, should look elsewhere or ask directly, since the listing doesn't spell that out. People who prefer a fully documented curriculum with named modules, coaches, or session schedules before committing time to a community may also want to reach out for more detail first, since none of that is included in the public description reviewed here.
 
 [See Co-Creators's real growth data on TrustSkool](https://trustskool.com/community/co-creators)

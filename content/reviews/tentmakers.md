@@ -13,6 +13,8 @@ Faith and entrepreneurship don't often share the same Skool listing, but Tentmak
 
 The community's own description is short and direct: "A Community For Christian Business Leaders. Non Profit Founded By Ryan Pineda." That framing tells you two things clearly, the audience is Christian business owners and leaders specifically, and the structure is a non-profit rather than a typical paid coaching program. Beyond that, the listing doesn't spell out what actually happens day to day, whether it's discussion threads, live calls, resource sharing, or a mix of all three. Recent member history shows steady, incremental growth over a short tracked window, moving from 5,565 to 5,587 members, which suggests an active, if not explosive, community.
 
+The category tag on the listing is "money," which lines up with the business-leadership framing rather than a purely devotional or study-group angle. That combination, faith identity plus business focus, is fairly uncommon among the larger Skool listings, most communities in this size range tend to pick one lane or the other. Whether the actual content leans more toward scripture-based principles applied to business, or more toward standard entrepreneurship advice with a faith-based community wrapper, isn't something the description settles either way.
+
 ## Who Runs It
 
 Ryan Pineda is listed as the founder of Tentmakers on Skool. Beyond that credit and the non-profit framing already stated in the community's own description, no further independent background or credentials are available in the data reviewed here.

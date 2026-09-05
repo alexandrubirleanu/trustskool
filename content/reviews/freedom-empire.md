@@ -13,6 +13,8 @@ Is it worth joining a free Skool community that already has its founder's name i
 
 The description is specific about audience: "For coaches, consultants, service providers and course creators who want to grow their profitable digital business into an impactful empire!" Two details stand out. First, it names four distinct professional roles rather than speaking to "entrepreneurs" broadly. Second, the word "profitable" implies the community is aimed at people who already have a working, income-generating business, not total beginners, with the goal of scaling that business into something larger. What the listing doesn't cover is format, whether members get group coaching calls, templates, courses, or purely peer discussion.
 
+The community sits in the "money" category on Skool, alongside a large number of similar business and income-focused listings, so prospective members comparing options should expect competition for that same audience across the platform. At 5,547 members, it's grown to a scale that puts it among the larger communities tracked in this niche, though scale alone doesn't confirm how active discussions are inside, or how much direct access members get to Maggie Giele herself versus a broader peer network.
+
 ## Who Runs It
 
 Maggie Giele is named directly in the community's own display name and is listed as its owner on Skool. No further independent background, credentials, or track record are available in the data reviewed here beyond that basic attribution.

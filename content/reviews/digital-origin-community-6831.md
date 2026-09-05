@@ -31,10 +31,10 @@ Halidy Chamoussidine is listed as the owner of this community on Skool. No furth
 
 ## Who It's a Good Fit For
 
-French-speaking entrepreneurs who specifically want to learn how to create and sell digital products, and who prefer a single one-time payment over a recurring subscription model.
+French-speaking entrepreneurs who specifically want to learn how to create and sell digital products, and who prefer a single one-time payment over a recurring subscription model. It may also suit people who have already dabbled in ecommerce or content creation and want to add a digital product line without committing to a monthly membership fee first.
 
 ## Who Should Skip It
 
-Non-French speakers, since the community and its materials appear to operate in French. Anyone hoping for a detailed breakdown of the curriculum before paying should also request more specifics directly, since the public description alone doesn't provide it.
+Non-French speakers, since the community and its materials appear to operate in French. Anyone hoping for a detailed breakdown of the curriculum before paying should also request more specifics directly, since the public description alone doesn't provide it. People who are only comfortable with free resources should also weigh the $47 entry cost against their appetite for testing an unverified digital-product method first.
 
 [See Digital Origin Community's real growth data on TrustSkool](https://trustskool.com/community/digital-origin-community-6831)

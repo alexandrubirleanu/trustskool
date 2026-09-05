@@ -31,7 +31,7 @@ Rachell Jova is listed as the owner of this community on Skool. No further indep
 
 ## Who It's a Good Fit For
 
-People early in exploring online monetization who want a free, general starting point covering digital marketing broadly, rather than committing immediately to one narrow tactic.
+People early in exploring online monetization who want a free, general starting point covering digital marketing broadly, rather than committing immediately to one narrow tactic. It may also suit members who like the idea of a large, established group and want to see what methods other members are actually pursuing before settling on their own approach.
 
 ## Who Should Skip It
 

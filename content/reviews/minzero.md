@@ -11,7 +11,7 @@ A specific dollar range is the headline claim here. Min Zero, a free, Arabic-lan
 
 ## What's Actually Inside
 
-That income range, $3,000 to $30,000 monthly, is unusually specific for a free community, and it's paired with explicitly beginner-friendly framing, "even if you're a complete beginner." What the description doesn't say is what a "real project" actually is, whether that means e-commerce, freelancing, content creation, or something else, and it gives no timeframe for how quickly a beginner might realistically reach any point in that wide range. No category tag is attached to this community in the data reviewed.
+That income range, $3,000 to $30,000 monthly, is unusually specific for a free community, and it's paired with explicitly beginner-friendly framing, "even if you're a complete beginner." What the description doesn't say is what a "real project" actually is, whether that means e-commerce, freelancing, content creation, or something else, and it gives no timeframe for how quickly a beginner might realistically reach any point in that wide range. No category tag is attached to this community in the data reviewed. The name itself, Min Zero, meaning "from zero" in Arabic, reinforces the beginner-first pitch, positioning the community as a starting point rather than a resource for people who already have an established project or income stream.
 
 ## Who Runs It
 
@@ -31,7 +31,7 @@ Omar Moudni is listed as the owner of this community on Skool. No further indepe
 
 ## Who It's a Good Fit For
 
-Arabic-speaking beginners open to exploring a free business-building community, provided they treat the stated income figures as aspirational marketing language rather than a guarantee.
+Arabic-speaking beginners open to exploring a free business-building community, provided they treat the stated income figures as aspirational marketing language rather than a guarantee. People who specifically want a starting point with no prior experience required, given the "from zero" framing, are the clearest audience.
 
 ## Who Should Skip It
 
