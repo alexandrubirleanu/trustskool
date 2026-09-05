@@ -12,7 +12,7 @@ word_count: 0
 
 ## What's Actually Inside
 
-The description is built around motivational, career-pivot language, "refuse to stay stuck," "rise to your potential," "rewire your career," paired with one concrete, testable claim: multiple interviews within 30 days using "strategies that actually work." What those strategies actually are, resume rewriting, LinkedIn optimization, networking tactics, or something else, isn't specified. There's also no detail on what counts as a successful outcome for members who don't land interviews in that window, or how the 30-day claim was measured, if it was measured at all.
+The description is built around motivational, career-pivot language, "refuse to stay stuck," "rise to your potential," "rewire your career," paired with one concrete, testable claim: multiple interviews within 30 days using "strategies that actually work." What those strategies actually are, resume rewriting, LinkedIn optimization, networking tactics, or something else, isn't specified. There's also no detail on what counts as a successful outcome for members who don't land interviews in that window, or how the 30-day claim was measured, if it was measured at all. Job search advice communities often blend genuinely useful tactics, like tailoring applications and following up with hiring managers, with generic motivational content, and without more specifics it's hard to tell from the listing which side of that mix this one leans toward.
 
 ## Who Runs It
 

@@ -3,7 +3,7 @@ title: "THE SKOOL HUB Review 2026: Does This Free Advertising Community Actually
 meta_description: "THE SKOOL HUB review: a free, 5,550-member Skool community pitched as a place to advertise other communities and gain members fast."
 slug: theskoolhub
 niche: "Cross-promotion and advertising network for Skool community owners"
-word_count: 0
+word_count: 460
 ---
 # THE SKOOL HUB Review 2026: Does This Free Advertising Community Actually Grow Your Skool?
 

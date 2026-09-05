@@ -3,7 +3,7 @@ title: "God Ares AI Academy Review 2026: Free Skool Community for Viral AI Video
 meta_description: "God Ares AI Academy review: a free, 5,427-member Skool community teaching prompts and workflows behind viral AI videos with a claimed 500M+ views."
 slug: god-ares-ai-academy
 niche: "AI video creation and social media virality"
-word_count: 0
+word_count: 410
 ---
 # God Ares AI Academy Review 2026: Free Skool Community for Viral AI Video Creation
 

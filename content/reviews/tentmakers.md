@@ -3,7 +3,7 @@ title: "Tentmakers Review 2026: Is This Free Christian Business Community Worth 
 meta_description: "Tentmakers review: a free, 5,587-member Skool community for Christian business leaders, run as a non-profit and founded by Ryan Pineda."
 slug: tentmakers
 niche: "Faith-based leadership and business community for Christians"
-word_count: 0
+word_count: 475
 ---
 # Tentmakers Review 2026: Is This Free Christian Business Community Worth Joining?
 

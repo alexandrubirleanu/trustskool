@@ -3,7 +3,7 @@ title: "Zero2Launch AI Automation Review 2026: Free Skool Community for Beginner
 meta_description: "Zero2Launch AI Automation review: a free, 5,472-member Skool community that explains AI automation in plain, beginner-friendly terms."
 slug: zero2launch-ai-automation-5951
 niche: "Beginner-focused AI automation education"
-word_count: 0
+word_count: 415
 ---
 # Zero2Launch AI Automation Review 2026: Free Skool Community for Beginner-Friendly AI Workflows
 

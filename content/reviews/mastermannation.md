@@ -3,7 +3,7 @@ title: "Masterman Nation Review 2026: Free Skool Community for Islamic Male Exce
 meta_description: "Masterman Nation review: a free, 5,490-member Skool community framed as a male excellence movement anchored in Islamic values."
 slug: mastermannation
 niche: "Faith-based men's personal development anchored in Islamic values"
-word_count: 0
+word_count: 423
 ---
 # Masterman Nation Review 2026: Free Skool Community for Islamic Male Excellence
 

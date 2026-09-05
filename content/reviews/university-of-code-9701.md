@@ -3,7 +3,7 @@ title: "University of Code Review 2026: Free Skool Community for Aspiring Develo
 meta_description: "University of Code review: a free, 5,444-member Skool community run by Sonny Sangha offering lessons and support for developers."
 slug: university-of-code-9701
 niche: "Coding education and developer community"
-word_count: 0
+word_count: 410
 ---
 # University of Code Review 2026: Free Skool Community for Aspiring Developers
 

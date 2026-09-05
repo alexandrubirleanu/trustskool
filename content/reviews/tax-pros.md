@@ -3,7 +3,7 @@ title: "Tax Resolution Pros Review 2026: Free Skool Community for IRS Representa
 meta_description: "Tax Resolution Pros review: a free, 5,446-member Skool community for tax resolution professionals focused on IRS representation."
 slug: tax-pros
 niche: "Professional community for tax resolution and IRS representation specialists"
-word_count: 0
+word_count: 400
 ---
 # Tax Resolution Pros Review 2026: Free Skool Community for IRS Representation Specialists
 

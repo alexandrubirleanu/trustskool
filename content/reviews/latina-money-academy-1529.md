@@ -12,7 +12,7 @@ word_count: 0
 
 ## What's Actually Inside
 
-The headline claim, over 35 platforms for earning money online plus resale rights, "derechos de reventa," suggests a broad toolkit approach rather than a single deep-dive method. Resale rights typically means members get access to products or content they can rebrand and sell themselves, a common structure in the "make money online" space. The description doesn't name any of the 35 platforms specifically, explain how members are meant to choose among them, or clarify what level of income these platforms have actually produced for existing members.
+The headline claim, over 35 platforms for earning money online plus resale rights, "derechos de reventa," suggests a broad toolkit approach rather than a single deep-dive method. Resale rights typically means members get access to products or content they can rebrand and sell themselves, a common structure in the "make money online" space. The description doesn't name any of the 35 platforms specifically, explain how members are meant to choose among them, or clarify what level of income these platforms have actually produced for existing members. Communities built around a large menu of income platforms and resale products tend to require members to sift through a lot of options themselves, which can be an asset for people who like variety and a drawback for people who want one clear, guided path.
 
 ## Who Runs It
 
@@ -29,6 +29,7 @@ Latina Money Academy LLC is listed as the owner of this community on Skool, appe
 - None of the 35 platforms or resale-rights products are named in the description, so it's impossible to assess their quality or legitimacy from the listing alone.
 - "Millionaire platforms" is a strong claim with no supporting data, case studies, or member income results cited.
 - No independent reviews of this community were found beyond its own Skool listing.
+- The breadth of "35+ platforms" could mean less depth on any single one, so members hoping for a focused, step-by-step system on one method specifically may find the scope too wide.
 
 ## Who It's a Good Fit For
 

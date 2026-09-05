@@ -3,7 +3,7 @@ title: "Freedom Empire by Maggie Giele Review 2026: Free Skool Community for Coa
 meta_description: "Freedom Empire review: a free, 5,547-member Skool community from Maggie Giele for coaches, consultants and course creators scaling a digital business."
 slug: freedom-empire
 niche: "Digital business growth for coaches, consultants and course creators"
-word_count: 0
+word_count: 467
 ---
 # Freedom Empire by Maggie Giele Review 2026: Free Skool Community for Coaches and Course Creators
 

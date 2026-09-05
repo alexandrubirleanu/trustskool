@@ -12,6 +12,8 @@ word_count: 0
 
 The description frames the community as a space to "learn and exchange" ("Lerne & tausche Dich aus") specifically around meditation, breathwork, and mindfulness techniques ("Achtsamkeits-Techniken"), aimed at overall mental health and wellbeing rather than any single narrow practice. That framing suggests a mix of instructional content and peer discussion, though the description doesn't specify whether sessions are live, guided, or self-paced, nor does it name any specific meditation tradition or breathwork method taught.
 
+The "by 4minds" branding attached to the display name suggests this is run under a broader wellness or coaching brand rather than being a single individual's personal community, though the data here doesn't detail what else that brand offers or how this Skool group fits into a larger ecosystem of products or programs. For a mental health and wellbeing topic specifically, it's also worth noting that a peer community, however well-run, is not a substitute for clinical mental health care, and nothing in the description suggests it positions itself as one.
+
 ## Who Runs It
 
 Jörn Vogler is listed as the owner of this community on Skool. No further independent background or credentials are available in the data reviewed here.
@@ -30,7 +32,7 @@ Jörn Vogler is listed as the owner of this community on Skool. No further indep
 
 ## Who It's a Good Fit For
 
-German-speaking individuals interested in meditation, breathwork, and mindfulness who want a free community for both learning and peer exchange on mental wellbeing.
+German-speaking individuals interested in meditation, breathwork, and mindfulness who want a free community for both learning and peer exchange on general mental wellbeing.
 
 ## Who Should Skip It
 

@@ -3,7 +3,7 @@ title: "SON HABITOS Review 2026: Free Skool Community for Latina Women Fighting 
 meta_description: "SON HABITOS review: a free, 5,498-member Spanish-language Skool community led by Nati Vera for Latina women working to lose weight without rebound."
 slug: blazecamp
 niche: "Weight loss and body confidence for Spanish-speaking women"
-word_count: 0
+word_count: 455
 ---
 # SON HABITOS Review 2026: Free Skool Community for Latina Women Fighting the Weight Rebound
 
