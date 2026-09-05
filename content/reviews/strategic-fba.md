@@ -3,7 +3,7 @@ title: "Digital Brand Builders Review 2026: Jamal's E-Commerce Coaching Communit
 meta_description: "Digital Brand Builders review: a free, 5,355-member Skool community for Amazon and Shopify e-commerce coaching, led by Jamal Muse."
 slug: strategic-fba
 niche: "Amazon and Shopify e-commerce coaching"
-word_count: 0
+word_count: 452
 ---
 
 Digital Brand Builders leads with a big number: its own description says founder Jamal has generated over $20 million in sales on Amazon and Shopify, and the free, 5,355-member community is built around that track record.

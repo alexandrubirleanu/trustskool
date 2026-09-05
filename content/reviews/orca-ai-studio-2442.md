@@ -3,7 +3,7 @@ title: "Orca AI Studio Review 2026: Free AI Automation Community for the Balkans
 meta_description: "Orca AI Studio review: a free, 5,378-member Serbian-language Skool community teaching AI automation for the Balkan region."
 slug: orca-ai-studio-2442
 niche: "AI automation education for Balkan-region entrepreneurs"
-word_count: 0
+word_count: 442
 ---
 
 Orca AI Studio bills itself, in its own description, as the first AI automation community in the Balkans, a specific regional claim that stands out among the flood of generic "AI community" listings on Skool. It's free to join and has grown to 5,378 members, with content published in Serbian.

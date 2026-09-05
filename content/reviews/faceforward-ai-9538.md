@@ -12,7 +12,7 @@ FACEFORWARD AI® is unusual among free Skool communities in one specific way: it
 
 ## What's Actually Inside
 
-The pitch combines two currently popular themes, AI tools and personal branding, into one community, but the description doesn't name specific AI tools, platforms, or a step-by-step process for the branding work itself. "Standout brand" could mean anything from a personal social media presence to a business identity, and it's not clear which the community is actually built around. The approval gate is notable: it suggests some vetting of new members, though the description doesn't say what criteria are used to approve or reject applicants.
+The pitch combines two currently popular themes, AI tools and personal branding, into one community, but the description doesn't name specific AI tools, platforms, or a step-by-step process for the branding work itself. "Standout brand" could mean anything from a personal social media presence to a business identity, and it's not clear which the community is actually built around. The approval gate is notable: it suggests some vetting of new members, though the description doesn't say what criteria are used to approve or reject applicants. AI-and-branding communities have proliferated quickly as generative tools have gotten more accessible, and the specific value of any one of them tends to come down to whether it teaches durable branding principles or just a rotating list of trendy AI tools that may not stay relevant for long.
 
 ## Who Runs It
 
@@ -29,6 +29,7 @@ Katie Cross is listed as the owner of this community on Skool. No further indepe
 - No specific AI tools, platforms, or branding methods are named in the description, so applicants can't evaluate the actual content in advance.
 - The approval process adds friction and a delay of up to 24 hours, which may deter people looking for immediate access.
 - No independent reviews of this community were found beyond its own Skool listing, so it's unclear what the approval criteria actually filter for.
+- AI tools and best practices in this space change quickly, and the listing gives no indication of how often content is refreshed to keep up.
 
 ## Who It's a Good Fit For
 

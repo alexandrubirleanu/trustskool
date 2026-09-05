@@ -3,7 +3,7 @@ title: "Coaching Business Launch Review 2026: Zander Fryer's Free Community"
 meta_description: "Coaching Business Launch review: a free, 5,283-member Skool community for building a coaching business, tied to High Impact Coaching."
 slug: coaching-business-launch
 niche: "Coaching business building program"
-word_count: 0
+word_count: 445
 ---
 
 "Build a profitable coaching business with truth, not fluff" is the pitch behind Coaching Business Launch, a free, 5,283-member Skool community that describes itself as High Impact Coaching's community by Zander Fryer.

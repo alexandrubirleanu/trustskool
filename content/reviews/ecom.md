@@ -3,7 +3,7 @@ title: "Ecom Review 2026: Is This Free Spanish-Language Community Worth Joining?
 meta_description: "Ecom review: a free, 5,317-member Spanish-language Skool community for collaborating on ecommerce with other members."
 slug: ecom
 niche: "General ecommerce collaboration (Spanish-language)"
-word_count: 0
+word_count: 436
 ---
 
 With a name as generic as "Ecom," this free Spanish-language Skool community doesn't give away much about its specific angle beyond one short line: collaborate with other members and master the game of ecommerce.

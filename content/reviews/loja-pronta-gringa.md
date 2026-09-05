@@ -3,7 +3,7 @@ title: "Loja Vencedora Review 2026: Free 5-Minute Store Course on Skool"
 meta_description: "Loja Vencedora review: a free, 5,296-member Portuguese-language Skool community offering a ready-made store and dollar-sales course."
 slug: loja-pronta-gringa
 niche: "Ready-made store and dropshipping course (Portuguese-language)"
-word_count: 0
+word_count: 451
 ---
 
 A store built in five minutes is a bold promise, and it's the headline of Loja Vencedora, a free, 5,296-member Portuguese-language Skool community aimed at people who want to start selling in US dollars quickly.

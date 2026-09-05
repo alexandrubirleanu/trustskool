@@ -3,7 +3,7 @@ title: "مئة يوم من الكتابة Review 2026: A Free Arabic Writing Com
 meta_description: "مئة يوم من الكتابة review: a free, 5,317-member Arabic-language Skool community helping writers build a 100-day writing habit."
 slug: 100-days-of-writing-5075
 niche: "Arabic-language writing habit and craft community"
-word_count: 0
+word_count: 433
 ---
 
 مئة يوم من الكتابة translates to "100 Days of Writing," and that's exactly the premise of this free, 5,317-member Arabic-language Skool community: write consistently for one hundred days and leave your hesitation behind.

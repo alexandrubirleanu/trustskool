@@ -29,6 +29,7 @@ Marcel Lombard is listed as the owner of this community on Skool. No further ind
 - The "multiple interviews in 30 days" claim isn't backed by cited data, case studies, or a stated methodology in the description.
 - No independent reviews of this community were found beyond its own Skool listing, so outcomes can't be verified from outside sources.
 - The description doesn't specify which industries or career levels the strategies are aimed at, so fit may vary widely by field.
+- Job markets and hiring practices vary enormously by industry and region, and a single 30-day framework is unlikely to apply equally everywhere.
 
 ## Who It's a Good Fit For
 

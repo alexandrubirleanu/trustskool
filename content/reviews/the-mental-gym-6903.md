@@ -3,7 +3,7 @@ title: "Meditation Circle by 4minds Review 2026: Free German Mindfulness Group"
 meta_description: "Meditation Circle by 4minds review: a free, 5,276-member German-language Skool community for meditation, breathwork, and mindfulness."
 slug: the-mental-gym-6903
 niche: "Meditation, breathwork, and mindfulness (German-language)"
-word_count: 0
+word_count: 415
 ---
 
 "Deine Mental Health Community für ein glückliches Leben," your mental health community for a happy life, is how Meditation Circle by 4minds describes itself, a free, 5,276-member German-language Skool community built around meditation, breathwork, and mindfulness.

@@ -3,7 +3,7 @@ title: "Auto Locksmith Elite (Free) Review 2026: Starting a Locksmith Career"
 meta_description: "Auto Locksmith Elite (Free) review: a free, 5,364-member Skool community for beginners learning the auto locksmith trade."
 slug: auto-locksmith-masterclass
 niche: "Auto locksmith trade training for beginners"
-word_count: 0
+word_count: 444
 ---
 
 Not every Skool community fits neatly into "make money online" or "fitness," and Auto Locksmith Elite (Free) is a good example: a free, 5,364-member community built specifically around the auto locksmith trade.

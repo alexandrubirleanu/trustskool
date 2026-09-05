@@ -3,7 +3,7 @@ title: "Skool Scale Camp Review 2026: Free Bootcamp for Women Entrepreneurs"
 meta_description: "Skool Scale Camp review: a free, 5,398-member Skool community for midlife women entrepreneurs building consistent monthly revenue."
 slug: skool-scale-camp
 niche: "Business growth coaching for midlife women entrepreneurs"
-word_count: 0
+word_count: 481
 ---
 
 Midlife women entrepreneurs looking to grow on Skool have a free option in Skool Scale Camp, a 5,398-member community built around what its own description calls a "Community to Cashflow Bundle."
