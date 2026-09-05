@@ -3,7 +3,7 @@ title: "This Is It Team Training Review 2026: Free Entrepreneurship Community on
 meta_description: "This Is It Team Training review: a free, 9,196-member Skool community offering general entrepreneurial strategy and motivation."
 slug: this-is-it-team-4127
 niche: "General entrepreneurship and business mindset coaching"
-word_count: 0
+word_count: 403
 ---
 # This Is It Team Training Review 2026: Free Entrepreneurship Community on Skool
 

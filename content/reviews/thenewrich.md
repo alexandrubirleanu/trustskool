@@ -3,7 +3,7 @@ title: "The New Rich Review 2026: Free Vietnamese Skool Community on Building In
 meta_description: "The New Rich review: a free, 13,071-member Vietnamese-language Skool community about building income systems instead of trading time for money."
 slug: thenewrich
 niche: "Vietnamese-language wealth-building and entrepreneurship mindset"
-word_count: 0
+word_count: 431
 ---
 # The New Rich Review 2026: Free Vietnamese Skool Community on Building Income Systems
 

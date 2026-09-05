@@ -3,7 +3,7 @@ title: "Co-Creators Review 2026: Free Faith-Based Self-Improvement Community on 
 meta_description: "Co-Creators review: a free, 8,962-member Skool community built around Christian-framed self-improvement."
 slug: co-creators
 niche: "Faith-based personal growth"
-word_count: 0
+word_count: 425
 ---
 # Co-Creators Review 2026: Free Faith-Based Self-Improvement Community on Skool
 

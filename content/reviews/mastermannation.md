@@ -13,6 +13,8 @@ word_count: 0
 
 The description is deliberately brief, just one line, and it positions the space as a "movement" rather than a course or coaching program, explicitly rooted in Islamic values and centered on men's personal excellence and development. Beyond that framing, the listing doesn't say much about format: whether it runs as a discussion forum, includes scheduled calls, offers mentorship, or leans on structured lessons. It also doesn't name specific topics under the "excellence" umbrella, such as career, fitness, marriage, or finances, leaving the actual day-to-day content largely to the imagination.
 
+The category tag is "spirituality," which fits the faith-anchored framing more than a generic self-improvement label would, and it signals to browsers that the values component is treated as central rather than incidental. Member counts moved only slightly across the tracked window, from 5,481 to 5,480 and then up to 5,490, a pattern that reads as a mature, steady community rather than one in a rapid growth phase, which may matter to someone weighing an established group against a newer, faster-growing alternative.
+
 ## Who Runs It
 
 Abdullah Oduro is listed as the owner of Masterman Nation on Skool. No further independent background or credentials are available in the data reviewed here.

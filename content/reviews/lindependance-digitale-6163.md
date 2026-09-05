@@ -3,7 +3,7 @@ title: "L'Indépendance Digitale Review 2026: Free French Skool Community for Di
 meta_description: "L'Indépendance Digitale review: a free, 8,074-member French-language Skool community pitched as a first step toward digital independence."
 slug: lindependance-digitale-6163
 niche: "French-language digital entrepreneurship and independence"
-word_count: 0
+word_count: 429
 ---
 # L'Indépendance Digitale Review 2026: Free French Skool Community for Digital Independence
 

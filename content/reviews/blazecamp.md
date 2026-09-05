@@ -13,6 +13,8 @@ SON HABITOS is one of the larger Spanish-language health communities on Skool, a
 
 The community's own description, in Spanish, reads: "Comunidad gratis para mujeres latinas cansadas del sobrepeso y buscan eliminar el efecto rebote, recuperar su cuerpo, salud y su confianza," roughly, a free community for Latina women tired of being overweight who want to eliminate the rebound effect and recover their body, health, and confidence. The phrase "efecto rebote" (rebound effect) is a specific, recognizable pain point in weight loss circles, and naming it directly suggests the community speaks to people who have already tried and lost progress before. What the description doesn't cover is methodology: whether the approach centers on nutrition, exercise, mindset work, or some combination.
 
+The listing is filed under the "health" category, and the heart emoji opening the description reinforces a warm, supportive tone aimed at emotional as much as physical outcomes, "recuperar su confianza" (recover her confidence) sits right alongside the physical goals of body and health. With 5,498 members and steady recent growth from 5,490 to 5,498 in the most recently tracked period, the community appears to be an active, ongoing presence rather than a stalled listing.
+
 ## Who Runs It
 
 Nati Vera is named directly in the community's display name and is listed as its owner on Skool. No further independent background, certifications, or credentials are available in the data reviewed here.

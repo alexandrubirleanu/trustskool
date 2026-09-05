@@ -3,7 +3,7 @@ title: "Min Zero Review 2026: Free Arabic Skool Community Promising $3,000 to $3
 meta_description: "Min Zero review: a free, 7,101-member Arabic-language Skool community claiming beginners can reach $3,000-$30,000 a month."
 slug: minzero
 niche: "Arabic-language business-building from scratch (income claims)"
-word_count: 0
+word_count: 417
 ---
 # Min Zero Review 2026: Free Arabic Skool Community Promising $3,000 to $30,000 a Month
 

@@ -3,7 +3,7 @@ title: "MoneyLab 1% Club Review 2026: Free Arabic Skool Community, Legit or Just
 meta_description: "MoneyLab 1% Club review: a free, 21,267-member Arabic-language Skool community built around joining an exclusive '1%' mindset."
 slug: moneylab-1-club-2324
 niche: "Arabic-language mindset and success community"
-word_count: 0
+word_count: 451
 ---
 # MoneyLab 1% Club Review 2026: Free Arabic Skool Community, Legit or Just Hype?
 

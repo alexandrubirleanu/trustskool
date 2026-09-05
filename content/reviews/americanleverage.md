@@ -3,7 +3,7 @@ title: "American Leverage Review 2026: Free Skool Community for US Business Cred
 meta_description: "American Leverage review: a free, 6,374-member Skool community helping non-US businesses navigate ITIN, funding, and travel."
 slug: americanleverage
 niche: "US financial access for non-US businesses (ITIN, funding, travel)"
-word_count: 0
+word_count: 434
 ---
 # American Leverage Review 2026: Free Skool Community for US Business Credit Access
 

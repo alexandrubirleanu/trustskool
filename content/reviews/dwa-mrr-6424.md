@@ -35,6 +35,6 @@ People early in exploring online monetization who want a free, general starting 
 
 ## Who Should Skip It
 
-Anyone who already has a specific digital marketing method in mind and wants deep, specialized training in that one area specifically may find a broader, one-stop-shop community less efficient than a niche-focused alternative.
+Anyone who already has a specific digital marketing method in mind and wants deep, specialized training in that one area specifically may find a broader, one-stop-shop community less efficient than a niche-focused alternative. Members who need documented case studies or verified income proof before joining a free monetization group should also do their own outside research first, since none is provided in the listing itself.
 
 [See DWA MRR's real growth data on TrustSkool](https://trustskool.com/community/dwa-mrr-6424)

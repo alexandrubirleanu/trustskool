@@ -3,7 +3,7 @@ title: "Day by Day Wellness Club Review 2026: Is This Free Self-Improvement Comm
 meta_description: "Day by Day Wellness Club review: a free, 61,131-member Skool community built around general self-improvement, run by the Day By Day team."
 slug: day-by-day-family-4722
 niche: "General self-improvement and personal growth"
-word_count: 0
+word_count: 402
 ---
 # Day by Day Wellness Club Review 2026: Is This Free Self-Improvement Community Worth It?
 

@@ -10,7 +10,7 @@ AI Experts Club has crossed 5,000 members without Skool ever assigning it a nich
 
 ## What's Actually Inside
 
-The pitch is broad: a "go-to community for learning, exploring, and mastering AI." That phrasing covers a lot of ground, from prompting techniques to specific tools to broader career advice, without narrowing down to any one of those in the text itself. With no category tag attached on Skool, prospective members are left to infer the exact focus from member activity rather than the listing, which doesn't specify whether the content leans toward beginners exploring AI for the first time or more advanced practitioners looking to sharpen specific skills.
+The pitch is broad: a "go-to community for learning, exploring, and mastering AI." That phrasing covers a lot of ground, from prompting techniques to specific tools to broader career advice, without narrowing down to any one of those in the text itself. With no category tag attached on Skool, prospective members are left to infer the exact focus from member activity rather than the listing, which doesn't specify whether the content leans toward beginners exploring AI for the first time or more advanced practitioners looking to sharpen specific skills. Given how fast the AI tooling landscape moves, a community without a stated niche could either be a flexible catch-all that adapts as tools change, or simply a listing that hasn't settled on a specific angle yet.
 
 ## Who Runs It
 

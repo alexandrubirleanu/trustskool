@@ -31,10 +31,10 @@ Kristin Burton is listed as the owner of this community on Skool. No further ind
 
 ## Who It's a Good Fit For
 
-Doctors, nurses, and other medical professionals dealing with student debt who want financial guidance framed specifically around their profession's income and debt patterns.
+Doctors, nurses, and other medical professionals dealing with student debt who want financial guidance framed specifically around their profession's income and debt patterns. It may also suit healthcare workers who feel that generic personal finance advice doesn't account for the unusual combination of delayed earnings, licensing costs, and long training timelines common in medicine.
 
 ## Who Should Skip It
 
-Non-medical professionals looking for general personal finance advice may find better-fitting communities elsewhere, since this one is framed specifically around the financial situation of people working in medicine.
+Non-medical professionals looking for general personal finance advice may find better-fitting communities elsewhere, since this one is framed specifically around the financial situation of people working in medicine. Anyone wanting fully licensed, one-on-one financial planning should also treat a Skool community as a starting point for ideas rather than a substitute for personalized professional advice.
 
 [See Millionaires in Medicine Club's real growth data on TrustSkool](https://trustskool.com/community/millionairesinmedicine)

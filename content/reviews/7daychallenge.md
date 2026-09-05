@@ -10,7 +10,7 @@ In German-speaking Skool circles, a challenge promising "zum ersten Geld" (to yo
 
 ## What's Actually Inside
 
-The description is short and direct: "Willkommen zur 7 Day AI Challenge. Innerhalb von nur 7 Tagen zum ersten Geld." Welcome to the 7 Day AI Challenge, to your first money within just 7 days. That's the entire pitch as written, a tight, time-boxed structure aimed at using AI tools to generate some initial income, with no further detail in the listing about which AI tools, what kind of income, or what "first money" is meant to look like in practice. The category tag on Skool is "money," which lines up with the income-focused framing, but the specific mechanism, whether it's AI content creation, automation, reselling AI services, or something else, isn't spelled out.
+The description is short and direct: "Willkommen zur 7 Day AI Challenge. Innerhalb von nur 7 Tagen zum ersten Geld." Welcome to the 7 Day AI Challenge, to your first money within just 7 days. That's the entire pitch as written, a tight, time-boxed structure aimed at using AI tools to generate some initial income, with no further detail in the listing about which AI tools, what kind of income, or what "first money" is meant to look like in practice. The category tag on Skool is "money," which lines up with the income-focused framing, but the specific mechanism, whether it's AI content creation, automation, reselling AI services, or something else, isn't spelled out. Member growth has also been fairly steady rather than explosive, which for a free challenge-style community suggests a consistent trickle of new sign-ups rather than a single viral spike.
 
 ## Who Runs It
 

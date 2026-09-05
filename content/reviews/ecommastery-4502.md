@@ -31,10 +31,10 @@ Claudio Daniel is listed as the owner of this community on Skool. No further ind
 
 ## Who It's a Good Fit For
 
-Spanish-speaking entrepreneurs interested specifically in building an online store, especially those who value a supportive peer community alongside instructional content.
+Spanish-speaking entrepreneurs interested specifically in building an online store, especially those who value a supportive peer community alongside instructional content. It may also suit beginners who haven't yet chosen a specific ecommerce model and want a broad entry point into the space before narrowing their focus.
 
 ## Who Should Skip It
 
-Non-Spanish speakers won't get much value here since the community operates entirely in Spanish. Anyone looking for a specific ecommerce model, like a dropshipping-only or print-on-demand-only curriculum, should confirm the actual focus before joining, since the general description doesn't specify.
+Non-Spanish speakers won't get much value here since the community operates entirely in Spanish. Anyone looking for a specific ecommerce model, like a dropshipping-only or print-on-demand-only curriculum, should confirm the actual focus before joining, since the general description doesn't specify. People wanting verified case studies of store revenue should also look for outside evidence, since none appears in the listing itself.
 
 [See EcomMastery's real growth data on TrustSkool](https://trustskool.com/community/ecommastery-4502)

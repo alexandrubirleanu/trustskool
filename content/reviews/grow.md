@@ -10,7 +10,7 @@ Turning a personal brand into what the listing calls a "Client Generating machin
 
 ## What's Actually Inside
 
-The description is direct about scale: "Turn your Personal Brand into a Client Generating machine, scale your business to $1M-$10M/year, and Achieve Greatness in your industry." That's an ambitious revenue range spanning a 10x gap, from $1M to $10M, which is worth noting since businesses at those two ends of the range typically look very different in team size, systems, and complexity. The category tag is "money," consistent with the business-scaling framing. The listing doesn't specify which industries, business models, or personal-brand formats (coaching, consulting, content, product sales) the community is built around, so the actual path from "personal brand" to "$1M-$10M" business isn't detailed here.
+The description is direct about scale: "Turn your Personal Brand into a Client Generating machine, scale your business to $1M-$10M/year, and Achieve Greatness in your industry." That's an ambitious revenue range spanning a 10x gap, from $1M to $10M, which is worth noting since businesses at those two ends of the range typically look very different in team size, systems, and complexity. The category tag is "money," consistent with the business-scaling framing. The listing doesn't specify which industries, business models, or personal-brand formats (coaching, consulting, content, product sales) the community is built around, so the actual path from "personal brand" to "$1M-$10M" business isn't detailed here. Members joining should treat the revenue figures as an aspirational headline rather than a guaranteed or typical outcome, since the description gives no data on how many members, if any, have reached that range.
 
 ## Who Runs It
 

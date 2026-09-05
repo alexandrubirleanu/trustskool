@@ -10,7 +10,7 @@ Solo acoustic guitarists and singers are a narrow enough niche that a free commu
 
 ## What's Actually Inside
 
-The description is short and self-declared: it names itself the number one free community for this specific pairing of skills, solo acoustic guitar playing and singing, rather than instrumentalists or bands generally. The category tag on Skool is "music," consistent with that framing. Beyond the "#1 FREE" claim itself, which is a self-assessment rather than an independently verified ranking, the listing doesn't detail what members actually get: whether that's technique lessons, gig-booking advice ("pro gig" in the name suggests a performance or paid-gig angle), repertoire building, or something else specific to solo performers.
+The description is short and self-declared: it names itself the number one free community for this specific pairing of skills, solo acoustic guitar playing and singing, rather than instrumentalists or bands generally. The category tag on Skool is "music," consistent with that framing. Beyond the "#1 FREE" claim itself, which is a self-assessment rather than an independently verified ranking, the listing doesn't detail what members actually get: whether that's technique lessons, gig-booking advice ("pro gig" in the name suggests a performance or paid-gig angle), repertoire building, or something else specific to solo performers. The combination of guitar plus voice, rather than either skill in isolation, is the clearest identity marker the description offers, and it's a reasonable enough hook for a niche that many general music communities lump together with everyone else.
 
 ## Who Runs It
 
