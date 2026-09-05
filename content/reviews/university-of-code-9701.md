@@ -17,7 +17,7 @@ It's categorized under "tech" on Skool, a crowded category where developer-focus
 
 ## Who Runs It
 
-Sonny Sangha is listed as the owner of University of Code on Skool. No further independent background or credentials are available in the data reviewed here.
+Sonny Sangha is listed as the owner of University of Code on Skool. No further independent background or credentials are available in the data reviewed here, so this review limits itself to that basic attribution rather than assuming any particular teaching style or technical specialty on his part.
 
 ## Pros
 

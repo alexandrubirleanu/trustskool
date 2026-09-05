@@ -29,6 +29,7 @@ Charlotte Michelin is listed as the owner of this community on Skool. No further
 - The description relies heavily on emotionally charged language, "secrets," "transform your life," without describing a concrete method, exercise, or daily structure.
 - Manifestation and law-of-attraction content isn't grounded in established psychological or scientific frameworks, so members should treat claims of transformation as personal belief rather than proven outcomes.
 - No independent reviews of this community were found beyond its own Skool listing.
+- There's no mention of any structured curriculum, so it's unclear whether members progress through defined stages or simply consume ongoing posts.
 
 ## Who It's a Good Fit For
 

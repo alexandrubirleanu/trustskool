@@ -32,7 +32,7 @@ Gabriel Silva is listed as the owner of this community on Skool. No further inde
 
 ## Who It's a Good Fit For
 
-Portuguese-speaking beginners curious about quick-start ecommerce and selling in US dollars, who are comfortable exploring a free course before deciding whether to invest further time or money.
+Portuguese-speaking beginners curious about quick-start ecommerce and selling in US dollars, who are comfortable exploring a free course before deciding whether to invest further time or money into building it out.
 
 ## Who Should Skip It
 

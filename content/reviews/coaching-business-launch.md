@@ -12,6 +12,8 @@ word_count: 0
 
 The description positions this as a gateway into "High Impact Coaching's Community," crediting Zander Fryer by name, and notes that prospective members must "complete the questionnaire to join," which suggests some form of application or vetting step rather than open, instant access. Beyond the "truth, not fluff" tagline, the description doesn't detail the actual curriculum, whether the focus is client acquisition, offer creation, pricing, or something else specific to launching a coaching business.
 
+The questionnaire requirement is worth flagging on its own: many free Skool communities let anyone join instantly, so adding an application step signals the organizers may be filtering for fit, commitment level, or even qualifying leads for a paid offer down the line. None of that is necessarily a bad sign, gated communities can mean more relevant peers and less noise, but it does mean the free listing functions more as a front door than a fully self-contained resource, and what's behind that door isn't described in the data available here.
+
 ## Who Runs It
 
 On Skool, the community's listed owner is Hic Support, which reads as a team or brand support account rather than an individual founder. The description separately credits the program to Zander Fryer of High Impact Coaching, but no independent background or credentials are available in the data reviewed here for either name.
@@ -30,7 +32,7 @@ On Skool, the community's listed owner is Hic Support, which reads as a team or 
 
 ## Who It's a Good Fit For
 
-Aspiring or early-stage coaches who want to explore a structured, application-gated community associated with an established coaching brand, and who are willing to complete a questionnaire for entry.
+Aspiring or early-stage coaches who want to explore a structured, application-gated community associated with an established coaching brand, and who are willing to complete a questionnaire for entry without a guarantee of acceptance.
 
 ## Who Should Skip It
 

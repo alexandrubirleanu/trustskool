@@ -12,7 +12,7 @@ Some Skool communities exist to teach a skill or hobby; this one exists to teach
 
 ## What's Actually Inside
 
-This is a meta-community: rather than covering an external niche like fitness or marketing, it's focused on the mechanics of Skool as a platform, presumably things like setting up classrooms, running a community, and understanding Skool's features, translated into a German-speaking context. The description doesn't detail whether this covers running a paid community for profit, growing membership, or purely the technical side of using Skool's tools, so the exact scope of "understanding Skool" is left open.
+This is a meta-community: rather than covering an external niche like fitness or marketing, it's focused on the mechanics of Skool as a platform, presumably things like setting up classrooms, running a community, and understanding Skool's features, translated into a German-speaking context. The description doesn't detail whether this covers running a paid community for profit, growing membership, or purely the technical side of using Skool's tools, so the exact scope of "understanding Skool" is left open. Communities built around a specific software platform tend to attract a mix of total beginners still deciding whether to launch anything and existing community owners comparing notes, and the listing doesn't say which of those groups makes up most of the membership here.
 
 ## Who Runs It
 
@@ -28,6 +28,7 @@ Calvin Hollywood is listed as the owner of this community on Skool. No further i
 
 - The description doesn't specify whether content covers monetization, community growth, or just Skool's technical features, so prospective members can't tell exactly what they'll learn.
 - No independent reviews of this community were found beyond its own Skool listing.
+- The description doesn't say whether the community itself is monetized or purely a free peer resource, which some members may want to know upfront.
 - Since it's about a specific platform's mechanics, content could become outdated quickly if Skool changes its features or interface.
 
 ## Who It's a Good Fit For

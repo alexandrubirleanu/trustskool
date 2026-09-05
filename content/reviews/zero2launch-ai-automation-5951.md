@@ -17,7 +17,7 @@ It's listed under the "tech" category, alongside a wide range of other AI and so
 
 ## Who Runs It
 
-Duyet Tran is listed as the owner of Zero2Launch AI Automation on Skool. No further independent background or credentials are available in the data reviewed here.
+Duyet Tran is listed as the owner of Zero2Launch AI Automation on Skool. No further independent background or credentials are available in the data reviewed here, so this review sticks to that basic attribution rather than speculating about experience or prior work in the AI automation space.
 
 ## Pros
 
