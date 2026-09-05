@@ -6,6 +6,8 @@ niche: "Automated webinar software beta users"
 word_count: 0
 ---
 
+# Webinar Masters Review 2026: The Closed Beta Community Behind upwebinar.ai
+
 Most Skool communities want new members. Webinar Masters, at least as described in its own listing, does not, at least not right now. It's a free community with 5,762 members built specifically "for beta users of upwebinar.ai, our automated webinar software," and its description states plainly that it's "closed to new members" while directing interested people to "watch upwebinar.ai for updates."
 
 ## What's Actually Inside

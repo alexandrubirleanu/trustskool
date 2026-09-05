@@ -6,6 +6,8 @@ niche: "Structured poker training from a professional player"
 word_count: 0
 ---
 
+# LearnProPoker Review 2026: Free Coaching from a 15-Year Pro, Ryan Laplante
+
 Ryan Laplante's name is the whole hook here. LearnProPoker: FREE is a free Skool community, 5,757 members strong, described as a "community of players wanting to become better at poker" offering "structured poker training created by 15+ year professional poker player Ryan Laplante."
 
 ## What's Actually Inside

@@ -3,7 +3,7 @@ title: "Sniper Nation Review 2026: Free Skool Community for Sneaker Reselling"
 meta_description: "Sniper Nation review: a free, 5,957-member English-language Skool community on sourcing, selling, and scaling a sneaker reselling business."
 slug: sniper-nation-8512
 niche: "Sneaker sourcing and reselling"
-word_count: 420
+word_count: 409
 ---
 
 Sneaker reselling is a niche with its own vocabulary, cook groups, bots, and release calendars, and Sniper Nation pitches itself around the fundamentals of that business: "Learn how to source, sell, and scale for your own sneaker reselling business." It's a free Skool community with 5,957 members.

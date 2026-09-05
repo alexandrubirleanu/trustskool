@@ -6,6 +6,8 @@ niche: "Postgraduate medical training for Arabic-speaking doctors"
 word_count: 0
 ---
 
+# PostGraduate Academy Review 2026: Is This Free Arabic Medical Training Community Worth It?
+
 Medical education rarely gets the community treatment, but PostGraduate Academy has built a free, Arabic-language Skool space around exactly that gap, what happens to a doctor's training in the years after graduation. With 5,862 members and no listed price, its own description bills it as أول اكاديمية للاطباء, "the first academy for doctors," aimed at building an educational system that closes the postgraduate training gap.
 
 ## What's Actually Inside

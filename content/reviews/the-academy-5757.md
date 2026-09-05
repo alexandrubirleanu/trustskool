@@ -3,7 +3,7 @@ title: "Agency Scaling Group Review 2026: Free Community from Working with 828+ 
 meta_description: "Agency Scaling Group review: a free, 5,921-member Skool community sharing lessons from working 1-on-1 with 828+ agency owners on lead gen, sales, and fulfillment."
 slug: the-academy-5757
 niche: "Agency lead generation, sales, and fulfillment"
-word_count: 430
+word_count: 439
 ---
 
 A specific number tends to stand out in a sea of vague agency-growth pitches, and Agency Scaling Group leads with one: "Everything we've learned working 1-1 with 828+ Agency owners to master lead generation, sales, and fulfillment." It's a free Skool community with 5,921 members.

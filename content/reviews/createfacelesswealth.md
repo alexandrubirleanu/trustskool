@@ -6,6 +6,8 @@ niche: "Faceless content creation and digital income streams"
 word_count: 0
 ---
 
+# Create Faceless Wealth Review 2026: Free Skool Community for Camera-Shy Creators
+
 Not everyone wants to be on camera, and Create Faceless Wealth has built a free, 5,775-member Skool community around that exact hesitation. Its description calls itself "the original faceless course that helped thousands ditch the camera and start building digital income," with a promise to cover 10 different income streams.
 
 ## What's Actually Inside

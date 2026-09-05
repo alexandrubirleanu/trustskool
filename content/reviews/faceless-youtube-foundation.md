@@ -3,7 +3,7 @@ title: "Faceless Youtube Foundation Review 2026: Free Vietnamese Community for M
 meta_description: "Faceless Youtube Foundation review: a free, 6,110-member Vietnamese-language Skool community built around getting every member a monetized YouTube channel."
 slug: faceless-youtube-foundation
 niche: "Vietnamese-language faceless YouTube channel building"
-word_count: 500
+word_count: 509
 ---
 
 Faceless Youtube Foundation states its purpose almost like a slogan: "Phấn đấu mỗi người 1 kênh Youtube Bật Kiếm Tiền," or roughly, strive for every person to have one YouTube channel turned on for earning. It's a free Skool community, written entirely in Vietnamese, that has grown past 6,100 members.

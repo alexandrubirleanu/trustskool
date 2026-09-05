@@ -3,7 +3,7 @@ title: "Kingdom Crown Review 2026: Is This Free Faith Community Worth Joining?"
 meta_description: "Kingdom Crown review: a free, 6,040-member English-language Skool community for believers seeking faith-based encouragement and fellowship."
 slug: kingdom-crown-9402
 niche: "Christian faith and fellowship community"
-word_count: 430
+word_count: 428
 ---
 
 Faith-based online communities live or die on tone, and Kingdom Crown describes itself plainly as "a welcoming space for believers to grow in faith, share encouragement, and walk boldly with Christ, together." It's a free Skool community, in English, that has grown to just over 6,040 members.

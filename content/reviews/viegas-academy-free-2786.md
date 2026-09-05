@@ -3,7 +3,7 @@ title: "Viegas Academy FREE Review 2026: Is This Free Spanish Video Editing Comm
 meta_description: "Viegas Academy FREE review: a free, 6,101-member Spanish-language Skool community aimed at starting and scaling a video editing business."
 slug: viegas-academy-free-2786
 niche: "Spanish-language video editing business building"
-word_count: 480
+word_count: 464
 ---
 
 Video editing as a service business is a crowded niche online, but Viegas Academy FREE narrows its pitch to something specific: it calls itself "La Academia Definitiva para Empezar y Escalar tu Negocio de Edición," the definitive academy to start and scale your editing business. It's a free, Spanish-language Skool community that has grown to 6,101 members.

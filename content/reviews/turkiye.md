@@ -3,7 +3,7 @@ title: "Skool Türkiye (Ücretsiz) Review 2026: Is This Free Turkish Community W
 meta_description: "Skool Türkiye review: a free, 6,015-member Turkish-language Skool community built around turning your passion into income using Skool."
 slug: turkiye
 niche: "Turkish-language guidance on using Skool"
-word_count: 430
+word_count: 415
 ---
 
 Skool Türkiye (Ücretsiz) keeps its pitch short: "Skool'la tutkunuzu dönüştürün," turn your passion into something with Skool. It's a free, Turkish-language community that has grown to 6,015 members, apparently built around helping Turkish speakers make use of the Skool platform itself.
