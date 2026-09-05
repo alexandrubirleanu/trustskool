@@ -3,7 +3,7 @@ title: "FACEFORWARD AI® Review 2026: Free Community for AI-Powered Personal Bra
 meta_description: "FACEFORWARD AI® review: a free, 5,167-member Skool community teaching AI-powered personal branding, with a gated approval process."
 slug: faceforward-ai-9538
 niche: "AI-powered personal branding"
-word_count: 0
+word_count: 469
 ---
 
 # FACEFORWARD AI® Review 2026: Free Community for AI-Powered Personal Branding
