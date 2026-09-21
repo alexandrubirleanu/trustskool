@@ -3,7 +3,7 @@ title: "Leverage Leader Review 2026: Free Skool Community for Service Creators"
 meta_description: "Leverage Leader review: a free, 6,960-member Skool community helping service creators use social media to scale past $10,000/month."
 slug: marketing-success-network-3149
 niche: "Social media growth and scaling for service-based creators"
-word_count: 0
+word_count: 431
 ---
 
 # Leverage Leader Review 2026: Free Skool Community for Service Creators

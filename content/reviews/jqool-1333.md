@@ -12,7 +12,7 @@ JQool 線上英語學院, or "JQool Online English Academy," is a free, Chinese-
 
 ## What's Actually Inside
 
-Beneath the fantasy branding, the core offering is straightforward: English language instruction, positioned as a structured academy rather than an informal chat group. Notably, the description states that spots are currently limited and that interested students need to request an access code through the group's official LINE account, which suggests the community controls enrollment more tightly than a typical open-join Skool group, even while remaining free.
+Beneath the fantasy branding, the core offering is straightforward: English language instruction, positioned as a structured academy rather than an informal chat group. Notably, the description states that spots are currently limited and that interested students need to request an access code through the group's official LINE account, which suggests the community controls enrollment more tightly than a typical open-join Skool group, even while remaining free. That gatekeeping step also means the Skool page itself functions more as an entry point or waiting room than as the full learning environment, with the actual classroom-style experience likely happening once a member is admitted through LINE.
 
 ## Who Runs It
 
@@ -37,6 +37,6 @@ Chinese-speaking English learners who are drawn to a playful, fantasy-themed lea
 
 ## Who Should Skip It
 
-Learners who prefer a straightforward, no-frills academic approach to English study may find the fantasy branding unnecessary. Anyone unwilling to go through the LINE-based access process should also confirm enrollment steps before counting on joining.
+Learners who prefer a straightforward, no-frills academic approach to English study may find the fantasy branding unnecessary. Anyone unwilling to go through the LINE-based access process should also confirm enrollment steps before counting on joining, since the Skool listing alone doesn't guarantee immediate access to lessons.
 
 [See JQool 線上英語學院's real growth data on TrustSkool](https://trustskool.com/community/jqool-1333)
