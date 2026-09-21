@@ -3,7 +3,7 @@ title: "SW Automation Review 2026: Free n8n Workflows for AI Automation"
 meta_description: "SW Automation review: a free, 8,711-member Skool community on AI automation and AI agents, with downloadable n8n workflows."
 slug: swautomation-5538
 niche: "AI automation, AI agents, and n8n workflows"
-word_count: 0
+word_count: 403
 ---
 
 # SW Automation Review 2026: Free n8n Workflows for AI Automation

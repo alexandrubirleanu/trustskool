@@ -3,7 +3,7 @@ title: "THE CHINGGIS CIRCLE Review 2026: A Free Mongolian Community on Heritage 
 meta_description: "THE CHINGGIS CIRCLE review: a free, 8,843-member Mongolian-language Skool community on heritage culture, personal freedom, and free-market ideas."
 slug: 7am-club-3676
 niche: "Mongolian heritage culture, personal freedom, and free-market ideology"
-word_count: 0
+word_count: 465
 ---
 
 # THE CHINGGIS CIRCLE Review 2026: A Free Mongolian Community on Heritage and Free-Market Ideas

@@ -3,7 +3,7 @@ title: "No Theory Club Review 2026: Learn Guitar Songs for $9/Month Without Musi
 meta_description: "No Theory Club review: a $9/month, 8,725-member Skool community teaching guitarists to play songs without learning music theory first."
 slug: notheoryclub
 niche: "Playing guitar songs without learning music theory"
-word_count: 0
+word_count: 402
 ---
 
 # No Theory Club Review 2026: Learn Guitar Songs for $9/Month Without Music Theory

@@ -3,7 +3,7 @@ title: "EL OTRO ROMULO - GRATIS Review 2026: Free Spanish Community on Meta Ads 
 meta_description: "EL OTRO ROMULO - GRATIS review: a free, 8,732-member Spanish Skool community on Meta Ads, online entrepreneurship, and selling through Hotmart."
 slug: elotroromulo-gratis
 niche: "Meta Ads, online entrepreneurship, and Hotmart sales (Spanish-language)"
-word_count: 0
+word_count: 439
 ---
 
 # EL OTRO ROMULO - GRATIS Review 2026: Free Spanish Community on Meta Ads and Hotmart

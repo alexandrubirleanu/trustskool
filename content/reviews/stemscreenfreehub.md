@@ -3,7 +3,7 @@ title: "STEM & Screen-Free Hub Review 2026: Free Community for Hands-On Kids' ST
 meta_description: "STEM & Screen-Free Hub review: a free, 8,489-member Skool community for families doing screen-free STEM projects and 3D printing with kids."
 slug: stemscreenfreehub
 niche: "Screen-free STEM projects and 3D printing for families with kids"
-word_count: 0
+word_count: 413
 ---
 
 # STEM & Screen-Free Hub Review 2026: Free Community for Hands-On Kids' STEM Projects

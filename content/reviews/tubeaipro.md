@@ -3,7 +3,7 @@ title: "Tube AI Masterclass Review 2026: Free Community for Faceless YouTube Cha
 meta_description: "Tube AI Masterclass review: a free, 8,446-member Skool community on building profitable faceless YouTube channels using AI."
 slug: tubeaipro
 niche: "Faceless YouTube channels built with AI tools"
-word_count: 0
+word_count: 422
 ---
 
 # Tube AI Masterclass Review 2026: Free Community for Faceless YouTube Channels
