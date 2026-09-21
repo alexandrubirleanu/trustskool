@@ -36,10 +36,10 @@ Romulo Rodriguez is listed as the owner of this community on Skool. No further i
 
 ## Who It's a Good Fit For
 
-Spanish-speaking entrepreneurs specifically interested in Meta advertising and selling digital products through Hotmart.
+Spanish-speaking entrepreneurs specifically interested in Meta advertising and selling digital products through Hotmart, especially those who are comfortable testing paid campaigns rather than relying purely on organic reach.
 
 ## Who Should Skip It
 
-English speakers, or anyone looking for organic marketing strategies rather than paid Meta Ads.
+English speakers, or anyone looking for organic marketing strategies rather than paid Meta Ads. People without any budget for ad spend may also get less value here, since the strategies described are built around paid traffic rather than free growth tactics.
 
 [See EL OTRO ROMULO - GRATIS 🚀's real growth data on TrustSkool](https://trustskool.com/community/elotroromulo-gratis)

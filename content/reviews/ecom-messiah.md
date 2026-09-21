@@ -3,7 +3,7 @@ title: "eCom Messiah Review 2026: $1/Month Skool Community for Scaling Ecommerce
 meta_description: "eCom Messiah review: a $1/month, 7,660-member Skool community by Carl Weische focused on scaling ecommerce brands from 7 to 8 figures per year."
 slug: ecom-messiah
 niche: "Ecommerce scaling from 7 to 8 figures per year"
-word_count: 1
+word_count: 451
 ---
 
 # eCom Messiah Review 2026: $1/Month Skool Community for Scaling Ecommerce to 8 Figures
@@ -33,10 +33,10 @@ Carl Weische is credited by name both in the description itself and as the liste
 
 ## Who It's a Good Fit For
 
-Ecommerce operators who have already built a seven-figure business and are specifically looking for scaling strategy rather than store-building basics.
+Ecommerce operators who have already built a seven-figure business and are specifically looking for scaling strategy rather than store-building basics. Founders who want to test the waters of a paid community without a real financial commitment may also appreciate the low entry point as a way to gauge activity levels before deciding whether to engage further.
 
 ## Who Should Skip It
 
-Beginners with no existing ecommerce revenue, or anyone expecting a comprehensive course for a token $1 fee without researching whether upsells exist, should approach with realistic expectations.
+Beginners with no existing ecommerce revenue, or anyone expecting a comprehensive course for a token $1 fee without researching whether upsells exist, should approach with realistic expectations. People who need hands-on, one-on-one consulting rather than a group community setting may also find the format doesn't match what they're after, since Skool communities are generally built around shared discussion rather than individualized advice.
 
 [See eCom Messiah's real growth data on TrustSkool](https://trustskool.com/community/ecom-messiah)

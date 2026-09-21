@@ -33,10 +33,10 @@ Connor Zarou is listed as the owner of this community on Skool. No further indep
 
 ## Who It's a Good Fit For
 
-Agency owners or entrepreneurs specifically interested in building or scaling a white-labeled SaaS business on top of GoHighLevel.
+Agency owners or entrepreneurs specifically interested in building or scaling a white-labeled SaaS business on top of GoHighLevel. Marketers already familiar with GHL's tools who want to package it into a resellable product, rather than just using it for client services, are the clearest match for this description.
 
 ## Who Should Skip It
 
-Anyone not using or planning to use GoHighLevel, or those looking for platform-agnostic SaaS founder advice, should look elsewhere.
+Anyone not using or planning to use GoHighLevel, or those looking for platform-agnostic SaaS founder advice, should look elsewhere. Developers wanting to build a fully custom SaaS product from the ground up, rather than white-labeling an existing platform, would also find this a mismatch for their goals.
 
 [See SaaS University (GoHighlevel)'s real growth data on TrustSkool](https://trustskool.com/community/saas-university)

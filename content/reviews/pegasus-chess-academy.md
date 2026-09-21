@@ -3,7 +3,7 @@ title: "Pegasus Chess Academy Review 2026: $9 Skool Community for Busy Adult Che
 meta_description: "Pegasus Chess Academy review: a $9, 7,518-member Skool community helping busy adult chess players cut mistakes and win more games."
 slug: pegasus-chess-academy
 niche: "Chess improvement for busy adult players"
-word_count: 1
+word_count: 428
 ---
 
 # Pegasus Chess Academy Review 2026: $9 Skool Community for Busy Adult Chess Players
@@ -33,10 +33,10 @@ Jonas Van Dael is listed as the owner of this community on Skool. No further ind
 
 ## Who It's a Good Fit For
 
-Adult chess players juggling work and family who want practical, mistake-focused improvement rather than a heavy theoretical study plan.
+Adult chess players juggling work and family who want practical, mistake-focused improvement rather than a heavy theoretical study plan. Club-level and casual online players who lose games to avoidable blunders, rather than a lack of opening knowledge, seem to be the specific audience this description is speaking to.
 
 ## Who Should Skip It
 
-Competitive junior players, titled players seeking advanced theory, or anyone wanting a fully self-paced free resource rather than a paid community, should look elsewhere.
+Competitive junior players, titled players seeking advanced theory, or anyone wanting a fully self-paced free resource rather than a paid community, should look elsewhere. Players who have unlimited study time and prefer deep, independent opening research over a coached, mistake-reduction approach may also find the format isn't the right fit for their goals.
 
 [See Pegasus Chess Academy's real growth data on TrustSkool](https://trustskool.com/community/pegasus-chess-academy)

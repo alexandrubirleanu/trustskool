@@ -3,7 +3,7 @@ title: "Spanish After Hours Review 2026: Free Skool Community Using Lauri's Meth
 meta_description: "Spanish After Hours review: a free, 7,594-member Skool community teaching Spanish through Lauri's 'not boring' method."
 slug: friends
 niche: "Spanish language learning via Lauri's method"
-word_count: 1
+word_count: 402
 ---
 
 # Spanish After Hours Review 2026: Free Skool Community Using Lauri's Method
@@ -33,10 +33,10 @@ Lauri P is listed as the owner of this community on Skool and is also the named 
 
 ## Who It's a Good Fit For
 
-Spanish learners who have found traditional classroom or app-based methods tedious and want a free, community-driven alternative built around one instructor's specific style.
+Spanish learners who have found traditional classroom or app-based methods tedious and want a free, community-driven alternative built around one instructor's specific style. Beginners and intermediate learners looking for a lower-pressure, community-based way to practice, rather than a formal academic program, are likely the best match for what's described here.
 
 ## Who Should Skip It
 
-Learners who prefer structured, curriculum-based courses with clear milestones, or those learning languages other than Spanish, should look elsewhere.
+Learners who prefer structured, curriculum-based courses with clear milestones, or those learning languages other than Spanish, should look elsewhere. Advanced speakers seeking exam preparation or certification-focused instruction may also find the "not boring" casual framing doesn't line up with more formal testing requirements.
 
 [See Spanish After Hours's real growth data on TrustSkool](https://trustskool.com/community/friends)

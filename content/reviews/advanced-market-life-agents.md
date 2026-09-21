@@ -3,7 +3,7 @@ title: "Advanced Market Life Agents Review 2026: Free Skool Group for IUL & Annu
 meta_description: "Advanced Market Life Agents review: a free, 7,720-member Skool community helping life insurance agents move into Advanced Markets to sell more IUL and annuities."
 slug: advanced-market-life-agents
 niche: "Advanced Markets insurance sales: IUL and annuity production for life agents"
-word_count: 1
+word_count: 439
 ---
 
 # Advanced Market Life Agents Review 2026: Free Skool Group for IUL & Annuity Producers

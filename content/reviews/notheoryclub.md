@@ -36,10 +36,10 @@ Michael Rice is listed as the owner of this community on Skool. No further indep
 
 ## Who It's a Good Fit For
 
-Beginner to intermediate guitarists who want to play recognizable songs quickly without getting bogged down in theory.
+Beginner to intermediate guitarists who want to play recognizable songs quickly without getting bogged down in theory, and who value momentum and motivation over a slower, foundational curriculum.
 
 ## Who Should Skip It
 
-Guitarists who specifically want to build strong music theory fundamentals, or advanced players past the song-covers stage.
+Guitarists who specifically want to build strong music theory fundamentals, or advanced players past the song-covers stage who are looking for technique-focused or improvisation-focused instruction instead.
 
 [See No Theory Club - Learn Guitar's real growth data on TrustSkool](https://trustskool.com/community/notheoryclub)

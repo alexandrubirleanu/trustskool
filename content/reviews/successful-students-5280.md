@@ -36,10 +36,10 @@ Matthew Smith is listed as the owner of this community on Skool. No further inde
 
 ## Who It's a Good Fit For
 
-Students who want a structured study method and are willing to try a specific named system rather than piecing together general advice.
+Students who want a structured study method and are willing to try a specific named system rather than piecing together general advice from scattered sources, and who are specifically motivated by the promise of studying less while scoring higher.
 
 ## Who Should Skip It
 
-Students who've already found a study routine that works, or anyone looking for subject-specific tutoring rather than general study strategy.
+Students who've already found a study routine that works, or anyone looking for subject-specific tutoring rather than general study strategy. Students who need one-on-one academic support, rather than a community-style resource, may also find this format too general for their needs.
 
 [See Successful Students's real growth data on TrustSkool](https://trustskool.com/community/successful-students-5280)

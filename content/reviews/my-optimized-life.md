@@ -3,7 +3,7 @@ title: "Peptide Researchers Review 2026: Free Skool Community on Peptides and Bi
 meta_description: "Peptide Researchers review: a free, 7,372-member Skool community focused on researching peptides, bioregulators, and small molecules."
 slug: my-optimized-life
 niche: "Peptide, bioregulator, and small-molecule research discussion"
-word_count: 1
+word_count: 432
 ---
 
 # Peptide Researchers Review 2026: Free Skool Community on Peptides and Bioregulators
@@ -33,10 +33,10 @@ The three named subject areas, peptides, bioregulators, and small molecules, are
 
 ## Who It's a Good Fit For
 
-People specifically interested in the research side of peptides, bioregulators, and small molecules who want a free, independent discussion space.
+People specifically interested in the research side of peptides, bioregulators, and small molecules who want a free, independent discussion space. Those who already have some background in biochemistry or longevity research and want a community to exchange findings with, rather than an introductory primer, seem to be the intended audience given the framing.
 
 ## Who Should Skip It
 
-Anyone seeking formal medical guidance, dosing instructions, or clinical supervision should consult a licensed provider instead, since this is positioned as a research and discussion community, not a medical service.
+Anyone seeking formal medical guidance, dosing instructions, or clinical supervision should consult a licensed provider instead, since this is positioned as a research and discussion community, not a medical service. Readers uncomfortable with the legal gray areas that surround some peptide compounds in various jurisdictions should also do independent research on their local regulations before engaging further.
 
 [See Peptide Researchers's real growth data on TrustSkool](https://trustskool.com/community/my-optimized-life)

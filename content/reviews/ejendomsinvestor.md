@@ -3,7 +3,7 @@ title: "Ejendomsforløbet (Lite) Review 2026: Free Danish Skool Community for Fi
 meta_description: "Ejendomsforløbet (Lite) review: a free, 7,432-member Danish Skool community walking members step-by-step through buying their first rental property."
 slug: ejendomsinvestor
 niche: "Buying a first rental property, step-by-step (Danish-language real estate investing)"
-word_count: 1
+word_count: 417
 ---
 
 # Ejendomsforløbet (Lite) Review 2026: Free Danish Skool Community for First Rental Property
@@ -30,13 +30,14 @@ Sergej Steffensen is listed as the owner of this community on Skool. No further 
 - The description doesn't specify financing requirements, minimum capital, or the Danish regulatory context in detail.
 - No independent reviews were found here to confirm how members' actual purchases have gone.
 - Content is Danish-language and likely Denmark-specific, limiting relevance for investors elsewhere.
+- The word "Lite" in the community's name suggests it may be a scaled-down or introductory version of a larger paid program, something worth clarifying before joining with specific expectations.
 
 ## Who It's a Good Fit For
 
-Danish-speaking first-time investors specifically focused on purchasing a first rental property, who want a structured, free starting point.
+Danish-speaking first-time investors specifically focused on purchasing a first rental property, who want a structured, free starting point. People early in the research phase, still deciding whether rental property investing is realistic for their finances, are likely well served by a step-by-step, single-purchase focus.
 
 ## Who Should Skip It
 
-Experienced landlords looking for advanced portfolio strategy, or non-Danish-speaking investors outside the Danish property market, should look elsewhere.
+Experienced landlords looking for advanced portfolio strategy, or non-Danish-speaking investors outside the Danish property market, should look elsewhere. Investors focused on markets outside Denmark, where financing rules, taxes, and property markets differ significantly, would need to treat any step-by-step guidance here as context-specific rather than directly transferable.
 
 [See Ejendomsforløbet (Lite)'s real growth data on TrustSkool](https://trustskool.com/community/ejendomsinvestor)
