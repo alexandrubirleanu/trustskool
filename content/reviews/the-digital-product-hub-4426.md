@@ -3,7 +3,7 @@ title: "DPH: Mini Course & PLR Library Review 2026: Free Digital Product Communi
 meta_description: "DPH: Mini Course & PLR Library review: a free, 6,942-member Skool community teaching beginners how to start a digital product business online."
 slug: the-digital-product-hub-4426
 niche: "Digital products and PLR (private label rights) content for beginners"
-word_count: 0
+word_count: 423
 ---
 
 # DPH: Mini Course & PLR Library Review 2026: Free Digital Product Community

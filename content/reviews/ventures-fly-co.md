@@ -3,7 +3,7 @@ title: "Ventures Fly Co. Review 2026: Free Skool Community for Fly Fishing"
 meta_description: "Ventures Fly Co. review: a free, 6,772-member Skool community for fly fishing enthusiasts built around the #LiveReelLife hashtag."
 slug: ventures-fly-co
 niche: "Fly fishing skills and community"
-word_count: 0
+word_count: 403
 ---
 
 # Ventures Fly Co. Review 2026: Free Skool Community for Fly Fishing

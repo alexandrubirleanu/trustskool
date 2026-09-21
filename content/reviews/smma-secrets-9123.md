@@ -3,7 +3,7 @@ title: "SMMA Secrets Review 2026: Free Skool Community for Agency Owners"
 meta_description: "SMMA Secrets review: a free, 6,955-member Skool community with live calls and multiple six- and seven-figure social media marketing agency owners."
 slug: smma-secrets-9123
 niche: "Social media marketing agencies (SMMA)"
-word_count: 0
+word_count: 420
 ---
 
 # SMMA Secrets Review 2026: Free Skool Community for Agency Owners

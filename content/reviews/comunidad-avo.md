@@ -3,7 +3,7 @@ title: "Comunidad de Ventas Online Review 2026: Free Setter/Closer Skool Communi
 meta_description: "Comunidad de Ventas Online review: a free, 6,835-member Spanish Skool community training members to become digital setters or closers."
 slug: comunidad-avo
 niche: "Digital sales roles: setter and closer training (Spanish-language)"
-word_count: 0
+word_count: 416
 ---
 
 # Comunidad de Ventas Online Review 2026: Free Setter/Closer Skool Community

@@ -3,7 +3,7 @@ title: "JQool 線上英語學院 Review 2026: Free Gamified English Learning Com
 meta_description: "JQool 線上英語學院 review: a free, 6,712-member Chinese-language Skool community teaching English through a fantasy-themed learning format."
 slug: jqool-1333
 niche: "Online English learning with a gamified, fantasy-themed format (Chinese-language)"
-word_count: 0
+word_count: 437
 ---
 
 # JQool 線上英語學院 Review 2026: Free Gamified English Learning Community

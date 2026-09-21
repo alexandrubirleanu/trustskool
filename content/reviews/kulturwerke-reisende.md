@@ -3,7 +3,7 @@ title: "Kulturwerke Community Review 2026: Free German Student Exchange Communit
 meta_description: "Kulturwerke Community review: a free, 6,718-member German-language Skool community built around student exchange programs."
 slug: kulturwerke-reisende
 niche: "Student exchange programs (Schüleraustausch), German-language"
-word_count: 0
+word_count: 439
 ---
 
 # Kulturwerke Community Review 2026: Free German Student Exchange Community
