@@ -32,7 +32,7 @@ Migue Baena is listed as the owner of this community on Skool. No further indepe
 - The 30-day, no-technical-knowledge claim is bold, and the description doesn't back it up with curriculum or support details.
 - No independent reviews were found beyond the community's own Skool listing.
 - Spanish-only content limits the audience to Spanish speakers.
-- The listing doesn't explain which AI platforms or tools members would use to actually build these systems.
+- The listing doesn't explain which specific AI platforms or tools members would actually use to build these systems.
 
 ## Who It's a Good Fit For
 

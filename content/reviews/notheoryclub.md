@@ -25,7 +25,7 @@ Michael Rice is listed as the owner of this community on Skool. No further indep
 - A clear, specific teaching philosophy, songs first, theory optional, rather than a generic "learn guitar" pitch.
 - Affordable at $9/month compared to many paid coaching communities.
 - A large enough membership to suggest an active community around new lessons.
-- Low monthly price makes it easy to try for a month and cancel if the approach doesn't fit.
+- Low monthly price makes it easy to try for a month and cancel right away if the approach doesn't fit well.
 
 ## Cons
 

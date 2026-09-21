@@ -32,7 +32,7 @@ Matthew Smith is listed as the owner of this community on Skool. No further inde
 - The description doesn't detail what the study system actually involves step by step.
 - No independent reviews were available here to confirm how well the system works in practice.
 - It's unclear which age group or education level, high school, college, or otherwise, the system targets.
-- Branded "systems" can vary widely in rigor, and the listing alone doesn't show evidence behind the approach.
+- Branded "systems" can vary widely in rigor and quality, and the listing alone doesn't show much evidence behind the specific approach.
 
 ## Who It's a Good Fit For
 
