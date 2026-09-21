@@ -3,7 +3,7 @@ title: "Total Weight Loss Review 2026: Free Skool Community for Recipes and Habi
 meta_description: "Total Weight Loss review: a free, 8,359-member Skool community built around recipes and everyday habits for sustainable weight loss."
 slug: total-weight-loss-9815
 niche: "Weight loss through recipes and daily habit change"
-word_count: 480
+word_count: 419
 ---
 
 # Total Weight Loss Review 2026: Free Skool Community for Recipes and Habits

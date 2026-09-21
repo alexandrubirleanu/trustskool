@@ -36,6 +36,6 @@ Spanish-speaking entrepreneurs specifically interested in building or scaling a 
 
 ## Who Should Skip It
 
-Non-Spanish speakers, or people looking for guidance unrelated to AI-based business models, should look elsewhere. Complete beginners with no existing business idea may also want to clarify expectations first, since the framing leans toward scaling rather than starting from zero.
+Non-Spanish speakers, or people looking for guidance unrelated to AI-based business models, should look elsewhere. Complete beginners with no existing business idea may also want to clarify expectations first, since the framing leans toward scaling rather than starting from zero. Anyone expecting a fully passive, hands-off income stream should also temper expectations, since building and scaling any business, AI-assisted or not, still requires ongoing effort.
 
 [See MonetizIA (gratis)'s real growth data on TrustSkool](https://trustskool.com/community/monetizia-1924)

@@ -3,7 +3,7 @@ title: "Groupe Gratuit Séraphin Review 2026: Free TikTok AI Community"
 meta_description: "Groupe Gratuit Séraphin review: a free, 7,887-member French Skool community on earning your first euros on TikTok using AI."
 slug: tiktok-money-gratuit-4342
 niche: "Monetizing TikTok using AI (French-language)"
-word_count: 410
+word_count: 416
 ---
 
 # Groupe Gratuit Séraphin Review 2026: Free TikTok AI Community

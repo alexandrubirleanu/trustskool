@@ -3,7 +3,7 @@ title: "Total Goalkeeping Review 2026: Free Community for Pro Keepers and Schola
 meta_description: "Total Goalkeeping review: a free, 7,777-member Skool community helping football goalkeepers turn pro or earn college scholarships since 1998."
 slug: goalkeeper
 niche: "Football goalkeeper training for pro pathways and college scholarships"
-word_count: 460
+word_count: 415
 ---
 
 # Total Goalkeeping Review 2026: Free Community for Pro Keepers and Scholarships

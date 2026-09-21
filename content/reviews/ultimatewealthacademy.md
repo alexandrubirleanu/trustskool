@@ -3,7 +3,7 @@ title: "Ultimate Wealth Academy Review 2026: Free UK Digital Marketing Community
 meta_description: "Ultimate Wealth Academy review: a free, 7,825-member Skool community built around a UK-focused digital marketing course."
 slug: ultimatewealthacademy
 niche: "UK digital marketing course and wealth creation"
-word_count: 400
+word_count: 407
 ---
 
 # Ultimate Wealth Academy Review 2026: Free UK Digital Marketing Community

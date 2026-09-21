@@ -3,7 +3,7 @@ title: "AI Automation Club Review 2026: Free Skool Community for AI Workflows"
 meta_description: "AI Automation Club review: a free, 7,744-member Skool community focused on AI-driven automation and building intelligent workflows."
 slug: ai-automation-club-7843
 niche: "AI-driven automation and intelligent workflows"
-word_count: 400
+word_count: 409
 ---
 
 # AI Automation Club Review 2026: Free Skool Community for AI Workflows
@@ -37,6 +37,6 @@ People who already have some systems or processes they want to automate with AI 
 
 ## Who Should Skip It
 
-Complete beginners with no prior exposure to automation concepts may find the "optimize your systems" framing assumes too much existing context. Anyone needing guidance on a specific named platform should also confirm coverage before joining, since the description doesn't list particular tools.
+Complete beginners with no prior exposure to automation concepts may find the "optimize your systems" framing assumes too much existing context. Anyone needing guidance on a specific named platform should also confirm coverage before joining, since the description doesn't list particular tools. People looking purely for AI news and discussion, rather than hands-on workflow building, may also find the practical, systems-focused framing not quite what they expected.
 
 [See AI Automation Club's real growth data on TrustSkool](https://trustskool.com/community/ai-automation-club-7843)

@@ -25,12 +25,14 @@ Romulo Rodriguez is listed as the owner of this community on Skool. No further i
 - Completely free, and the name itself signals that up front.
 - Names actual platforms (Meta Ads, Hotmart, Skool) instead of vague "make money" language.
 - A sizable membership for a niche built around paid ads and digital products.
+- The full-funnel angle (traffic plus product platform) is more concrete than generic "entrepreneurship" groups.
 
 ## Cons
 
 - The description doesn't explain ad budgets, niches, or specific strategies covered inside.
 - No independent reviews were available here to confirm how the advice performs in practice.
 - Spanish-only content limits the audience to Spanish speakers.
+- Paid advertising strategies can require real ad spend to test and learn, which the free membership itself doesn't cover.
 
 ## Who It's a Good Fit For
 
