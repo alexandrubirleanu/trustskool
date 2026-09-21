@@ -3,7 +3,7 @@ title: "Ai App Builders-Lite Review 2026: $1/Month No-Code AI Community"
 meta_description: "Ai App Builders-Lite review: a $1/month, 7,117-member Skool community teaching vibe coding, no-code app building, AI wrappers, and AI agents."
 slug: ai-app-builders-4160
 niche: "Vibe coding, no-code app building, AI wrappers, and AI agents"
-word_count: 1
+word_count: 405
 ---
 
 # Ai App Builders-Lite Review 2026: $1/Month No-Code AI Community
