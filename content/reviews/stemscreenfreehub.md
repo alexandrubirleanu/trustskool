@@ -36,10 +36,10 @@ Katie Miller is listed as the owner of this community on Skool. No further indep
 
 ## Who It's a Good Fit For
 
-Parents looking for concrete, screen-free STEM activities and 3D printing project ideas to do with their kids.
+Parents looking for concrete, screen-free STEM activities and 3D printing project ideas to do with their kids, particularly those who already lean toward maker-style, hands-on learning at home.
 
 ## Who Should Skip It
 
-Families without any interest in 3D printing or hands-on projects, or those seeking structured academic tutoring instead.
+Families without any interest in 3D printing or hands-on projects, or those seeking structured academic tutoring instead. Parents hoping for a formal, grade-level-aligned curriculum rather than project-based activity ideas may also want to look elsewhere.
 
 [See STEM & Screen-Free Hub's real growth data on TrustSkool](https://trustskool.com/community/stemscreenfreehub)

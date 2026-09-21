@@ -36,10 +36,10 @@ Branson Tay is listed as the owner of this community on Skool. No further indepe
 
 ## Who It's a Good Fit For
 
-Creators who specifically want to build faceless YouTube channels using AI tools rather than appear on camera themselves.
+Creators who specifically want to build faceless YouTube channels using AI tools rather than appear on camera themselves, especially those drawn to the idea of scaling multiple channels without being the on-screen talent for each one.
 
 ## Who Should Skip It
 
-Anyone building a personal brand around their own face and voice, or creators looking for platform-agnostic content strategy.
+Anyone building a personal brand around their own face and voice, or creators looking for platform-agnostic content strategy rather than YouTube-specific, AI-heavy production methods.
 
 [See Tube AI Masterclass (Free)'s real growth data on TrustSkool](https://trustskool.com/community/tubeaipro)

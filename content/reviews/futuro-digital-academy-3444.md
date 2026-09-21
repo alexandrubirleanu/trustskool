@@ -36,10 +36,10 @@ Migue Baena is listed as the owner of this community on Skool. No further indepe
 
 ## Who It's a Good Fit For
 
-Spanish-speaking beginners who want a structured, time-boxed path to building and selling AI systems without a technical background.
+Spanish-speaking beginners who want a structured, time-boxed path to building and selling AI systems without a technical background, and who are motivated by a concrete 30-day deadline rather than an open-ended learning timeline.
 
 ## Who Should Skip It
 
-Non-Spanish speakers, or anyone with existing technical AI development skills looking for more advanced material.
+Non-Spanish speakers, or anyone with existing technical AI development skills looking for more advanced material rather than a beginner-oriented, no-code introduction.
 
 [See Futuro Digital Academy's real growth data on TrustSkool](https://trustskool.com/community/futuro-digital-academy-3444)

@@ -3,7 +3,7 @@ title: "SaaS University (GoHighLevel) Review 2026: Free Skool Community for GHL 
 meta_description: "SaaS University review: a free, 7,341-member Skool community for entrepreneurs starting or scaling a GoHighLevel SaaS business."
 slug: saas-university
 niche: "Starting and scaling a GoHighLevel SaaS business"
-word_count: 1
+word_count: 428
 ---
 
 # SaaS University (GoHighLevel) Review 2026: Free Skool Community for GHL SaaS Builders
