@@ -3,7 +3,7 @@ title: "Challenge Business Intensity Review 2026: 3-Day Income Challenge"
 meta_description: "Challenge Business Intensity review: a free, 7,339-member French Skool community built around a 3-day challenge to hit 5,000 to 10,000 euros a month without social media posting."
 slug: challenge-business-intensity-4599
 niche: "French-language 3-day business income challenge without social media posting"
-word_count: 397
+word_count: 423
 ---
 
 # Challenge Business Intensity Review 2026: 3-Day Income Challenge
@@ -30,6 +30,7 @@ Delphine Finou is listed as the owner of this community on Skool. No further ind
 - The description doesn't explain the actual mechanism behind the income claims, so it's unclear what replaces social posting as the growth channel.
 - Income claims like 5,000 to 10,000 euros a month are inherently hard to verify from a listing alone and should be treated as marketing framing, not a guarantee.
 - No independent reviews were available to confirm outcomes beyond the community's own description.
+- As a free entry point, it may also function as a funnel into a paid program, so prospective members should watch for upsells once inside.
 
 ## Who It's a Good Fit For
 

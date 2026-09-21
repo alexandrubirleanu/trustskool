@@ -3,7 +3,7 @@ title: "Le Refuge des Externes Review 2026: Free Support for French Medical Exte
 meta_description: "Le Refuge des Externes review: a free, 7,338-member French Skool community for medical externs preparing for the EDN exam."
 slug: refuge-externat
 niche: "French medical externship (externat) support and EDN exam preparation"
-word_count: 391
+word_count: 412
 ---
 
 # Le Refuge des Externes Review 2026: Free Support for French Medical Externs
@@ -30,6 +30,7 @@ Robin Rigaudeau is listed as the owner of this community on Skool. No further in
 - The description doesn't mention whether structured study materials, practice questions, or EDN-specific content are provided, only support and motivation.
 - No independent reviews were found beyond the community's own Skool listing, so it's unclear how active or substantive the day-to-day support actually is.
 - Non-French medical students, or those outside the externat/EDN system, won't find this relevant.
+- The owner's independent credentials aren't verified here, so students should still cross-check any specific advice against their own faculty guidance.
 
 ## Who It's a Good Fit For
 
