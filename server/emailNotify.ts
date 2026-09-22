@@ -4,8 +4,8 @@ import { serverConfig } from "./config";
 /**
  * Click notification emails via the Resend API.
  *
- * Tier A — real-time: fired on every /go/:slug click for high-value communities
- *   (paid AND afl_percent > 0). Includes commission estimate.
+ * Tier A — real-time: no longer wired to /go/:slug (per-click emails disabled);
+ *   kept for scripts/test-email.mts.
  * Tier B — daily digest: fired once at 09:00 UTC via Heartbeat cron, summarising
  *   all clicks from the previous 24-hour window.
  *
