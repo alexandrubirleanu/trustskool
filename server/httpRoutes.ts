@@ -1,7 +1,6 @@
 import type { Express, Request, Response } from "express";
 import { skoolCommunityUrl, SKOOL_SIGNUP_URL } from "../shared/appConfig";
-import { getCommunityBySlug, getClickCountForSlug, insertClick, getOwnerProfileBySlug } from "./dbCommunities";
-import { sendClickNotification } from "./emailNotify";
+import { getCommunityBySlug, insertClick } from "./dbCommunities";
 import { runDailyDigest } from "./digestJob";
 import { runIngestion } from "./ingestion";
 import { runTieredIngestion, runSlaMonitor } from "./tieredIngestion";
@@ -13,31 +12,15 @@ import { sdk } from "./_core/sdk";
  * - GET /go/signup and /go/:slug — click-tracking 302 redirects to Skool with affiliate ref
  * - POST /api/scheduled/ingest — Heartbeat cron callback for daily data ingestion
  *
- * Click logging and the notification email both happen BEFORE the redirect
- * (the email is bounded by a short timeout so the visitor is never stuck).
+ * Clicks are logged BEFORE the redirect. No per-click email is sent; clicks
+ * only show up in the daily digest and the admin click log.
  */
 
 const SLUG_RE = /^[a-z0-9][a-z0-9-_]{0,190}$/i;
 
-/** Steps 1-2 (log + email) must complete before the 302; the email is capped at 3s. */
-async function sendNotificationWithTimeout(
-  click: Parameters<typeof sendClickNotification>[0],
-  timeoutMs = 3000,
-) {
-  try {
-    await Promise.race([
-      sendClickNotification(click),
-      new Promise<void>(resolve => setTimeout(resolve, timeoutMs)),
-    ]);
-  } catch (err) {
-    console.error("[Go] Notification failed:", err);
-  }
-}
-
 async function handleGoRedirect(req: Request, res: Response) {
   const rawSlug = String(req.params.slug ?? "").trim();
   const referrer = req.get("referer") ?? null;
-  const timestamp = new Date();
 
   if (rawSlug === "signup") {
     try {
@@ -45,7 +28,6 @@ async function handleGoRedirect(req: Request, res: Response) {
     } catch (err) {
       console.error("[Go] Failed to log signup click:", err);
     }
-    await sendNotificationWithTimeout({ slug: "signup", displayName: "Skool signup", referrer, timestamp });
     return res.redirect(302, SKOOL_SIGNUP_URL);
   }
 
@@ -63,45 +45,7 @@ async function handleGoRedirect(req: Request, res: Response) {
     console.error("[Go] Failed to log click:", err);
   }
 
-  // 2. Fetch running click count for this slug (includes the click just inserted)
-  const clickCount = await getClickCountForSlug(rawSlug).catch(() => 0);
-
-  // 3. Fetch affiliate commission — prefer ownerProfile (has per-community afl_percent),
-  //    fall back to community.aflPercent which is populated directly from the dataset.
-  let aflPercent: number | null = community?.aflPercent ?? null;
-  try {
-    const ownerProfile = await getOwnerProfileBySlug(rawSlug);
-    if (ownerProfile) {
-      const entry = (ownerProfile.ownedCommunities as Array<{ slug: string; afl_percent?: number | null }> | null)
-        ?.find(c => c.slug === rawSlug);
-      if (entry?.afl_percent != null) {
-        aflPercent = entry.afl_percent; // ownerProfile wins when available
-      }
-    }
-  } catch {
-    // non-fatal — proceed with community.aflPercent fallback
-  }
-  console.log(`[Go] ${rawSlug}: price=${community?.priceAmountCents ?? 0}c, aflPercent=${aflPercent}, ownerJoined=${community?.ownerJoined}`);
-
-  // 4. Send the notification email BEFORE redirecting (bounded so a slow
-  //    email provider cannot hold the visitor hostage).
-  // ownerJoined: when true, the affiliate revenue stream is already active —
-  // shouldSendTierA() will downgrade to digest instead of a per-click alert.
-  await sendNotificationWithTimeout({
-    slug: rawSlug,
-    displayName,
-    referrer,
-    timestamp,
-    totalMembers: community?.totalMembers ?? null,
-    priceAmountCents: community?.priceAmountCents ?? null,
-    priceInterval: community?.priceInterval ?? null,
-    language: community?.language ?? null,
-    clickCount,
-    aflPercent,
-    ownerJoined: community?.ownerJoined ?? null,
-  });
-
-  // 5. 302 redirect to Skool with the affiliate ref
+  // 2. 302 redirect to Skool with the affiliate ref
   return res.redirect(302, skoolCommunityUrl(rawSlug));
 }
 
