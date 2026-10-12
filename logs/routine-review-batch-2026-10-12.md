@@ -1,0 +1,111 @@
+# Routine review batch 2026-10-12
+
+- Candidati valutati: 100 (filtro: non coperte, description >= 20 caratteri, >= 50 membri; ordinate per membri; esclusi anche gli slug gia' presenti nei branch routine/community-reviews-* non ancora mergiati)
+- Pagine scritte: 78
+- Saltate: 22 (description troppo generica / slogan / avviso di accesso o chiusura)
+
+## Slug scritti
+
+- 4yourbiz
+- 6-figure-affiliate-blueprint-1695
+- ai-bdarija-9896
+- ai-builder-2894
+- ai-revolution
+- ai-sidehustle
+- aiproacademy
+- airbnbarbitrage
+- appointmentsettercom-1503
+- aprende-con-axel-8735
+- ar-radiyyah-4038
+- at-consulting-5538
+- attribute-agency-growth-7746
+- automatedmarketer
+- automation-tribe-free-1232
+- automatisations-ia-gratuit-1412
+- basketball
+- boss-media-academy-1206
+- builtformore
+- calisthenics-monks-free-3045
+- circulo-ia
+- closer-cartel-remote-sales-3539
+- comunidade-de-automacao-com-ia-8164
+- creativeai
+- creatorscommunity
+- digital-wealth-formula-3378
+- dropshipping-database-5815
+- erands-model-skool-8378
+- faceless-education-community
+- faceless-girl-era-9647
+- facelessfilms
+- felipe-vergara
+- formation-gratuite-6729
+- genmax-academy-8297
+- greenkokki-7906
+- growthclub
+- hannah-higginson-watercolor-9562
+- hanyhussain
+- health-solutions-6434
+- hookpoint-community
+- hyros
+- ia-makers
+- ki-lounge
+- kinh-doanh-xay-kenh-online-2342
+- leads-4-services-3548
+- lucrar-com-ia-8626
+- magneticmemberships
+- majosbook-club-8604
+- mfs333
+- more-than-business-13
+- mr-addie-pod-community-free
+- nomads
+- optimizedliving
+- oracle
+- paint-your-home-now
+- patchingwithpurpose
+- public
+- publicai
+- pymbu-agentes-ia-en-accion-8789
+- rejuvenecimiento-inteligente
+- robloxdevnetworkfree
+- screenwriters
+- setterlun-university
+- shesellzstuff
+- shiftly-auto
+- slowdancing101
+- startujai
+- the-angel-raphael-community-3421
+- the-ecosystem-group
+- the-kingdom-lounge
+- the-mastermind-1011
+- the-parliament-1659
+- tiktok-master-1826
+- trafficsalesandprofit
+- uduli
+- wedding-filmmaker-mastery-5552
+- whaler-free-1698
+- yourlivingproof
+
+## Slug saltati (description generica)
+
+- waysuccess
+- peach-club
+- biohackingheroes
+- dreldemellawy
+- slavica-squire-free
+- ecomreal
+- minesetarmy
+- perfect-pop-up-challenge-5033
+- fjp-skills-training-institute-7168
+- the-one-percent
+- tiktok-1203
+- creadoresdeprosperidad
+- grounded-with-live-good-1227
+- tim-yoon-ipga-8692
+- dijitalmuhendislikuniversitesi
+- z4-clients
+- moneymentor
+- coinpicksgenesis
+- growthub
+- ai-academy-2306
+- eternallifetribe
+- wealthy-expat-3035
