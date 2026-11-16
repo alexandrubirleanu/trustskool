@@ -3,7 +3,7 @@ title: "AI Avengers Lab Review 2026: Can a Free Group Really Teach You to Sell A
 meta_description: "AI Avengers Lab review: a free Skool community with 2,482 members focused on building and selling Claude AIOS setups and voice AI agents, plus live workshops."
 slug: "ai-avengers-3116"
 niche: "Building and selling AI agents"
-word_count: 0
+word_count: 517
 ---
 # AI Avengers Lab Review 2026: Can a Free Group Really Teach You to Sell AI Agents?
 

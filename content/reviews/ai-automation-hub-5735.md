@@ -1,9 +1,9 @@
 ---
 title: "Luke's AI Group Review 2026: A Simple Free Hub for AI Tools and Automation?"
-meta_description: "Luke's AI Group review: a free Skool community with 2,393 members about the latest AI tools and AI automations. Here is what the short listing does and does not tell you."
+meta_description: "Luke's AI Group review: a free Skool community with 2,393 members about the latest AI tools and AI automations. What the short listing does and does not say."
 slug: "ai-automation-hub-5735"
 niche: "AI tools and automation"
-word_count: 0
+word_count: 434
 ---
 # Luke's AI Group Review 2026: A Simple Free Hub for AI Tools and Automation?
 

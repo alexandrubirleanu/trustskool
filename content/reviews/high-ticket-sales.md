@@ -3,7 +3,7 @@ title: "High-Ticket Sales Society Review 2026: Should You Trust the $10k Per Mon
 meta_description: "High-Ticket Sales Society review: a free Skool community of 2,419 members for aspiring remote closers. We look at its income claims and what the listing shows."
 slug: "high-ticket-sales"
 niche: "Remote high-ticket sales closing"
-word_count: 0
+word_count: 448
 ---
 # High-Ticket Sales Society Review 2026: Should You Trust the $10k Per Month Closer Pitch?
 

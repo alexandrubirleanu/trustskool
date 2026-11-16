@@ -3,7 +3,7 @@ title: "Vital Generation Review 2026: What Is Behind This German Vitality Commun
 meta_description: "Vital Generation review: a free, German-language Skool community with 2,472 members built around turning fatigue into vitality. What the short listing reveals."
 slug: "vital-generation"
 niche: "Energy and vitality (German-language)"
-word_count: 0
+word_count: 444
 ---
 # Vital Generation Review 2026: What Is Behind This German Vitality Community?
 

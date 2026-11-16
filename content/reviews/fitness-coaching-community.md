@@ -3,7 +3,7 @@ title: "Fitness Coaching Community Review 2026: Can a Free German Group Help Coa
 meta_description: "Fitness Coaching Community review: a free, German-language Skool community of 2,286 members for fitness coaches focused on freedom, fun, happy clients and revenue."
 slug: "fitness-coaching-community"
 niche: "Business growth for fitness coaches"
-word_count: 0
+word_count: 425
 ---
 # Fitness Coaching Community Review 2026: Can a Free German Group Help Coaches Scale?
 

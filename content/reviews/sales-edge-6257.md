@@ -1,9 +1,9 @@
 ---
 title: "The MindBender Method™-Sales Review 2026: Do the Covert Influence Claims Hold Up?"
-meta_description: "The MindBender Method™-Sales review: a free Skool community with 2,243 members teaching a sales process built on covert influence, with bold six-figure closer claims."
+meta_description: "The MindBender Method™-Sales review: a free Skool community with 2,243 members teaching a covert influence sales process, with bold six-figure claims."
 slug: "sales-edge-6257"
 niche: "Sales closing and persuasion"
-word_count: 0
+word_count: 427
 ---
 # The MindBender Method™-Sales Review 2026: Do the Covert Influence Claims Hold Up?
 

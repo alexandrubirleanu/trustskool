@@ -3,7 +3,7 @@ title: "Talking Houses Review 2026: Is a Free 12-Week Property Course Worth Your
 meta_description: "Talking Houses review: a free Skool community with 2,443 members offering a 12-week property training program. What the listing promises and what it leaves out."
 slug: "talkinghouses"
 niche: "Property investing education"
-word_count: 0
+word_count: 451
 ---
 # Talking Houses Review 2026: Is a Free 12-Week Property Course Worth Your Time?
 

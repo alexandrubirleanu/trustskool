@@ -1,9 +1,9 @@
 ---
 title: "Content Creator University Review 2026: Free Training or a Funnel to a Premium Group?"
-meta_description: "Content Creator University review: a free Skool community with 2,373 members aiming to help creators make their first $100k, with a link to a separate premium Skool."
+meta_description: "Content Creator University review: a free Skool community with 2,373 members aiming to help creators earn their first $100k, linked to a premium Skool."
 slug: "internet-money-central-9086"
 niche: "Content creator monetization"
-word_count: 0
+word_count: 466
 ---
 # Content Creator University Review 2026: Free Training or a Funnel to a Premium Group?
 
