@@ -3,7 +3,7 @@ title: "RECODemand Webinar Mastery Review 2026: Do Webinar Funnels Work for Real
 meta_description: "RECODemand Webinar Mastery review: a free Skool community with 2,361 members teaching webinar funnels for real estate and mortgage businesses."
 slug: "recodemand-webinar-mastery-1749"
 niche: "Webinar funnels for real estate and mortgage"
-word_count: 0
+word_count: 482
 ---
 # RECODemand Webinar Mastery Review 2026: Do Webinar Funnels Work for Real Estate Pros?
 

@@ -3,7 +3,7 @@ title: "AI Creator Bootcamp Review 2026: Can $9 a Month Teach You AI Video and U
 meta_description: "AI Creator Bootcamp review: a paid Skool community with 2,424 members teaching AI image and video creation, AI ads, and AI UGC for $9 USD per month."
 slug: "aicreatorbootcamp"
 niche: "AI image and video creation for ads and UGC"
-word_count: 0
+word_count: 511
 ---
 # AI Creator Bootcamp Review 2026: Can $9 a Month Teach You AI Video and UGC?
 

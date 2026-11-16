@@ -3,7 +3,7 @@ title: "Scrum Dominator Mindset Review 2026: Is This Free Rugby Community Worth 
 meta_description: "Scrum Dominator Mindset review: a free Skool community with 2,276 members covering rugby, scrums, mindset, and high performance, branded around Coach G."
 slug: "coach-g-1708"
 niche: "Rugby scrummaging and high-performance mindset"
-word_count: 0
+word_count: 457
 ---
 # Scrum Dominator Mindset Review 2026: Is This Free Rugby Community Worth Joining?
 

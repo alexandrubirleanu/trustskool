@@ -3,7 +3,7 @@ title: "Women's Peptide Collective Review 2026: What Should You Know Before Join
 meta_description: "Women's Peptide Collective review: a free Skool community with 2,251 members focused on women's wellness, peptides, and biohacking in a supportive space."
 slug: "womens-peptide-collective-9663"
 niche: "Peptides, biohacking, and women's wellness"
-word_count: 0
+word_count: 471
 ---
 # Women's Peptide Collective Review 2026: What Should You Know Before Joining?
 

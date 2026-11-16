@@ -3,7 +3,7 @@ title: "Appointment Setter (Free) Review 2026: What Do You Get From This Setter 
 meta_description: "Appointment Setter (Free) review: a free Skool community of 2,381 members for appointment setters, associated with FindASetter.com per its description."
 slug: "appointmentsetting"
 niche: "Appointment setting"
-word_count: 0
+word_count: 487
 ---
 # Appointment Setter (Free) Review 2026: What Do You Get From This Setter Community?
 

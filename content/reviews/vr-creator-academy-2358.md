@@ -3,7 +3,7 @@ title: "VR Creator Club Review 2026: Can a Free Community Get Your VR Game Built
 meta_description: "VR Creator Club review: a free Skool community with 2,305 members for people who want to make a VR game and find others to help build it."
 slug: "vr-creator-academy-2358"
 niche: "VR game development"
-word_count: 0
+word_count: 478
 ---
 # VR Creator Club Review 2026: Can a Free Community Get Your VR Game Built?
 

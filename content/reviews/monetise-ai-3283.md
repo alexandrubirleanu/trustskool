@@ -3,7 +3,7 @@ title: "Monetise.pk Review 2026: Is a $19 YouTube Automation Community Worth It?
 meta_description: "Monetise.pk review: a 2,460-member paid Skool community focused on YouTube automation for US and EU audiences, priced at a one-time $19 payment."
 slug: "monetise-ai-3283"
 niche: "YouTube automation for US and EU markets"
-word_count: 0
+word_count: 502
 ---
 # Monetise.pk Review 2026: Is a $19 YouTube Automation Community Worth It?
 
@@ -19,7 +19,7 @@ Beyond that, the listing does not specify courses, templates, coaching calls, or
 
 ## Who Runs It
 
-Muhammad Sohaib is listed as the owner of the community. No further background is available in the data reviewed here, so there's nothing to report about his own channels, results, or experience in YouTube automation. The ".pk" in the community name suggests a connection to Pakistan, but that is an inference from the branding, not something the listing states.
+Muhammad Sohaib is listed as the owner of the community. No further background is available in the data reviewed here, so there's nothing to report about his own channels, results, or experience in YouTube automation.
 
 ## Pros
 

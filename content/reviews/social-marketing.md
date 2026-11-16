@@ -3,7 +3,7 @@ title: "一人公司啟動營 Review 2026: Can a Free Chinese-Language Community
 meta_description: "一人公司啟動營 review: a free, Chinese-language Skool community with 2,219 members about AI-resistant skills, solo businesses, and multiple income streams."
 slug: "social-marketing"
 niche: "One-person business and solopreneur income"
-word_count: 0
+word_count: 455
 ---
 # 一人公司啟動營 Review 2026: Can a Free Chinese-Language Community Help You Build a One-Person Business?
 
