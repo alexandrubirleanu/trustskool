@@ -3,7 +3,7 @@ title: "MinyonaFree Review 2026: A Free SMMA Group for Contractor Marketing, or 
 meta_description: "MinyonaFree review: a free Skool community with 2,421 members offering SMMA owners free trainings on the contractor niche, plus an optional paid Mastermind."
 slug: "minyona"
 niche: "SMMA training for the contractor niche"
-word_count: 0
+word_count: 456
 ---
 # MinyonaFree Review 2026: A Free SMMA Group for Contractor Marketing, or a Mastermind Funnel?
 

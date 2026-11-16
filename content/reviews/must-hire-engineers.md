@@ -1,9 +1,9 @@
 ---
 title: "Must-Hire Engineers Review 2026: Can a Free Skool Group Really Get You Hired?"
-meta_description: "Must-Hire Engineers review: a free Skool community with 2,447 members that promises engineering career skills and job placement through its owner's network."
+meta_description: "Must-Hire Engineers review: a free Skool community with 2,447 members that promises engineering career skills and job placement through a named personal network."
 slug: "must-hire-engineers"
 niche: "Engineering career development and job placement"
-word_count: 0
+word_count: 526
 ---
 # Must-Hire Engineers Review 2026: Can a Free Skool Group Really Get You Hired?
 

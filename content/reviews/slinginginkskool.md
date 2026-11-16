@@ -3,7 +3,7 @@ title: "Slinging Ink Skool Review 2026: Can $5 a Month Get Your Comic Finished?"
 meta_description: "Slinging Ink Skool review: a paid Skool community at $5/month with 2,451 members, built to help creators turn a comic idea into a publish-ready story."
 slug: "slinginginkskool"
 niche: "Comic creation and graphic storytelling"
-word_count: 0
+word_count: 498
 ---
 # Slinging Ink Skool Review 2026: Can $5 a Month Get Your Comic Finished?
 
