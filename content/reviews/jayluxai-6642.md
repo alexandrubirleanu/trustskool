@@ -3,7 +3,7 @@ title: "AI導入執行室｜JayLuxAI Review 2026: Can a Free Chinese-Language Gr
 meta_description: "AI導入執行室｜JayLuxAI review: a free, Chinese-language Skool community with 2,400 members focused on bringing AI tools into real business workflows."
 slug: "jayluxai-6642"
 niche: "AI workflow implementation for business"
-word_count: 0
+word_count: 441
 ---
 # AI導入執行室｜JayLuxAI Review 2026: Can a Free Chinese-Language Group Help You Fix Workflows With AI?
 

@@ -3,7 +3,7 @@ title: "Spidertech Masterclass Portal Review 2026: A Free Kinesiology Taping Hub
 meta_description: "Spidertech Masterclass Portal review: a free Skool community with 2,311 members helping healthcare professionals master kinesiology taping."
 slug: "spidertech-6773"
 niche: "Kinesiology taping education for healthcare professionals"
-word_count: 0
+word_count: 472
 ---
 # Spidertech Masterclass Portal Review 2026: A Free Kinesiology Taping Hub for Clinicians?
 

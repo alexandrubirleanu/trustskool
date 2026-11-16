@@ -3,7 +3,7 @@ title: "LIBERTY COACH Review 2026: Can a Copy-and-Paste System Really Fill a Coa
 meta_description: "LIBERTY COACH review: a free, French-language Skool community with 2,474 members that promises online coaches a system for automatic coaching requests."
 slug: "liberty-coach"
 niche: "Client acquisition for online coaches (French)"
-word_count: 0
+word_count: 540
 ---
 # LIBERTY COACH Review 2026: Can a Copy-and-Paste System Really Fill a Coaching Calendar?
 

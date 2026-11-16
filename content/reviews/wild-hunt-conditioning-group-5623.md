@@ -3,7 +3,7 @@ title: "The Warrior Athlete Review 2026: Can a Free 90-Day Program Get You Stron
 meta_description: "The Warrior Athlete review: a free Skool community with 2,273 members offering a 90-day plan for strength, fat loss, and cardio inspired by athletes and warriors."
 slug: "wild-hunt-conditioning-group-5623"
 niche: "Strength and conditioning fitness program"
-word_count: 0
+word_count: 436
 ---
 # The Warrior Athlete Review 2026: Can a Free 90-Day Program Get You Strong, Lean, and Fit?
 

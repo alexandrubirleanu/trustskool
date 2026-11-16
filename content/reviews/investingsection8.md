@@ -3,7 +3,7 @@ title: "Investing Section 8 Review 2026: Is This Free Group a Good Start for Sec
 meta_description: "Investing Section 8 review: a free Skool community with 2,250 members focused on building cash flow through Section 8 rental properties."
 slug: "investingsection8"
 niche: "Section 8 rental real estate investing"
-word_count: 0
+word_count: 437
 ---
 # Investing Section 8 Review 2026: Is This Free Group a Good Start for Section 8 Landlords?
 

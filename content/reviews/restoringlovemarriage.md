@@ -3,7 +3,7 @@ title: "Restoring.Love.Marriage Review 2026: A Safe Place to Work on a Strugglin
 meta_description: "Restoring.Love.Marriage review: a free, private Skool community of 2,440 members for couples and individuals trying to restore love in a struggling marriage."
 slug: "restoringlovemarriage"
 niche: "Marriage restoration and relationship support"
-word_count: 0
+word_count: 472
 ---
 # Restoring.Love.Marriage Review 2026: A Safe Place to Work on a Struggling Marriage?
 
@@ -35,7 +35,7 @@ Nikki Uglow is listed as the owner. No further background is available in the da
 
 ## Who It's a Good Fit For
 
-Married people who feel their relationship is slipping and want a supportive, faith-neutral (as far as the description shows) space to talk with others going through something similar. It may especially suit a spouse who wants to start working on the marriage even if their partner is not ready yet.
+Married people who feel their relationship is slipping and want a supportive space to talk with others going through something similar. It may especially suit a spouse who wants to start working on the marriage even if their partner is not ready yet.
 
 ## Who Should Skip It
 

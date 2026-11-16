@@ -3,7 +3,7 @@ title: "zaneteknits Review 2026: Is This Free Knitting Community Right for Detai
 meta_description: "zaneteknits review: a free Skool community with 2,298 members for knitters who care about the details, strive for mastery, and keep learning."
 slug: "zaneteknits"
 niche: "Knitting skill development"
-word_count: 0
+word_count: 457
 ---
 # zaneteknits Review 2026: Is This Free Knitting Community Right for Detail-Focused Makers?
 
@@ -16,6 +16,8 @@ The community is free and currently lists 2,298 members, a healthy size for a cr
 The description is about attitude more than content. It emphasizes three ideas: attention to detail, a drive toward mastery, and continuous learning. That points toward a membership that wants to get better at technique rather than just share finished projects.
 
 What it does not list is any specific material. There is no mention of patterns, video tutorials, knit-alongs, or live sessions, so you shouldn't assume any of those exist. Based on the wording, the primary offering is connection with other serious knitters. Any structured lessons would be a bonus you would need to confirm by joining.
+
+That's not necessarily a weakness. For many knitters, the hardest thing to find is not another pattern but other people who notice tension, gauge, and finishing the way they do. A group built around that shared standard can be valuable in its own right, as long as you go in expecting conversation and peer learning rather than a formal class.
 
 ## Who Runs It
 

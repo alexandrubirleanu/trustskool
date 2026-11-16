@@ -1,9 +1,9 @@
 ---
 title: "MinyonaFree Review 2026: A Free SMMA Group for Contractor Marketing, or a Mastermind Funnel?"
-meta_description: "MinyonaFree review: a free Skool community with 2,421 members offering SMMA owners free trainings on the contractor niche, plus an optional paid Mastermind."
+meta_description: "MinyonaFree review: a free Skool community with 2,421 members offering SMMA owners free trainings on the contractor niche, plus an optional Mastermind upgrade."
 slug: "minyona"
 niche: "SMMA training for the contractor niche"
-word_count: 456
+word_count: 452
 ---
 # MinyonaFree Review 2026: A Free SMMA Group for Contractor Marketing, or a Mastermind Funnel?
 
@@ -11,7 +11,7 @@ MinyonaFree speaks to a narrow audience and says so plainly. The community is ai
 
 ## What's Actually Inside
 
-The description outlines a two-step structure. First, members get free trainings focused on the contractor niche, meaning agencies that market for businesses like home services and trades. Second, members are invited to "level up" by joining a Mastermind, which the description says comes with instant course access.
+The description outlines a two-step structure. First, members get free trainings focused on the contractor niche, presumably agencies that market for contractor businesses. Second, members are invited to "level up" by joining a Mastermind, which the description says comes with instant course access.
 
 That second step matters. The free community appears to function as an entry point, with the deeper course material sitting behind the Mastermind. The listing doesn't say what the Mastermind costs, what it includes beyond course access, or how much of the contractor-niche playbook is available in the free tier. The name itself, MinyonaFree, also hints that this is the free side of a larger offer.
 

@@ -3,7 +3,7 @@ title: "The Prime Seller Blueprint Review 2026: A Realistic Starting Point for N
 meta_description: "The Prime Seller Blueprint review: a free Skool community with 2,327 members teaching beginners to sell, source, and scale an Amazon store step by step."
 slug: "the-prime-seller-blueprint-6615"
 niche: "Beginner Amazon selling"
-word_count: 0
+word_count: 417
 ---
 # The Prime Seller Blueprint Review 2026: A Realistic Starting Point for New Amazon Sellers?
 

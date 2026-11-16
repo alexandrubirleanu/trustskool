@@ -1,11 +1,11 @@
 ---
-title: "PROFITFY Review 2026: Is \"Copy and Paste\" Trading Worth $97 a Month?"
+title: "PROFITFY Review 2026: Is Copy-and-Paste Trading Worth $97 a Month?"
 meta_description: "PROFITFY review: a paid, Spanish-language Skool trading community with 2,389 members at $97 per month, promising consistent gains by copying trades."
 slug: "profitfy"
 niche: "Copy trading community (Spanish)"
-word_count: 0
+word_count: 489
 ---
-# PROFITFY Review 2026: Is "Copy and Paste" Trading Worth $97 a Month?
+# PROFITFY Review 2026: Is Copy-and-Paste Trading Worth $97 a Month?
 
 PROFITFY is a Spanish-language trading community on Skool with 2,389 members and a listed price of $97 USD per month. That makes it one of the paid options in this part of the directory, and the price deserves to be weighed against what the community actually claims to offer.
 

@@ -3,7 +3,7 @@ title: "YouTube Okulu Review 2026: Is This Free Turkish YouTube School Worth a L
 meta_description: "YouTube Okulu review: a free, Turkish-language Skool community with 2,378 members where creators can learn about YouTube and get their questions answered."
 slug: "youtube-okulu-4350"
 niche: "YouTube growth for Turkish creators"
-word_count: 0
+word_count: 423
 ---
 # YouTube Okulu Review 2026: Is This Free Turkish YouTube School Worth a Look?
 

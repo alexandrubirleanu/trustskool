@@ -3,7 +3,7 @@ title: "OSTEOFIT Review 2026: Is This Free Osteoporosis Community Right for Wome
 meta_description: "OSTEOFIT review: a free, Spanish-language Skool community with 2,285 members offering a free course and support for women 50+ with osteoporosis."
 slug: "osteofit"
 niche: "Bone health and osteoporosis support for women 50+ (Spanish)"
-word_count: 0
+word_count: 477
 ---
 # OSTEOFIT Review 2026: Is This Free Osteoporosis Community Right for Women Over 50?
 

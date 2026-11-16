@@ -3,7 +3,7 @@ title: "AI Freedom Accelerator™ Review 2026: Can a Free Mentorship Really Be t
 meta_description: "AI Freedom Accelerator™ review: a free Skool community with 2,452 members promising step-by-step help building an online digital product business."
 slug: "digitalfreedommentorship"
 niche: "Digital product business mentorship"
-word_count: 0
+word_count: 508
 ---
 # AI Freedom Accelerator™ Review 2026: Can a Free Mentorship Really Be the Last One You Need?
 

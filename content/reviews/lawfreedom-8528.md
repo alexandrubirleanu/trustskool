@@ -3,7 +3,7 @@ title: "LAW&FREEDOM Review 2026: Can Plain-Language Legal Education Make You Fre
 meta_description: "LAW&FREEDOM review: a free, Chinese-language Skool community with 2,415 members that aims to explain the law in the simplest way possible."
 slug: "lawfreedom-8528"
 niche: "Plain-language legal education (Chinese)"
-word_count: 0
+word_count: 477
 ---
 # LAW&FREEDOM Review 2026: Can Plain-Language Legal Education Make You Freer?
 

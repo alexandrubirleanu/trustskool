@@ -3,7 +3,7 @@ title: "AI Insiders Community Review 2026: Useful AI Help for Marketing and Sale
 meta_description: "AI Insiders Community review: a free Skool community with 2,234 members focused on using AI to transform marketing and sales work."
 slug: "aicompass"
 niche: "AI for marketing and sales"
-word_count: 0
+word_count: 455
 ---
 # AI Insiders Community Review 2026: Useful AI Help for Marketing and Sales Teams?
 

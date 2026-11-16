@@ -3,7 +3,7 @@ title: "Miniature Painting School Review 2026: Is $15 a Month Worth It for Feedb
 meta_description: "Miniature Painting School review: a paid Skool community ($15/month) with 2,424 members offering feedback, structured lessons, and guides for mini painters."
 slug: "brushandbanner"
 niche: "Miniature painting lessons and feedback"
-word_count: 0
+word_count: 450
 ---
 # Miniature Painting School Review 2026: Is $15 a Month Worth It for Feedback on Your Minis?
 

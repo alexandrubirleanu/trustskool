@@ -3,7 +3,7 @@ title: "Real Estate Freedom Review 2026: What's Behind the $25M Rental Portfolio
 meta_description: "Real Estate Freedom review: a free Skool community with 2,338 members offering a blueprint for building financial freedom through rental real estate."
 slug: "refreedom"
 niche: "Rental property investing"
-word_count: 0
+word_count: 483
 ---
 # Real Estate Freedom Review 2026: What's Behind the $25M Rental Portfolio Pitch?
 

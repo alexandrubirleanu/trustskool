@@ -3,7 +3,7 @@ title: "SOLIDWORKS Accelerator Review 2026: Can You Learn the Fundamentals in Tw
 meta_description: "SOLIDWORKS Accelerator review: a free Skool community with 2,370 members that promises to teach SOLIDWORKS fundamentals in just 14 days."
 slug: "solidworks-accelerator"
 niche: "SOLIDWORKS CAD training"
-word_count: 0
+word_count: 441
 ---
 # SOLIDWORKS Accelerator Review 2026: Can You Learn the Fundamentals in Two Weeks?
 

@@ -3,7 +3,7 @@ title: "Digital Marketing Blueprint Review 2026: Should You Trust an $8M Agency 
 meta_description: "Digital Marketing Blueprint review: a free Skool community with 2,352 members that claims to teach launching, scaling, and exiting a marketing agency."
 slug: "digitalmarketingblueprint"
 niche: "Marketing agency building and scaling"
-word_count: 0
+word_count: 472
 ---
 # Digital Marketing Blueprint Review 2026: Should You Trust an $8M Agency Promise in a Free Group?
 
