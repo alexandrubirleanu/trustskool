@@ -4,7 +4,7 @@ meta_description: "Skool News #79: the Growth tab and AI ads are live, level 3 g
 source_video_url: "https://www.youtube.com/watch?v=4a5vlnNACUQ"
 source_video_title: "Upload Your Ads, We'll Run Them | Skool News #79"
 published_date: "2026-10-20"
-word_count: 0
+word_count: 708
 ---
 
 # Skool Lets You Upload Your Own Ads: Growth Boost Levels, Freemium Limits and Local Payments
